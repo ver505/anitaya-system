@@ -1,0 +1,263 @@
+{
+    "dataset_info": {
+        "source": "Zenodo Record 18761663 (DOI: 10.5281/zenodo.18761663)",
+        "total_records": 25932,
+        "training_samples": 20745,
+        "testing_samples": 5187,
+        "features": [
+            "item",
+            "average_rain_fall_mm_per_year",
+            "pesticides_tonnes",
+            "avg_temp",
+            "area"
+        ],
+        "target": "value_hg_ha",
+        "crops_count": 10,
+        "crops": [
+            "Cassava",
+            "Maize",
+            "Plantains and others",
+            "Potatoes",
+            "Rice, paddy",
+            "Sorghum",
+            "Soybeans",
+            "Sweet potatoes",
+            "Wheat",
+            "Yams"
+        ],
+        "countries_count": 101,
+        "years": [
+            1990,
+            2013
+        ]
+    },
+    "model_comparison": {
+        "Linear Regression (Baseline)": {
+            "MAE": 30572.39,
+            "MSE": 1930187354.65,
+            "RMSE": 43933.9,
+            "R2": 0.7405,
+            "CV_R2_Mean": 0.7378,
+            "CV_R2_Std": 0.01,
+            "Training_Time_Sec": 0.96
+        },
+        "Ridge Regression": {
+            "MAE": 30537.31,
+            "MSE": 1931558053.62,
+            "RMSE": 43949.49,
+            "R2": 0.7403,
+            "CV_R2_Mean": 0.7375,
+            "CV_R2_Std": 0.0094,
+            "Training_Time_Sec": 0.32
+        },
+        "Decision Tree Regressor": {
+            "MAE": 9225.55,
+            "MSE": 387634345.13,
+            "RMSE": 19688.43,
+            "R2": 0.9479,
+            "CV_R2_Mean": 0.917,
+            "CV_R2_Std": 0.0001,
+            "Training_Time_Sec": 0.81
+        },
+        "Random Forest (Primary Model)": {
+            "MAE": 6908.5,
+            "MSE": 252931379.74,
+            "RMSE": 15903.82,
+            "R2": 0.966,
+            "CV_R2_Mean": 0.9395,
+            "CV_R2_Std": 0.0073,
+            "Training_Time_Sec": 43.37
+        },
+        "Gradient Boosting Regressor": {
+            "MAE": 14927.96,
+            "MSE": 560516358.52,
+            "RMSE": 23675.23,
+            "R2": 0.9246,
+            "CV_R2_Mean": 0.9191,
+            "CV_R2_Std": 0.0085,
+            "Training_Time_Sec": 32.93
+        }
+    },
+    "best_model": {
+        "name": "Random Forest (Primary Model)",
+        "test_r2": 0.966,
+        "test_mae": 6908.5,
+        "test_rmse": 15903.82,
+        "cv_r2_mean": 0.9395,
+        "cv_r2_std": 0.0073
+    },
+    "feature_importances": [
+        {
+            "feature": "Crop Type (item)",
+            "importance": 60.46
+        },
+        {
+            "feature": "Country / Region (area)",
+            "importance": 20.64
+        },
+        {
+            "feature": "Pesticides / Agrochemical Usage (pesticides_tonnes)",
+            "importance": 10.02
+        },
+        {
+            "feature": "Average Temperature (avg_temp)",
+            "importance": 4.91
+        },
+        {
+            "feature": "Rainfall (average_rain_fall_mm_per_year)",
+            "importance": 3.97
+        }
+    ],
+    "ph_benchmarks": {
+        "Rice, paddy": {
+            "filipino_name": "Palay (Palay / Bigas)",
+            "farmgate_price_per_kg": 22.0,
+            "cost_per_ha": 45000.0,
+            "typical_yield_mt_ha": 4.2,
+            "cavan_weight_kg": 50,
+            "growing_days": 115,
+            "recommended_season": "Wet & Dry Season",
+            "production_cost_breakdown": {
+                "Seeds": 12.0,
+                "Fertilizers & Agrochemicals": 32.0,
+                "Labor & Land Preparation": 38.0,
+                "Fuel, Irrigation & Threshing": 18.0
+            }
+        },
+        "Maize": {
+            "filipino_name": "Mais (Corn / Yellow & White)",
+            "farmgate_price_per_kg": 20.5,
+            "cost_per_ha": 38000.0,
+            "typical_yield_mt_ha": 4.5,
+            "cavan_weight_kg": 50,
+            "growing_days": 105,
+            "recommended_season": "Dry Season / Late Wet",
+            "production_cost_breakdown": {
+                "Seeds": 15.0,
+                "Fertilizers & Agrochemicals": 35.0,
+                "Labor & Land Preparation": 35.0,
+                "Machinery & Fuel": 15.0
+            }
+        },
+        "Cassava": {
+            "filipino_name": "Kamoteng Kahoy (Cassava)",
+            "farmgate_price_per_kg": 14.0,
+            "cost_per_ha": 32000.0,
+            "typical_yield_mt_ha": 12.5,
+            "cavan_weight_kg": 50,
+            "growing_days": 270,
+            "recommended_season": "Early Wet Season",
+            "production_cost_breakdown": {
+                "Planting Stems": 10.0,
+                "Fertilizers": 25.0,
+                "Labor & Weeding": 50.0,
+                "Harvesting & Transport": 15.0
+            }
+        },
+        "Potatoes": {
+            "filipino_name": "Patatas (Irish Potato)",
+            "farmgate_price_per_kg": 45.0,
+            "cost_per_ha": 95000.0,
+            "typical_yield_mt_ha": 18.0,
+            "cavan_weight_kg": 50,
+            "growing_days": 90,
+            "recommended_season": "Cool Dry Season",
+            "production_cost_breakdown": {
+                "Seed Tubers": 40.0,
+                "Fertilizers & Crop Care": 30.0,
+                "Labor": 20.0,
+                "Storage & Transport": 10.0
+            }
+        },
+        "Sweet potatoes": {
+            "filipino_name": "Kamote (Sweet Potato)",
+            "farmgate_price_per_kg": 28.0,
+            "cost_per_ha": 28000.0,
+            "typical_yield_mt_ha": 8.0,
+            "cavan_weight_kg": 50,
+            "growing_days": 110,
+            "recommended_season": "All Seasons",
+            "production_cost_breakdown": {
+                "Cuttings / Vines": 10.0,
+                "Fertilizer": 25.0,
+                "Labor": 45.0,
+                "Harvesting": 20.0
+            }
+        },
+        "Plantains and others": {
+            "filipino_name": "Saging (Banana / Saba / Plantains)",
+            "farmgate_price_per_kg": 25.0,
+            "cost_per_ha": 40000.0,
+            "typical_yield_mt_ha": 15.0,
+            "cavan_weight_kg": 50,
+            "growing_days": 365,
+            "recommended_season": "Year-round",
+            "production_cost_breakdown": {
+                "Suckers / Seedlings": 15.0,
+                "Fertilizer & Mulch": 30.0,
+                "Maintenance & De-suckering": 35.0,
+                "Harvesting": 20.0
+            }
+        },
+        "Soybeans": {
+            "filipino_name": "Utaw (Soybeans)",
+            "farmgate_price_per_kg": 35.0,
+            "cost_per_ha": 30000.0,
+            "typical_yield_mt_ha": 2.0,
+            "cavan_weight_kg": 50,
+            "growing_days": 100,
+            "recommended_season": "Dry Season",
+            "production_cost_breakdown": {
+                "Seeds": 15.0,
+                "Inoculants & Fertilizer": 25.0,
+                "Labor": 40.0,
+                "Post-harvest": 20.0
+            }
+        },
+        "Sorghum": {
+            "filipino_name": "Batad (Sorghum)",
+            "farmgate_price_per_kg": 18.0,
+            "cost_per_ha": 25000.0,
+            "typical_yield_mt_ha": 3.0,
+            "cavan_weight_kg": 50,
+            "growing_days": 100,
+            "recommended_season": "Dry / Drought-tolerant",
+            "production_cost_breakdown": {
+                "Seeds": 12.0,
+                "Fertilizers": 28.0,
+                "Labor": 40.0,
+                "Threshing": 20.0
+            }
+        },
+        "Yams": {
+            "filipino_name": "Ube (Purple Yam)",
+            "farmgate_price_per_kg": 65.0,
+            "cost_per_ha": 55000.0,
+            "typical_yield_mt_ha": 9.0,
+            "cavan_weight_kg": 50,
+            "growing_days": 240,
+            "recommended_season": "Wet Season",
+            "production_cost_breakdown": {
+                "Setts / Seed Pieces": 30.0,
+                "Trellising & Poles": 20.0,
+                "Fertilizer": 20.0,
+                "Labor & Digging": 30.0
+            }
+        },
+        "Wheat": {
+            "filipino_name": "Trigo (Wheat)",
+            "farmgate_price_per_kg": 24.0,
+            "cost_per_ha": 35000.0,
+            "typical_yield_mt_ha": 3.2,
+            "cavan_weight_kg": 50,
+            "growing_days": 110,
+            "recommended_season": "Cool Season",
+            "production_cost_breakdown": {
+                "Seeds": 15.0,
+                "Fertilizers": 35.0,
+                "Labor": 30.0,
+                "Harvesting": 20.0
+            }
+        }
+    }
+}

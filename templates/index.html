@@ -1,0 +1,1816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AniTaya | Agricultural Harvest & Income Prediction System</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg-canvas: #1d1728;
+            --bg-shell: #272036;
+            --bg-surface: #322b44;
+            --bg-surface-elevated: #3d3552;
+            --bg-card-light: #ece7f2;
+            --bg-card-accent: #f7eedc;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-medium: rgba(255, 255, 255, 0.14);
+            --text-primary: #ffffff;
+            --text-secondary: #b6adca;
+            --text-muted: #827899;
+            --text-dark: #221a30;
+            --accent-pill: #ffffff;
+            --accent-pill-text: #201a2e;
+            --gold-accent: #d89b3f;
+            --green-accent: #38bdf8;
+            --profit-green: #34d399;
+            --loss-red: #f87171;
+            --radius-outer: 32px;
+            --radius-card: 24px;
+            --radius-pill: 9999px;
+            --shadow-float: 0 16px 36px -6px rgba(10, 6, 20, 0.45);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-canvas);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            overflow-x: hidden;
+        }
+
+        /* ── Main App Capsule Shell ── */
+        .app-capsule {
+            width: 100%;
+            max-width: 1420px;
+            background: var(--bg-shell);
+            border-radius: var(--radius-outer);
+            border: 1px solid var(--border-subtle);
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.65);
+            display: flex;
+            overflow: hidden;
+            min-height: 860px;
+        }
+
+        /* ── Left Icon Rail / Sidebar (Clean: No Settings, No Login) ── */
+        .icon-rail {
+            width: 76px;
+            background: var(--bg-shell);
+            border-right: 1px solid var(--border-subtle);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 28px 0;
+            gap: 14px;
+            flex-shrink: 0;
+        }
+
+        .brand-badge {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #f5f0fa, #dfd7ee);
+            color: var(--text-dark);
+            font-weight: 900;
+            font-size: 19px;
+            letter-spacing: -0.04em;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.25);
+            cursor: pointer;
+        }
+
+        .rail-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .rail-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke-width: 2.2;
+        }
+
+        .rail-btn:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .rail-btn.active {
+            background: var(--accent-pill);
+            color: var(--accent-pill-text);
+            box-shadow: 0 6px 14px rgba(255, 255, 255, 0.2);
+        }
+
+        .rail-divider {
+            width: 32px;
+            height: 1px;
+            background: var(--border-subtle);
+            margin: 8px 0;
+        }
+
+        /* ── App Body ── */
+        .app-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        /* ── Top Header Bar (No Search, No Login, Clean Switches) ── */
+        .top-navbar {
+            height: 84px;
+            padding: 0 36px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .app-title-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .app-title-text {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+        }
+
+        .app-subtitle-text {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        /* Capsule Toggle (Like Creator | Collector in reference) */
+        .mode-toggle {
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 4px;
+            border-radius: var(--radius-pill);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .mode-btn {
+            padding: 8px 20px;
+            font-size: 12px;
+            font-weight: 700;
+            border-radius: var(--radius-pill);
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .mode-btn.active {
+            background: var(--accent-pill);
+            color: var(--accent-pill-text);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-action-btn {
+            background: var(--accent-pill);
+            color: var(--accent-pill-text);
+            font-size: 12px;
+            font-weight: 800;
+            padding: 10px 22px;
+            border-radius: var(--radius-pill);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 14px rgba(255, 255, 255, 0.15);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .nav-action-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(255, 255, 255, 0.25);
+        }
+
+        .nav-tag-pill {
+            background: var(--bg-surface);
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: 700;
+            padding: 9px 18px;
+            border-radius: var(--radius-pill);
+            border: 1px solid var(--border-subtle);
+        }
+
+        /* ── Main Layout Canvas (2 Columns) ── */
+        .workspace-canvas {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 430px;
+            gap: 32px;
+            padding: 32px 36px 36px;
+            min-height: 0;
+        }
+
+        /* ── Left Column: Featured Collections + History Table ── */
+        .left-stream {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            min-width: 0;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .section-heading {
+            font-size: 19px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+        }
+
+        .section-nav-tabs {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .section-tab {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: color 0.15s;
+        }
+
+        .section-tab:hover, .section-tab.active {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        /* ── Stacked / Flowing Crop Cards (Matching reference "Recent Collections") ── */
+        .collections-deck {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .crop-card {
+            border-radius: var(--radius-card);
+            padding: 16px;
+            background: var(--bg-card-light);
+            color: var(--text-dark);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 250px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+        }
+
+        .crop-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 36px rgba(0, 0, 0, 0.38);
+        }
+
+        .crop-card.selected {
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.4), 0 16px 36px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Variations inspired by the 3 cards in reference */
+        .crop-card-lavender {
+            background: linear-gradient(165deg, #ded9ea 0%, #cfc8de 100%);
+        }
+
+        .crop-card-mint {
+            background: linear-gradient(165deg, #d8e8e1 0%, #c5ded3 100%);
+        }
+
+        .crop-card-sand {
+            background: linear-gradient(165deg, #ede3d5 0%, #dfd3bf 100%);
+        }
+
+        .card-top-profile {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-profile-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-crop-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            background: rgba(34, 26, 48, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 12px;
+            color: var(--text-dark);
+        }
+
+        .card-crop-name {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--text-dark);
+            line-height: 1.2;
+        }
+
+        .card-crop-botanical {
+            font-size: 10px;
+            font-weight: 600;
+            color: #635777;
+        }
+
+        .card-icon-pill {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dark);
+        }
+
+        .card-icon-pill svg {
+            width: 13px;
+            height: 13px;
+        }
+
+        .card-center-stats {
+            margin: auto 0;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .card-stat-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.55);
+            padding: 4px 10px;
+            border-radius: var(--radius-pill);
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-dark);
+            width: fit-content;
+        }
+
+        .card-yield-metric {
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--text-dark);
+            letter-spacing: -0.01em;
+        }
+
+        .card-bottom-pill {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(34, 26, 48, 0.14);
+            backdrop-filter: blur(8px);
+            padding: 7px 12px;
+            border-radius: var(--radius-pill);
+        }
+
+        .card-price-value {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--text-dark);
+        }
+
+        .card-select-btn {
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background: var(--text-dark);
+            color: #ffffff;
+            padding: 3px 10px;
+            border-radius: var(--radius-pill);
+            border: none;
+            cursor: pointer;
+        }
+
+        /* ── History & Benchmarks Table Card ── */
+        .history-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-card);
+            padding: 22px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .history-table th {
+            text-align: left;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-muted);
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .history-table td {
+            padding: 13px 0;
+            font-size: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            vertical-align: middle;
+        }
+
+        .history-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .crop-ident {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .crop-ident-dot {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: var(--bg-surface-elevated);
+            color: var(--text-primary);
+            font-size: 10px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .crop-ident-name {
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .crop-ident-sub {
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+
+        .table-val-bold {
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .table-val-tag {
+            background: rgba(255, 255, 255, 0.06);
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        /* ── Right Column: Featured Interactive Robot Card (Harvest & Income Showcase) ── */
+        .right-showcase {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .hero-feature-card {
+            background: var(--bg-card-light);
+            border-radius: var(--radius-card);
+            padding: 24px 22px;
+            color: var(--text-dark);
+            box-shadow: var(--shadow-float);
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            position: relative;
+        }
+
+        /* Top Notch / Header in Right Card */
+        .showcase-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .showcase-model-id {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .model-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #272036;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 13px;
+        }
+
+        .model-name {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .verified-badge {
+            width: 14px;
+            height: 14px;
+            background: #3b82f6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .verified-badge svg {
+            width: 8px;
+            height: 8px;
+            stroke-width: 3;
+        }
+
+        .model-version {
+            font-size: 11px;
+            color: #635777;
+            font-weight: 600;
+        }
+
+        .header-floating-icons {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .floating-icon-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dark);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+            border: none;
+        }
+
+        .floating-icon-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Center Forecast Hero Display (Matching "Adventure Robot #141") */
+        .showcase-core-info {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 16px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .core-crop-title {
+            font-size: 20px;
+            font-weight: 900;
+            color: var(--text-dark);
+            letter-spacing: -0.02em;
+        }
+
+        .core-crop-sub {
+            font-size: 12px;
+            font-weight: 700;
+            color: #7b6e92;
+        }
+
+        /* Big ETH-style Badges at Bottom of Card (Like "120" and "21.345 ETH") */
+        .showcase-pills-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pill-dark-secondary {
+            background: rgba(34, 26, 48, 0.12);
+            padding: 10px 14px;
+            border-radius: var(--radius-pill);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--text-dark);
+            flex-shrink: 0;
+        }
+
+        .pill-dark-primary {
+            flex: 1;
+            background: #322846;
+            color: #ffffff;
+            padding: 10px 16px;
+            border-radius: var(--radius-pill);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .profit-highlight-text {
+            font-size: 17px;
+            font-weight: 900;
+            color: #34d399;
+            letter-spacing: -0.02em;
+        }
+
+        /* ── Input Parameters inside Right Card ── */
+        .input-fields-box {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 4px;
+        }
+
+        .input-row-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .field-label {
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #5c5172;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .stepper-container {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 4px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+        }
+
+        .stepper-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: none;
+            background: #f1ecf7;
+            color: var(--text-dark);
+            font-weight: 800;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.15s;
+        }
+
+        .stepper-btn:hover {
+            background: #e3d9ee;
+        }
+
+        .stepper-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-family: inherit;
+            font-weight: 800;
+            font-size: 14px;
+            color: var(--text-dark);
+            text-align: center;
+            outline: none;
+        }
+
+        .season-toggle-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 4px;
+        }
+
+        .season-chip {
+            padding: 7px;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 800;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            background: transparent;
+            color: #7b6e92;
+            transition: all 0.15s ease;
+        }
+
+        .season-chip.active {
+            background: #322846;
+            color: #ffffff;
+        }
+
+        .region-select {
+            width: 100%;
+            border: none;
+            background: #ffffff;
+            font-family: inherit;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-dark);
+            padding: 10px 12px;
+            border-radius: 12px;
+            outline: none;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+            cursor: pointer;
+        }
+
+        .btn-forecast-action {
+            width: 100%;
+            background: #251e36;
+            color: #ffffff;
+            border: none;
+            padding: 13px;
+            border-radius: var(--radius-pill);
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 6px 16px rgba(37, 30, 54, 0.3);
+            margin-top: 4px;
+        }
+
+        .btn-forecast-action:hover {
+            background: #171224;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(37, 30, 54, 0.45);
+        }
+
+        .btn-forecast-action:active {
+            transform: translateY(1px);
+        }
+
+        .btn-forecast-action:disabled {
+            background: #a39cb2;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        /* ── Risk & Weather Card in Right Column ── */
+        .scenarios-card {
+            background: var(--bg-surface);
+            border-radius: var(--radius-card);
+            border: 1px solid var(--border-subtle);
+            padding: 18px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .scenario-tri-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .scenario-mini-box {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 10px 8px;
+            text-align: center;
+        }
+
+        .scen-tag {
+            font-size: 9px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+
+        .scen-val {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .scen-val.favorable {
+            color: var(--profit-green);
+        }
+
+        .scen-val.adverse {
+            color: var(--loss-red);
+        }
+
+        .advisor-pill-note {
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 3px solid var(--accent-pill);
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* ── Academic ML Evaluation Lab Section (Bottom Expandable / Full Width) ── */
+        .ml-evaluation-container {
+            border-top: 1px solid var(--border-subtle);
+            padding: 32px 36px;
+            background: #231c30;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .ml-top-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .ml-title-group h3 {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        .ml-title-group p {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .ml-winner-pill {
+            background: rgba(52, 211, 153, 0.12);
+            color: #34d399;
+            border: 1px solid rgba(52, 211, 153, 0.3);
+            font-size: 11px;
+            font-weight: 800;
+            padding: 6px 14px;
+            border-radius: var(--radius-pill);
+        }
+
+        /* Comparison Table */
+        .comparison-table-wrapper {
+            background: var(--bg-surface);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .comp-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        .comp-table th {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 12px 16px;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-muted);
+            text-align: left;
+        }
+
+        .comp-table td {
+            padding: 13px 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+        }
+
+        .comp-table tr.winner-row {
+            background: rgba(52, 211, 153, 0.07);
+        }
+
+        .comp-table tr.winner-row td {
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        .badge-winner {
+            background: #34d399;
+            color: #172554;
+            font-size: 9px;
+            font-weight: 900;
+            padding: 3px 8px;
+            border-radius: var(--radius-pill);
+            text-transform: uppercase;
+        }
+
+        .badge-base {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-muted);
+            font-size: 9px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: var(--radius-pill);
+        }
+
+        /* Evaluation Visual Graphics */
+        .eval-charts-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .chart-card-box {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 12px;
+            overflow: hidden;
+        }
+
+        .chart-box-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            padding: 0 4px;
+        }
+
+        .chart-card-box img {
+            width: 100%;
+            border-radius: 10px;
+            display: block;
+        }
+
+        /* Section 4 Responsible AI Statement */
+        .ai-statement-card {
+            background: rgba(216, 155, 63, 0.08);
+            border: 1px solid rgba(216, 155, 63, 0.25);
+            border-radius: 16px;
+            padding: 16px 20px;
+            font-size: 11px;
+            line-height: 1.6;
+            color: #e5d7c3;
+        }
+
+        .ai-statement-title {
+            font-weight: 800;
+            color: #f7eedc;
+            margin-bottom: 4px;
+            font-size: 12px;
+        }
+
+        /* Footer */
+        .app-footer {
+            text-align: center;
+            font-size: 11px;
+            color: var(--text-muted);
+            padding-top: 12px;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 1180px) {
+            .workspace-canvas {
+                grid-template-columns: 1fr;
+            }
+            .right-showcase {
+                max-width: 540px;
+                margin: 0 auto;
+                width: 100%;
+            }
+            .collections-deck {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 840px) {
+            body {
+                padding: 8px;
+            }
+            .app-capsule {
+                flex-direction: column;
+                border-radius: 20px;
+            }
+            .icon-rail {
+                width: 100%;
+                height: auto;
+                flex-direction: row;
+                justify-content: center;
+                padding: 14px 20px;
+                border-right: none;
+                border-bottom: 1px solid var(--border-subtle);
+            }
+            .brand-badge {
+                margin-bottom: 0;
+            }
+            .top-navbar {
+                padding: 0 20px;
+                height: 72px;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            .workspace-canvas {
+                padding: 20px;
+                gap: 24px;
+            }
+            .collections-deck {
+                grid-template-columns: 1fr;
+            }
+            .eval-charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Capsule Shell Container -->
+    <div class="app-capsule">
+
+        <!-- ============================================================ -->
+        <!-- LEFT ICON RAIL (No Settings, No Login, Clean SVG Navigation)  -->
+        <!-- ============================================================ -->
+        <aside class="icon-rail">
+            <!-- Brand Badge "AT" -->
+            <div class="brand-badge" title="AniTaya Harvest Intelligence">
+                AT
+            </div>
+
+            <!-- Navigation Buttons (SVG Only, No Emojis, No Settings) -->
+            <button class="rail-btn active" title="Dashboard Home" onclick="scrollToId('collections-section')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+            </button>
+
+            <button class="rail-btn" title="Crop Forecast" onclick="scrollToId('collections-section')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M12 2a10 10 0 0 1 10 10c0 5.523-4.477 10-10 10S2 17.523 2 12A10 10 0 0 1 12 2z"/>
+                    <path d="M12 6v6l4 2"/>
+                </svg>
+            </button>
+
+            <button class="rail-btn" title="Financials & Yield" onclick="scrollToId('benchmarks-section')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                </svg>
+            </button>
+
+            <button class="rail-btn" title="Weather Scenarios" onclick="scrollToId('scenarios-box')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>
+                </svg>
+            </button>
+
+            <div class="rail-divider"></div>
+
+            <button class="rail-btn" title="CSST 102 ML Lab" onclick="scrollToId('ml-eval-section')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                </svg>
+            </button>
+        </aside>
+
+        <!-- ============================================================ -->
+        <!-- MAIN APP BODY                                                -->
+        <!-- ============================================================ -->
+        <div class="app-body">
+
+            <!-- ── Top Header Bar (No Search Bar, No Login, Clean Switches) ── -->
+            <header class="top-navbar">
+                <div class="nav-left">
+                    <div class="app-title-group">
+                        <span class="app-title-text">AniTaya</span>
+                        <span class="app-subtitle-text">Harvest &amp; Income Prediction System</span>
+                    </div>
+
+                    <!-- Creator / Collector style Capsule Toggle -->
+                    <div class="mode-toggle">
+                        <button class="mode-btn active" id="modeBtnFarmer" onclick="setAppMode('farmer')">Farmer View</button>
+                        <button class="mode-btn" id="modeBtnAdvisor" onclick="setAppMode('advisor')">Advisor Mode</button>
+                    </div>
+                </div>
+
+                <div class="nav-right">
+                    <!-- Status / Academic Tag -->
+                    <div class="nav-tag-pill">
+                        CSST 102 &bull; LSPU
+                    </div>
+
+                    <!-- Primary Action Button (Matching "+ Add NFT" in reference) -->
+                    <button class="nav-action-btn" onclick="scrollToId('ml-eval-section')">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        <span>Model Lab</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- ── 2-Column Main Workspace ── -->
+            <div class="workspace-canvas">
+
+                <!-- ════════════════════════════════════════════════════════ -->
+                <!-- LEFT STREAM: Recent Collections (Crops) + History Table -->
+                <!-- ════════════════════════════════════════════════════════ -->
+                <div class="left-stream">
+
+                    <!-- Section: Recent Collections (Matching reference layout) -->
+                    <div id="collections-section">
+                        <div class="section-header">
+                            <h2 class="section-heading">Featured Crops</h2>
+                            <div class="section-nav-tabs">
+                                <span class="section-tab active" onclick="filterCrops('all', this)">All Crops</span>
+                                <span class="section-tab" onclick="filterCrops('grain', this)">Grains</span>
+                                <span class="section-tab" onclick="filterCrops('tuber', this)">Tubers</span>
+                            </div>
+                        </div>
+
+                        <!-- 3-4 Overlapping / Styled Vertical Cards -->
+                        <div class="collections-deck">
+
+                            <!-- Card 1: Rice / Palay -->
+                            <div class="crop-card crop-card-lavender selected" id="card_rice" onclick="selectCrop('Rice, paddy', 'Palay / Rice', 'rice')">
+                                <div class="card-top-profile">
+                                    <div class="card-profile-left">
+                                        <div class="card-crop-avatar">R</div>
+                                        <div>
+                                            <div class="card-crop-name">Rice (Palay)</div>
+                                            <div class="card-crop-botanical">Oryza sativa</div>
+                                        </div>
+                                    </div>
+                                    <div class="card-icon-pill">
+                                        <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                                    </div>
+                                </div>
+
+                                <div class="card-center-stats">
+                                    <div class="card-stat-pill">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline></svg>
+                                        <span>3.2 MT/ha Avg</span>
+                                    </div>
+                                    <div class="card-yield-metric">128 Sacks / 2ha</div>
+                                </div>
+
+                                <div class="card-bottom-pill">
+                                    <span class="card-price-value">&#8369;22.00 / kg</span>
+                                    <button class="card-select-btn">Select</button>
+                                </div>
+                            </div>
+
+                            <!-- Card 2: Corn / Mais -->
+                            <div class="crop-card crop-card-mint" id="card_maize" onclick="selectCrop('Maize', 'Mais / Corn', 'maize')">
+                                <div class="card-top-profile">
+                                    <div class="card-profile-left">
+                                        <div class="card-crop-avatar">C</div>
+                                        <div>
+                                            <div class="card-crop-name">Corn (Mais)</div>
+                                            <div class="card-crop-botanical">Zea mays</div>
+                                        </div>
+                                    </div>
+                                    <div class="card-icon-pill">
+                                        <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="3"/></svg>
+                                    </div>
+                                </div>
+
+                                <div class="card-center-stats">
+                                    <div class="card-stat-pill">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline></svg>
+                                        <span>4.8 MT/ha Avg</span>
+                                    </div>
+                                    <div class="card-yield-metric">288 Sacks / 3ha</div>
+                                </div>
+
+                                <div class="card-bottom-pill">
+                                    <span class="card-price-value">&#8369;20.50 / kg</span>
+                                    <button class="card-select-btn">Select</button>
+                                </div>
+                            </div>
+
+                            <!-- Card 3: Potato / Patatas -->
+                            <div class="crop-card crop-card-sand" id="card_potato" onclick="selectCrop('Potatoes', 'Patatas / Potato', 'potato')">
+                                <div class="card-top-profile">
+                                    <div class="card-profile-left">
+                                        <div class="card-crop-avatar">P</div>
+                                        <div>
+                                            <div class="card-crop-name">Potato (Patatas)</div>
+                                            <div class="card-crop-botanical">Solanum tuberosum</div>
+                                        </div>
+                                    </div>
+                                    <div class="card-icon-pill">
+                                        <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="3"/></svg>
+                                    </div>
+                                </div>
+
+                                <div class="card-center-stats">
+                                    <div class="card-stat-pill">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline></svg>
+                                        <span>12.0 MT/ha Avg</span>
+                                    </div>
+                                    <div class="card-yield-metric">192 Sacks / 0.8ha</div>
+                                </div>
+
+                                <div class="card-bottom-pill">
+                                    <span class="card-price-value">&#8369;45.00 / kg</span>
+                                    <button class="card-select-btn">Select</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Section: History & Regional Benchmarks (Matching reference layout) -->
+                    <div id="benchmarks-section">
+                        <div class="section-header">
+                            <h2 class="section-heading">Philippine Crop Benchmarks</h2>
+                            <div class="section-nav-tabs">
+                                <span class="section-tab active">All Records</span>
+                                <span class="section-tab" onclick="loadPreset('palay')">Laguna</span>
+                                <span class="section-tab" onclick="loadPreset('mais')">Isabela</span>
+                                <span class="section-tab" onclick="loadPreset('patatas')">Benguet</span>
+                            </div>
+                        </div>
+
+                        <div class="history-card">
+                            <table class="history-table">
+                                <thead>
+                                    <tr>
+                                        <th>Crop Name</th>
+                                        <th>Primary Region</th>
+                                        <th>Expected Yield</th>
+                                        <th>Farmgate Value</th>
+                                        <th>Cycle Period</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr onclick="loadPreset('palay')" style="cursor: pointer;">
+                                        <td>
+                                            <div class="crop-ident">
+                                                <div class="crop-ident-dot">R</div>
+                                                <div>
+                                                    <div class="crop-ident-name">Rice (Palay)</div>
+                                                    <div class="crop-ident-sub">Wet Season Priority</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><span class="table-val-tag">CALABARZON (IV-A)</span></td>
+                                        <td class="table-val-bold">3.2 MT / ha</td>
+                                        <td class="table-val-bold">&#8369;22.00 / kg</td>
+                                        <td><span class="table-val-tag">115 Days</span></td>
+                                    </tr>
+
+                                    <tr onclick="loadPreset('mais')" style="cursor: pointer;">
+                                        <td>
+                                            <div class="crop-ident">
+                                                <div class="crop-ident-dot">C</div>
+                                                <div>
+                                                    <div class="crop-ident-name">Corn (Mais)</div>
+                                                    <div class="crop-ident-sub">Yellow Hybrid Grain</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><span class="table-val-tag">Cagayan Valley (II)</span></td>
+                                        <td class="table-val-bold">4.8 MT / ha</td>
+                                        <td class="table-val-bold">&#8369;20.50 / kg</td>
+                                        <td><span class="table-val-tag">105 Days</span></td>
+                                    </tr>
+
+                                    <tr onclick="loadPreset('patatas')" style="cursor: pointer;">
+                                        <td>
+                                            <div class="crop-ident">
+                                                <div class="crop-ident-dot">P</div>
+                                                <div>
+                                                    <div class="crop-ident-name">Potato (Patatas)</div>
+                                                    <div class="crop-ident-sub">Highland Commercial</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><span class="table-val-tag">Cordillera / Benguet</span></td>
+                                        <td class="table-val-bold">12.0 MT / ha</td>
+                                        <td class="table-val-bold">&#8369;45.00 / kg</td>
+                                        <td><span class="table-val-tag">100 Days</span></td>
+                                    </tr>
+
+                                    <tr onclick="selectCrop('Cassava', 'Kamoteng Kahoy / Cassava', 'cassava'); runPrediction();" style="cursor: pointer;">
+                                        <td>
+                                            <div class="crop-ident">
+                                                <div class="crop-ident-dot">Ca</div>
+                                                <div>
+                                                    <div class="crop-ident-name">Cassava (Kamote)</div>
+                                                    <div class="crop-ident-sub">Drought Resilient</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><span class="table-val-tag">Northern Mindanao (X)</span></td>
+                                        <td class="table-val-bold">8.5 MT / ha</td>
+                                        <td class="table-val-bold">&#8369;14.00 / kg</td>
+                                        <td><span class="table-val-tag">240 Days</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div><!-- /left-stream -->
+
+                <!-- ════════════════════════════════════════════════════════ -->
+                <!-- RIGHT COLUMN: Featured Showcase Card + Risk Assessment   -->
+                <!-- ════════════════════════════════════════════════════════ -->
+                <div class="right-showcase">
+
+                    <!-- Featured Big Card (Matching "Adventure Robot #141" from Reference) -->
+                    <div class="hero-feature-card">
+
+                        <!-- Top Notch Profile Bar -->
+                        <div class="showcase-header">
+                            <div class="showcase-model-id">
+                                <div class="model-avatar">RF</div>
+                                <div>
+                                    <div class="model-name">
+                                        <span>AniTaya AI Model</span>
+                                        <span class="verified-badge">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg>
+                                        </span>
+                                    </div>
+                                    <span class="model-version">Random Forest &bull; 96.6% R&sup2;</span>
+                                </div>
+                            </div>
+
+                            <div class="header-floating-icons">
+                                <button class="floating-icon-btn" title="Refresh Forecast" onclick="runPrediction()">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3"/></svg>
+                                </button>
+                                <button class="floating-icon-btn" title="Bookmark Preset" onclick="saveActivePreset()">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Core Crop Display Center -->
+                        <div class="showcase-core-info">
+                            <div class="core-crop-title" id="showcaseCropTitle">Palay Harvest Forecast</div>
+                            <div class="core-crop-sub" id="showcaseRegionSub">Laguna / CALABARZON (Region IV-A) &bull; Wet Season</div>
+                        </div>
+
+                        <!-- Big ETH-Style Pill Row (Like reference "120" & "21.345 ETH") -->
+                        <div class="showcase-pills-row">
+                            <div class="pill-dark-secondary">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                                <span id="resSacksPill">128 Sacks</span>
+                            </div>
+
+                            <div class="pill-dark-primary">
+                                <div style="display:flex; flex-direction:column;">
+                                    <span style="font-size: 9px; text-transform: uppercase; color: #a9a2b8; letter-spacing: 0.05em;">Est. Net Profit</span>
+                                    <span class="profit-highlight-text" id="resNetProfitPill">&#8369;51,180</span>
+                                </div>
+                                <span id="resRoiBadge" style="font-size: 11px; background: rgba(52, 211, 153, 0.15); color: #34d399; padding: 2px 8px; border-radius: 9999px;">+56.9% ROI</span>
+                            </div>
+                        </div>
+
+                        <!-- Inputs Embedded Inside Showcase Card -->
+                        <div class="input-fields-box">
+                            <input type="hidden" id="selectedCropKey" value="Rice, paddy">
+                            <input type="hidden" id="selectedCropName" value="Palay / Rice">
+
+                            <!-- Land Area Input Stepper -->
+                            <div class="input-row-group">
+                                <span class="field-label">
+                                    <span>Land Area (Hectares)</span>
+                                    <span id="sqmText" style="color: #635777; font-weight: 700;">2.0 ha = 20,000 m&sup2;</span>
+                                </span>
+                                <div class="stepper-container">
+                                    <button class="stepper-btn" onclick="adjustArea(-0.5)">&minus;</button>
+                                    <input type="number" id="landAreaInput" step="0.1" min="0.1" max="500" value="2.0" class="stepper-input" oninput="updateSqmText()">
+                                    <button class="stepper-btn" onclick="adjustArea(0.5)">&plus;</button>
+                                </div>
+                            </div>
+
+                            <!-- Season Toggle -->
+                            <div class="input-row-group">
+                                <span class="field-label">Planting Season</span>
+                                <div class="season-toggle-group">
+                                    <button class="season-chip active" id="chipWet" onclick="setSeason('Wet Season')">Wet Season</button>
+                                    <button class="season-chip" id="chipDry" onclick="setSeason('Dry Season')">Dry Season</button>
+                                </div>
+                                <input type="hidden" id="selectedSeason" value="Wet Season">
+                            </div>
+
+                            <!-- Region Select -->
+                            <div class="input-row-group">
+                                <span class="field-label">Farming Region</span>
+                                <select id="regionSelect" class="region-select" onchange="runPrediction()">
+                                    {% for r_name in regional_presets.keys() %}
+                                    <option value="{{ r_name }}">{{ r_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <!-- Big Action Button (Calculate) -->
+                            <button class="btn-forecast-action" id="predictBtn" onclick="runPrediction()">
+                                <span>Calculate Harvest &amp; Income</span>
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                            </button>
+                        </div>
+
+                    </div><!-- /hero-feature-card -->
+
+                    <!-- Weather Scenarios & Advisor Insight Card -->
+                    <div class="scenarios-card" id="scenarios-box">
+                        <div style="display:flex; align-items:center; justify-content:space-between;">
+                            <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted);">Risk &amp; Weather Scenarios</span>
+                            <span style="font-size: 10px; font-weight: 700; color: var(--text-secondary);" id="resDaysText">115 Growing Days</span>
+                        </div>
+
+                        <div class="scenario-tri-grid">
+                            <div class="scenario-mini-box">
+                                <div class="scen-tag">Favorable</div>
+                                <div class="scen-val favorable" id="scenFavProfit">&#8369;58,800</div>
+                            </div>
+                            <div class="scenario-mini-box">
+                                <div class="scen-tag">Normal</div>
+                                <div class="scen-val" id="scenNormProfit">&#8369;51,180</div>
+                            </div>
+                            <div class="scenario-mini-box">
+                                <div class="scen-tag">Adverse</div>
+                                <div class="scen-val adverse" id="scenAdvProfit">&#8369;22,940</div>
+                            </div>
+                        </div>
+
+                        <div class="advisor-pill-note" id="advisorNoteText">
+                            Maintain regulated irrigation channels and follow balanced N-P-K fertilizer timing to preserve yield resilience against climate fluctuations.
+                        </div>
+                    </div>
+
+                </div><!-- /right-showcase -->
+
+            </div><!-- /workspace-canvas -->
+
+            <!-- ============================================================ -->
+            <!-- ACADEMIC ML LAB EVALUATION SECTION (CSST 102 Requirement)     -->
+            <!-- ============================================================ -->
+            <section class="ml-evaluation-container" id="ml-eval-section">
+                <div class="ml-top-header">
+                    <div class="ml-title-group">
+                        <h3>CSST 102 &bull; Basic Machine Learning Laboratory</h3>
+                        <p>Model Benchmark on 25,932 Global Agricultural Records from Zenodo Record 18761663 (FAO Dataset)</p>
+                    </div>
+
+                    <div class="ml-winner-pill">
+                        Primary Selected Model: Random Forest (Test R&sup2; = {{ best_model.test_r2 }})
+                    </div>
+                </div>
+
+                <!-- 5-Model Evaluation Comparison Table -->
+                <div class="comparison-table-wrapper">
+                    <table class="comp-table">
+                        <thead>
+                            <tr>
+                                <th>Model Architecture</th>
+                                <th>Project Role</th>
+                                <th>MAE (hg/ha)</th>
+                                <th>RMSE (hg/ha)</th>
+                                <th>Test R&sup2; Score</th>
+                                <th>3-Fold CV R&sup2;</th>
+                                <th>Selection Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for m_name, m_metrics in model_comparison.items() %}
+                            <tr class="{% if m_name == best_model.name %}winner-row{% endif %}">
+                                <td>{{ m_name }}</td>
+                                <td>
+                                    {% if 'Baseline' in m_name %}Linear Baseline
+                                    {% elif 'Primary' in m_name %}Primary Model
+                                    {% else %}Comparative Candidate{% endif %}
+                                </td>
+                                <td>{{ m_metrics.MAE }}</td>
+                                <td>{{ m_metrics.RMSE }}</td>
+                                <td style="font-weight: 800; color: {% if m_name == best_model.name %}#34d399{% else %}var(--text-primary){% endif %};">{{ m_metrics.R2 }}</td>
+                                <td>{{ m_metrics.CV_R2_Mean }}</td>
+                                <td>
+                                    {% if m_name == best_model.name %}
+                                    <span class="badge-winner">Winner</span>
+                                    {% else %}
+                                    <span class="badge-base">Evaluated</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 3 Pre-rendered Performance Graphics -->
+                <div class="eval-charts-grid">
+                    <div class="chart-card-box">
+                        <div class="chart-box-title">Model Accuracy Comparison</div>
+                        <img src="/static/images/model_comparison.png" alt="Model Comparison">
+                    </div>
+                    <div class="chart-card-box">
+                        <div class="chart-box-title">Feature Importance Ranking</div>
+                        <img src="/static/images/feature_importance.png" alt="Feature Importance">
+                    </div>
+                    <div class="chart-card-box">
+                        <div class="chart-box-title">Actual vs. Predicted Distribution</div>
+                        <img src="/static/images/actual_vs_predicted.png" alt="Actual vs Predicted">
+                    </div>
+                </div>
+
+                <!-- Section 4 Responsible AI Statement -->
+                <div class="ai-statement-card">
+                    <div class="ai-statement-title">Section 4 &mdash; Responsible AI &amp; Limitations Statement</div>
+                    <p>
+                        AniTaya is engineered exclusively as a predictive decision-support system to guide agricultural resource planning and harvest estimation. It does not constitute a loan warranty or yield guarantee. Climatic parameters are calibrated using Southeast Asian tropical proxies (Indonesia) from the FAO dataset. In compliance with data privacy ethics, AniTaya gathers zero personally identifiable information (PII), farmer identification records, or land titles.
+                    </p>
+                </div>
+
+                <footer class="app-footer">
+                    &copy; 2026&ndash;2027 AniTaya &bull; Laguna State Polytechnic University &bull; CSST 102 Basic Machine Learning
+                </footer>
+            </section>
+
+        </div><!-- /app-body -->
+
+    </div><!-- /app-capsule -->
+
+    <!-- ============================================================ -->
+    <!-- INTERACTIVE SCRIPT LOGIC                                     -->
+    <!-- ============================================================ -->
+    <script>
+        const cropsData = {{ crops | tojson }};
+        const regionsData = {{ regional_presets | tojson }};
+
+        function scrollToId(id) {
+            const el = document.getElementById(id);
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function setAppMode(mode) {
+            document.getElementById('modeBtnFarmer').classList.toggle('active', mode === 'farmer');
+            document.getElementById('modeBtnAdvisor').classList.toggle('active', mode === 'advisor');
+        }
+
+        function filterCrops(cat, tabEl) {
+            document.querySelectorAll('.section-tab').forEach(t => t.classList.remove('active'));
+            if (tabEl) tabEl.classList.add('active');
+
+            const cardRice = document.getElementById('card_rice');
+            const cardMaize = document.getElementById('card_maize');
+            const cardPotato = document.getElementById('card_potato');
+
+            if (cat === 'grain') {
+                cardRice.style.display = 'flex';
+                cardMaize.style.display = 'flex';
+                cardPotato.style.display = 'none';
+            } else if (cat === 'tuber') {
+                cardRice.style.display = 'none';
+                cardMaize.style.display = 'none';
+                cardPotato.style.display = 'flex';
+            } else {
+                cardRice.style.display = 'flex';
+                cardMaize.style.display = 'flex';
+                cardPotato.style.display = 'flex';
+            }
+        }
+
+        function selectCrop(cropKey, cropName, cardId) {
+            document.getElementById('selectedCropKey').value = cropKey;
+            document.getElementById('selectedCropName').value = cropName;
+
+            // Update UI card selections
+            document.querySelectorAll('.crop-card').forEach(c => c.classList.remove('selected'));
+            const selectedCard = document.getElementById('card_' + cardId);
+            if (selectedCard) selectedCard.classList.add('selected');
+
+            // Update right showcase title
+            const showcaseTitle = document.getElementById('showcaseCropTitle');
+            if (showcaseTitle) showcaseTitle.textContent = cropName.split(' / ')[0] + ' Harvest Forecast';
+
+            const info = cropsData[cropKey];
+            if (info) {
+                document.getElementById('resDaysText').textContent = info.growing_days + ' Growing Days';
+            }
+
+            runPrediction();
+        }
+
+        function adjustArea(delta) {
+            const inp = document.getElementById('landAreaInput');
+            let val = parseFloat(inp.value) || 1.0;
+            val = Math.max(0.1, Math.round((val + delta) * 10) / 10);
+            inp.value = val;
+            updateSqmText();
+            runPrediction();
+        }
+
+        function updateSqmText() {
+            const ha = parseFloat(document.getElementById('landAreaInput').value) || 0;
+            const sqm = (ha * 10000).toLocaleString('en-US');
+            document.getElementById('sqmText').innerHTML = `${ha} ha = ${sqm} m&sup2;`;
+        }
+
+        function setSeason(season) {
+            document.getElementById('selectedSeason').value = season;
+            document.getElementById('chipWet').classList.toggle('active', season === 'Wet Season');
+            document.getElementById('chipDry').classList.toggle('active', season === 'Dry Season');
+            updateSubtitle();
+            runPrediction();
+        }
+
+        function updateSubtitle() {
+            const reg = document.getElementById('regionSelect').value;
+            const s = document.getElementById('selectedSeason').value;
+            document.getElementById('showcaseRegionSub').textContent = `${reg} \u2022 ${s}`;
+        }
+
+        function loadPreset(type) {
+            if (type === 'palay') {
+                selectCrop('Rice, paddy', 'Palay / Rice', 'rice');
+                document.getElementById('landAreaInput').value = '2.0';
+                setSeason('Wet Season');
+                document.getElementById('regionSelect').value = 'Laguna / CALABARZON (Region IV-A)';
+            } else if (type === 'mais') {
+                selectCrop('Maize', 'Mais / Corn', 'maize');
+                document.getElementById('landAreaInput').value = '3.0';
+                setSeason('Dry Season');
+                document.getElementById('regionSelect').value = 'Cagayan Valley (Region II)';
+            } else if (type === 'patatas') {
+                selectCrop('Potatoes', 'Patatas / Potato', 'potato');
+                document.getElementById('landAreaInput').value = '0.8';
+                setSeason('Dry Season');
+                document.getElementById('regionSelect').value = 'Cordillera / Benguet Highlands';
+            }
+            updateSqmText();
+            updateSubtitle();
+            runPrediction();
+        }
+
+        function saveActivePreset() {
+            if (typeof confetti === 'function') {
+                confetti({ particleCount: 25, spread: 45, origin: { y: 0.5 } });
+            }
+            alert('Active farm configuration bookmarked.');
+        }
+
+        async function runPrediction() {
+            const btn = document.getElementById('predictBtn');
+            const origText = btn.innerHTML;
+            btn.innerHTML = `<span>Calculating...</span>`;
+            btn.disabled = true;
+
+            const payload = {
+                crop: document.getElementById('selectedCropKey').value,
+                land_area: parseFloat(document.getElementById('landAreaInput').value) || 1.0,
+                season: document.getElementById('selectedSeason').value,
+                region: document.getElementById('regionSelect').value
+            };
+
+            updateSubtitle();
+
+            try {
+                const res = await fetch('/api/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+
+                if (data.status === 'success') {
+                    displayForecastResults(data);
+                } else {
+                    alert('Notice: ' + (data.errors ? data.errors.join('\n') : data.message));
+                }
+            } catch (err) {
+                console.error(err);
+            } finally {
+                btn.innerHTML = origText;
+                btn.disabled = false;
+            }
+        }
+
+        function fmt(n) { return n.toLocaleString('en-US', { maximumFractionDigits: 0 }); }
+        function peso(n) { return '\u20B1' + fmt(n); }
+
+        function displayForecastResults(data) {
+            const yp = data.yield_predictions;
+            const fin = data.financial_forecast;
+            const sc = data.scenarios;
+
+            // Sacks & Net Profit
+            document.getElementById('resSacksPill').textContent = fmt(Math.round(yp.total_sacks_cavans)) + ' Sacks';
+            document.getElementById('resNetProfitPill').textContent = peso(fin.net_profit_php);
+            document.getElementById('resRoiBadge').textContent = (fin.roi_percent >= 0 ? '+' : '') + fin.roi_percent.toFixed(1) + '% ROI';
+
+            // Scenarios
+            document.getElementById('scenFavProfit').textContent = peso(sc.favorable.net_profit);
+            document.getElementById('scenNormProfit').textContent = peso(sc.expected.net_profit);
+            document.getElementById('scenAdvProfit').textContent = peso(sc.adverse.net_profit);
+
+            // Days & Advice
+            document.getElementById('resDaysText').textContent = yp.growing_period_days + ' Growing Days';
+            if (data.insights && data.insights.length > 0) {
+                document.getElementById('advisorNoteText').textContent = data.insights[0];
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            updateSqmText();
+            updateSubtitle();
+            runPrediction();
+        });
+    </script>
+</body>
+</html>
