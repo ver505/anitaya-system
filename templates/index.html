@@ -151,20 +151,146 @@
             height: 100vh;
             pointer-events: none;
             z-index: 0;
-            opacity: 0.85;
+            opacity: 0.9;
             transition: opacity 0.3s ease;
+        }
+
+        /* ── OUTER PAGE LAYOUT WRAPPER ── */
+        .outer-page-layout {
+            width: 100%;
+            max-width: 1180px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ── TOP MASTHEAD OUTSIDE THE BOX ── */
+        .outer-top-bar {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 4px 6px 2px;
+        }
+
+        .outer-brand-group {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: opacity 0.15s ease, transform 0.15s ease;
+        }
+
+        .outer-brand-group:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .outer-brand-text {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .outer-title {
+            font-size: 20px;
+            font-weight: 900;
+            letter-spacing: 0.14em;
+            color: var(--text-offwhite);
+            line-height: 1.1;
+        }
+
+        .outer-subtitle {
+            font-size: 9.5px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            color: var(--text-muted);
+        }
+
+        /* ── REALISTIC CELESTIAL SUN & MOON TOGGLE ── */
+        .celestial-toggle-btn {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            outline: none;
+        }
+
+        .celestial-toggle-btn:hover {
+            transform: translateY(-2px) scale(1.08);
+        }
+
+        .celestial-toggle-btn:focus-visible {
+            outline: 2px solid var(--accent-olive);
+            outline-offset: 4px;
+        }
+
+        .celestial-body {
+            width: 44px;
+            height: 44px;
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Dark mode (Moon visible, Sun rotated and hidden) */
+        [data-theme="dark"] .celestial-moon {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+            pointer-events: auto;
+            filter: drop-shadow(0 0 14px rgba(182, 198, 79, 0.42));
+        }
+
+        [data-theme="dark"] .celestial-sun {
+            opacity: 0;
+            transform: rotate(90deg) scale(0.65);
+            pointer-events: none;
+        }
+
+        /* Light mode (Sun visible, Moon rotated and hidden) */
+        [data-theme="light"] .celestial-moon {
+            opacity: 0;
+            transform: rotate(-90deg) scale(0.65);
+            pointer-events: none;
+        }
+
+        [data-theme="light"] .celestial-sun {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+            pointer-events: auto;
+            filter: drop-shadow(0 0 18px rgba(240, 182, 40, 0.58));
+        }
+
+        /* Continuous gentle solar corona ray rotation in light mode */
+        @keyframes solarCoronaPulse {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        [data-theme="light"] .solar-rays-rot {
+            transform-origin: 22px 22px;
+            animation: solarCoronaPulse 45s linear infinite;
         }
 
         /* ── MAIN APPLICATION SHELL ── */
         .app-shell {
             width: 100%;
-            max-width: 1180px;
             background: var(--bg-shell);
             border: 1px solid var(--border-hairline);
             border-radius: var(--radius-shell);
             display: flex;
             position: relative;
-            z-index: 1;
             overflow: hidden;
             box-shadow: var(--shadow-subtle);
             transition: background 0.18s ease, border-color 0.18s ease;
@@ -1210,7 +1336,90 @@
         </defs>
     </svg>
 
-    <div class="app-shell">
+    <div class="outer-page-layout">
+
+        <!-- ── TOP MASTHEAD OUTSIDE THE BOX ── -->
+        <header class="outer-top-bar">
+            <div class="outer-brand-group" onclick="switchView('farmer')">
+                <svg class="mascot-icon lg"><use href="#farmer-mascot"/></svg>
+                <div class="outer-brand-text">
+                    <span class="outer-title">ANITAYA</span>
+                    <span class="outer-subtitle">HARVEST &amp; INCOME PREDICTION SYSTEM</span>
+                </div>
+            </div>
+
+            <!-- Realistic Celestial Sun & Moon Toggle Top-Right -->
+            <button class="celestial-toggle-btn" id="celestialToggleBtn" aria-label="Toggle Night and Day Theme" onclick="toggleTheme()" title="Switch Day / Night Mode">
+                <!-- Realistic Moon (Dark Mode) -->
+                <svg class="celestial-body celestial-moon" viewBox="0 0 44 44" aria-hidden="true">
+                    <defs>
+                        <radialGradient id="moon-sphere" cx="35%" cy="32%" r="68%">
+                            <stop offset="0%" stop-color="#f6f9ef"/>
+                            <stop offset="42%" stop-color="#d6dec8"/>
+                            <stop offset="82%" stop-color="#9da88f"/>
+                            <stop offset="100%" stop-color="#6d795f"/>
+                        </radialGradient>
+                        <radialGradient id="moon-shadow" cx="68%" cy="72%" r="58%">
+                            <stop offset="0%" stop-color="rgba(18,25,14,0.48)"/>
+                            <stop offset="100%" stop-color="rgba(18,25,14,0)"/>
+                        </radialGradient>
+                    </defs>
+                    <!-- Soft Lunar Outer Halo -->
+                    <circle cx="22" cy="22" r="20" fill="rgba(182,198,79,0.14)"/>
+                    <!-- Moon Body Sphere -->
+                    <circle cx="22" cy="22" r="16.5" fill="url(#moon-sphere)"/>
+                    <!-- Lunar Maria (Darker basalt patches) -->
+                    <path d="M13 18 Q16 13 22 15 Q26 17 29 23 Q27 28 21 29 Q15 29 13 24 Z" fill="rgba(105,118,92,0.35)"/>
+                    <ellipse cx="26" cy="18" rx="4" ry="3" fill="rgba(105,118,92,0.28)"/>
+                    <!-- Realistic Craters -->
+                    <circle cx="16" cy="14" r="2.8" fill="rgba(90,105,76,0.4)"/>
+                    <circle cx="15.8" cy="13.8" r="2.6" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="0.55"/>
+                    <circle cx="25.5" cy="22" r="2.2" fill="rgba(90,105,76,0.36)"/>
+                    <circle cx="25.3" cy="21.8" r="2.0" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="0.5"/>
+                    <circle cx="19" cy="25" r="3.0" fill="rgba(90,105,76,0.38)"/>
+                    <circle cx="18.8" cy="24.8" r="2.8" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="0.55"/>
+                    <circle cx="12.5" cy="23.5" r="1.5" fill="rgba(90,105,76,0.3)"/>
+                    <circle cx="27.5" cy="14" r="1.3" fill="rgba(90,105,76,0.3)"/>
+                    <!-- Shading & Rim -->
+                    <circle cx="22" cy="22" r="16.5" fill="url(#moon-shadow)"/>
+                    <circle cx="22" cy="22" r="16.5" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="0.75"/>
+                </svg>
+
+                <!-- Realistic Sun (Light Mode) -->
+                <svg class="celestial-body celestial-sun" viewBox="0 0 44 44" aria-hidden="true">
+                    <defs>
+                        <radialGradient id="sun-sphere" cx="38%" cy="34%" r="66%">
+                            <stop offset="0%" stop-color="#fffceb"/>
+                            <stop offset="35%" stop-color="#ffdc5e"/>
+                            <stop offset="78%" stop-color="#f0b628"/>
+                            <stop offset="100%" stop-color="#cb8f0e"/>
+                        </radialGradient>
+                        <linearGradient id="sun-ray-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="rgba(255,220,85,0.9)"/>
+                            <stop offset="100%" stop-color="rgba(240,165,20,0.25)"/>
+                        </linearGradient>
+                    </defs>
+                    <!-- Soft Solar Corona Halo -->
+                    <circle cx="22" cy="22" r="20" fill="rgba(240,182,40,0.22)"/>
+                    <!-- Rotating Solar Rays -->
+                    <g class="solar-rays-rot" stroke="url(#sun-ray-grad)" stroke-width="1.8" stroke-linecap="round">
+                        <line x1="22" y1="2" x2="22" y2="7.5"/>
+                        <line x1="22" y1="36.5" x2="22" y2="42"/>
+                        <line x1="2" y1="22" x2="7.5" y2="22"/>
+                        <line x1="36.5" y1="22" x2="42" y2="22"/>
+                        <line x1="7.8" y1="7.8" x2="11.8" y2="11.8"/>
+                        <line x1="32.2" y1="32.2" x2="36.2" y2="36.2"/>
+                        <line x1="7.8" y1="36.2" x2="11.8" y2="32.2"/>
+                        <line x1="32.2" y1="11.8" x2="36.2" y2="7.8"/>
+                    </g>
+                    <!-- Sun Core Sphere -->
+                    <circle cx="22" cy="22" r="13" fill="url(#sun-sphere)"/>
+                    <circle cx="22" cy="22" r="13" fill="none" stroke="rgba(255,255,255,0.75)" stroke-width="0.8"/>
+                </svg>
+            </button>
+        </header>
+
+        <div class="app-shell">
 
         <!-- ── LEFT ICON RAIL (DESKTOP) ── -->
         <aside class="icon-rail" aria-label="Quick Navigation">
@@ -1245,42 +1454,18 @@
         <!-- ── MAIN WORKSPACE ── -->
         <main class="main-workspace">
 
-            <!-- ── TOP HEADER NAVBAR ── -->
+            <!-- ── TOP HEADER NAVBAR (INSIDE SHELL) ── -->
             <header class="header-bar">
-                <div class="brand-logo-group" onclick="switchView('farmer')">
-                    <svg class="mascot-icon lg"><use href="#farmer-mascot"/></svg>
-                    <span class="brand-logo-text">ANITAYA</span>
-                </div>
-
                 <!-- Farmer / Advisor Capsule Toggle -->
                 <div class="capsule-toggle" role="tablist" aria-label="View Mode">
                     <button class="capsule-btn active" id="modeBtnFarmer" role="tab" aria-selected="true" onclick="switchView('farmer')">FARMER</button>
                     <button class="capsule-btn" id="modeBtnAdvisor" role="tab" aria-selected="false" onclick="switchView('advisor')">ADVISOR</button>
                 </div>
 
-                <!-- Header Actions (Model Lab & Sun/Moon Theme Toggle) -->
+                <!-- Header Actions (Model Lab) -->
                 <div class="header-actions">
                     <button class="btn-model-lab" id="headerLabBtn" onclick="switchView('modellab')">
                         <span>MODEL LAB</span>
-                    </button>
-
-                    <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle Theme" onclick="toggleTheme()">
-                        <!-- Sun Icon (shown in dark mode) -->
-                        <svg id="iconSun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                            <circle cx="12" cy="12" r="5"></circle>
-                            <line x1="12" y1="1" x2="12" y2="3"></line>
-                            <line x1="12" y1="21" x2="12" y2="23"></line>
-                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                            <line x1="1" y1="12" x2="3" y2="12"></line>
-                            <line x1="21" y1="12" x2="23" y2="12"></line>
-                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                        </svg>
-                        <!-- Moon Icon (shown in light mode) -->
-                        <svg id="iconMoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="display:none;">
-                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                        </svg>
                     </button>
                 </div>
             </header>
@@ -1573,7 +1758,9 @@
             </section>
 
         </main>
-    </div>
+    </div><!-- /app-shell -->
+
+    </div><!-- /outer-page-layout -->
 
     <!-- Toast Notification -->
     <div id="toastBox" class="toast-notify" role="alert" aria-live="assertive"></div>
@@ -1651,8 +1838,11 @@
 
         function updateThemeIcons(theme) {
             const isDark = (theme === 'dark');
-            document.getElementById('iconSun').style.display = isDark ? 'block' : 'none';
-            document.getElementById('iconMoon').style.display = isDark ? 'none' : 'block';
+            const btn = document.getElementById('celestialToggleBtn');
+            if (btn) {
+                btn.setAttribute('title', isDark ? 'Switch to Day Mode (Sun)' : 'Switch to Night Mode (Moon)');
+                btn.setAttribute('aria-label', isDark ? 'Night Mode Active. Click to switch to Day Mode.' : 'Day Mode Active. Click to switch to Night Mode.');
+            }
         }
 
         // ── Navigation & View Switching ──
@@ -2097,19 +2287,20 @@
 
             createGrassBlades() {
                 this.grassBlades = [];
-                const spacing = 12; // Denseness of grass along the bottom
+                const spacing = 9.5; // Denseness of grass along the bottom
                 const count = Math.ceil(this.width / spacing) + 3;
                 
                 for (let i = 0; i < count; i++) {
-                    const x = i * spacing + (Math.random() - 0.5) * 5;
+                    const x = i * spacing + (Math.random() - 0.5) * 4.5;
                     const layer = Math.random() < 0.42 ? 0 : 1; // 0 = back layer, 1 = front layer
-                    // Taller, natural variance in blade heights (55px to 105px)
+                    // Taller, natural variance in blade heights (45px to 115px)
                     const baseHeight = (layer === 0) 
-                        ? (Math.random() * 35 + 45) 
-                        : (Math.random() * 45 + 65);
-                    const maxLean = (Math.random() * 22 + 14) * (layer === 0 ? 0.8 : 1.0);
-                    const phase = (x * 0.04) + Math.random() * 0.8;
-                    const swaySpeed = Math.random() * 0.0016 + 0.0012;
+                        ? (Math.random() * 38 + 45) 
+                        : (Math.random() * 50 + 65);
+                    const maxLean = (Math.random() * 22 + 14) * (layer === 0 ? 0.75 : 1.0);
+                    const phase = (x * 0.038) + Math.random() * 0.8;
+                    const swaySpeed = Math.random() * 0.0014 + 0.0011;
+                    const hasGrainHead = (layer === 1 && Math.random() < 0.32);
 
                     this.grassBlades.push({
                         x,
@@ -2118,6 +2309,7 @@
                         phase,
                         swaySpeed,
                         layer,
+                        hasGrainHead,
                         currentLean: 0,
                         targetLean: 0
                     });
@@ -2205,27 +2397,29 @@
                 }
 
                 // 2. Update moving grass physics
-                // Global natural breeze oscillation
-                const globalWind = Math.sin(now * 0.0016) * 11 + Math.sin(now * 0.0006) * 6;
+                // Global rolling breeze oscillation with dual harmonics
+                const globalWind = Math.sin(now * 0.0014) * 11 + Math.sin(now * 0.0005) * 6;
 
                 for (let i = 0; i < this.grassBlades.length; i++) {
                     const b = this.grassBlades[i];
                     
-                    // Wave motion based on x position and time
-                    const naturalSway = Math.sin(now * b.swaySpeed + b.phase) * b.maxLean + globalWind;
+                    // Wave motion with multi-frequency natural flexion
+                    const naturalSway = Math.sin(now * b.swaySpeed + b.phase) * b.maxLean 
+                                      + Math.sin(now * (b.swaySpeed * 1.6) + b.phase * 2) * (b.maxLean * 0.28) 
+                                      + globalWind;
                     
-                    // Mouse interactive deflection near bottom of screen
+                    // Mouse interactive breeze deflection near bottom of screen
                     let mouseDeflection = 0;
                     const distToMouse = Math.abs(b.x - this.mouse.x);
-                    if (distToMouse < 150 && this.mouse.y > this.height - 180) {
-                        const factor = (1 - distToMouse / 150);
+                    if (distToMouse < 160 && this.mouse.y > this.height - 200) {
+                        const factor = (1 - distToMouse / 160);
                         const dir = (b.x > this.mouse.x) ? 1 : -1;
-                        mouseDeflection = dir * factor * 38;
+                        mouseDeflection = dir * factor * 40;
                     }
 
                     b.targetLean = naturalSway + mouseDeflection;
-                    // Smooth dampening for silk-like grass sway
-                    b.currentLean += (b.targetLean - b.currentLean) * 0.075;
+                    // Silky-smooth organic spring damping
+                    b.currentLean += (b.targetLean - b.currentLean) * 0.055;
                 }
             }
 
@@ -2285,13 +2479,13 @@
                 const h = this.height;
                 const isBack = (targetLayer === 0);
                 
-                this.ctx.lineWidth = isBack ? 1.8 : 2.4;
+                this.ctx.lineWidth = isBack ? 1.7 : 2.3;
                 this.ctx.lineCap = 'round';
                 
                 // Opacity adapted to theme and depth layer
                 const alpha = isBack 
                     ? (isDark ? 0.22 : 0.16)
-                    : (isDark ? 0.42 : 0.32);
+                    : (isDark ? 0.44 : 0.32);
                 
                 this.ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
                 this.ctx.beginPath();
@@ -2311,6 +2505,27 @@
                 }
 
                 this.ctx.stroke();
+
+                // Draw tiny organic grain heads at the tips of highlighted foreground blades
+                if (!isBack) {
+                    for (let i = 0; i < this.grassBlades.length; i++) {
+                        const blade = this.grassBlades[i];
+                        if (blade.layer !== 1 || !blade.hasGrainHead) continue;
+
+                        const tipX = blade.x + blade.currentLean;
+                        const tipY = h - blade.baseHeight;
+                        const angle = Math.atan2(tipY - (h - blade.baseHeight * 0.52), tipX - (blade.x + blade.currentLean * 0.35));
+
+                        this.ctx.save();
+                        this.ctx.translate(tipX, tipY);
+                        this.ctx.rotate(angle + Math.PI / 2);
+                        this.ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha * 0.9})`;
+                        this.ctx.beginPath();
+                        this.ctx.ellipse(0, -3.5, 1.8, 3.8, 0, 0, Math.PI * 2);
+                        this.ctx.fill();
+                        this.ctx.restore();
+                    }
+                }
             }
 
             drawTerraceContours(r, g, b, isDark) {
