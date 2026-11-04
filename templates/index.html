@@ -138,8 +138,8 @@
         }
 
         .mascot-icon.lg {
-            width: 28px;
-            height: 28px;
+            width: 48px;
+            height: 48px;
         }
 
         /* ── ANIMATED AGRICULTURAL FIELD BACKGROUND ── */
@@ -172,104 +172,115 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 4px 6px 2px;
+            padding: 4px 6px 4px;
+            position: relative;
         }
 
         .outer-brand-group {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 16px;
             cursor: pointer;
             text-decoration: none;
             transition: opacity 0.15s ease, transform 0.15s ease;
         }
 
         .outer-brand-group:hover {
-            opacity: 0.9;
+            opacity: 0.92;
             transform: translateY(-1px);
         }
 
         .outer-brand-text {
             display: flex;
             flex-direction: column;
-            gap: 2px;
+            gap: 4px;
         }
 
         .outer-title {
-            font-size: 20px;
+            font-size: 32px;
             font-weight: 900;
-            letter-spacing: 0.14em;
+            letter-spacing: 0.12em;
             color: var(--text-offwhite);
-            line-height: 1.1;
+            line-height: 1.05;
         }
 
         .outer-subtitle {
-            font-size: 9.5px;
+            font-size: 11px;
             font-weight: 700;
-            letter-spacing: 0.12em;
+            letter-spacing: 0.16em;
             color: var(--text-muted);
         }
 
-        /* ── REALISTIC CELESTIAL SUN & MOON TOGGLE ── */
+        /* ── REALISTIC CELESTIAL SUN & MOON TOGGLE IN SKY ── */
         .celestial-toggle-btn {
-            width: 52px;
-            height: 52px;
+            position: fixed;
+            top: 24px;
+            right: 36px;
+            width: 96px;
+            height: 96px;
             border-radius: 50%;
             background: transparent;
             border: none;
             cursor: pointer;
-            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 1000;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease;
             outline: none;
+            padding: 0;
         }
 
         .celestial-toggle-btn:hover {
-            transform: translateY(-2px) scale(1.08);
+            transform: translateY(-3px) scale(1.08);
+        }
+
+        .celestial-toggle-btn:active {
+            transform: scale(0.96);
         }
 
         .celestial-toggle-btn:focus-visible {
             outline: 2px solid var(--accent-olive);
-            outline-offset: 4px;
+            outline-offset: 6px;
         }
 
         .celestial-body {
-            width: 44px;
-            height: 44px;
+            width: 88px;
+            height: 88px;
             position: absolute;
             top: 4px;
             left: 4px;
-            transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), filter 0.55s ease;
         }
 
-        /* Dark mode (Moon visible, Sun rotated and hidden) */
+        /* Dark mode (Realistic 3D Moon visible, Sun rotated and hidden) */
         [data-theme="dark"] .celestial-moon {
             opacity: 1;
             transform: rotate(0deg) scale(1);
             pointer-events: auto;
-            filter: drop-shadow(0 0 14px rgba(182, 198, 79, 0.42));
+            filter: drop-shadow(0 0 20px rgba(182, 198, 79, 0.42)) drop-shadow(0 0 45px rgba(182, 198, 79, 0.2));
         }
 
         [data-theme="dark"] .celestial-sun {
             opacity: 0;
-            transform: rotate(90deg) scale(0.65);
+            transform: rotate(90deg) scale(0.55);
             pointer-events: none;
+            filter: drop-shadow(0 0 0px transparent);
         }
 
-        /* Light mode (Sun visible, Moon rotated and hidden) */
+        /* Light mode (Realistic Radiant Sun visible, Moon rotated and hidden) */
         [data-theme="light"] .celestial-moon {
             opacity: 0;
-            transform: rotate(-90deg) scale(0.65);
+            transform: rotate(-90deg) scale(0.55);
             pointer-events: none;
+            filter: drop-shadow(0 0 0px transparent);
         }
 
         [data-theme="light"] .celestial-sun {
             opacity: 1;
             transform: rotate(0deg) scale(1);
             pointer-events: auto;
-            filter: drop-shadow(0 0 18px rgba(240, 182, 40, 0.58));
+            filter: drop-shadow(0 0 26px rgba(240, 182, 40, 0.62)) drop-shadow(0 0 52px rgba(240, 150, 20, 0.28));
         }
 
         /* Continuous gentle solar corona ray rotation in light mode */
@@ -279,8 +290,8 @@
         }
 
         [data-theme="light"] .solar-rays-rot {
-            transform-origin: 22px 22px;
-            animation: solarCoronaPulse 45s linear infinite;
+            transform-origin: 44px 44px;
+            animation: solarCoronaPulse 50s linear infinite;
         }
 
         /* ── MAIN APPLICATION SHELL ── */
@@ -1209,6 +1220,37 @@
                 padding-bottom: 90px;
             }
 
+            .outer-top-bar {
+                padding-right: 64px;
+            }
+
+            .outer-title {
+                font-size: 22px;
+            }
+
+            .outer-subtitle {
+                font-size: 9px;
+            }
+
+            .mascot-icon.lg {
+                width: 36px;
+                height: 36px;
+            }
+
+            .celestial-toggle-btn {
+                top: 12px;
+                right: 12px;
+                width: 54px;
+                height: 54px;
+            }
+
+            .celestial-body {
+                width: 48px;
+                height: 48px;
+                top: 3px;
+                left: 3px;
+            }
+
             .app-shell {
                 border-radius: 20px;
             }
@@ -1350,71 +1392,184 @@
 
             <!-- Realistic Celestial Sun & Moon Toggle Top-Right -->
             <button class="celestial-toggle-btn" id="celestialToggleBtn" aria-label="Toggle Night and Day Theme" onclick="toggleTheme()" title="Switch Day / Night Mode">
-                <!-- Realistic Moon (Dark Mode) -->
-                <svg class="celestial-body celestial-moon" viewBox="0 0 44 44" aria-hidden="true">
+                <!-- Realistic High-Definition 3D Moon (Dark Mode) -->
+                <svg class="celestial-body celestial-moon" viewBox="0 0 88 88" aria-hidden="true">
                     <defs>
-                        <radialGradient id="moon-sphere" cx="35%" cy="32%" r="68%">
-                            <stop offset="0%" stop-color="#f6f9ef"/>
-                            <stop offset="42%" stop-color="#d6dec8"/>
-                            <stop offset="82%" stop-color="#9da88f"/>
-                            <stop offset="100%" stop-color="#6d795f"/>
+                        <!-- Outer Ambient Moonlight Atmosphere Glow -->
+                        <radialGradient id="moon-glow-outer" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" stop-color="rgba(215, 235, 175, 0.28)"/>
+                            <stop offset="50%" stop-color="rgba(182, 198, 79, 0.12)"/>
+                            <stop offset="100%" stop-color="rgba(182, 198, 79, 0)"/>
                         </radialGradient>
-                        <radialGradient id="moon-shadow" cx="68%" cy="72%" r="58%">
-                            <stop offset="0%" stop-color="rgba(18,25,14,0.48)"/>
-                            <stop offset="100%" stop-color="rgba(18,25,14,0)"/>
+
+                        <!-- Spherical 3D Surface Shading (Albedo gradient from illuminated crest to terminator) -->
+                        <radialGradient id="moon-sphere-3d" cx="34%" cy="30%" r="68%">
+                            <stop offset="0%" stop-color="#ffffff"/>
+                            <stop offset="18%" stop-color="#f5f7ee"/>
+                            <stop offset="45%" stop-color="#d5ded0"/>
+                            <stop offset="72%" stop-color="#9da890"/>
+                            <stop offset="92%" stop-color="#647155"/>
+                            <stop offset="100%" stop-color="#3c4632"/>
                         </radialGradient>
+
+                        <!-- Terminator / Deep Shadow Vignette for 3D Globular Depth -->
+                        <radialGradient id="moon-terminator-shadow" cx="68%" cy="72%" r="58%">
+                            <stop offset="0%" stop-color="rgba(11, 13, 8, 0.6)"/>
+                            <stop offset="55%" stop-color="rgba(15, 20, 12, 0.25)"/>
+                            <stop offset="100%" stop-color="rgba(11, 13, 8, 0)"/>
+                        </radialGradient>
+
+                        <!-- Subtle Maria Blur Filter -->
+                        <filter id="maria-blur" x="-20%" y="-20%" width="140%" height="140%">
+                            <feGaussianBlur stdDeviation="0.8"/>
+                        </filter>
                     </defs>
-                    <!-- Soft Lunar Outer Halo -->
-                    <circle cx="22" cy="22" r="20" fill="rgba(182,198,79,0.14)"/>
-                    <!-- Moon Body Sphere -->
-                    <circle cx="22" cy="22" r="16.5" fill="url(#moon-sphere)"/>
-                    <!-- Lunar Maria (Darker basalt patches) -->
-                    <path d="M13 18 Q16 13 22 15 Q26 17 29 23 Q27 28 21 29 Q15 29 13 24 Z" fill="rgba(105,118,92,0.35)"/>
-                    <ellipse cx="26" cy="18" rx="4" ry="3" fill="rgba(105,118,92,0.28)"/>
-                    <!-- Realistic Craters -->
-                    <circle cx="16" cy="14" r="2.8" fill="rgba(90,105,76,0.4)"/>
-                    <circle cx="15.8" cy="13.8" r="2.6" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="0.55"/>
-                    <circle cx="25.5" cy="22" r="2.2" fill="rgba(90,105,76,0.36)"/>
-                    <circle cx="25.3" cy="21.8" r="2.0" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="0.5"/>
-                    <circle cx="19" cy="25" r="3.0" fill="rgba(90,105,76,0.38)"/>
-                    <circle cx="18.8" cy="24.8" r="2.8" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="0.55"/>
-                    <circle cx="12.5" cy="23.5" r="1.5" fill="rgba(90,105,76,0.3)"/>
-                    <circle cx="27.5" cy="14" r="1.3" fill="rgba(90,105,76,0.3)"/>
-                    <!-- Shading & Rim -->
-                    <circle cx="22" cy="22" r="16.5" fill="url(#moon-shadow)"/>
-                    <circle cx="22" cy="22" r="16.5" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="0.75"/>
+
+                    <!-- Outer Soft Lunar Atmosphere Halo -->
+                    <circle cx="44" cy="44" r="43" fill="url(#moon-glow-outer)"/>
+
+                    <!-- Moon Base Sphere -->
+                    <circle cx="44" cy="44" r="34" fill="url(#moon-sphere-3d)"/>
+
+                    <!-- Lunar Maria (Real basaltic plains: Oceanus Procellarum, Mare Imbrium, Mare Tranquillitatis) -->
+                    <g filter="url(#maria-blur)" opacity="0.88">
+                        <!-- Oceanus Procellarum & Mare Imbrium (North-West) -->
+                        <path d="M 23 35 C 21 24 30 18 42 22 C 48 24 49 32 43 38 C 37 43 27 45 23 35 Z" fill="rgba(82, 94, 70, 0.42)"/>
+                        <!-- Mare Serenitatis & Tranquillitatis (North-East) -->
+                        <path d="M 46 27 C 54 23 64 26 66 34 C 67 41 57 47 50 44 C 45 42 43 35 46 27 Z" fill="rgba(82, 94, 70, 0.4)"/>
+                        <!-- Mare Crisium (Distinct round dark sea on eastern limb) -->
+                        <ellipse cx="68" cy="36" rx="5.5" ry="4.2" transform="rotate(-15 68 36)" fill="rgba(78, 90, 66, 0.48)"/>
+                        <!-- Mare Nubium & Humorum (South-West) -->
+                        <path d="M 29 48 C 35 44 45 47 44 56 C 43 62 34 64 30 59 C 27 55 26 51 29 48 Z" fill="rgba(82, 94, 70, 0.38)"/>
+                        <!-- Mare Fecunditatis (South-East) -->
+                        <ellipse cx="61" cy="50" rx="6" ry="4" transform="rotate(20 61 50)" fill="rgba(82, 94, 70, 0.35)"/>
+                    </g>
+
+                    <!-- Tycho Crater Ejecta Rays (Radiating across southern highlands) -->
+                    <g stroke="rgba(255, 255, 255, 0.28)" stroke-width="0.75" stroke-linecap="round">
+                        <line x1="42" y1="68" x2="28" y2="52"/>
+                        <line x1="42" y1="68" x2="35" y2="46"/>
+                        <line x1="42" y1="68" x2="52" y2="54"/>
+                        <line x1="42" y1="68" x2="62" y2="60"/>
+                        <line x1="42" y1="68" x2="40" y2="76"/>
+                        <line x1="42" y1="68" x2="24" y2="64"/>
+                    </g>
+
+                    <!-- Tycho Crater (Prominent southern impact crater) -->
+                    <circle cx="42" cy="68" r="4.2" fill="rgba(65, 76, 54, 0.55)"/>
+                    <circle cx="41.6" cy="67.6" r="4.0" fill="none" stroke="rgba(255, 255, 255, 0.75)" stroke-width="0.8"/>
+                    <circle cx="41.2" cy="67.2" r="1.1" fill="#ffffff" opacity="0.9"/>
+
+                    <!-- Copernicus Crater (Central terraced crater) -->
+                    <circle cx="33" cy="38" r="7.5" fill="rgba(240, 245, 230, 0.16)"/>
+                    <circle cx="33" cy="38" r="3.6" fill="rgba(70, 82, 58, 0.5)"/>
+                    <circle cx="32.5" cy="37.5" r="3.4" fill="none" stroke="rgba(255, 255, 255, 0.65)" stroke-width="0.75"/>
+                    <circle cx="32.3" cy="37.3" r="0.9" fill="#ffffff" opacity="0.85"/>
+
+                    <!-- Kepler Crater -->
+                    <circle cx="23" cy="40" r="2.2" fill="rgba(70, 82, 58, 0.45)"/>
+                    <circle cx="22.7" cy="39.7" r="2.0" fill="none" stroke="rgba(255, 255, 255, 0.6)" stroke-width="0.6"/>
+
+                    <!-- Plato Crater (Dark floor near northern border) -->
+                    <ellipse cx="38" cy="21" rx="3.5" ry="2.2" fill="rgba(55, 65, 45, 0.6)"/>
+                    <ellipse cx="37.7" cy="20.7" rx="3.3" ry="2.0" fill="none" stroke="rgba(255, 255, 255, 0.45)" stroke-width="0.55"/>
+
+                    <!-- Secondary Craters across limbs -->
+                    <circle cx="56" cy="54" r="2.4" fill="rgba(70, 82, 58, 0.4)"/>
+                    <circle cx="55.7" cy="53.7" r="2.2" fill="none" stroke="rgba(255, 255, 255, 0.4)" stroke-width="0.5"/>
+                    <circle cx="63" cy="61" r="1.8" fill="rgba(70, 82, 58, 0.4)"/>
+                    <circle cx="22" cy="56" r="2.0" fill="rgba(70, 82, 58, 0.35)"/>
+                    <circle cx="53" cy="20" r="1.6" fill="rgba(70, 82, 58, 0.35)"/>
+
+                    <!-- Spherical Depth Shadow (Limb Terminator) -->
+                    <circle cx="44" cy="44" r="34" fill="url(#moon-terminator-shadow)"/>
+
+                    <!-- Delicate Sunlit Crest Rim -->
+                    <path d="M 18 28 A 34 34 0 0 1 68 20" fill="none" stroke="rgba(255, 255, 255, 0.65)" stroke-width="1.2" stroke-linecap="round"/>
+                    <circle cx="44" cy="44" r="34" fill="none" stroke="rgba(255, 255, 255, 0.3)" stroke-width="0.8"/>
                 </svg>
 
-                <!-- Realistic Sun (Light Mode) -->
-                <svg class="celestial-body celestial-sun" viewBox="0 0 44 44" aria-hidden="true">
+                <!-- Realistic High-Definition Radiant Sun (Light Mode) -->
+                <svg class="celestial-body celestial-sun" viewBox="0 0 88 88" aria-hidden="true">
                     <defs>
-                        <radialGradient id="sun-sphere" cx="38%" cy="34%" r="66%">
-                            <stop offset="0%" stop-color="#fffceb"/>
-                            <stop offset="35%" stop-color="#ffdc5e"/>
-                            <stop offset="78%" stop-color="#f0b628"/>
-                            <stop offset="100%" stop-color="#cb8f0e"/>
+                        <!-- Radiant Solar Corona Outer Halo -->
+                        <radialGradient id="sun-corona-outer" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" stop-color="rgba(255, 225, 90, 0.45)"/>
+                            <stop offset="40%" stop-color="rgba(245, 185, 30, 0.22)"/>
+                            <stop offset="85%" stop-color="rgba(240, 160, 20, 0.06)"/>
+                            <stop offset="100%" stop-color="rgba(240, 160, 20, 0)"/>
                         </radialGradient>
-                        <linearGradient id="sun-ray-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="rgba(255,220,85,0.9)"/>
-                            <stop offset="100%" stop-color="rgba(240,165,20,0.25)"/>
+
+                        <!-- White-Hot Fusion Core to Chromosphere Sphere -->
+                        <radialGradient id="sun-sphere-3d" cx="38%" cy="34%" r="66%">
+                            <stop offset="0%" stop-color="#ffffff"/>
+                            <stop offset="20%" stop-color="#fff8db"/>
+                            <stop offset="48%" stop-color="#ffd242"/>
+                            <stop offset="76%" stop-color="#f59e14"/>
+                            <stop offset="94%" stop-color="#e06f06"/>
+                            <stop offset="100%" stop-color="#b84d00"/>
+                        </radialGradient>
+
+                        <!-- Solar Ray Gradient -->
+                        <linearGradient id="sun-ray-grad-hd" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="rgba(255, 235, 120, 0.95)"/>
+                            <stop offset="50%" stop-color="rgba(245, 185, 30, 0.75)"/>
+                            <stop offset="100%" stop-color="rgba(230, 140, 15, 0.15)"/>
+                        </linearGradient>
+
+                        <linearGradient id="sun-ray-secondary-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="rgba(255, 245, 180, 0.85)"/>
+                            <stop offset="100%" stop-color="rgba(245, 170, 25, 0.1)"/>
                         </linearGradient>
                     </defs>
-                    <!-- Soft Solar Corona Halo -->
-                    <circle cx="22" cy="22" r="20" fill="rgba(240,182,40,0.22)"/>
-                    <!-- Rotating Solar Rays -->
-                    <g class="solar-rays-rot" stroke="url(#sun-ray-grad)" stroke-width="1.8" stroke-linecap="round">
-                        <line x1="22" y1="2" x2="22" y2="7.5"/>
-                        <line x1="22" y1="36.5" x2="22" y2="42"/>
-                        <line x1="2" y1="22" x2="7.5" y2="22"/>
-                        <line x1="36.5" y1="22" x2="42" y2="22"/>
-                        <line x1="7.8" y1="7.8" x2="11.8" y2="11.8"/>
-                        <line x1="32.2" y1="32.2" x2="36.2" y2="36.2"/>
-                        <line x1="7.8" y1="36.2" x2="11.8" y2="32.2"/>
-                        <line x1="32.2" y1="11.8" x2="36.2" y2="7.8"/>
+
+                    <!-- Broad Atmospheric Golden Corona Glow -->
+                    <circle cx="44" cy="44" r="43" fill="url(#sun-corona-outer)"/>
+
+                    <!-- Rotating Solar Rays & Coronal Streamers (Gentle continuous rotation) -->
+                    <g class="solar-rays-rot">
+                        <!-- Primary Cardinal & Ordinal Long Solar Flares -->
+                        <g stroke="url(#sun-ray-grad-hd)" stroke-width="2.4" stroke-linecap="round">
+                            <line x1="44" y1="4" x2="44" y2="13"/>
+                            <line x1="44" y1="75" x2="44" y2="84"/>
+                            <line x1="4" y1="44" x2="13" y2="44"/>
+                            <line x1="75" y1="44" x2="84" y2="44"/>
+                            <line x1="15.7" y1="15.7" x2="22.1" y2="22.1"/>
+                            <line x1="65.9" y1="65.9" x2="72.3" y2="72.3"/>
+                            <line x1="15.7" y1="72.3" x2="22.1" y2="65.9"/>
+                            <line x1="65.9" y1="22.1" x2="72.3" y2="15.7"/>
+                        </g>
+
+                        <!-- Intermediate Secondary Flares -->
+                        <g stroke="url(#sun-ray-secondary-grad)" stroke-width="1.6" stroke-linecap="round">
+                            <line x1="28.7" y1="9.3" x2="32.8" y2="16.4"/>
+                            <line x1="59.3" y1="78.7" x2="55.2" y2="71.6"/>
+                            <line x1="9.3" y1="59.3" x2="16.4" y2="55.2"/>
+                            <line x1="78.7" y1="28.7" x2="71.6" y2="32.8"/>
+                            <line x1="59.3" y1="9.3" x2="55.2" y2="16.4"/>
+                            <line x1="28.7" y1="78.7" x2="32.8" y2="71.6"/>
+                            <line x1="9.3" y1="28.7" x2="16.4" y2="32.8"/>
+                            <line x1="78.7" y1="59.3" x2="71.6" y2="55.2"/>
+                        </g>
+
+                        <!-- Subtle Coronal Diamond Streamers -->
+                        <polygon points="44,8 46,20 44,22 42,20" fill="rgba(255, 235, 140, 0.45)"/>
+                        <polygon points="44,80 46,68 44,66 42,68" fill="rgba(255, 235, 140, 0.45)"/>
+                        <polygon points="8,44 20,46 22,44 20,42" fill="rgba(255, 235, 140, 0.45)"/>
+                        <polygon points="80,44 68,46 66,44 68,42" fill="rgba(255, 235, 140, 0.45)"/>
                     </g>
-                    <!-- Sun Core Sphere -->
-                    <circle cx="22" cy="22" r="13" fill="url(#sun-sphere)"/>
-                    <circle cx="22" cy="22" r="13" fill="none" stroke="rgba(255,255,255,0.75)" stroke-width="0.8"/>
+
+                    <!-- Inner Sun Flare Ring -->
+                    <circle cx="44" cy="44" r="28.5" fill="rgba(255, 240, 160, 0.35)"/>
+
+                    <!-- Sun Photosphere Sphere (White-hot core to orange-amber limb) -->
+                    <circle cx="44" cy="44" r="26" fill="url(#sun-sphere-3d)"/>
+
+                    <!-- Brilliant White Solar Core Highlight -->
+                    <ellipse cx="40" cy="37" rx="8" ry="6" fill="#ffffff" opacity="0.65"/>
+
+                    <!-- Radiant Solar Rim Highlight -->
+                    <circle cx="44" cy="44" r="26" fill="none" stroke="rgba(255, 255, 255, 0.85)" stroke-width="1.1"/>
                 </svg>
             </button>
         </header>
@@ -1475,7 +1630,6 @@
             <!-- ════════════════════════════════════════════════════════ -->
             <section class="view-panel active" id="view-farmer" aria-label="Farmer Calculator">
                 <div class="view-title-row">
-                    <svg class="mascot-icon"><use href="#farmer-mascot"/></svg>
                     <span>WHAT ARE YOU PLANTING?</span>
                 </div>
 
