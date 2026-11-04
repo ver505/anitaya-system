@@ -10,6 +10,7 @@ app = Flask(__name__)
 # Disable all caching in Flask and Jinja2 so edits show immediately
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
+app.jinja_env.auto_reload = True
 
 @app.after_request
 def add_header(response):
