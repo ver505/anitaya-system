@@ -2011,21 +2011,26 @@
         function peso(n) { return '\u20B1' + fmt(n); }
 
         function displayForecastResults(data) {
-            const yp = data.yield_predictions;
-            const fin = data.financial_forecast;
-            const sc = data.scenarios;
+            const yp = data.yield_predictions || {};
+            const fin = data.financial_forecast || {};
+            const sc = data.scenarios || {};
 
             // Sacks & Net Profit
-            document.getElementById('resSacksPill').textContent = fmt(Math.round(yp.total_sacks_cavans)) + ' Sacks (' + yp.expected_production_mt.toFixed(1) + ' MT)';
-            document.getElementById('resNetProfitPill').textContent = peso(fin.net_profit_php);
-            document.getElementById('resRoiBadge').textContent = (fin.roi_percent >= 0 ? '+' : '') + fin.roi_percent.toFixed(1) + '% ROI';
+            const sacks = Math.round(yp.total_sacks_cavans || 0);
+            const mtVal = (yp.total_yield_mt != null) ? Number(yp.total_yield_mt).toFixed(1) : ((yp.expected_production_mt != null) ? Number(yp.expected_production_mt).toFixed(1) : '0.0');
+            document.getElementById('resSacksPill').textContent = fmt(sacks) + ' Sacks (' + mtVal + ' MT)';
+            
+            document.getElementById('resNetProfitPill').textContent = peso(fin.net_profit_php || 0);
+            
+            const roiVal = (fin.roi_percent != null) ? Number(fin.roi_percent).toFixed(1) : '0.0';
+            document.getElementById('resRoiBadge').textContent = (Number(roiVal) >= 0 ? '+' : '') + roiVal + '% ROI';
 
             // Financial Summary (Gross & Total Expense)
             if (document.getElementById('resGrossRevenue')) {
-                document.getElementById('resGrossRevenue').textContent = peso(fin.gross_revenue_php);
+                document.getElementById('resGrossRevenue').textContent = peso(fin.gross_revenue_php || 0);
             }
             if (document.getElementById('resTotalExpense')) {
-                document.getElementById('resTotalExpense').textContent = peso(fin.production_cost_php);
+                document.getElementById('resTotalExpense').textContent = peso(fin.production_cost_php || 0);
             }
 
             // Render Cost Breakdown Bars (Advisor View)
@@ -2050,13 +2055,21 @@
             }
 
             // Scenarios
-            document.getElementById('scenFavProfit').textContent = peso(sc.favorable.net_profit);
-            document.getElementById('scenNormProfit').textContent = peso(sc.expected.net_profit);
-            document.getElementById('scenAdvProfit').textContent = peso(sc.adverse.net_profit);
+            if (sc.favorable && document.getElementById('scenFavProfit')) {
+                document.getElementById('scenFavProfit').textContent = peso(sc.favorable.net_profit || 0);
+            }
+            if (sc.expected && document.getElementById('scenNormProfit')) {
+                document.getElementById('scenNormProfit').textContent = peso(sc.expected.net_profit || 0);
+            }
+            if (sc.adverse && document.getElementById('scenAdvProfit')) {
+                document.getElementById('scenAdvProfit').textContent = peso(sc.adverse.net_profit || 0);
+            }
 
             // Days & Advice
-            document.getElementById('resDaysText').textContent = yp.growing_period_days + ' Growing Days';
-            if (data.insights && data.insights.length > 0) {
+            if (document.getElementById('resDaysText') && yp.growing_period_days) {
+                document.getElementById('resDaysText').textContent = yp.growing_period_days + ' Growing Days';
+            }
+            if (data.insights && data.insights.length > 0 && document.getElementById('advisorNoteText')) {
                 document.getElementById('advisorNoteText').textContent = data.insights[0];
             }
         }

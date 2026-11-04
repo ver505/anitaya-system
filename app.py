@@ -243,6 +243,7 @@ def predict():
                 "yield_rate_mt_ha": round(yield_rate_mt_ha, 2),
                 "yield_rate_kg_ha": round(yield_rate_kg_ha, 1),
                 "total_yield_mt": round(total_yield_mt, 2),
+                "expected_production_mt": round(total_yield_mt, 2),
                 "total_yield_kg": round(total_yield_kg, 1),
                 "total_sacks_cavans": round(total_sacks, 1),
                 "cavan_weight_kg": cavan_weight,
