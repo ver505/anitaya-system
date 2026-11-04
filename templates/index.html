@@ -1988,20 +1988,17 @@
                     body: JSON.stringify(payload)
                 });
                 
-                if (!res.ok) {
-                    throw new Error(`Server returned status ${res.status}`);
-                }
-
                 const data = await res.json();
 
-                if (data && data.status === 'success') {
+                if (res.ok && data && data.status === 'success') {
                     displayForecastResults(data);
                 } else {
-                    alert('Prediction Notice: ' + (data && data.errors ? data.errors.join('\n') : (data && data.message ? data.message : 'Unable to complete prediction.')));
+                    const errMsg = (data && data.errors) ? data.errors.join('; ') : (data && data.message ? data.message : `Server status ${res.status}`);
+                    showToast('Prediction notice: ' + errMsg);
                 }
             } catch (err) {
                 console.error('AniTaya prediction error:', err);
-                showToast('Prediction error: Please ensure Python server is running.');
+                showToast('Network error: ' + (err.message || 'Cannot connect to server.'));
             } finally {
                 if (btn) {
                     btn.innerHTML = origContent || `<span>Calculate Harvest &amp; Income</span>`;
