@@ -843,6 +843,124 @@
             box-shadow: none;
         }
 
+        /* ── Financial Details & Cost Breakdown (Advisor / Farmer details) ── */
+        .financial-stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .fin-stat-card {
+            background: rgba(18, 14, 26, 0.45);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            padding: 8px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .fin-stat-label {
+            font-size: 9px;
+            text-transform: uppercase;
+            font-weight: 800;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+        }
+
+        .fin-stat-val {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .cost-breakdown-box {
+            background: rgba(18, 14, 26, 0.45);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            padding: 10px 12px;
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .cost-bar-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 10.5px;
+        }
+
+        .cost-bar-name {
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .cost-bar-val {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .cost-bar-track {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.07);
+            border-radius: 9999px;
+            overflow: hidden;
+            margin-top: 2px;
+            margin-bottom: 4px;
+        }
+
+        .cost-bar-fill {
+            height: 100%;
+            background: var(--brand-accent);
+            border-radius: 9999px;
+            transition: width 0.3s ease;
+        }
+
+        /* ── Mode-conditional Visibility ── */
+        .advisor-mode-only {
+            display: none;
+        }
+
+        .app-mode-advisor .advisor-mode-only {
+            display: block;
+        }
+
+        .farmer-mode-only {
+            display: block;
+        }
+
+        .app-mode-advisor .farmer-mode-only {
+            display: none;
+        }
+
+        /* Toast notification */
+        .toast-notify {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #2f2544;
+            color: #ffffff;
+            border: 1px solid #7c68a4;
+            padding: 12px 20px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 700;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            z-index: 9999;
+            opacity: 0;
+            transform: translateY(12px);
+            transition: all 0.25s ease;
+            pointer-events: none;
+        }
+
+        .toast-notify.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         /* ── Risk & Weather Card in Right Column ── */
         .scenarios-card {
             background: var(--bg-surface);
@@ -1211,7 +1329,7 @@
                     <div id="collections-section">
                         <div class="section-header">
                             <h2 class="section-heading">Featured Crops</h2>
-                            <div class="section-nav-tabs">
+                            <div class="section-nav-tabs" id="cropDeckNavTabs">
                                 <span class="section-tab active" onclick="filterCrops('all', this)">All Crops</span>
                                 <span class="section-tab" onclick="filterCrops('grain', this)">Grains</span>
                                 <span class="section-tab" onclick="filterCrops('tuber', this)">Tubers</span>
@@ -1304,6 +1422,35 @@
 
                                 <div class="card-bottom-pill">
                                     <span class="card-price-value">&#8369;45.00 / kg</span>
+                                    <button class="card-select-btn">Select</button>
+                                </div>
+                            </div>
+
+                            <!-- Crop Card 4: Cassava (Kamoteng Kahoy) -->
+                            <div class="crop-card" id="card_cassava" onclick="selectCrop('Cassava', 'Kamoteng Kahoy / Cassava', 'cassava')">
+                                <div class="card-top-row">
+                                    <div class="card-avatar-group">
+                                        <div class="card-avatar-pill">CS</div>
+                                        <div>
+                                            <div class="card-crop-name">Cassava</div>
+                                            <div class="card-crop-sub">Kamoteng Kahoy &bull; Root Crop</div>
+                                        </div>
+                                    </div>
+                                    <div class="card-icon-pill">
+                                        <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="3"/></svg>
+                                    </div>
+                                </div>
+
+                                <div class="card-center-stats">
+                                    <div class="card-stat-pill">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline></svg>
+                                        <span>10.5 MT/ha Avg</span>
+                                    </div>
+                                    <div class="card-yield-metric">210 Sacks / 1.0ha</div>
+                                </div>
+
+                                <div class="card-bottom-pill">
+                                    <span class="card-price-value">&#8369;14.00 / kg</span>
                                     <button class="card-select-btn">Select</button>
                                 </div>
                             </div>
@@ -1460,6 +1607,26 @@
                             </div>
                         </div>
 
+                        <!-- Financial Statistics (Gross & Production Costs) -->
+                        <div class="financial-stat-grid">
+                            <div class="fin-stat-card">
+                                <span class="fin-stat-label">Gross Revenue</span>
+                                <span class="fin-stat-val" id="resGrossRevenue">&#8369;140,800</span>
+                            </div>
+                            <div class="fin-stat-card">
+                                <span class="fin-stat-label">Total Expenses</span>
+                                <span class="fin-stat-val" id="resTotalExpense">&#8369;89,620</span>
+                            </div>
+                        </div>
+
+                        <!-- Advisor Detailed Cost Breakdown (Seed, Fertilizer, Labor, etc.) -->
+                        <div class="cost-breakdown-box advisor-mode-only" id="advisorCostBreakdown">
+                            <span class="fin-stat-label" style="margin-bottom: 2px;">Production Cost Breakdown</span>
+                            <div id="costBarsContainer">
+                                <!-- Populated dynamically from API -->
+                            </div>
+                        </div>
+
                         <!-- Inputs Embedded Inside Showcase Card -->
                         <div class="input-fields-box">
                             <input type="hidden" id="selectedCropKey" value="Rice, paddy">
@@ -1541,7 +1708,7 @@
             <!-- ============================================================ -->
             <!-- ACADEMIC ML LAB EVALUATION SECTION (CSST 102 Requirement)     -->
             <!-- ============================================================ -->
-            <section class="ml-evaluation-container" id="ml-eval-section">
+            <section class="ml-evaluation-container advisor-mode-only" id="ml-eval-section">
                 <div class="ml-top-header">
                     <div class="ml-title-group">
                         <h3>CSST 102 &bull; Basic Machine Learning Laboratory</h3>
@@ -1639,30 +1806,35 @@
         }
 
         function setAppMode(mode) {
+            document.body.classList.toggle('app-mode-advisor', mode === 'advisor');
             document.getElementById('modeBtnFarmer').classList.toggle('active', mode === 'farmer');
             document.getElementById('modeBtnAdvisor').classList.toggle('active', mode === 'advisor');
         }
 
         function filterCrops(cat, tabEl) {
-            document.querySelectorAll('.section-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('#cropDeckNavTabs .section-tab').forEach(t => t.classList.remove('active'));
             if (tabEl) tabEl.classList.add('active');
 
             const cardRice = document.getElementById('card_rice');
             const cardMaize = document.getElementById('card_maize');
             const cardPotato = document.getElementById('card_potato');
+            const cardCassava = document.getElementById('card_cassava');
 
             if (cat === 'grain') {
-                cardRice.style.display = 'flex';
-                cardMaize.style.display = 'flex';
-                cardPotato.style.display = 'none';
+                if (cardRice) cardRice.style.display = 'flex';
+                if (cardMaize) cardMaize.style.display = 'flex';
+                if (cardPotato) cardPotato.style.display = 'none';
+                if (cardCassava) cardCassava.style.display = 'none';
             } else if (cat === 'tuber') {
-                cardRice.style.display = 'none';
-                cardMaize.style.display = 'none';
-                cardPotato.style.display = 'flex';
+                if (cardRice) cardRice.style.display = 'none';
+                if (cardMaize) cardMaize.style.display = 'none';
+                if (cardPotato) cardPotato.style.display = 'flex';
+                if (cardCassava) cardCassava.style.display = 'flex';
             } else {
-                cardRice.style.display = 'flex';
-                cardMaize.style.display = 'flex';
-                cardPotato.style.display = 'flex';
+                if (cardRice) cardRice.style.display = 'flex';
+                if (cardMaize) cardMaize.style.display = 'flex';
+                if (cardPotato) cardPotato.style.display = 'flex';
+                if (cardCassava) cardCassava.style.display = 'flex';
             }
         }
 
@@ -1738,11 +1910,49 @@
             runPrediction();
         }
 
+        function showToast(msg) {
+            let toast = document.getElementById('anitayaToast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'anitayaToast';
+                toast.className = 'toast-notify';
+                document.body.appendChild(toast);
+            }
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
         function saveActivePreset() {
+            const crop = document.getElementById('selectedCropName').value;
+            const area = document.getElementById('landAreaInput').value;
+            const season = document.getElementById('selectedSeason').value;
+            const region = document.getElementById('regionSelect').value;
+
+            const bookmark = {
+                crop,
+                area,
+                season,
+                region,
+                savedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            };
+
+            let bookmarks = [];
+            try {
+                bookmarks = JSON.parse(localStorage.getItem('anitaya_bookmarks') || '[]');
+            } catch (e) {
+                bookmarks = [];
+            }
+            bookmarks.unshift(bookmark);
+            if (bookmarks.length > 5) bookmarks = bookmarks.slice(0, 5);
+            localStorage.setItem('anitaya_bookmarks', JSON.stringify(bookmarks));
+
             if (typeof confetti === 'function') {
                 confetti({ particleCount: 25, spread: 45, origin: { y: 0.5 } });
             }
-            alert('Active farm configuration bookmarked.');
+            showToast(`Farm plan bookmarked: ${crop.split(' / ')[0]} (${area} ha)`);
         }
 
         async function runPrediction() {
@@ -1790,9 +2000,38 @@
             const sc = data.scenarios;
 
             // Sacks & Net Profit
-            document.getElementById('resSacksPill').textContent = fmt(Math.round(yp.total_sacks_cavans)) + ' Sacks';
+            document.getElementById('resSacksPill').textContent = fmt(Math.round(yp.total_sacks_cavans)) + ' Sacks (' + yp.expected_production_mt.toFixed(1) + ' MT)';
             document.getElementById('resNetProfitPill').textContent = peso(fin.net_profit_php);
             document.getElementById('resRoiBadge').textContent = (fin.roi_percent >= 0 ? '+' : '') + fin.roi_percent.toFixed(1) + '% ROI';
+
+            // Financial Summary (Gross & Total Expense)
+            if (document.getElementById('resGrossRevenue')) {
+                document.getElementById('resGrossRevenue').textContent = peso(fin.gross_revenue_php);
+            }
+            if (document.getElementById('resTotalExpense')) {
+                document.getElementById('resTotalExpense').textContent = peso(fin.production_cost_php);
+            }
+
+            // Render Cost Breakdown Bars (Advisor View)
+            const costContainer = document.getElementById('costBarsContainer');
+            if (costContainer && fin.cost_breakdown) {
+                const totalCost = fin.production_cost_php || 1;
+                let html = '';
+                for (const [key, amount] of Object.entries(fin.cost_breakdown)) {
+                    const label = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                    const pct = Math.min(100, Math.round((amount / totalCost) * 100));
+                    html += `
+                        <div class="cost-bar-item">
+                            <span class="cost-bar-name">${label}</span>
+                            <span class="cost-bar-val">${peso(amount)} (${pct}%)</span>
+                        </div>
+                        <div class="cost-bar-track">
+                            <div class="cost-bar-fill" style="width: ${pct}%"></div>
+                        </div>
+                    `;
+                }
+                costContainer.innerHTML = html;
+            }
 
             // Scenarios
             document.getElementById('scenFavProfit').textContent = peso(sc.favorable.net_profit);
