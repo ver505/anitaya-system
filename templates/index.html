@@ -343,6 +343,10 @@
             background: linear-gradient(165deg, #ede3d5 0%, #dfd3bf 100%);
         }
 
+        .crop-card-amber {
+            background: linear-gradient(165deg, #f0e6d8 0%, #ded0bd 100%);
+        }
+
         .card-top-profile {
             display: flex;
             align-items: center;
@@ -1427,13 +1431,13 @@
                             </div>
 
                             <!-- Crop Card 4: Cassava (Kamoteng Kahoy) -->
-                            <div class="crop-card" id="card_cassava" onclick="selectCrop('Cassava', 'Kamoteng Kahoy / Cassava', 'cassava')">
-                                <div class="card-top-row">
-                                    <div class="card-avatar-group">
-                                        <div class="card-avatar-pill">CS</div>
+                            <div class="crop-card crop-card-amber" id="card_cassava" onclick="selectCrop('Cassava', 'Kamoteng Kahoy / Cassava', 'cassava')">
+                                <div class="card-top-profile">
+                                    <div class="card-profile-left">
+                                        <div class="card-crop-avatar">CS</div>
                                         <div>
                                             <div class="card-crop-name">Cassava</div>
-                                            <div class="card-crop-sub">Kamoteng Kahoy &bull; Root Crop</div>
+                                            <div class="card-crop-botanical">Manihot esculenta</div>
                                         </div>
                                     </div>
                                     <div class="card-icon-pill">
@@ -1957,15 +1961,22 @@
 
         async function runPrediction() {
             const btn = document.getElementById('predictBtn');
-            const origText = btn.innerHTML;
-            btn.innerHTML = `<span>Calculating...</span>`;
-            btn.disabled = true;
+            const origContent = btn ? btn.innerHTML : '';
+            if (btn) {
+                btn.innerHTML = `<span>Calculating...</span>`;
+                btn.disabled = true;
+            }
+
+            const cropEl = document.getElementById('selectedCropKey');
+            const landAreaEl = document.getElementById('landAreaInput');
+            const seasonEl = document.getElementById('selectedSeason');
+            const regionEl = document.getElementById('regionSelect');
 
             const payload = {
-                crop: document.getElementById('selectedCropKey').value,
-                land_area: parseFloat(document.getElementById('landAreaInput').value) || 1.0,
-                season: document.getElementById('selectedSeason').value,
-                region: document.getElementById('regionSelect').value
+                crop: cropEl ? cropEl.value : 'Rice, paddy',
+                land_area: landAreaEl ? (parseFloat(landAreaEl.value) || 1.0) : 1.0,
+                season: seasonEl ? seasonEl.value : 'Wet Season',
+                region: regionEl ? regionEl.value : 'Laguna / CALABARZON (Region IV-A)'
             };
 
             updateSubtitle();
@@ -1976,18 +1987,26 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
+                
+                if (!res.ok) {
+                    throw new Error(`Server returned status ${res.status}`);
+                }
+
                 const data = await res.json();
 
-                if (data.status === 'success') {
+                if (data && data.status === 'success') {
                     displayForecastResults(data);
                 } else {
-                    alert('Notice: ' + (data.errors ? data.errors.join('\n') : data.message));
+                    alert('Prediction Notice: ' + (data && data.errors ? data.errors.join('\n') : (data && data.message ? data.message : 'Unable to complete prediction.')));
                 }
             } catch (err) {
-                console.error(err);
+                console.error('AniTaya prediction error:', err);
+                showToast('Prediction error: Please ensure Python server is running.');
             } finally {
-                btn.innerHTML = origText;
-                btn.disabled = false;
+                if (btn) {
+                    btn.innerHTML = origContent || `<span>Calculate Harvest &amp; Income</span>`;
+                    btn.disabled = false;
+                }
             }
         }
 
