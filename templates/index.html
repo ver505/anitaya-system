@@ -22,10 +22,10 @@
             --bg-ink: #16200f;
             --bg-card: #172111;
             --bg-card-hover: #1e2c16;
-            --bg-selected: #eef0e4;
+            --bg-selected: #b6c64f; /* Changed from white #eef0e4 to signature olive accent! */
             --text-offwhite: #eef0e4;
             --text-muted: #8c9878;
-            --text-dark: #16200f;
+            --text-dark: #12150e;
             --accent-olive: #b6c64f;
             --accent-olive-dim: rgba(182, 198, 79, 0.15);
             --accent-olive-hover: #c9db57;
@@ -49,26 +49,26 @@
         [data-theme="light"] {
             --bg-page: #f3f4ee;
             --bg-shell: #ffffff;
-            --bg-ink: #1d2a14;
-            --bg-card: #f7f9f2;
-            --bg-card-hover: #edf2e4;
+            --bg-ink: #f4f6ee; /* Light warm card background inside shell */
+            --bg-card: #f4f6ee;
+            --bg-card-hover: #eaeee2;
             --bg-selected: #1d2a14;
-            --text-offwhite: #1d2a14;
-            --text-muted: #627254;
+            --text-offwhite: #141d0e; /* Deep crisp dark green ink with high contrast */
+            --text-muted: #4d5e3c; /* Readable, crisp forest sage */
             --text-dark: #ffffff;
-            --accent-olive: #8fa63a;
-            --accent-olive-dim: rgba(143, 166, 58, 0.15);
-            --accent-olive-hover: #7b912e;
+            --accent-olive: #6b8020; /* Deep high-contrast olive */
+            --accent-olive-dim: rgba(107, 128, 32, 0.14);
+            --accent-olive-hover: #586b17;
             --border-hairline: rgba(29, 42, 20, 0.12);
             --border-hairline-strong: rgba(29, 42, 20, 0.24);
-            --pill-inactive: rgba(29, 42, 20, 0.06);
-            --stat-card-bg: #f4f6ec;
+            --pill-inactive: rgba(29, 42, 20, 0.08);
+            --stat-card-bg: #f5f7ee;
             --stat-subcard-bg: #ffffff;
             --chart-card-bg: #ffffff;
-            --chart-ink: #1d2a14;
-            --chart-subtle: #5f7051;
+            --chart-ink: #141d0e;
+            --chart-subtle: #4d5e3c;
             --chart-line: #b0bfa3;
-            --theme-icon: #1d2a14;
+            --theme-icon: #141d0e;
             --shadow-subtle: 0 4px 20px rgba(0,0,0,0.06);
         }
 
@@ -337,19 +337,22 @@
         }
 
         .rail-btn.active {
-            background: var(--text-offwhite);
+            background: var(--accent-olive);
             color: var(--text-dark);
-            border-color: var(--text-offwhite);
+            border-color: var(--accent-olive);
         }
 
         [data-theme="dark"] .rail-btn.active {
-            background: #eef0e4;
-            color: #16200f;
+            background: var(--accent-olive);
+            color: #12150e;
+            box-shadow: 0 2px 10px rgba(182, 198, 79, 0.35);
         }
 
         [data-theme="light"] .rail-btn.active {
             background: #1d2a14;
             color: #ffffff;
+            border-color: #1d2a14;
+            box-shadow: 0 2px 10px rgba(29, 42, 20, 0.2);
         }
 
         .rail-btn svg {
@@ -400,19 +403,19 @@
             gap: 2px;
         }
 
+        [data-theme="light"] .capsule-toggle {
+            background: #ecefe4;
+            border: 1px solid rgba(29, 42, 20, 0.12);
+        }
+
         .capsule-btn {
             padding: 7px 18px;
             border-radius: var(--radius-pill);
             font-size: 10px;
-            font-weight: 700;
+            font-weight: 800;
             color: var(--text-muted);
             letter-spacing: 0.1em;
-        }
-
-        .capsule-btn.active {
-            background: var(--bg-page);
-            color: var(--text-offwhite);
-            border: 1px solid var(--border-hairline);
+            transition: all 0.15s ease;
         }
 
         [data-theme="dark"] .capsule-btn.active {
@@ -423,8 +426,9 @@
 
         [data-theme="light"] .capsule-btn.active {
             background: #ffffff;
-            color: #1d2a14;
-            border: 1px solid var(--border-hairline-strong);
+            color: #141d0e;
+            border: 1px solid rgba(29, 42, 20, 0.15);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
         }
 
         /* Header Right Controls (Model Lab & Theme Toggle) */
@@ -435,27 +439,51 @@
         }
 
         .btn-model-lab {
-            background: var(--bg-selected);
-            color: var(--text-dark);
+            background: var(--bg-ink);
+            color: var(--text-offwhite);
             padding: 8px 18px;
             border-radius: var(--radius-pill);
             font-size: 10px;
             font-weight: 800;
             letter-spacing: 0.1em;
-            border: 1px solid transparent;
+            border: 1px solid var(--border-hairline);
             display: flex;
             align-items: center;
             gap: 6px;
+            transition: all 0.15s ease;
         }
 
-        .btn-model-lab:hover {
-            transform: translateY(-1px);
+        [data-theme="dark"] .btn-model-lab {
+            background: #16200f;
+            color: #eef0e4;
+            border: 1px solid var(--border-hairline-strong);
         }
 
-        .btn-model-lab.active {
-            background: var(--accent-olive);
-            color: #16200f;
+        [data-theme="dark"] .btn-model-lab:hover {
             border-color: var(--accent-olive);
+            color: var(--accent-olive);
+        }
+
+        [data-theme="dark"] .btn-model-lab.active {
+            background: var(--accent-olive);
+            color: #12150e;
+            border-color: var(--accent-olive);
+        }
+
+        [data-theme="light"] .btn-model-lab {
+            background: #ecefe4;
+            color: #141d0e;
+            border: 1px solid rgba(29, 42, 20, 0.12);
+        }
+
+        [data-theme="light"] .btn-model-lab:hover {
+            background: #e2e6da;
+        }
+
+        [data-theme="light"] .btn-model-lab.active {
+            background: #1d2a14;
+            color: #ffffff;
+            border-color: #1d2a14;
         }
 
         .theme-toggle-btn {
@@ -582,39 +610,46 @@
             text-align: center;
         }
 
-        /* Selected Crop Tile: solid off-white in dark, solid ink in light */
-        .crop-tile[aria-pressed="true"] {
-            background: var(--bg-selected);
-            border-color: var(--bg-selected);
-        }
-
-        .crop-tile[aria-pressed="true"] .crop-tile-letter {
-            background: var(--pill-inactive);
-            color: var(--text-dark);
-        }
-
-        .crop-tile[aria-pressed="true"] .crop-tile-name {
-            color: var(--text-dark);
-        }
-
-        .crop-tile[aria-pressed="true"] .crop-tile-price {
-            background: rgba(0, 0, 0, 0.08);
-            color: var(--text-dark);
-        }
-
+        /* Selected Crop Tile in Dark Mode: signature olive accent (NO MORE WHITE!) */
         [data-theme="dark"] .crop-tile[aria-pressed="true"] {
-            background: #eef0e4;
+            background: var(--accent-olive);
+            border-color: #c9db57;
+            box-shadow: 0 4px 18px rgba(182, 198, 79, 0.32);
         }
         [data-theme="dark"] .crop-tile[aria-pressed="true"] .crop-tile-letter {
-            background: rgba(22, 32, 15, 0.12);
-            color: #16200f;
+            background: rgba(18, 21, 14, 0.18);
+            color: #12150e;
+            font-weight: 900;
         }
         [data-theme="dark"] .crop-tile[aria-pressed="true"] .crop-tile-name {
-            color: #16200f;
+            color: #12150e;
+            font-weight: 900;
         }
         [data-theme="dark"] .crop-tile[aria-pressed="true"] .crop-tile-price {
-            background: rgba(22, 32, 15, 0.1);
-            color: #16200f;
+            background: rgba(18, 21, 14, 0.14);
+            color: #12150e;
+            font-weight: 800;
+        }
+
+        /* Selected Crop Tile in Light Mode: crisp solid dark green with white text */
+        [data-theme="light"] .crop-tile[aria-pressed="true"] {
+            background: #1d2a14;
+            border-color: #1d2a14;
+            box-shadow: 0 4px 16px rgba(29, 42, 20, 0.18);
+        }
+        [data-theme="light"] .crop-tile[aria-pressed="true"] .crop-tile-letter {
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            font-weight: 900;
+        }
+        [data-theme="light"] .crop-tile[aria-pressed="true"] .crop-tile-name {
+            color: #ffffff;
+            font-weight: 900;
+        }
+        [data-theme="light"] .crop-tile[aria-pressed="true"] .crop-tile-price {
+            background: rgba(255, 255, 255, 0.18);
+            color: #ffffff;
+            font-weight: 800;
         }
 
         /* Sub-inputs Grid: Size + Season/Region */
@@ -657,13 +692,33 @@
             width: 36px;
             height: 36px;
             border-radius: 10px;
-            background: var(--bg-selected);
-            color: var(--text-dark);
+            background: #1e2a16;
+            color: var(--text-offwhite);
             font-size: 16px;
             font-weight: 900;
             display: flex;
             align-items: center;
             justify-content: center;
+            border: 1px solid var(--border-hairline);
+            transition: all 0.15s ease;
+        }
+
+        .stepper-btn:hover {
+            background: var(--accent-olive);
+            color: #12150e;
+            border-color: var(--accent-olive);
+        }
+
+        [data-theme="light"] .stepper-btn {
+            background: #e7ebe0;
+            color: #141d0e;
+            border: 1px solid rgba(29, 42, 20, 0.12);
+        }
+
+        [data-theme="light"] .stepper-btn:hover {
+            background: #1d2a14;
+            color: #ffffff;
+            border-color: #1d2a14;
         }
 
         .stepper-val-box {
@@ -701,11 +756,21 @@
             letter-spacing: 0.08em;
             color: var(--text-muted);
             text-align: center;
+            transition: all 0.15s ease;
         }
 
-        .season-pill-btn.active {
-            background: var(--bg-selected);
-            color: var(--text-dark);
+        [data-theme="dark"] .season-pill-btn.active {
+            background: var(--accent-olive);
+            color: #12150e;
+            font-weight: 900;
+            box-shadow: 0 2px 8px rgba(182, 198, 79, 0.25);
+        }
+
+        [data-theme="light"] .season-pill-btn.active {
+            background: #1d2a14;
+            color: #ffffff;
+            font-weight: 800;
+            box-shadow: 0 2px 8px rgba(29, 42, 20, 0.15);
         }
 
         /* Region Select */
@@ -743,26 +808,41 @@
         /* Calculate Action Button */
         .btn-calculate-action {
             width: 100%;
-            background: var(--bg-selected);
-            color: var(--text-dark);
-            border: 1px solid var(--border-hairline);
+            background: var(--accent-olive);
+            color: #12150e;
+            border: 1px solid #c9db57;
             border-radius: var(--radius-pill);
             padding: 15px 24px;
             font-size: 12px;
-            font-weight: 800;
+            font-weight: 900;
             letter-spacing: 0.12em;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
             cursor: pointer;
-            transition: all 0.15s ease;
+            box-shadow: 0 4px 20px rgba(182, 198, 79, 0.32);
+            transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .btn-calculate-action:hover {
-            transform: translateY(-1px);
-            background: var(--accent-olive);
-            color: #16200f;
+            transform: translateY(-2px);
+            background: var(--accent-olive-hover);
+            box-shadow: 0 6px 24px rgba(182, 198, 79, 0.45);
+        }
+
+        [data-theme="light"] .btn-calculate-action {
+            background: #1d2a14;
+            color: #ffffff;
+            border: 1px solid #1d2a14;
+            box-shadow: 0 4px 16px rgba(29, 42, 20, 0.2);
+        }
+
+        [data-theme="light"] .btn-calculate-action:hover {
+            background: #586b17;
+            border-color: #586b17;
+            color: #ffffff;
+            box-shadow: 0 6px 22px rgba(88, 107, 23, 0.35);
         }
 
         /* ── RESULTS CARD (RIGHT COLUMN) ── */
@@ -783,8 +863,9 @@
         }
 
         [data-theme="light"] .results-card {
-            background: #ffffff;
-            color: #1d2a14;
+            background: #f5f7ee;
+            color: #141d0e;
+            border: 1px solid rgba(29, 42, 20, 0.14);
         }
 
         .results-header-tag {
@@ -795,6 +876,10 @@
             font-weight: 800;
             letter-spacing: 0.1em;
             color: #16200f;
+        }
+
+        [data-theme="light"] .results-header-tag {
+            color: #141d0e;
         }
 
         /* Dark Profit Box inside Results Card */
@@ -871,6 +956,19 @@
             color: #738064;
         }
 
+        [data-theme="light"] .stat-subcard {
+            background: #ffffff;
+            border: 1px solid rgba(29, 42, 20, 0.12);
+        }
+
+        [data-theme="light"] .stat-subcard-val {
+            color: #141d0e;
+        }
+
+        [data-theme="light"] .stat-subcard-lbl {
+            color: #4d5e3c;
+        }
+
         /* 3 Scenario Buttons Row (BAD / NORMAL / GOOD) */
         .scenarios-tri-row {
             display: grid;
@@ -896,9 +994,19 @@
         }
 
         .scenario-pill-btn.active {
-            border: 1.5px solid #16200f;
+            border: 2px solid #16200f;
             background: #ffffff;
             box-shadow: 0 0 0 1px #16200f;
+        }
+
+        [data-theme="light"] .scenario-pill-btn {
+            background: #ffffff;
+            border: 1px solid rgba(29, 42, 20, 0.15);
+        }
+
+        [data-theme="light"] .scenario-pill-btn.active {
+            border: 2px solid #141d0e;
+            box-shadow: 0 0 0 1px #141d0e;
         }
 
         .scenario-tag {
@@ -914,6 +1022,14 @@
             color: #16200f;
         }
 
+        [data-theme="light"] .scenario-tag {
+            color: #4d5e3c;
+        }
+
+        [data-theme="light"] .scenario-val {
+            color: #141d0e;
+        }
+
         .results-guarantee-note {
             text-align: center;
             font-size: 9px;
@@ -921,6 +1037,10 @@
             letter-spacing: 0.08em;
             color: #738064;
             margin-top: 2px;
+        }
+
+        [data-theme="light"] .results-guarantee-note {
+            color: #4d5e3c;
         }
 
         /* ── 2. ADVISOR VIEW ── */
@@ -973,6 +1093,15 @@
             border-color: var(--border-hairline-strong);
         }
 
+        [data-theme="light"] .advisor-rank-row {
+            background: #f5f7ee;
+            border: 1px solid rgba(29, 42, 20, 0.12);
+        }
+
+        [data-theme="light"] .advisor-rank-row:hover {
+            border-color: rgba(29, 42, 20, 0.28);
+        }
+
         .advisor-crop-name {
             font-size: 12px;
             font-weight: 800;
@@ -981,6 +1110,10 @@
             display: flex;
             align-items: center;
             gap: 6px;
+        }
+
+        [data-theme="light"] .advisor-crop-name {
+            color: #141d0e;
         }
 
         .advisor-star {
@@ -994,6 +1127,10 @@
             border-radius: var(--radius-pill);
             overflow: hidden;
             position: relative;
+        }
+
+        [data-theme="light"] .advisor-bar-track {
+            background: rgba(29, 42, 20, 0.08);
         }
 
         .advisor-bar-fill {
@@ -1010,12 +1147,20 @@
             color: var(--text-offwhite);
         }
 
+        [data-theme="light"] .advisor-net-val {
+            color: #141d0e;
+        }
+
         .advisor-footnote {
             font-size: 9px;
             font-weight: 700;
             letter-spacing: 0.08em;
             color: var(--text-muted);
             margin-top: 8px;
+        }
+
+        [data-theme="light"] .advisor-footnote {
+            color: #4d5e3c;
         }
 
         /* ── 3. MODEL LAB VIEW ── */
@@ -1048,6 +1193,14 @@
             margin-top: 4px;
         }
 
+        [data-theme="light"] .ml-lab-title-group h2 {
+            color: #141d0e;
+        }
+
+        [data-theme="light"] .ml-lab-title-group p {
+            color: #4d5e3c;
+        }
+
         .ml-winner-badge-pill {
             background: var(--accent-olive-dim);
             color: var(--accent-olive);
@@ -1059,12 +1212,23 @@
             letter-spacing: 0.08em;
         }
 
+        [data-theme="light"] .ml-winner-badge-pill {
+            background: rgba(107, 128, 32, 0.14);
+            color: #586b17;
+            border: 1px solid #6b8020;
+        }
+
         /* Comparison Table */
         .ml-table-wrapper {
             background: var(--bg-ink);
             border: 1px solid var(--border-hairline);
             border-radius: var(--radius-tile);
             overflow-x: auto;
+        }
+
+        [data-theme="light"] .ml-table-wrapper {
+            background: #f5f7ee;
+            border: 1px solid rgba(29, 42, 20, 0.12);
         }
 
         .ml-benchmark-table {
@@ -1085,10 +1249,22 @@
             background: rgba(0, 0, 0, 0.15);
         }
 
+        [data-theme="light"] .ml-benchmark-table th {
+            background: #ecefe4;
+            color: #4d5e3c;
+            border-bottom: 1px solid rgba(29, 42, 20, 0.12);
+        }
+
         .ml-benchmark-table td {
             padding: 12px 14px;
             color: var(--text-offwhite);
             border-bottom: 1px solid var(--border-hairline);
+        }
+
+        [data-theme="light"] .ml-benchmark-table td {
+            color: #141d0e;
+            border-bottom: 1px solid rgba(29, 42, 20, 0.08);
+            font-weight: 600;
         }
 
         .ml-benchmark-table tr.winner-row {
@@ -1101,6 +1277,16 @@
             font-weight: 700;
         }
 
+        [data-theme="light"] .ml-benchmark-table tr.winner-row {
+            background: rgba(107, 128, 32, 0.12);
+            border-left: 3px solid #6b8020;
+        }
+
+        [data-theme="light"] .ml-benchmark-table tr.winner-row td {
+            color: #141d0e;
+            font-weight: 800;
+        }
+
         .status-pill-winner {
             background: var(--accent-olive);
             color: #16200f;
@@ -1111,6 +1297,11 @@
             display: inline-block;
         }
 
+        [data-theme="light"] .status-pill-winner {
+            background: #6b8020;
+            color: #ffffff;
+        }
+
         .status-pill-eval {
             background: var(--pill-inactive);
             color: var(--text-muted);
@@ -1119,6 +1310,11 @@
             font-weight: 700;
             font-size: 9px;
             display: inline-block;
+        }
+
+        [data-theme="light"] .status-pill-eval {
+            background: #e2e6da;
+            color: #4d5e3c;
         }
 
         /* 3 Chart Cards */
@@ -1177,6 +1373,19 @@
             line-height: 1.6;
         }
 
+        [data-theme="light"] .responsible-ai-box {
+            background: #f5f7ee;
+            border: 1px solid rgba(29, 42, 20, 0.12);
+        }
+
+        [data-theme="light"] .responsible-ai-title {
+            color: #141d0e;
+        }
+
+        [data-theme="light"] .responsible-ai-text {
+            color: #3b4a2e;
+        }
+
         /* Footer */
         .site-footer {
             text-align: center;
@@ -1185,6 +1394,10 @@
             letter-spacing: 0.08em;
             color: var(--text-muted);
             padding-top: 8px;
+        }
+
+        [data-theme="light"] .site-footer {
+            color: #4d5e3c;
         }
 
         /* Toast feedback */
@@ -1692,7 +1905,7 @@
                                     <button class="season-pill-btn" id="chipDry" onclick="setSeason('Dry')">DRY</button>
                                 </div>
                                 <div class="region-select-box">
-                                    <select class="region-select-el" id="regionSelect" onchange="updateCalcLive()">
+                                    <select class="region-select-el" id="regionSelect">
                                         <option value="Laguna, Calabarzon" selected>LAGUNA, CALABARZON</option>
                                         <option value="Batangas">BATANGAS</option>
                                         <option value="Quezon">QUEZON</option>
@@ -2039,7 +2252,10 @@
             setTimeout(() => toast.classList.remove('show'), 2800);
         }
 
-        // ── Crop & Input Selections ──
+        // Stored calculation state
+        let lastCalculatedData = null;
+
+        // ── Crop & Input Selections (Updates inputs visually; calculate button computes results) ──
         function selectCrop(cropKey) {
             if (!CROP_MODELS[cropKey]) return;
             activeCrop = cropKey;
@@ -2049,21 +2265,17 @@
             document.getElementById('tileCorn').setAttribute('aria-pressed', cropKey === 'corn');
             document.getElementById('tilePotato').setAttribute('aria-pressed', cropKey === 'potato');
             document.getElementById('tileCassava').setAttribute('aria-pressed', cropKey === 'cassava');
-
-            updateCalcLive();
         }
 
         function adjustArea(delta) {
             farmArea = Math.max(1, Math.min(100, farmArea + delta));
             document.getElementById('areaDisplay').textContent = farmArea;
-            updateCalcLive();
         }
 
         function setSeason(season) {
             activeSeason = season;
             document.getElementById('chipWet').classList.toggle('active', season === 'Wet');
             document.getElementById('chipDry').classList.toggle('active', season === 'Dry');
-            updateCalcLive();
         }
 
         function selectScenario(scen) {
@@ -2071,7 +2283,15 @@
             document.getElementById('scenBadBtn').classList.toggle('active', scen === 'bad');
             document.getElementById('scenNormBtn').classList.toggle('active', scen === 'normal');
             document.getElementById('scenGoodBtn').classList.toggle('active', scen === 'good');
-            updateCalcLive();
+
+            // Switch scenario value on the currently calculated results
+            if (lastCalculatedData) {
+                let chosenVal = lastCalculatedData.netNorm;
+                if (activeScenario === 'bad') chosenVal = lastCalculatedData.netBad;
+                if (activeScenario === 'good') chosenVal = lastCalculatedData.netGood;
+                document.getElementById('resNetProfit').textContent = formatCurrency(chosenVal);
+                currentNetProfit = chosenVal;
+            }
         }
 
         // ── Mathematical Engine (Specification Guaranteed) ──
@@ -2119,6 +2339,7 @@
         // ── Live Calculation & UI Update ──
         function updateCalcLive(shouldAnimate = false) {
             const data = calculateCropData(activeCrop, farmArea, activeSeason);
+            lastCalculatedData = data;
             const reg = document.getElementById('regionSelect').value;
 
             // Header Tag
