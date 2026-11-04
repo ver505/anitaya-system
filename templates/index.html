@@ -2036,17 +2036,18 @@
             }
         }
 
-        // ── Animated Agricultural Field Ambient Background ──
+        // ── Animated Agricultural Field Ambient Background with Moving Grass ──
         class FieldAmbientBackground {
             constructor(canvasId) {
                 this.canvas = document.getElementById(canvasId);
                 if (!this.canvas) return;
                 this.ctx = this.canvas.getContext('2d');
                 this.particles = [];
-                this.numParticles = 46;
+                this.numParticles = 44;
+                this.grassBlades = [];
                 this.width = window.innerWidth;
                 this.height = window.innerHeight;
-                this.mouse = { x: -1000, y: -1000, radius: 120 };
+                this.mouse = { x: -1000, y: -1000, radius: 130 };
                 this.animFrameId = null;
                 this.isRunning = true;
                 this.contourOffset = 0;
@@ -2082,12 +2083,44 @@
                     this.particles.push(this.createParticle(true));
                 }
 
+                // Create moving grass blades
+                this.createGrassBlades();
+
                 // Respect reduced motion
                 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
                 if (!reduceMotion) {
                     this.start();
                 } else {
                     this.renderStill();
+                }
+            }
+
+            createGrassBlades() {
+                this.grassBlades = [];
+                const spacing = 12; // Denseness of grass along the bottom
+                const count = Math.ceil(this.width / spacing) + 3;
+                
+                for (let i = 0; i < count; i++) {
+                    const x = i * spacing + (Math.random() - 0.5) * 5;
+                    const layer = Math.random() < 0.42 ? 0 : 1; // 0 = back layer, 1 = front layer
+                    // Taller, natural variance in blade heights (55px to 105px)
+                    const baseHeight = (layer === 0) 
+                        ? (Math.random() * 35 + 45) 
+                        : (Math.random() * 45 + 65);
+                    const maxLean = (Math.random() * 22 + 14) * (layer === 0 ? 0.8 : 1.0);
+                    const phase = (x * 0.04) + Math.random() * 0.8;
+                    const swaySpeed = Math.random() * 0.0016 + 0.0012;
+
+                    this.grassBlades.push({
+                        x,
+                        baseHeight,
+                        maxLean,
+                        phase,
+                        swaySpeed,
+                        layer,
+                        currentLean: 0,
+                        targetLean: 0
+                    });
                 }
             }
 
@@ -2098,6 +2131,7 @@
                 this.canvas.width = this.width * dpr;
                 this.canvas.height = this.height * dpr;
                 this.ctx.scale(dpr, dpr);
+                this.createGrassBlades();
             }
 
             createParticle(randomY = false) {
@@ -2141,8 +2175,10 @@
             }
 
             update() {
+                const now = performance.now();
                 this.contourOffset += 0.003;
 
+                // 1. Update floating particles & grains
                 for (let i = 0; i < this.particles.length; i++) {
                     const p = this.particles[i];
 
@@ -2167,6 +2203,30 @@
                         this.particles[i] = this.createParticle(false);
                     }
                 }
+
+                // 2. Update moving grass physics
+                // Global natural breeze oscillation
+                const globalWind = Math.sin(now * 0.0016) * 11 + Math.sin(now * 0.0006) * 6;
+
+                for (let i = 0; i < this.grassBlades.length; i++) {
+                    const b = this.grassBlades[i];
+                    
+                    // Wave motion based on x position and time
+                    const naturalSway = Math.sin(now * b.swaySpeed + b.phase) * b.maxLean + globalWind;
+                    
+                    // Mouse interactive deflection near bottom of screen
+                    let mouseDeflection = 0;
+                    const distToMouse = Math.abs(b.x - this.mouse.x);
+                    if (distToMouse < 150 && this.mouse.y > this.height - 180) {
+                        const factor = (1 - distToMouse / 150);
+                        const dir = (b.x > this.mouse.x) ? 1 : -1;
+                        mouseDeflection = dir * factor * 38;
+                    }
+
+                    b.targetLean = naturalSway + mouseDeflection;
+                    // Smooth dampening for silk-like grass sway
+                    b.currentLean += (b.targetLean - b.currentLean) * 0.075;
+                }
             }
 
             draw() {
@@ -2180,7 +2240,10 @@
                 // 1. Draw subtle agricultural terrace contour lines across the bottom
                 this.drawTerraceContours(baseR, baseG, baseB, isDark);
 
-                // 2. Draw floating field particles & grain seeds
+                // 2. Draw background grass layer (depth of field)
+                this.drawGrassLayer(0, baseR, baseG, baseB, isDark);
+
+                // 3. Draw floating field particles & grain seeds
                 for (let i = 0; i < this.particles.length; i++) {
                     const p = this.particles[i];
                     const currentAlpha = p.alpha * (0.8 + 0.2 * Math.sin(p.pulseVal));
@@ -2213,6 +2276,41 @@
 
                     this.ctx.restore();
                 }
+
+                // 4. Draw foreground grass layer (lively, rich swaying grass)
+                this.drawGrassLayer(1, baseR, baseG, baseB, isDark);
+            }
+
+            drawGrassLayer(targetLayer, r, g, b, isDark) {
+                const h = this.height;
+                const isBack = (targetLayer === 0);
+                
+                this.ctx.lineWidth = isBack ? 1.8 : 2.4;
+                this.ctx.lineCap = 'round';
+                
+                // Opacity adapted to theme and depth layer
+                const alpha = isBack 
+                    ? (isDark ? 0.22 : 0.16)
+                    : (isDark ? 0.42 : 0.32);
+                
+                this.ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
+                this.ctx.beginPath();
+
+                for (let i = 0; i < this.grassBlades.length; i++) {
+                    const blade = this.grassBlades[i];
+                    if (blade.layer !== targetLayer) continue;
+
+                    const tipX = blade.x + blade.currentLean;
+                    const tipY = h - blade.baseHeight;
+                    // Quadratic curve control point creates natural organic flexion
+                    const cpX = blade.x + blade.currentLean * 0.35;
+                    const cpY = h - blade.baseHeight * 0.52;
+
+                    this.ctx.moveTo(blade.x, h);
+                    this.ctx.quadraticCurveTo(cpX, cpY, tipX, tipY);
+                }
+
+                this.ctx.stroke();
             }
 
             drawTerraceContours(r, g, b, isDark) {
