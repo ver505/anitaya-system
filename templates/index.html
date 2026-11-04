@@ -498,6 +498,525 @@
             border-color: #1d2a14;
         }
 
+        /* Preset History Launcher in Header */
+        .btn-history-launcher {
+            background: var(--bg-ink);
+            color: var(--text-offwhite);
+            padding: 8px 16px;
+            border-radius: var(--radius-pill);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            border: 1px solid var(--border-hairline);
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .btn-history-launcher:hover {
+            border-color: var(--accent-olive);
+            color: var(--accent-olive);
+            background: var(--pill-inactive);
+            transform: translateY(-1px);
+        }
+
+        .history-badge-count {
+            background: var(--accent-olive);
+            color: var(--text-dark);
+            font-size: 9px;
+            font-weight: 900;
+            padding: 1px 6px;
+            border-radius: var(--radius-pill);
+            line-height: 1.4;
+        }
+
+        /* Language Toggle Pill (EN | FIL) */
+        .lang-toggle-pill {
+            display: inline-flex;
+            align-items: center;
+            background: var(--bg-ink);
+            border: 1px solid var(--border-hairline);
+            border-radius: var(--radius-pill);
+            padding: 3px;
+            gap: 2px;
+        }
+
+        .lang-btn {
+            padding: 5px 10px;
+            font-size: 9.5px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            border-radius: var(--radius-pill);
+            color: var(--text-muted);
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .lang-btn.active {
+            background: var(--accent-olive);
+            color: var(--text-dark);
+        }
+
+        [data-theme="light"] .lang-btn.active {
+            background: #1d2a14;
+            color: #ffffff;
+        }
+
+        .rail-badge-dot {
+            position: absolute;
+            top: 7px;
+            right: 7px;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--accent-olive);
+            box-shadow: 0 0 6px var(--accent-olive);
+            display: none;
+        }
+
+        .rail-badge-dot.visible {
+            display: block;
+        }
+
+        /* ── PRESET HISTORY SLIDE-IN DRAWER & OVERLAY ── */
+        .history-drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.68);
+            backdrop-filter: blur(5px);
+            z-index: 3000;
+            display: none;
+            justify-content: flex-end;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+
+        .history-drawer-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .history-drawer {
+            width: 440px;
+            max-width: 95vw;
+            height: 100vh;
+            background: var(--bg-shell);
+            border-left: 1px solid var(--border-hairline-strong);
+            box-shadow: -10px 0 35px rgba(0, 0, 0, 0.45);
+            display: flex;
+            flex-direction: column;
+            transform: translateX(100%);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 24px;
+            gap: 16px;
+            overflow-y: auto;
+        }
+
+        .history-drawer-overlay.active .history-drawer {
+            transform: translateX(0);
+        }
+
+        .history-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-hairline);
+            padding-bottom: 14px;
+        }
+
+        .history-title-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .history-title {
+            font-size: 13.5px;
+            font-weight: 900;
+            letter-spacing: 0.12em;
+            color: var(--text-offwhite);
+        }
+
+        .history-actions-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-history-action {
+            padding: 6px 12px;
+            border-radius: var(--radius-pill);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            border: 1px solid var(--border-hairline);
+            background: var(--pill-inactive);
+            color: var(--text-offwhite);
+            transition: all 0.15s ease;
+        }
+
+        .btn-history-action.primary {
+            background: var(--accent-olive);
+            color: var(--text-dark);
+            border-color: var(--accent-olive);
+        }
+
+        .btn-history-action:hover {
+            transform: translateY(-1px);
+            border-color: var(--accent-olive);
+        }
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .history-item-card {
+            background: var(--bg-ink);
+            border: 1px solid var(--border-hairline);
+            border-radius: var(--radius-card);
+            padding: 14px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: all 0.15s ease;
+        }
+
+        .history-item-card:hover {
+            border-color: var(--border-hairline-strong);
+            background: var(--bg-card-hover);
+        }
+
+        .history-item-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .history-item-crop {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .history-crop-badge {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: var(--accent-olive);
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        .history-crop-name {
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            color: var(--text-offwhite);
+        }
+
+        .history-profit-pill {
+            font-size: 13px;
+            font-weight: 900;
+            color: var(--accent-olive);
+        }
+
+        [data-theme="light"] .history-profit-pill {
+            color: #4a6818;
+        }
+
+        .history-item-details {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        .history-item-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 8px;
+            border-top: 1px solid var(--border-hairline);
+        }
+
+        .history-time {
+            font-size: 9px;
+            color: var(--text-muted);
+        }
+
+        .history-btns-group {
+            display: flex;
+            gap: 6px;
+        }
+
+        .btn-history-load {
+            background: var(--accent-olive);
+            color: var(--text-dark);
+            border: none;
+            padding: 5px 12px;
+            border-radius: var(--radius-pill);
+            font-size: 9.5px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .btn-history-load:hover {
+            background: var(--accent-olive-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-history-del {
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--border-hairline);
+            padding: 5px 10px;
+            border-radius: var(--radius-pill);
+            font-size: 9.5px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-history-del:hover {
+            color: #f87171;
+            border-color: #f87171;
+        }
+
+        /* ── RISK & WEATHER VIEW (AGRO-CLIMATE & WHAT-IF SIMULATOR) ── */
+        .weather-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+        }
+
+        .weather-heading-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 16px;
+        }
+
+        .weather-heading-text {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .weather-heading-title {
+            font-size: 14px;
+            font-weight: 900;
+            letter-spacing: 0.12em;
+            color: var(--text-offwhite);
+        }
+
+        .weather-heading-sub {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+        }
+
+        .weather-controls-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .weather-metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .weather-metric-card {
+            background: var(--bg-ink);
+            border: 1px solid var(--border-hairline);
+            border-radius: var(--radius-card);
+            padding: 16px 14px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .weather-metric-lbl {
+            font-size: 9.5px;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+        }
+
+        .weather-metric-val {
+            font-size: 22px;
+            font-weight: 900;
+            color: var(--text-offwhite);
+        }
+
+        .weather-status-chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 3px 8px;
+            border-radius: var(--radius-pill);
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            width: fit-content;
+        }
+
+        .weather-status-chip.warning {
+            background: rgba(245, 158, 11, 0.18);
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.35);
+        }
+
+        .weather-status-chip.success {
+            background: rgba(182, 198, 79, 0.18);
+            color: var(--accent-olive);
+            border: 1px solid rgba(182, 198, 79, 0.35);
+        }
+
+        .weather-status-chip.danger {
+            background: rgba(239, 68, 68, 0.18);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.35);
+        }
+
+        /* Agronomic Mitigation Plan */
+        .weather-advisory-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .weather-adv-card {
+            background: var(--bg-ink);
+            border: 1px solid var(--border-hairline);
+            border-radius: var(--radius-card);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .weather-adv-title {
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            color: var(--accent-olive);
+        }
+
+        [data-theme="light"] .weather-adv-title {
+            color: #55771d;
+        }
+
+        .weather-adv-desc {
+            font-size: 10px;
+            line-height: 1.5;
+            color: var(--text-offwhite);
+            text-transform: none;
+            letter-spacing: normal;
+        }
+
+        /* What-If Sensitivity Simulator Card */
+        .shock-sim-card {
+            background: var(--stat-card-bg);
+            color: var(--text-dark);
+            border-radius: var(--radius-card);
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1.15fr 1fr;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .shock-sliders-col {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .shock-slider-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .shock-slider-top {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10.5px;
+            font-weight: 800;
+        }
+
+        .shock-slider-val {
+            font-weight: 900;
+            color: #12150e;
+        }
+
+        .shock-range-input {
+            width: 100%;
+            accent-color: #507020;
+            cursor: pointer;
+            height: 6px;
+        }
+
+        .shock-result-col {
+            background: var(--stat-subcard-bg);
+            border-radius: var(--radius-card);
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border: 1px solid rgba(0,0,0,0.08);
+        }
+
+        .shock-result-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .shock-profit-highlight {
+            font-size: 26px;
+            font-weight: 900;
+            color: #2e5c12;
+            letter-spacing: -0.02em;
+        }
+
+        .shock-profit-highlight.loss {
+            color: #b91c1c;
+        }
+
+        .shock-resilience-badge {
+            padding: 6px 12px;
+            border-radius: var(--radius-pill);
+            background: rgba(182, 198, 79, 0.22);
+            font-size: 9.5px;
+            font-weight: 800;
+            color: #2e5c12;
+            text-align: center;
+            border: 1px solid rgba(80, 112, 32, 0.3);
+        }
+
         .theme-toggle-btn {
             width: 38px;
             height: 38px;
@@ -664,10 +1183,10 @@
             font-weight: 800;
         }
 
-        /* Sub-inputs Grid: Size + Season/Region */
+        /* Sub-inputs Grid: Size + Price + Season/Region */
         .inputs-subgrid {
             display: grid;
-            grid-template-columns: 1fr 1.35fr;
+            grid-template-columns: 1fr 1fr 1.35fr;
             gap: 12px;
         }
 
@@ -1535,10 +2054,26 @@
                 font-size: 9.5px;
             }
 
-            /* Size & Season side by side */
+            /* Size, Price & Season */
             .inputs-subgrid {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+
+            .weather-metrics-grid {
                 grid-template-columns: 1fr 1fr;
                 gap: 8px;
+            }
+
+            .weather-advisory-grid {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+
+            .shock-sim-card {
+                grid-template-columns: 1fr;
+                gap: 16px;
+                padding: 16px;
             }
 
             .input-tile-card {
@@ -1886,14 +2421,15 @@
                 </svg>
             </button>
 
-            <button class="rail-btn" id="railBtnClock" title="Preset History" aria-label="History" onclick="showSavedToast()">
+            <button class="rail-btn" id="railBtnClock" title="Preset History" aria-label="History" onclick="openHistoryDrawer()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="10"></circle>
                     <polyline points="12 6 12 12 16 14"></polyline>
                 </svg>
+                <span class="rail-badge-dot" id="railHistoryDot"></span>
             </button>
 
-            <button class="rail-btn" id="railBtnWeather" title="Risk &amp; Weather" aria-label="Weather" onclick="switchView('farmer'); focusScenarios();">
+            <button class="rail-btn" id="railBtnWeather" title="Risk &amp; Weather" aria-label="Weather" onclick="switchView('weather')">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
                 </svg>
@@ -1912,16 +2448,31 @@
 
             <!-- ── TOP HEADER NAVBAR (INSIDE SHELL) ── -->
             <header class="header-bar">
-                <!-- Farmer / Advisor Capsule Toggle -->
+                <!-- Farmer / Advisor / Risk & Weather Capsule Toggle -->
                 <div class="capsule-toggle" role="tablist" aria-label="View Mode">
                     <button class="capsule-btn active" id="modeBtnFarmer" role="tab" aria-selected="true" onclick="switchView('farmer')">FARMER</button>
                     <button class="capsule-btn" id="modeBtnAdvisor" role="tab" aria-selected="false" onclick="switchView('advisor')">ADVISOR</button>
+                    <button class="capsule-btn" id="modeBtnWeather" role="tab" aria-selected="false" onclick="switchView('weather')">RISK &amp; WEATHER</button>
                 </div>
 
-                <!-- Header Actions (Model Lab) -->
+                <!-- Header Actions (History, Language Toggle, Model Lab) -->
                 <div class="header-actions">
+                    <button class="btn-history-launcher" id="headerHistoryBtn" onclick="openHistoryDrawer()" title="View Farm Preset History">
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        <span id="txtHistoryBtn">HISTORY</span>
+                        <span class="history-badge-count" id="historyCountBadge">0</span>
+                    </button>
+
+                    <div class="lang-toggle-pill" role="group" aria-label="Language Selector">
+                        <button class="lang-btn active" id="langBtnEN" onclick="setLanguage('en')">EN</button>
+                        <button class="lang-btn" id="langBtnFIL" onclick="setLanguage('fil')">FIL</button>
+                    </div>
+
                     <button class="btn-model-lab" id="headerLabBtn" onclick="switchView('modellab')">
-                        <span>MODEL LAB</span>
+                        <span id="txtModelLabBtn">MODEL LAB</span>
                     </button>
                 </div>
             </header>
@@ -1970,11 +2521,11 @@
                             </button>
                         </div>
 
-                        <!-- Sub-inputs Grid: Size + Season/Region -->
+                        <!-- Sub-inputs Grid: Size + Custom Price + Season/Region -->
                         <div class="inputs-subgrid">
                             <!-- Farm Size Stepper -->
                             <div class="input-tile-card">
-                                <span class="input-tile-label">FARM SIZE</span>
+                                <span class="input-tile-label" id="lblFarmSize">FARM SIZE</span>
                                 <div class="stepper-row">
                                     <button class="stepper-btn" aria-label="Decrease Farm Size" onclick="adjustArea(-1)">&minus;</button>
                                     <div class="stepper-val-box">
@@ -1985,9 +2536,22 @@
                                 </div>
                             </div>
 
+                            <!-- Custom Selling Price Stepper -->
+                            <div class="input-tile-card">
+                                <span class="input-tile-label" id="lblSellingPrice">SELLING PRICE</span>
+                                <div class="stepper-row">
+                                    <button class="stepper-btn" aria-label="Decrease Selling Price" onclick="adjustCustomPrice(-0.50)">&minus;</button>
+                                    <div class="stepper-val-box">
+                                        <span class="readable-num" id="customPriceDisplay">22.00</span>
+                                        <span class="stepper-val-unit">&#8369;/KG</span>
+                                    </div>
+                                    <button class="stepper-btn" aria-label="Increase Selling Price" onclick="adjustCustomPrice(0.50)">&plus;</button>
+                                </div>
+                            </div>
+
                             <!-- Season Toggle & Region Select -->
                             <div class="input-tile-card">
-                                <span class="input-tile-label">SEASON &amp; REGION</span>
+                                <span class="input-tile-label" id="lblSeasonRegion">SEASON &amp; REGION</span>
                                 <div class="season-pill-toggle">
                                     <button class="season-pill-btn active" id="chipWet" onclick="setSeason('Wet')">WET</button>
                                     <button class="season-pill-btn" id="chipDry" onclick="setSeason('Dry')">DRY</button>
@@ -2061,9 +2625,9 @@
                             </button>
                         </div>
 
-                        <!-- Footnote -->
-                        <div class="results-guarantee-note">
-                            ESTIMATE ONLY. NOT A GUARANTEE.
+                        <!-- Footnote with Break-Even Price Insight -->
+                        <div class="results-guarantee-note" id="resGuaranteeNote">
+                            ESTIMATE ONLY. NOT A GUARANTEE. &bull; BREAK-EVEN: <span id="resBreakEvenTag" class="readable-num">&#8369;14.02 / KG</span>
                         </div>
                     </div>
 
@@ -2092,7 +2656,108 @@
             </section>
 
             <!-- ════════════════════════════════════════════════════════ -->
-            <!-- 3. MODEL LAB VIEW (CSST 102)                             -->
+            <!-- 3. RISK & WEATHER VIEW (AGRO-CLIMATIC & SHOCK SIMULATOR)  -->
+            <!-- ════════════════════════════════════════════════════════ -->
+            <section class="view-panel" id="view-weather" aria-label="Risk and Weather Assessment">
+                <div class="weather-container">
+                    <div class="weather-heading-group">
+                        <div class="weather-heading-text">
+                            <h2 class="weather-heading-title" id="txtWeatherTitle">LAGUNA &amp; CALABARZON AGRO-CLIMATIC RISK ASSESSMENT</h2>
+                            <div class="weather-heading-sub" id="txtWeatherSubtitle">SEASONAL WEATHER PROJECTIONS, DISASTER VULNERABILITY &amp; SENSITIVITY SHOCK SIMULATOR</div>
+                        </div>
+                        <div class="weather-controls-bar">
+                            <div class="season-pill-toggle">
+                                <button class="season-pill-btn active" id="chipWeatherWet" onclick="setWeatherSeason('Wet')">WET SEASON</button>
+                                <button class="season-pill-btn" id="chipWeatherDry" onclick="setWeatherSeason('Dry')">DRY SEASON</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4 Climate & Risk Metric Cards -->
+                    <div class="weather-metrics-grid">
+                        <div class="weather-metric-card">
+                            <span class="weather-metric-lbl" id="lblMonthlyRainfall">MONTHLY PRECIPITATION</span>
+                            <div class="weather-metric-val readable-num" id="weatherRainVal">285 mm</div>
+                            <span class="weather-status-chip warning" id="weatherRainChip">HIGH MONSOON RAINFALL</span>
+                        </div>
+                        <div class="weather-metric-card">
+                            <span class="weather-metric-lbl" id="lblAvgTemp">AVERAGE TEMPERATURE</span>
+                            <div class="weather-metric-val readable-num" id="weatherTempVal">27.6 &deg;C</div>
+                            <span class="weather-status-chip success" id="weatherTempChip">OPTIMAL FOR CROPS</span>
+                        </div>
+                        <div class="weather-metric-card">
+                            <span class="weather-metric-lbl" id="lblHumidity">RELATIVE HUMIDITY</span>
+                            <div class="weather-metric-val readable-num" id="weatherHumidVal">84%</div>
+                            <span class="weather-status-chip warning" id="weatherHumidChip">ELEVATED FUNGAL RISK</span>
+                        </div>
+                        <div class="weather-metric-card">
+                            <span class="weather-metric-lbl" id="lblDisasterRisk">DISASTER RISK INDEX</span>
+                            <div class="weather-metric-val readable-num" id="weatherRiskVal">LEVEL 3</div>
+                            <span class="weather-status-chip danger" id="weatherRiskChip">TYPHOON / FLOOD SUSCEPTIBLE</span>
+                        </div>
+                    </div>
+
+                    <!-- Agronomic Disaster Mitigation Action Plan -->
+                    <div class="weather-advisory-grid" id="weatherAdvisoryGrid">
+                        <!-- Populated dynamically by renderWeatherRiskView() -->
+                    </div>
+
+                    <!-- Interactive What-If Sensitivity & Disaster Shock Simulator -->
+                    <div class="shock-sim-card">
+                        <div class="shock-sliders-col">
+                            <div>
+                                <h3 style="font-size: 13px; font-weight: 900; letter-spacing: 0.08em; margin-bottom: 4px;" id="txtShockHeader">&ldquo;WHAT-IF&rdquo; DISASTER &amp; PRICE SHOCK SIMULATOR</h3>
+                                <div style="font-size: 10px; color: #4d5e3c; font-weight: 600;" id="txtShockSub">Test financial survival under unexpected weather damage or farmgate price drops</div>
+                            </div>
+
+                            <!-- Slider 1: Harvest Loss / Gain -->
+                            <div class="shock-slider-group">
+                                <div class="shock-slider-top">
+                                    <span id="lblYieldShock">HARVEST YIELD IMPACT (TYPHOON / WEATHER)</span>
+                                    <span class="shock-slider-val readable-num" id="valYieldShock">0% (Normal)</span>
+                                </div>
+                                <input type="range" class="shock-range-input" id="sliderYieldShock" min="-40" max="20" step="5" value="0" oninput="updateShockSim()">
+                            </div>
+
+                            <!-- Slider 2: Price Fluctuation -->
+                            <div class="shock-slider-group">
+                                <div class="shock-slider-top">
+                                    <span id="lblPriceShock">FARMGATE SELLING PRICE SHOCK</span>
+                                    <span class="shock-slider-val readable-num" id="valPriceShock">0% (Baseline)</span>
+                                </div>
+                                <input type="range" class="shock-range-input" id="sliderPriceShock" min="-30" max="30" step="5" value="0" oninput="updateShockSim()">
+                            </div>
+                        </div>
+
+                        <!-- Simulation Results Box -->
+                        <div class="shock-result-col">
+                            <div class="shock-result-row">
+                                <span style="color: #627254;" id="lblSimYield">ADJUSTED HARVEST:</span>
+                                <span class="readable-num" id="simHarvestVal">578 Sacks (28,900 kg)</span>
+                            </div>
+                            <div class="shock-result-row">
+                                <span style="color: #627254;" id="lblSimGross">SIMULATED REVENUE:</span>
+                                <span class="readable-num" id="simGrossVal">&#8369;635,800</span>
+                            </div>
+                            <div class="shock-result-row">
+                                <span style="color: #627254;" id="lblSimCost">PRODUCTION COSTS:</span>
+                                <span class="readable-num" id="simCostVal">&#8369;405,484</span>
+                            </div>
+                            <div style="border-top: 1px solid rgba(0,0,0,0.1); padding-top: 8px;">
+                                <div style="font-size: 9.5px; font-weight: 800; color: #627254;" id="lblSimNet">SIMULATED NET PROFIT / LOSS:</div>
+                                <div class="shock-profit-highlight readable-num" id="simNetVal">&#8369;230,316</div>
+                            </div>
+                            <div class="shock-resilience-badge" id="simResilienceBadge">
+                                STRONG RESILIENCE: Farm breaks even down to -28% harvest loss
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ════════════════════════════════════════════════════════ -->
+            <!-- 4. MODEL LAB VIEW (CSST 102)                             -->
             <!-- ════════════════════════════════════════════════════════ -->
             <section class="view-panel" id="view-modellab" aria-label="Model Laboratory">
                 <div class="ml-lab-container">
@@ -2217,6 +2882,35 @@
 
     </div><!-- /outer-page-layout -->
 
+    <!-- ── PRESET HISTORY SLIDE-IN DRAWER & OVERLAY ── -->
+    <div class="history-drawer-overlay" id="historyDrawerOverlay" onclick="if(event.target===this) closeHistoryDrawer()">
+        <div class="history-drawer" role="dialog" aria-modal="true" aria-label="Preset History">
+            <div class="history-header">
+                <div class="history-title-group">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <span class="history-title" id="txtHistoryDrawerTitle">FARM PRESET HISTORY</span>
+                </div>
+                <div class="history-actions-bar">
+                    <button class="btn-history-action primary" onclick="saveCurrentToHistory()" title="Save Current Simulation" id="btnSaveCurrent">
+                        <span>+ SAVE CURRENT</span>
+                    </button>
+                    <button class="btn-history-action" onclick="clearAllPresets()" title="Clear All History" id="btnClearHistory">
+                        <span>CLEAR</span>
+                    </button>
+                    <button class="btn-history-action" onclick="closeHistoryDrawer()" aria-label="Close Drawer">&times;</button>
+                </div>
+            </div>
+
+            <!-- List of Saved History Items -->
+            <div class="history-list" id="historyItemsList">
+                <!-- Dynamically populated by renderHistoryList() -->
+            </div>
+        </div>
+    </div>
+
     <!-- Toast Notification -->
     <div id="toastBox" class="toast-notify" role="alert" aria-live="assertive"></div>
 
@@ -2268,6 +2962,199 @@
         let activeSeason = 'Wet';
         let activeScenario = 'normal'; // 'bad' | 'normal' | 'good'
         let currentNetProfit = 230316;
+        let customPrice = 22.0;
+        let weatherSeason = 'Wet';
+        let currentLang = 'en';
+
+        // ── Language Dictionary (English & Filipino / Tagalog) ──
+        const TRANSLATIONS = {
+            en: {
+                subtitle: 'HARVEST & INCOME PREDICTION SYSTEM',
+                modeFarmer: 'FARMER',
+                modeAdvisor: 'ADVISOR',
+                modeWeather: 'RISK & WEATHER',
+                historyBtn: 'HISTORY',
+                modelLabBtn: 'MODEL LAB',
+                plantingTitle: 'WHAT ARE YOU PLANTING?',
+                cropRice: 'RICE',
+                cropCorn: 'CORN',
+                cropPotato: 'POTATO',
+                cropCassava: 'CASSAVA',
+                farmSize: 'FARM SIZE',
+                sellingPrice: 'SELLING PRICE',
+                seasonRegion: 'SEASON & REGION',
+                wet: 'WET',
+                dry: 'DRY',
+                calcBtn: 'CALCULATE HARVEST & INCOME →',
+                estNetProfit: 'EST. NET PROFIT',
+                sacks: 'SACKS',
+                days: 'DAYS',
+                accuracy: 'ACCURACY',
+                bad: 'BAD',
+                normal: 'NORMAL',
+                good: 'GOOD',
+                guarantee: 'ESTIMATE ONLY. NOT A GUARANTEE.',
+                breakEven: 'BREAK-EVEN',
+                recalcToast: 'Harvest & net income recalculated.',
+                saveToast: 'Farm simulation saved to History!',
+                weatherTitle: 'LAGUNA & CALABARZON AGRO-CLIMATIC RISK ASSESSMENT',
+                weatherSub: 'SEASONAL WEATHER PROJECTIONS, DISASTER VULNERABILITY & SENSITIVITY SHOCK SIMULATOR',
+                monthlyPrecip: 'MONTHLY PRECIPITATION',
+                avgTemp: 'AVERAGE TEMPERATURE',
+                relHumidity: 'RELATIVE HUMIDITY',
+                disasterIndex: 'DISASTER RISK INDEX',
+                shockHeader: '"WHAT-IF" DISASTER & PRICE SHOCK SIMULATOR',
+                shockSub: 'Test financial survival under unexpected weather damage or farmgate price drops',
+                yieldImpact: 'HARVEST YIELD IMPACT (TYPHOON / WEATHER)',
+                priceImpact: 'FARMGATE SELLING PRICE SHOCK',
+                adjHarvest: 'ADJUSTED HARVEST:',
+                simRev: 'SIMULATED REVENUE:',
+                prodCosts: 'PRODUCTION COSTS:',
+                simNet: 'SIMULATED NET PROFIT / LOSS:'
+            },
+            fil: {
+                subtitle: 'SISTEMA SA PAGTAYA NG ANI AT KITA',
+                modeFarmer: 'MAGSASAKA',
+                modeAdvisor: 'TAGAPAYO',
+                modeWeather: 'PANAHON AT PELIGRO',
+                historyBtn: 'KASAYSAYAN',
+                modelLabBtn: 'MODEL LAB',
+                plantingTitle: 'ANO ANG IYONG ITATANIM?',
+                cropRice: 'PALAY',
+                cropCorn: 'MAIS',
+                cropPotato: 'PATATAS',
+                cropCassava: 'KAMOTENG KAHOY',
+                farmSize: 'LAKI NG SAKAHAN',
+                sellingPrice: 'PRESYO NG BENTA',
+                seasonRegion: 'PANAHON AT REHIYON',
+                wet: 'TAG-ULAN',
+                dry: 'TAG-ARAW',
+                calcBtn: 'KWENTAHIN ANG ANI AT KITA →',
+                estNetProfit: 'TINATAYANG NETONG TUBO',
+                sacks: 'KABAN',
+                days: 'ARAW',
+                accuracy: 'KATUMPAKAN',
+                bad: 'MAHINA',
+                normal: 'KATAMTAMAN',
+                good: 'MASAGANA',
+                guarantee: 'TANTYA LAMANG. HINDI GARANTIYA.',
+                breakEven: 'PATAS (BREAK-EVEN)',
+                recalcToast: 'Kinalkula ang ani at netong kita.',
+                saveToast: 'Nai-save ang sakahan sa Kasaysayan!',
+                weatherTitle: 'PAGTAYA SA PANAHON AT PELIGRO SA LAGUNA AT CALABARZON',
+                weatherSub: 'PAGTAYA SA ULAN AT BAGYO, PELIGRO SA SAKAHAN AT "WHAT-IF" SIMULATOR',
+                monthlyPrecip: 'BUWANANG BUHOS NG ULAN',
+                avgTemp: 'KATAMTAMANG INIT',
+                relHumidity: 'HALUMIGMIG (HUMIDITY)',
+                disasterIndex: 'ANTAS NG PELIGRO SA BAGYO',
+                shockHeader: '"WHAT-IF" PAGSUBOK SA BAGYO AT PRESYO',
+                shockSub: 'Alamin kung kikita pa rin kapag binagyo o bumaba ang presyo ng benta sa palengke',
+                yieldImpact: 'EPEKTO SA DAMI NG ANI (BAGYO / ULAN)',
+                priceImpact: 'PAGBABAGO SA PRESYO NG BENTA (₱/KG)',
+                adjHarvest: 'NABAGONG DAMI NG ANI:',
+                simRev: 'TINATAYANG BENTA:',
+                prodCosts: 'GASTOS SA SAKAHAN:',
+                simNet: 'TINATAYANG TUBO O LUGI:'
+            }
+        };
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            try {
+                localStorage.setItem('anitaya_lang', lang);
+            } catch(e) {}
+
+            document.getElementById('langBtnEN').classList.toggle('active', lang === 'en');
+            document.getElementById('langBtnFIL').classList.toggle('active', lang === 'fil');
+
+            const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
+
+            // Header titles and buttons
+            const sub = document.querySelector('.outer-subtitle');
+            if (sub) sub.textContent = t.subtitle;
+            const mf = document.getElementById('modeBtnFarmer');
+            if (mf) mf.textContent = t.modeFarmer;
+            const ma = document.getElementById('modeBtnAdvisor');
+            if (ma) ma.textContent = t.modeAdvisor;
+            const mw = document.getElementById('modeBtnWeather');
+            if (mw) mw.textContent = t.modeWeather;
+            const th = document.getElementById('txtHistoryBtn');
+            if (th) th.textContent = t.historyBtn;
+            const ml = document.getElementById('txtModelLabBtn');
+            if (ml) ml.textContent = t.modelLabBtn;
+
+            // Farmer inputs
+            const pt = document.querySelector('.view-title-row span');
+            if (pt) pt.textContent = t.plantingTitle;
+            const fs = document.getElementById('lblFarmSize');
+            if (fs) fs.textContent = t.farmSize;
+            const sp = document.getElementById('lblSellingPrice');
+            if (sp) sp.textContent = t.sellingPrice;
+            const sr = document.getElementById('lblSeasonRegion');
+            if (sr) sr.textContent = t.seasonRegion;
+            const cw = document.getElementById('chipWet');
+            if (cw) cw.textContent = t.wet;
+            const cd = document.getElementById('chipDry');
+            if (cd) cd.textContent = t.dry;
+            const cb = document.getElementById('calculateBtn');
+            if (cb) cb.querySelector('span').textContent = t.calcBtn;
+
+            // Result card labels
+            const pLabel = document.querySelector('.profit-label');
+            if (pLabel) pLabel.textContent = t.estNetProfit;
+            const stats = document.querySelectorAll('.stat-subcard-lbl');
+            if (stats.length >= 3) {
+                stats[0].textContent = t.sacks;
+                stats[1].textContent = t.days;
+                stats[2].textContent = t.accuracy;
+            }
+            const sBad = document.querySelector('#scenBadBtn .scenario-tag');
+            if (sBad) sBad.textContent = t.bad;
+            const sNorm = document.querySelector('#scenNormBtn .scenario-tag');
+            if (sNorm) sNorm.textContent = t.normal;
+            const sGood = document.querySelector('#scenGoodBtn .scenario-tag');
+            if (sGood) sGood.textContent = t.good;
+
+            // Crop tiles names
+            if (document.querySelector('#tileRice .crop-tile-name')) {
+                document.querySelector('#tileRice .crop-tile-name').textContent = t.cropRice;
+                document.querySelector('#tileCorn .crop-tile-name').textContent = t.cropCorn;
+                document.querySelector('#tilePotato .crop-tile-name').textContent = t.cropPotato;
+                document.querySelector('#tileCassava .crop-tile-name').textContent = t.cropCassava;
+            }
+
+            // Weather titles
+            const wt = document.getElementById('txtWeatherTitle');
+            if (wt) wt.textContent = t.weatherTitle;
+            const ws = document.getElementById('txtWeatherSubtitle');
+            if (ws) ws.textContent = t.weatherSub;
+            const mr = document.getElementById('lblMonthlyRainfall');
+            if (mr) mr.textContent = t.monthlyPrecip;
+            const at = document.getElementById('lblAvgTemp');
+            if (at) at.textContent = t.avgTemp;
+            const rh = document.getElementById('lblHumidity');
+            if (rh) rh.textContent = t.relHumidity;
+            const di = document.getElementById('lblDisasterRisk');
+            if (di) di.textContent = t.disasterIndex;
+            const sh = document.getElementById('txtShockHeader');
+            if (sh) sh.textContent = t.shockHeader;
+            const ss = document.getElementById('txtShockSub');
+            if (ss) ss.textContent = t.shockSub;
+            const ys = document.getElementById('lblYieldShock');
+            if (ys) ys.textContent = t.yieldImpact;
+            const ps = document.getElementById('lblPriceShock');
+            if (ps) ps.textContent = t.priceImpact;
+
+            // History drawer title
+            const hd = document.getElementById('txtHistoryDrawerTitle');
+            if (hd) hd.textContent = (lang === 'fil') ? 'KASAYSAYAN NG SAKAHAN' : 'FARM PRESET HISTORY';
+
+            // Refresh current results text
+            updateCalcLive(false);
+            if (document.getElementById('view-weather').classList.contains('active')) {
+                renderWeatherRiskView();
+            }
+        }
 
         // ── Theme Management ──
         function initTheme() {
@@ -2287,7 +3174,6 @@
                 localStorage.setItem('anitaya_theme', next);
             } catch (e) {}
             updateThemeIcons(next);
-            // Redraw charts with adapted stroke colors
             renderCharts();
         }
 
@@ -2310,14 +3196,22 @@
             // Update header capsule buttons
             document.getElementById('modeBtnFarmer').classList.toggle('active', viewName === 'farmer');
             document.getElementById('modeBtnAdvisor').classList.toggle('active', viewName === 'advisor');
+            if (document.getElementById('modeBtnWeather')) {
+                document.getElementById('modeBtnWeather').classList.toggle('active', viewName === 'weather');
+            }
             document.getElementById('headerLabBtn').classList.toggle('active', viewName === 'modellab');
 
             // Update rail buttons
             document.getElementById('railBtnHome').classList.toggle('active', viewName === 'farmer');
+            if (document.getElementById('railBtnWeather')) {
+                document.getElementById('railBtnWeather').classList.toggle('active', viewName === 'weather');
+            }
             document.getElementById('railBtnLab').classList.toggle('active', viewName === 'modellab');
 
             if (viewName === 'advisor') {
                 renderAdvisorView();
+            } else if (viewName === 'weather') {
+                renderWeatherRiskView();
             } else if (viewName === 'modellab') {
                 renderCharts();
             }
@@ -2326,10 +3220,6 @@
         function focusScenarios() {
             const el = document.getElementById('scenariosRow');
             if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-
-        function showSavedToast() {
-            showToast('Active farm configuration stored in session.');
         }
 
         function showToast(msg) {
@@ -2343,10 +3233,15 @@
         // Stored calculation state
         let lastCalculatedData = null;
 
-        // ── Crop & Input Selections (Updates inputs visually; calculate button computes results) ──
+        // ── Crop & Input Selections ──
         function selectCrop(cropKey) {
             if (!CROP_MODELS[cropKey]) return;
             activeCrop = cropKey;
+
+            // Reset custom price display to this crop's recommended benchmark
+            customPrice = CROP_MODELS[cropKey].price;
+            const disp = document.getElementById('customPriceDisplay');
+            if (disp) disp.textContent = customPrice.toFixed(2);
 
             // Update tiles aria-pressed
             document.getElementById('tileRice').setAttribute('aria-pressed', cropKey === 'rice');
@@ -2358,6 +3253,11 @@
         function adjustArea(delta) {
             farmArea = Math.max(1, Math.min(100, farmArea + delta));
             document.getElementById('areaDisplay').textContent = farmArea;
+        }
+
+        function adjustCustomPrice(delta) {
+            customPrice = Math.max(1, Math.min(500, +(customPrice + delta).toFixed(2)));
+            document.getElementById('customPriceDisplay').textContent = customPrice.toFixed(2);
         }
 
         function setSeason(season) {
@@ -2383,23 +3283,28 @@
         }
 
         // ── Mathematical Engine (Specification Guaranteed) ──
-        function calculateCropData(cropKey, ha, season) {
+        function calculateCropData(cropKey, ha, season, price = customPrice) {
             const c = CROP_MODELS[cropKey];
+            const priceToUse = (price !== null && price !== undefined) ? price : c.price;
             const seasonFactor = (season === 'Wet') ? 1.0 : 0.88;
             const costFactor = (season === 'Wet') ? 1.0 : 1.04;
             const days = (season === 'Wet') ? c.baseDays : (c.baseDays + 5);
 
             const sacks = Math.round(c.sacksPerHa * ha * seasonFactor);
+            const totalKg = sacks * 50;
             const baseCost = c.costPerHa * ha * costFactor;
 
+            // Break-even price
+            const breakEvenPrice = totalKg > 0 ? (baseCost / totalKg) : 0;
+
             // Scenario multipliers
-            const revBad = sacks * 50 * c.price * 0.8;
+            const revBad = totalKg * priceToUse * 0.8;
             const netBad = Math.round(revBad - baseCost);
 
-            const revNorm = sacks * 50 * c.price * 1.0;
+            const revNorm = totalKg * priceToUse * 1.0;
             const netNorm = Math.round(revNorm - baseCost);
 
-            const revGood = sacks * 50 * c.price * 1.15;
+            const revGood = totalKg * priceToUse * 1.15;
             const netGood = Math.round(revGood - baseCost);
 
             const roi = baseCost > 0 ? Math.round((netNorm / baseCost) * 100) : 0;
@@ -2407,8 +3312,11 @@
             return {
                 name: c.name,
                 sacks,
+                totalKg,
                 days,
                 baseCost,
+                breakEvenPrice,
+                priceUsed: priceToUse,
                 netBad,
                 netNorm,
                 netGood,
@@ -2426,12 +3334,14 @@
 
         // ── Live Calculation & UI Update ──
         function updateCalcLive(shouldAnimate = false) {
-            const data = calculateCropData(activeCrop, farmArea, activeSeason);
+            const data = calculateCropData(activeCrop, farmArea, activeSeason, customPrice);
             lastCalculatedData = data;
             const reg = document.getElementById('regionSelect').value;
 
             // Header Tag
-            document.getElementById('resHeaderTitle').textContent = `${data.name} \u2022 ${farmArea} HA \u2022 ${activeSeason.toUpperCase()} SEASON`;
+            const isFil = (currentLang === 'fil');
+            const seasonText = (activeSeason === 'Wet') ? (isFil ? 'TAG-ULAN' : 'WET SEASON') : (isFil ? 'TAG-ARAW' : 'DRY SEASON');
+            document.getElementById('resHeaderTitle').textContent = `${data.name} \u2022 ${farmArea} HA \u2022 ${seasonText}`;
 
             // Stats
             document.getElementById('resSacks').textContent = data.sacks;
@@ -2441,6 +3351,10 @@
             document.getElementById('scenBadVal').textContent = formatK(data.netBad);
             document.getElementById('scenNormVal').textContent = formatK(data.netNorm);
             document.getElementById('scenGoodVal').textContent = formatK(data.netGood);
+
+            // Break-Even Tag
+            const beTag = document.getElementById('resBreakEvenTag');
+            if (beTag) beTag.textContent = formatCurrency(data.breakEvenPrice) + ' / KG';
 
             // Active Scenario Value
             let chosenVal = data.netNorm;
@@ -2463,13 +3377,22 @@
                 renderAdvisorView();
             }
 
+            // Sync with Weather View if active
+            if (document.getElementById('view-weather').classList.contains('active')) {
+                renderWeatherRiskView();
+            }
+
             // Sync with Backend API asynchronously to maintain backend logs
             syncWithBackend(data);
         }
 
         function runCountUpCalc() {
             updateCalcLive(true);
-            showToast('Harvest & net income recalculated.');
+            if (lastCalculatedData) {
+                autoRecordHistory(lastCalculatedData);
+            }
+            const isFil = (currentLang === 'fil');
+            showToast(isFil ? 'Kinalkula ang ani at netong kita.' : 'Harvest & net income recalculated.');
         }
 
         // 600ms count-up with prefers-reduced-motion check
@@ -2496,6 +3419,452 @@
                 }
             }
             requestAnimationFrame(step);
+        }
+
+        // ── Risk & Weather View Controller ──
+        function setWeatherSeason(s) {
+            weatherSeason = s;
+            document.getElementById('chipWeatherWet').classList.toggle('active', s === 'Wet');
+            document.getElementById('chipWeatherDry').classList.toggle('active', s === 'Dry');
+            renderWeatherRiskView();
+        }
+
+        function renderWeatherRiskView() {
+            const isWet = (weatherSeason === 'Wet');
+            const rainEl = document.getElementById('weatherRainVal');
+            const rainChip = document.getElementById('weatherRainChip');
+            const tempEl = document.getElementById('weatherTempVal');
+            const tempChip = document.getElementById('weatherTempChip');
+            const humidEl = document.getElementById('weatherHumidVal');
+            const humidChip = document.getElementById('weatherHumidChip');
+            const riskEl = document.getElementById('weatherRiskVal');
+            const riskChip = document.getElementById('weatherRiskChip');
+
+            const isFil = (currentLang === 'fil');
+
+            if (isWet) {
+                rainEl.textContent = '285 mm';
+                rainChip.textContent = isFil ? 'MALAKAS NA BUHOS NG ULAN' : 'HIGH MONSOON RAINFALL';
+                rainChip.className = 'weather-status-chip warning';
+
+                tempEl.textContent = '27.4 °C';
+                tempChip.textContent = isFil ? 'KATAMTAMANG INIT' : 'OPTIMAL THERMAL WINDOW';
+                tempChip.className = 'weather-status-chip success';
+
+                humidEl.textContent = '84%';
+                humidChip.textContent = isFil ? 'MATAAS ANG PELIGRO SA PESTE/AMAG' : 'ELEVATED FUNGAL RISK';
+                humidChip.className = 'weather-status-chip warning';
+
+                riskEl.textContent = 'LEVEL 3';
+                riskChip.textContent = isFil ? 'PELIGRO SA BAGYO AT BAHA' : 'TYPHOON / FLOOD SUSCEPTIBLE';
+                riskChip.className = 'weather-status-chip danger';
+            } else {
+                rainEl.textContent = '68 mm';
+                rainChip.textContent = isFil ? 'MABABANG BUHOS NG ULAN' : 'FAVORABLE DRY PERIOD';
+                rainChip.className = 'weather-status-chip success';
+
+                tempEl.textContent = '29.2 °C';
+                tempChip.textContent = isFil ? 'MAINIT NA PANAHON' : 'WARM / SUNNY PROFILE';
+                tempChip.className = 'weather-status-chip success';
+
+                humidEl.textContent = '62%';
+                humidChip.textContent = isFil ? 'MAINAM SA PAGPAPATUYO' : 'GOOD DRYING ATMOSPHERE';
+                humidChip.className = 'weather-status-chip success';
+
+                riskEl.textContent = 'LEVEL 1-2';
+                riskChip.textContent = isFil ? 'KAILANGAN NG PATUBIG (IRRIGATION)' : 'REQUIRES ACTIVE IRRIGATION';
+                riskChip.className = 'weather-status-chip warning';
+            }
+
+            // Agronomic Action Plan Grid for active crop
+            const advGrid = document.getElementById('weatherAdvisoryGrid');
+            if (advGrid) {
+                let cards = [];
+                if (activeCrop === 'rice') {
+                    cards = [
+                        {
+                            title: isFil ? 'PAG-IWAS SA BAHA AT PAGBABARA' : 'DRAINAGE & FLASH FLOOD MITIGATION',
+                            desc: isFil
+                                ? 'Linisin ang mga primary canals sa palayan bago mag-booting stage. Sa lowlands ng Laguna, siguraduhing may labasan ang tubig-baha.'
+                                : 'Ensure primary irrigation lateral gates and canal spillways are unblocked before booting stage to prevent panicle submergence.'
+                        },
+                        {
+                            title: isFil ? 'PAG-IWAS SA PAGKALUPOK (LODGING)' : 'WIND LODGING & NUTRIENT CONTROL',
+                            desc: isFil
+                                ? 'Iwasan ang sobrang nitrogen fertilizer sa panahon ng habagat. Palakasin ang tangkay gamit ang potassium upang hindi matumba sa hangin.'
+                                : 'Avoid late excess nitrogen applications. Apply balanced potassium (MOP) to thicken stem culms against strong monsoon gusts.'
+                        },
+                        {
+                            title: isFil ? 'PANAHON NG PAG-AANI AT PAGPAPATUYO' : 'POST-DISASTER HARVEST SALVAGE',
+                            desc: isFil
+                                ? 'Mag-ani bago ang rurok ng bagyo sa Oktubre-Nobyembre. Maghanda ng mechanical dryer o cooperative drying facilities.'
+                                : 'Plan early harvesting window before late-season monsoon peaks. Coordinate with municipal DA for access to mechanical flat-bed dryers.'
+                        }
+                    ];
+                } else if (activeCrop === 'corn') {
+                    cards = [
+                        {
+                            title: isFil ? 'PAGPAPATIBAY NG TANGKAY (HILLING-UP)' : 'FURROW HILLING & ROOT ANCHORING',
+                            desc: isFil
+                                ? 'Magsagawa ng hilling-up sa ika-25 hanggang 30 araw upang mabaon ang ugat at makatagal sa malalakas na hanging dulot ng bagyo.'
+                                : 'Perform timely furrow hilling-up at 25-30 DAP to anchor brace roots firmly against seasonal tropical cyclone wind shears.'
+                        },
+                        {
+                            title: isFil ? 'DRAINAGE SA PAGITAN NG MGA PITAK' : 'INTER-ROW SURFACE RUNOFF',
+                            desc: isFil
+                                ? 'Huwag hayaang magtubig ang maisan ng mahigit 24 oras. Maghukay ng patubig sa dulo ng bawat pitak.'
+                                : 'Corn cannot tolerate standing water beyond 24 hours. Dig peripheral trenches to channel runoff away from root systems.'
+                        },
+                        {
+                            title: isFil ? 'PAG-IWAS SA AMAG AT AFLATOXIN' : 'AFLATOXIN & MOLD PREVENTION',
+                            desc: isFil
+                                ? 'Patuyuin agad ang mais hanggang 14% moisture content sa loob ng 48 oras matapos anihin sa tag-ulan.'
+                                : 'Rapidly sun-dry or mechanically dry grain down to 14% moisture within 48 hours of harvest to inhibit aflatoxin contamination.'
+                        }
+                    ];
+                } else if (activeCrop === 'potato') {
+                    cards = [
+                        {
+                            title: isFil ? 'MATAAS NA KAMPO (RAISED BEDS)' : 'RAISED BED BEDDING',
+                            desc: isFil
+                                ? 'Magtanim sa nakataas na pilapil (raised beds) na may taas na 25-30cm upang hindi mabulok ang mga patatas sa ulan.'
+                                : 'Construct raised ridges (25-30cm height) to ensure water drains rapidly from root tuber zones.'
+                        },
+                        {
+                            title: isFil ? 'PAG-IWAS SA LATE BLIGHT' : 'LATE BLIGHT FUNGICIDE DEFENSE',
+                            desc: isFil
+                                ? 'Sa halumigmig na higit 80%, mag-spray ng organic o tanso-based fungicide upang protektahan ang mga dahon laban sa late blight.'
+                                : 'At humidity levels above 80%, monitor closely for Phytophthora infestans (Late Blight). Apply protective copper sprays.'
+                        },
+                        {
+                            title: isFil ? 'MAAYOS NA BODEGA NG ANI' : 'PROPER TUBER CURING & STORAGE',
+                            desc: isFil
+                                ? 'Patuyuin at i-cure ang mga patatas sa malilim at maaliwalas na lugar bago dalhin sa pamilihan.'
+                                : 'Cure tubers in dry, well-ventilated crates for 7-10 days at 15-20°C to thicken skin before marketing.'
+                        }
+                    ];
+                } else {
+                    cards = [
+                        {
+                            title: isFil ? 'PAG-IWAS SA TUBIG SA UGAT' : 'WATERLOGGING ROT PROTECTION',
+                            desc: isFil
+                                ? 'Kahit matibay ang kamoteng kahoy sa tagtuyot, mabilis itong mabulok kung babahain. Siguraduhing maluwag at may labasan ang lupa.'
+                                : 'While highly drought-resilient, cassava roots succumb to soft rot in stagnant water. Ensure well-drained loamy soil ridges.'
+                        },
+                        {
+                            title: isFil ? 'KAYANG MAMALAGI SA LUPA' : 'IN-GROUND STORAGE BUFFER',
+                            desc: isFil
+                                ? 'Maaaring iwanan ang kamoteng kahoy sa lupa ng ilang linggo bago anihin kung mababa ang presyo o may bagyo.'
+                                : 'Tubers can remain safely unharvested in-ground for up to several weeks as a natural buffer against market price slumps.'
+                        },
+                        {
+                            title: isFil ? 'PAGGAMIT SA ANIMAL FEED' : 'STARCH & VALUE-ADD PROCESSING',
+                            desc: isFil
+                                ? 'Maaaring i-chip at patuyuin ang kamoteng kahoy upang ibenta sa mga gilingan ng pakain sa hayop (feedmills).'
+                                : 'Explore processing into dried cassava chips for local animal feedmills if fresh edible market demand drops.'
+                        }
+                    ];
+                }
+
+                advGrid.innerHTML = cards.map(c => `
+                    <div class="weather-adv-card">
+                        <div class="weather-adv-title">${c.title}</div>
+                        <p class="weather-adv-desc">${c.desc}</p>
+                    </div>
+                `).join('');
+            }
+
+            // Update What-If Simulator
+            updateShockSim();
+        }
+
+        function updateShockSim() {
+            if (!lastCalculatedData) return;
+
+            const yieldShock = parseInt(document.getElementById('sliderYieldShock').value, 10) || 0;
+            const priceShock = parseInt(document.getElementById('sliderPriceShock').value, 10) || 0;
+
+            const isFil = (currentLang === 'fil');
+
+            // Update slider readout text
+            const yieldSign = yieldShock > 0 ? '+' : '';
+            document.getElementById('valYieldShock').textContent = `${yieldSign}${yieldShock}% (${yieldShock < 0 ? (isFil ? 'Lugi / Bagyo' : 'Loss / Typhoon') : yieldShock === 0 ? (isFil ? 'Katamtaman' : 'Normal') : (isFil ? 'Masagana' : 'Bumper')})`;
+
+            const priceSign = priceShock > 0 ? '+' : '';
+            document.getElementById('valPriceShock').textContent = `${priceSign}${priceShock}% (${priceShock < 0 ? (isFil ? 'Mababang Presyo' : 'Price Drop') : priceShock === 0 ? (isFil ? 'Batayan' : 'Baseline') : (isFil ? 'Mataas na Presyo' : 'Surge')})`;
+
+            // Calculations
+            const simYieldMult = 1.0 + (yieldShock / 100.0);
+            const simPriceMult = 1.0 + (priceShock / 100.0);
+
+            const simSacks = Math.max(0, Math.round(lastCalculatedData.sacks * simYieldMult));
+            const simKg = simSacks * 50;
+            const simPrice = Math.max(0.5, customPrice * simPriceMult);
+            const simRevenue = Math.round(simKg * simPrice);
+            const simCost = lastCalculatedData.baseCost;
+            const simNet = simRevenue - simCost;
+
+            const breakEvenPrice = simKg > 0 ? (simCost / simKg) : 0;
+
+            // Update results box
+            document.getElementById('simHarvestVal').textContent = `${simSacks} ${isFil ? 'Kaban' : 'Sacks'} (${simKg.toLocaleString()} kg)`;
+            document.getElementById('simGrossVal').textContent = formatCurrency(simRevenue);
+            document.getElementById('simCostVal').textContent = formatCurrency(simCost);
+
+            const netEl = document.getElementById('simNetVal');
+            netEl.textContent = (simNet >= 0 ? '+' : '') + formatCurrency(simNet);
+            netEl.classList.toggle('loss', simNet < 0);
+
+            // Resilience badge
+            const maxDropBeforeLoss = (lastCalculatedData.sacks * 50 * customPrice) > 0
+                ? Math.round((1 - (simCost / (lastCalculatedData.sacks * 50 * customPrice))) * 100)
+                : 0;
+
+            const resBadge = document.getElementById('simResilienceBadge');
+            if (simNet >= 0) {
+                resBadge.textContent = isFil
+                    ? `MATATAG NA SAKAHAN: Kakayanin hanggang -${maxDropBeforeLoss}% pagbaba ng ani bago malugi (Break-even: ${formatCurrency(breakEvenPrice)}/kg)`
+                    : `STRONG RESILIENCE: Farm breaks even down to -${maxDropBeforeLoss}% yield loss (Break-even: ${formatCurrency(breakEvenPrice)}/kg)`;
+                resBadge.style.background = 'rgba(182, 198, 79, 0.22)';
+                resBadge.style.color = '#2e5c12';
+            } else {
+                resBadge.textContent = isFil
+                    ? `BABALA SA LUGI: Sa kasalukuyang pinsala, kulang ng ${formatCurrency(Math.abs(simNet))} ang benta. Break-even: ${formatCurrency(breakEvenPrice)}/kg`
+                    : `DEFICIT WARNING: At current disaster shock, revenue falls short by ${formatCurrency(Math.abs(simNet))}. Break-even: ${formatCurrency(breakEvenPrice)}/kg`;
+                resBadge.style.background = 'rgba(239, 68, 68, 0.18)';
+                resBadge.style.color = '#b91c1c';
+            }
+        }
+
+        // ── Preset History Controller (Local Storage + Pre-seeded Scenarios) ──
+        function getHistoryKey() {
+            return 'anitaya_farm_presets';
+        }
+
+        function loadHistory() {
+            let presets = [];
+            try {
+                const raw = localStorage.getItem(getHistoryKey());
+                if (raw) presets = JSON.parse(raw);
+            } catch(e) {}
+
+            // Pre-seed if empty
+            if (!presets || presets.length === 0) {
+                presets = [
+                    {
+                        id: 'preset-laguna-rice',
+                        crop: 'rice',
+                        cropName: 'RICE',
+                        letter: 'R',
+                        area: 2,
+                        season: 'Wet',
+                        region: 'Laguna, Calabarzon',
+                        price: 22.0,
+                        netProfit: 51181,
+                        date: 'Laguna Lowland Rice'
+                    },
+                    {
+                        id: 'preset-batangas-corn',
+                        crop: 'corn',
+                        cropName: 'CORN',
+                        letter: 'C',
+                        area: 3,
+                        season: 'Dry',
+                        region: 'Batangas',
+                        price: 20.5,
+                        netProfit: 168400,
+                        date: 'Batangas Hybrid Sweet Corn'
+                    },
+                    {
+                        id: 'preset-quezon-cassava',
+                        crop: 'cassava',
+                        cropName: 'CASSAVA',
+                        letter: 'K',
+                        area: 5,
+                        season: 'Dry',
+                        region: 'Quezon',
+                        price: 14.0,
+                        netProfit: 132000,
+                        date: 'Quezon Industrial Cassava'
+                    }
+                ];
+                try {
+                    localStorage.setItem(getHistoryKey(), JSON.stringify(presets));
+                } catch(e) {}
+            }
+            return presets;
+        }
+
+        function renderHistoryList() {
+            const listEl = document.getElementById('historyItemsList');
+            if (!listEl) return;
+            const presets = loadHistory();
+
+            // Update badge counts
+            const count = presets.length;
+            const countBadge = document.getElementById('historyCountBadge');
+            if (countBadge) countBadge.textContent = count;
+            const railDot = document.getElementById('railHistoryDot');
+            if (railDot) railDot.classList.toggle('visible', count > 0);
+
+            if (presets.length === 0) {
+                listEl.innerHTML = `
+                    <div style="text-align: center; color: var(--text-muted); padding: 32px 16px; font-size: 11px;">
+                        NO SAVED PRESETS YET.<br>CALCULATE A HARVEST OR CLICK "+ SAVE CURRENT" ABOVE.
+                    </div>
+                `;
+                return;
+            }
+
+            const isFil = (currentLang === 'fil');
+
+            listEl.innerHTML = presets.map((p, idx) => `
+                <div class="history-item-card">
+                    <div class="history-item-top">
+                        <div class="history-item-crop">
+                            <div class="history-crop-badge">${p.letter || 'P'}</div>
+                            <div>
+                                <div class="history-crop-name">${p.cropName}</div>
+                                <div class="history-time">${p.date || 'Recent Run'}</div>
+                            </div>
+                        </div>
+                        <div class="history-profit-pill readable-num">${formatCurrency(p.netProfit)}</div>
+                    </div>
+                    <div class="history-item-details">
+                        <span>${p.area} HA</span>
+                        <span>&bull;</span>
+                        <span>${p.season.toUpperCase()} ${isFil ? 'SEASON' : 'SEASON'}</span>
+                        <span>&bull;</span>
+                        <span>&#8369;${Number(p.price).toFixed(2)} / KG</span>
+                    </div>
+                    <div class="history-item-footer">
+                        <span style="font-size: 9px; color: var(--text-muted);">${p.region}</span>
+                        <div class="history-btns-group">
+                            <button class="btn-history-load" onclick="loadPreset('${p.id}')">${isFil ? 'GAMITIN' : 'LOAD'}</button>
+                            <button class="btn-history-del" onclick="deletePreset('${p.id}')" title="Delete Preset">&times;</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadPreset(id) {
+            const presets = loadHistory();
+            const p = presets.find(item => item.id === id);
+            if (!p) return;
+
+            selectCrop(p.crop);
+            farmArea = p.area;
+            document.getElementById('areaDisplay').textContent = farmArea;
+
+            customPrice = Number(p.price) || CROP_MODELS[p.crop].price;
+            document.getElementById('customPriceDisplay').textContent = customPrice.toFixed(2);
+
+            setSeason(p.season);
+
+            const regEl = document.getElementById('regionSelect');
+            if (regEl) regEl.value = p.region;
+
+            closeHistoryDrawer();
+            switchView('farmer');
+            runCountUpCalc();
+            showToast((currentLang === 'fil' ? 'Nai-load ang preset: ' : 'Loaded preset: ') + p.cropName + ` (${p.area} HA)`);
+        }
+
+        function saveCurrentToHistory() {
+            const presets = loadHistory();
+            const dateStr = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+            const c = CROP_MODELS[activeCrop];
+            const data = calculateCropData(activeCrop, farmArea, activeSeason, customPrice);
+
+            const newPreset = {
+                id: 'preset-' + Date.now(),
+                crop: activeCrop,
+                cropName: c.name,
+                letter: c.letter,
+                area: farmArea,
+                season: activeSeason,
+                region: document.getElementById('regionSelect').value,
+                price: customPrice,
+                netProfit: data.netNorm,
+                date: dateStr
+            };
+
+            presets.unshift(newPreset);
+            if (presets.length > 20) presets.pop();
+
+            try {
+                localStorage.setItem(getHistoryKey(), JSON.stringify(presets));
+            } catch(e) {}
+
+            renderHistoryList();
+            showToast(currentLang === 'fil' ? 'Nai-save ang kasalukuyang sakahan!' : 'Current farm configuration saved to History!');
+        }
+
+        function deletePreset(id) {
+            let presets = loadHistory();
+            presets = presets.filter(p => p.id !== id);
+            try {
+                localStorage.setItem(getHistoryKey(), JSON.stringify(presets));
+            } catch(e) {}
+            renderHistoryList();
+            showToast(currentLang === 'fil' ? 'Tinanggal ang preset.' : 'Preset removed.');
+        }
+
+        function clearAllPresets() {
+            try {
+                localStorage.removeItem(getHistoryKey());
+            } catch(e) {}
+            renderHistoryList();
+            showToast(currentLang === 'fil' ? 'Na-clear ang kasaysayan.' : 'History cleared and reset.');
+        }
+
+        function autoRecordHistory(data) {
+            try {
+                const presets = loadHistory();
+                const c = CROP_MODELS[activeCrop];
+                const dateStr = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+                if (presets.length > 0) {
+                    const top = presets[0];
+                    if (top.crop === activeCrop && top.area === farmArea && top.season === activeSeason && top.price === customPrice) {
+                        return;
+                    }
+                }
+
+                const newPreset = {
+                    id: 'preset-' + Date.now(),
+                    crop: activeCrop,
+                    cropName: c.name,
+                    letter: c.letter,
+                    area: farmArea,
+                    season: activeSeason,
+                    region: document.getElementById('regionSelect').value,
+                    price: customPrice,
+                    netProfit: data.netNorm,
+                    date: dateStr
+                };
+
+                presets.unshift(newPreset);
+                if (presets.length > 20) presets.pop();
+                localStorage.setItem(getHistoryKey(), JSON.stringify(presets));
+
+                const countBadge = document.getElementById('historyCountBadge');
+                if (countBadge) countBadge.textContent = presets.length;
+                const railDot = document.getElementById('railHistoryDot');
+                if (railDot) railDot.classList.add('visible');
+            } catch(e) {}
+        }
+
+        function openHistoryDrawer() {
+            renderHistoryList();
+            const overlay = document.getElementById('historyDrawerOverlay');
+            if (overlay) overlay.classList.add('active');
+        }
+
+        function closeHistoryDrawer() {
+            const overlay = document.getElementById('historyDrawerOverlay');
+            if (overlay) overlay.classList.remove('active');
         }
 
         // ── Advisor Ranking View Generator ──
@@ -3030,6 +4399,11 @@
         // ── Lifecycle Initialization ──
         window.addEventListener('DOMContentLoaded', () => {
             initTheme();
+            renderHistoryList();
+            try {
+                const savedLang = localStorage.getItem('anitaya_lang');
+                if (savedLang) setLanguage(savedLang);
+            } catch(e) {}
             updateCalcLive();
             ambientField = new FieldAmbientBackground('bgFieldCanvas');
         });
