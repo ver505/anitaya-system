@@ -1094,16 +1094,28 @@
             letter-spacing: 0.04em;
         }
 
-        /* What-If Sensitivity Simulator Card */
+        /* ── WHAT-IF SENSITIVITY & DISASTER SHOCK SIMULATOR CARD ── */
         .shock-sim-card {
-            background: var(--stat-card-bg);
-            color: var(--text-dark);
             border-radius: var(--radius-card);
             padding: 20px;
             display: grid;
             grid-template-columns: 1.15fr 1fr;
             gap: 20px;
             align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .shock-card-title {
+            font-size: 13px;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            margin-bottom: 4px;
+        }
+
+        .shock-card-sub {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.04em;
         }
 
         .shock-sliders-col {
@@ -1121,13 +1133,19 @@
         .shock-slider-top {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             font-size: 10.5px;
             font-weight: 800;
         }
 
+        .shock-slider-lbl {
+            font-size: 10.5px;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+        }
+
         .shock-slider-val {
             font-weight: 900;
-            color: #12150e;
         }
 
         .shock-range-input {
@@ -1138,42 +1156,197 @@
         }
 
         .shock-result-col {
-            background: var(--stat-subcard-bg);
             border-radius: var(--radius-card);
             padding: 18px;
             display: flex;
             flex-direction: column;
             gap: 10px;
-            border: 1px solid rgba(0,0,0,0.08);
+            transition: all 0.2s ease;
         }
 
         .shock-result-row {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             font-size: 11px;
             font-weight: 800;
+        }
+
+        .shock-result-lbl {
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+        }
+
+        .shock-result-val {
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .shock-result-divider {
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            padding-top: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
         }
 
         .shock-profit-highlight {
             font-size: 26px;
             font-weight: 900;
-            color: #2e5c12;
             letter-spacing: -0.02em;
-        }
-
-        .shock-profit-highlight.loss {
-            color: #b91c1c;
+            line-height: 1.1;
         }
 
         .shock-resilience-badge {
-            padding: 6px 12px;
+            padding: 8px 12px;
             border-radius: var(--radius-pill);
-            background: rgba(182, 198, 79, 0.22);
             font-size: 9.5px;
             font-weight: 800;
-            color: #2e5c12;
             text-align: center;
-            border: 1px solid rgba(80, 112, 32, 0.3);
+            line-height: 1.35;
+            transition: all 0.2s ease;
+        }
+
+        /* ── LIGHT MODE STYLING (Crisp, High-Contrast Visibility) ── */
+        [data-theme="light"] .shock-sim-card {
+            background: #f5f7ee;
+            color: #141d0e;
+            border: 1px solid rgba(29, 42, 20, 0.15);
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+        }
+
+        [data-theme="light"] .shock-card-title {
+            color: #141d0e;
+        }
+
+        [data-theme="light"] .shock-card-sub {
+            color: #4d5e3c;
+        }
+
+        [data-theme="light"] .shock-slider-lbl {
+            color: #141d0e;
+        }
+
+        [data-theme="light"] .shock-slider-val {
+            color: #141d0e;
+        }
+
+        [data-theme="light"] .shock-range-input {
+            accent-color: #6b8020;
+        }
+
+        [data-theme="light"] .shock-result-col {
+            background: #ffffff;
+            border: 1px solid rgba(29, 42, 20, 0.12);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+        }
+
+        [data-theme="light"] .shock-result-lbl {
+            color: #4d5e3c;
+        }
+
+        [data-theme="light"] .shock-result-val {
+            color: #141d0e;
+        }
+
+        [data-theme="light"] .shock-result-divider {
+            border-top: 1px solid rgba(29, 42, 20, 0.12);
+        }
+
+        [data-theme="light"] .shock-profit-highlight {
+            color: #2e5c12;
+        }
+
+        [data-theme="light"] .shock-profit-highlight.loss {
+            color: #b91c1c;
+        }
+
+        [data-theme="light"] .shock-resilience-badge {
+            background: rgba(107, 128, 32, 0.14);
+            color: #2e5c12;
+            border: 1px solid rgba(107, 128, 32, 0.28);
+        }
+
+        [data-theme="light"] .shock-resilience-badge.deficit {
+            background: rgba(239, 68, 68, 0.14);
+            color: #b91c1c;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        /* ── DARK MODE STYLING (Signature Olive & High-Contrast Dark Ink) ── */
+        [data-theme="dark"] .shock-sim-card {
+            background: var(--accent-olive);
+            color: #12150e;
+            border: 1px solid #c9db57;
+            box-shadow: 0 4px 24px rgba(182, 198, 79, 0.24);
+        }
+
+        [data-theme="dark"] .shock-card-title {
+            color: #12150e;
+            font-weight: 900;
+        }
+
+        [data-theme="dark"] .shock-card-sub {
+            color: rgba(18, 21, 14, 0.76);
+            font-weight: 700;
+        }
+
+        [data-theme="dark"] .shock-slider-lbl {
+            color: #12150e;
+            font-weight: 800;
+        }
+
+        [data-theme="dark"] .shock-slider-val {
+            color: #12150e;
+            font-weight: 900;
+        }
+
+        [data-theme="dark"] .shock-range-input {
+            accent-color: #12150e;
+        }
+
+        [data-theme="dark"] .shock-result-col {
+            background: rgba(18, 21, 14, 0.14);
+            border: 1px solid rgba(18, 21, 14, 0.2);
+        }
+
+        [data-theme="dark"] .shock-result-lbl {
+            color: rgba(18, 21, 14, 0.74);
+            font-weight: 800;
+        }
+
+        [data-theme="dark"] .shock-result-val {
+            color: #12150e;
+            font-weight: 900;
+        }
+
+        [data-theme="dark"] .shock-result-divider {
+            border-top: 1px solid rgba(18, 21, 14, 0.18);
+        }
+
+        [data-theme="dark"] .shock-profit-highlight {
+            color: #12150e;
+            font-weight: 900;
+        }
+
+        [data-theme="dark"] .shock-profit-highlight.loss {
+            color: #7f1d1d;
+            font-weight: 900;
+        }
+
+        [data-theme="dark"] .shock-resilience-badge {
+            background: rgba(18, 21, 14, 0.16);
+            color: #12150e;
+            border: 1px solid rgba(18, 21, 14, 0.25);
+            font-weight: 900;
+        }
+
+        [data-theme="dark"] .shock-resilience-badge.deficit {
+            background: rgba(185, 28, 28, 0.22);
+            color: #7f1d1d;
+            border: 1px solid rgba(185, 28, 28, 0.35);
+            font-weight: 900;
         }
 
         .theme-toggle-btn {
@@ -3620,14 +3793,14 @@
                     <div class="shock-sim-card">
                         <div class="shock-sliders-col">
                             <div>
-                                <h3 style="font-size: 13px; font-weight: 900; letter-spacing: 0.08em; margin-bottom: 4px;" id="txtShockHeader">&ldquo;WHAT-IF&rdquo; DISASTER &amp; PRICE SHOCK SIMULATOR</h3>
-                                <div style="font-size: 10px; color: #4d5e3c; font-weight: 600;" id="txtShockSub">Test financial survival under unexpected weather damage or farmgate price drops</div>
+                                <h3 class="shock-card-title" id="txtShockHeader">&ldquo;WHAT-IF&rdquo; DISASTER &amp; PRICE SHOCK SIMULATOR</h3>
+                                <div class="shock-card-sub" id="txtShockSub">Test financial survival under unexpected weather damage or farmgate price drops</div>
                             </div>
 
                             <!-- Slider 1: Harvest Loss / Gain -->
                             <div class="shock-slider-group">
                                 <div class="shock-slider-top">
-                                    <span id="lblYieldShock">HARVEST YIELD IMPACT (TYPHOON / WEATHER)</span>
+                                    <span class="shock-slider-lbl" id="lblYieldShock">HARVEST YIELD IMPACT (TYPHOON / WEATHER)</span>
                                     <span class="shock-slider-val readable-num" id="valYieldShock">0% (Normal)</span>
                                 </div>
                                 <input type="range" class="shock-range-input" id="sliderYieldShock" min="-40" max="20" step="5" value="0" oninput="updateShockSim()">
@@ -3636,7 +3809,7 @@
                             <!-- Slider 2: Price Fluctuation -->
                             <div class="shock-slider-group">
                                 <div class="shock-slider-top">
-                                    <span id="lblPriceShock">FARMGATE SELLING PRICE SHOCK</span>
+                                    <span class="shock-slider-lbl" id="lblPriceShock">FARMGATE SELLING PRICE SHOCK</span>
                                     <span class="shock-slider-val readable-num" id="valPriceShock">0% (Baseline)</span>
                                 </div>
                                 <input type="range" class="shock-range-input" id="sliderPriceShock" min="-30" max="30" step="5" value="0" oninput="updateShockSim()">
@@ -3646,19 +3819,19 @@
                         <!-- Simulation Results Box -->
                         <div class="shock-result-col">
                             <div class="shock-result-row">
-                                <span style="color: #627254;" id="lblSimYield">ADJUSTED HARVEST:</span>
-                                <span class="readable-num" id="simHarvestVal">578 Sacks (28,900 kg)</span>
+                                <span class="shock-result-lbl" id="lblSimYield">ADJUSTED HARVEST:</span>
+                                <span class="shock-result-val readable-num" id="simHarvestVal">578 Sacks (28,900 kg)</span>
                             </div>
                             <div class="shock-result-row">
-                                <span style="color: #627254;" id="lblSimGross">SIMULATED REVENUE:</span>
-                                <span class="readable-num" id="simGrossVal">&#8369;635,800</span>
+                                <span class="shock-result-lbl" id="lblSimGross">SIMULATED REVENUE:</span>
+                                <span class="shock-result-val readable-num" id="simGrossVal">&#8369;635,800</span>
                             </div>
                             <div class="shock-result-row">
-                                <span style="color: #627254;" id="lblSimCost">PRODUCTION COSTS:</span>
-                                <span class="readable-num" id="simCostVal">&#8369;405,484</span>
+                                <span class="shock-result-lbl" id="lblSimCost">PRODUCTION COSTS:</span>
+                                <span class="shock-result-val readable-num" id="simCostVal">&#8369;405,484</span>
                             </div>
-                            <div style="border-top: 1px solid rgba(0,0,0,0.1); padding-top: 8px;">
-                                <div style="font-size: 9.5px; font-weight: 800; color: #627254;" id="lblSimNet">SIMULATED NET PROFIT / LOSS:</div>
+                            <div class="shock-result-divider">
+                                <div class="shock-result-lbl" id="lblSimNet">SIMULATED NET PROFIT / LOSS:</div>
                                 <div class="shock-profit-highlight readable-num" id="simNetVal">&#8369;230,316</div>
                             </div>
                             <div class="shock-resilience-badge" id="simResilienceBadge">
@@ -4655,6 +4828,14 @@
             if (ys) ys.textContent = t.yieldImpact;
             const ps = document.getElementById('lblPriceShock');
             if (ps) ps.textContent = t.priceImpact;
+            const sy = document.getElementById('lblSimYield');
+            if (sy) sy.textContent = t.adjHarvest;
+            const sg = document.getElementById('lblSimGross');
+            if (sg) sg.textContent = t.simRev;
+            const sc = document.getElementById('lblSimCost');
+            if (sc) sc.textContent = t.prodCosts;
+            const sn = document.getElementById('lblSimNet');
+            if (sn) sn.textContent = t.simNet;
 
             // History drawer title
             const hd = document.getElementById('txtHistoryDrawerTitle');
@@ -5236,14 +5417,16 @@
                 resBadge.textContent = isFil
                     ? `MATATAG NA SAKAHAN: Kakayanin hanggang -${maxDropBeforeLoss}% pagbaba ng ani bago malugi (Break-even: ${formatCurrency(breakEvenPrice)}/kg)`
                     : `STRONG RESILIENCE: Farm breaks even down to -${maxDropBeforeLoss}% yield loss (Break-even: ${formatCurrency(breakEvenPrice)}/kg)`;
-                resBadge.style.background = 'rgba(182, 198, 79, 0.22)';
-                resBadge.style.color = '#2e5c12';
+                resBadge.classList.remove('deficit');
+                resBadge.style.background = '';
+                resBadge.style.color = '';
             } else {
                 resBadge.textContent = isFil
                     ? `BABALA SA LUGI: Sa kasalukuyang pinsala, kulang ng ${formatCurrency(Math.abs(simNet))} ang benta. Break-even: ${formatCurrency(breakEvenPrice)}/kg`
                     : `DEFICIT WARNING: At current disaster shock, revenue falls short by ${formatCurrency(Math.abs(simNet))}. Break-even: ${formatCurrency(breakEvenPrice)}/kg`;
-                resBadge.style.background = 'rgba(239, 68, 68, 0.18)';
-                resBadge.style.color = '#b91c1c';
+                resBadge.classList.add('deficit');
+                resBadge.style.background = '';
+                resBadge.style.color = '';
             }
         }
 
