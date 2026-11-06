@@ -157,7 +157,7 @@
             height: 100vh;
             pointer-events: none;
             z-index: 0;
-            opacity: 0.9;
+            opacity: 1;
             transition: opacity 0.3s ease;
         }
 
@@ -5645,6 +5645,7 @@
                 this.particles = [];
                 this.numParticles = 44;
                 this.grassBlades = [];
+                this.fireflies = [];
                 this.width = window.innerWidth;
                 this.height = window.innerHeight;
                 this.mouse = { x: -1000, y: -1000, radius: 130 };
@@ -5686,6 +5687,9 @@
                 // Create moving grass blades
                 this.createGrassBlades();
 
+                // Create smooth glowing fireflies dancing on the grass
+                this.createFireflies();
+
                 // Respect reduced motion
                 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
                 if (!reduceMotion) {
@@ -5726,6 +5730,59 @@
                 }
             }
 
+            createFireflies() {
+                this.fireflies = [];
+                // Responsive population density suited to any screen width
+                const count = Math.max(12, Math.min(26, Math.round(this.width / 52)));
+                for (let i = 0; i < count; i++) {
+                    this.fireflies.push(this.createFirefly(true));
+                }
+            }
+
+            createFirefly(isInit = false) {
+                const layer = Math.random() < 0.45 ? 0 : 1; // 0 = back layer (behind front grass), 1 = front layer
+                // Grass blades height is 45px to 115px.
+                // Fireflies hover between 18px and 165px from bottom (hovering among stalks or dancing above tips).
+                const altitude = Math.random() * 140 + 20;
+                const x = isInit ? Math.random() * this.width : (Math.random() < 0.5 ? -25 : this.width + 25);
+                const y = this.height - altitude;
+
+                return {
+                    x: x,
+                    y: y,
+                    altitude: altitude,
+                    targetAltitude: altitude,
+                    layer: layer,
+                    // Visual core size: 1.2px to 2.4px
+                    size: layer === 0 ? (Math.random() * 0.5 + 1.2) : (Math.random() * 0.8 + 1.6),
+
+                    // Base horizontal wander
+                    wanderDir: Math.random() < 0.5 ? 1 : -1,
+                    wanderSpeed: Math.random() * 0.32 + 0.18,
+
+                    // Multi-harmonic smooth sinusoidal flight waves (infinitely smooth organic curves)
+                    freqX1: Math.random() * 0.0016 + 0.0008,
+                    freqX2: Math.random() * 0.0008 + 0.0004,
+                    freqY1: Math.random() * 0.0022 + 0.0011,
+                    freqY2: Math.random() * 0.0011 + 0.0005,
+                    phaseX: Math.random() * Math.PI * 2,
+                    phaseY: Math.random() * Math.PI * 2,
+                    ampX: Math.random() * 26 + 16,
+                    ampY: Math.random() * 22 + 12,
+
+                    // Bioluminescent pulsing luminescence (soft breathing glow with occasional syncopated pulse)
+                    pulseSpeed: Math.random() * 0.0024 + 0.0012,
+                    pulsePhase: Math.random() * Math.PI * 2,
+                    glowBase: layer === 0 ? 0.20 : 0.30,
+                    glowPeak: layer === 0 ? 0.85 : 1.0,
+                    flashType: Math.random() < 0.28 ? 'double' : 'smooth',
+
+                    // Subtle motion trail memory
+                    trail: [],
+                    lastTrailTime: 0
+                };
+            }
+
             resize() {
                 this.width = window.innerWidth;
                 this.height = window.innerHeight;
@@ -5734,6 +5791,7 @@
                 this.canvas.height = this.height * dpr;
                 this.ctx.scale(dpr, dpr);
                 this.createGrassBlades();
+                this.createFireflies();
             }
 
             createParticle(randomY = false) {
@@ -5831,6 +5889,60 @@
                     // Silky-smooth organic spring damping
                     b.currentLean += (b.targetLean - b.currentLean) * 0.055;
                 }
+
+                // 3. Update Fireflies smoothly gliding over and among the grass
+                for (let i = 0; i < this.fireflies.length; i++) {
+                    const f = this.fireflies[i];
+
+                    // Smooth wave offset (harmonic undulating flight curves)
+                    const waveX = Math.sin(now * f.freqX1 + f.phaseX) * f.ampX 
+                                + Math.sin(now * f.freqX2 + f.phaseX * 1.6) * (f.ampX * 0.4);
+                    const waveY = Math.cos(now * f.freqY1 + f.phaseY) * f.ampY 
+                                + Math.sin(now * f.freqY2 + f.phaseY * 1.7) * (f.ampY * 0.35);
+
+                    // Continuous smooth cruise with rolling wind drift
+                    f.x += f.wanderDir * f.wanderSpeed + globalWind * 0.022;
+
+                    // Slowly evolve altitude over time so they swoop and dive naturally
+                    f.targetAltitude += Math.sin(now * 0.00035 + f.phaseY) * 0.14;
+                    if (f.targetAltitude < 22) f.targetAltitude += 0.35;
+                    if (f.targetAltitude > 165) f.targetAltitude -= 0.35;
+                    f.altitude += (f.targetAltitude - f.altitude) * 0.025;
+
+                    f.y = (this.height - f.altitude) + waveY;
+
+                    // Interactive mouse breeze: fireflies smoothly drift away from cursor near grass
+                    const curX = f.x + waveX;
+                    const curY = f.y;
+                    const dx = curX - this.mouse.x;
+                    const dy = curY - this.mouse.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 150 && dist > 0) {
+                        const force = (1 - dist / 150) * 1.6;
+                        f.x += (dx / dist) * force;
+                        f.altitude -= (dy / dist) * force * 0.6;
+                        if (f.altitude < 18) f.altitude = 18;
+                        if (f.altitude > 175) f.altitude = 175;
+                    }
+
+                    // Screen wrapping with smooth margin
+                    if (f.x < -40) {
+                        f.x = this.width + 30;
+                        f.altitude = Math.random() * 135 + 22;
+                        f.targetAltitude = f.altitude;
+                    } else if (f.x > this.width + 40) {
+                        f.x = -30;
+                        f.altitude = Math.random() * 135 + 22;
+                        f.targetAltitude = f.altitude;
+                    }
+
+                    // Record trail point every ~50ms
+                    if (now - f.lastTrailTime > 50) {
+                        f.lastTrailTime = now;
+                        f.trail.unshift({ x: curX, y: curY });
+                        if (f.trail.length > 4) f.trail.pop();
+                    }
+                }
             }
 
             draw() {
@@ -5847,7 +5959,10 @@
                 // 2. Draw background grass layer (depth of field)
                 this.drawGrassLayer(0, baseR, baseG, baseB, isDark);
 
-                // 3. Draw floating field particles & grain seeds
+                // 3. Draw background fireflies (weaving behind foreground grass blades)
+                this.drawFireflies(0, isDark);
+
+                // 4. Draw floating field particles & grain seeds
                 for (let i = 0; i < this.particles.length; i++) {
                     const p = this.particles[i];
                     const currentAlpha = p.alpha * (0.8 + 0.2 * Math.sin(p.pulseVal));
@@ -5881,8 +5996,111 @@
                     this.ctx.restore();
                 }
 
-                // 4. Draw foreground grass layer (lively, rich swaying grass)
+                // 5. Draw foreground grass layer (lively, rich swaying grass)
                 this.drawGrassLayer(1, baseR, baseG, baseB, isDark);
+
+                // 6. Draw foreground fireflies (illuminating in front of grass tips)
+                this.drawFireflies(1, isDark);
+            }
+
+            drawFireflies(targetLayer, isDark) {
+                const now = performance.now();
+                const ctx = this.ctx;
+
+                for (let i = 0; i < this.fireflies.length; i++) {
+                    const f = this.fireflies[i];
+                    if (f.layer !== targetLayer) continue;
+
+                    const waveX = Math.sin(now * f.freqX1 + f.phaseX) * f.ampX 
+                                + Math.sin(now * f.freqX2 + f.phaseX * 1.6) * (f.ampX * 0.4);
+                    const posX = f.x + waveX;
+                    const posY = f.y;
+
+                    // Pulse luminescence factor (smooth organic breathing swell)
+                    let pulseFactor;
+                    const rawSine = Math.sin(now * f.pulseSpeed + f.pulsePhase);
+                    const norm = (rawSine + 1) * 0.5;
+                    if (f.flashType === 'double') {
+                        const fastSine = Math.sin(now * f.pulseSpeed * 2.2 + f.pulsePhase);
+                        const combined = Math.max(0, norm * 0.65 + (fastSine + 1) * 0.28);
+                        pulseFactor = Math.pow(Math.min(1, combined), 2.0);
+                    } else {
+                        pulseFactor = Math.pow(norm, 1.7);
+                    }
+                    const glow = f.glowBase + (f.glowPeak - f.glowBase) * pulseFactor;
+
+                    // Radii for multi-tier atmospheric glow
+                    const outerRadius = f.size * (6.5 + pulseFactor * 5.5);
+                    const midRadius = f.size * (2.8 + pulseFactor * 2.2);
+                    const coreRadius = Math.max(1.1, f.size * (0.8 + pulseFactor * 0.35));
+
+                    ctx.save();
+
+                    // 1. Draw subtle fading motion trail
+                    if (f.trail.length > 1 && pulseFactor > 0.2) {
+                        for (let t = 0; t < f.trail.length; t++) {
+                            const pt = f.trail[t];
+                            const trailAlpha = (1 - (t + 1) / (f.trail.length + 1)) * pulseFactor * (isDark ? 0.24 : 0.16);
+                            if (trailAlpha <= 0.02) continue;
+
+                            const trR = isDark ? 210 : 165;
+                            const trG = isDark ? 238 : 185;
+                            const trB = isDark ? 85 : 55;
+
+                            ctx.fillStyle = `rgba(${trR}, ${trG}, ${trB}, ${trailAlpha})`;
+                            ctx.beginPath();
+                            ctx.arc(pt.x, pt.y, f.size * 0.65 * (1 - t * 0.18), 0, Math.PI * 2);
+                            ctx.fill();
+                        }
+                    }
+
+                    ctx.translate(posX, posY);
+
+                    // 2. Wide atmospheric bioluminescent aura (warm olive-lime bloom)
+                    const haloGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, outerRadius);
+                    if (isDark) {
+                        haloGrad.addColorStop(0, `rgba(238, 255, 170, ${glow * 0.65})`);
+                        haloGrad.addColorStop(0.28, `rgba(182, 215, 65, ${glow * 0.32})`);
+                        haloGrad.addColorStop(0.65, `rgba(145, 185, 45, ${glow * 0.10})`);
+                        haloGrad.addColorStop(1, 'rgba(120, 160, 35, 0)');
+                    } else {
+                        haloGrad.addColorStop(0, `rgba(185, 210, 75, ${glow * 0.45})`);
+                        haloGrad.addColorStop(0.35, `rgba(150, 180, 50, ${glow * 0.20})`);
+                        haloGrad.addColorStop(1, 'rgba(110, 145, 35, 0)');
+                    }
+                    ctx.fillStyle = haloGrad;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, outerRadius, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // 3. Dense warm bioluminescent body
+                    const midGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, midRadius);
+                    if (isDark) {
+                        midGrad.addColorStop(0, `rgba(255, 255, 225, ${Math.min(1, glow * 0.95)})`);
+                        midGrad.addColorStop(0.42, `rgba(228, 250, 115, ${Math.min(1, glow * 0.85)})`);
+                        midGrad.addColorStop(0.85, `rgba(182, 215, 65, ${glow * 0.35})`);
+                        midGrad.addColorStop(1, 'rgba(182, 215, 65, 0)');
+                    } else {
+                        midGrad.addColorStop(0, `rgba(250, 255, 210, ${Math.min(1, glow * 0.85)})`);
+                        midGrad.addColorStop(0.45, `rgba(195, 220, 75, ${Math.min(1, glow * 0.65)})`);
+                        midGrad.addColorStop(1, 'rgba(140, 175, 45, 0)');
+                    }
+                    ctx.fillStyle = midGrad;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, midRadius, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // 4. Intense white-hot ember nucleus
+                    const coreAlpha = isDark ? (0.85 + 0.15 * pulseFactor) : (0.7 + 0.2 * pulseFactor);
+                    ctx.fillStyle = isDark 
+                        ? `rgba(255, 255, 240, ${coreAlpha})` 
+                        : `rgba(245, 255, 215, ${coreAlpha})`;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, coreRadius, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.restore();
+                }
             }
 
             drawGrassLayer(targetLayer, r, g, b, isDark) {
