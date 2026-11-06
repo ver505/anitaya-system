@@ -32,12 +32,12 @@
             --border-hairline: rgba(238, 240, 228, 0.12);
             --border-hairline-strong: rgba(238, 240, 228, 0.22);
             --pill-inactive: rgba(238, 240, 228, 0.08);
-            --stat-card-bg: #eef0e4;
-            --stat-subcard-bg: #ffffff;
-            --chart-card-bg: #eef0e4;
-            --chart-ink: #16200f;
-            --chart-subtle: #738064;
-            --chart-line: #a0ad91;
+            --stat-card-bg: var(--accent-olive);
+            --stat-subcard-bg: rgba(18, 21, 14, 0.14);
+            --chart-card-bg: #16200f;
+            --chart-ink: #eef0e4;
+            --chart-subtle: #8c9878;
+            --chart-line: #556b2f;
             --theme-icon: #eef0e4;
             --radius-shell: 28px;
             --radius-card: 18px;
@@ -1831,21 +1831,25 @@
             box-shadow: 0 6px 22px rgba(88, 107, 23, 0.35);
         }
 
-        /* ── RESULTS CARD (RIGHT COLUMN) ── */
+        /* ── RESULTS CARD (RIGHT COLUMN - ESTIMATE AREA) ── */
         .results-card {
             background: var(--stat-card-bg);
-            color: #16200f;
+            color: #12150e;
             border: 1px solid var(--border-hairline-strong);
             border-radius: var(--radius-card);
             padding: 22px;
             display: flex;
             flex-direction: column;
             gap: 14px;
+            transition: all 0.2s ease;
         }
 
+        /* In Dark Mode: Box in Estimate Area matches the signature olive Calculate Button! */
         [data-theme="dark"] .results-card {
-            background: #eef0e4;
-            color: #16200f;
+            background: var(--accent-olive);
+            color: #12150e;
+            border: 1px solid #c9db57;
+            box-shadow: 0 4px 24px rgba(182, 198, 79, 0.28);
         }
 
         [data-theme="light"] .results-card {
@@ -1861,7 +1865,12 @@
             font-size: 11px;
             font-weight: 800;
             letter-spacing: 0.1em;
-            color: #16200f;
+            color: #12150e;
+        }
+
+        [data-theme="dark"] .results-header-tag {
+            color: #12150e;
+            font-weight: 900;
         }
 
         [data-theme="light"] .results-header-tag {
@@ -1870,12 +1879,13 @@
 
         /* Dark Profit Box inside Results Card */
         .profit-dark-box {
-            background: #16200f;
+            background: #12150e;
             border-radius: 14px;
             padding: 16px 20px;
             display: flex;
             flex-direction: column;
             gap: 6px;
+            border: 1px solid rgba(18, 21, 14, 0.25);
         }
 
         .profit-dark-top {
@@ -1918,20 +1928,21 @@
         }
 
         .stat-subcard {
-            background: #ffffff;
-            border: 1px solid rgba(22, 32, 15, 0.08);
+            background: rgba(18, 21, 14, 0.14);
+            border: 1px solid rgba(18, 21, 14, 0.18);
             border-radius: 12px;
             padding: 12px 10px;
             text-align: center;
             display: flex;
             flex-direction: column;
             gap: 2px;
+            transition: all 0.15s ease;
         }
 
         .stat-subcard-val {
             font-size: 20px;
             font-weight: 900;
-            color: #16200f;
+            color: #12150e;
             line-height: 1.1;
         }
 
@@ -1939,7 +1950,22 @@
             font-size: 9px;
             font-weight: 800;
             letter-spacing: 0.1em;
-            color: #738064;
+            color: rgba(18, 21, 14, 0.72);
+        }
+
+        [data-theme="dark"] .stat-subcard {
+            background: rgba(18, 21, 14, 0.14);
+            border: 1px solid rgba(18, 21, 14, 0.18);
+        }
+
+        [data-theme="dark"] .stat-subcard-val {
+            color: #12150e;
+            font-weight: 900;
+        }
+
+        [data-theme="dark"] .stat-subcard-lbl {
+            color: rgba(18, 21, 14, 0.72);
+            font-weight: 800;
         }
 
         [data-theme="light"] .stat-subcard {
@@ -1963,8 +1989,8 @@
         }
 
         .scenario-pill-btn {
-            background: #ffffff;
-            border: 1px solid rgba(22, 32, 15, 0.15);
+            background: rgba(18, 21, 14, 0.12);
+            border: 1px solid rgba(18, 21, 14, 0.18);
             border-radius: 12px;
             padding: 10px 8px;
             text-align: center;
@@ -1976,13 +2002,61 @@
         }
 
         .scenario-pill-btn:hover {
-            border-color: #16200f;
+            background: rgba(18, 21, 14, 0.2);
+            border-color: #12150e;
         }
 
         .scenario-pill-btn.active {
-            border: 2px solid #16200f;
-            background: #ffffff;
-            box-shadow: 0 0 0 1px #16200f;
+            border: 2px solid #12150e;
+            background: #12150e;
+            box-shadow: 0 4px 14px rgba(18, 21, 14, 0.35);
+        }
+
+        .scenario-tag {
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            color: rgba(18, 21, 14, 0.72);
+        }
+
+        .scenario-val {
+            font-size: 13px;
+            font-weight: 900;
+            color: #12150e;
+        }
+
+        [data-theme="dark"] .scenario-pill-btn {
+            background: rgba(18, 21, 14, 0.12);
+            border: 1px solid rgba(18, 21, 14, 0.18);
+        }
+
+        [data-theme="dark"] .scenario-pill-btn:hover {
+            background: rgba(18, 21, 14, 0.2);
+            border-color: #12150e;
+        }
+
+        [data-theme="dark"] .scenario-pill-btn .scenario-tag {
+            color: rgba(18, 21, 14, 0.72);
+        }
+
+        [data-theme="dark"] .scenario-pill-btn .scenario-val {
+            color: #12150e;
+            font-weight: 900;
+        }
+
+        [data-theme="dark"] .scenario-pill-btn.active {
+            background: #12150e;
+            border: 2px solid #12150e;
+            box-shadow: 0 4px 14px rgba(18, 21, 14, 0.35);
+        }
+
+        [data-theme="dark"] .scenario-pill-btn.active .scenario-tag {
+            color: #8c9878;
+        }
+
+        [data-theme="dark"] .scenario-pill-btn.active .scenario-val {
+            color: var(--accent-olive);
+            font-weight: 900;
         }
 
         [data-theme="light"] .scenario-pill-btn {
@@ -1990,22 +2064,14 @@
             border: 1px solid rgba(29, 42, 20, 0.15);
         }
 
+        [data-theme="light"] .scenario-pill-btn:hover {
+            border-color: #141d0e;
+        }
+
         [data-theme="light"] .scenario-pill-btn.active {
             border: 2px solid #141d0e;
+            background: #ffffff;
             box-shadow: 0 0 0 1px #141d0e;
-        }
-
-        .scenario-tag {
-            font-size: 9px;
-            font-weight: 800;
-            letter-spacing: 0.08em;
-            color: #738064;
-        }
-
-        .scenario-val {
-            font-size: 13px;
-            font-weight: 800;
-            color: #16200f;
         }
 
         [data-theme="light"] .scenario-tag {
@@ -2021,8 +2087,18 @@
             font-size: 9px;
             font-weight: 700;
             letter-spacing: 0.08em;
-            color: #738064;
+            color: rgba(18, 21, 14, 0.72);
             margin-top: 2px;
+        }
+
+        [data-theme="dark"] .results-guarantee-note {
+            color: rgba(18, 21, 14, 0.72);
+            font-weight: 800;
+        }
+
+        [data-theme="dark"] #resBreakEvenTag {
+            color: #12150e;
+            font-weight: 900;
         }
 
         [data-theme="light"] .results-guarantee-note {
