@@ -1355,17 +1355,26 @@
 
         /* Crop Tile Seasonal Tags (Best, Moderate, High Risk) */
         .crop-tile-season-tag {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            font-size: 8px;
+            position: static;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            font-size: 7.5px;
             font-weight: 900;
-            letter-spacing: 0.06em;
-            padding: 2px 6px;
+            letter-spacing: 0.05em;
+            padding: 3px 8px;
             border-radius: var(--radius-pill);
             text-transform: uppercase;
+            white-space: nowrap;
+            line-height: 1.15;
             transition: all 0.15s ease;
             pointer-events: none;
+            box-sizing: border-box;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 2px;
         }
 
         .crop-tile-season-tag.best {
@@ -1477,16 +1486,17 @@
             background: var(--bg-ink);
             border: 1px solid var(--border-hairline);
             border-radius: var(--radius-tile);
-            padding: 16px 12px 14px;
+            padding: 12px 10px 14px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-between;
-            min-height: 142px;
+            justify-content: flex-start;
+            min-height: 168px;
             text-align: center;
             cursor: pointer;
             transition: all 0.15s ease;
             position: relative;
+            gap: 8px;
         }
 
         .crop-tile:hover {
@@ -1495,8 +1505,8 @@
         }
 
         .crop-tile-letter {
-            width: 36px;
-            height: 36px;
+            width: 38px;
+            height: 38px;
             border-radius: 10px;
             background: var(--pill-inactive);
             color: var(--text-offwhite);
@@ -1505,15 +1515,17 @@
             justify-content: center;
             font-size: 15px;
             font-weight: 800;
-            margin-bottom: 10px;
+            margin-bottom: 0;
+            flex-shrink: 0;
         }
 
         .crop-tile-name {
             font-size: 11px;
             font-weight: 800;
-            letter-spacing: 0.1em;
-            margin-bottom: 12px;
+            letter-spacing: 0.08em;
+            margin-bottom: 0;
             color: var(--text-offwhite);
+            line-height: 1.2;
         }
 
         .crop-tile-price {
@@ -1526,6 +1538,7 @@
             color: var(--text-muted);
             width: 100%;
             text-align: center;
+            margin-top: auto;
         }
 
         /* Selected Crop Tile in Dark Mode: signature olive accent (NO MORE WHITE!) */
@@ -2475,15 +2488,32 @@
                 gap: 16px;
             }
 
-            /* Crop tiles in one row of four (names only) */
+            /* Crop tiles in one row of four */
             .crop-tiles-row {
                 grid-template-columns: repeat(4, 1fr);
                 gap: 6px;
             }
 
             .crop-tile {
-                padding: 10px 4px;
-                min-height: auto;
+                padding: 10px 4px 10px;
+                min-height: 84px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-between;
+                gap: 5px;
+            }
+
+            .crop-tile-season-tag {
+                position: static;
+                font-size: 6.5px;
+                padding: 2px 4px;
+                letter-spacing: 0.02em;
+                margin-bottom: 0;
+                white-space: nowrap;
+                max-width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
             .crop-tile-letter {
@@ -2496,7 +2526,8 @@
 
             .crop-tile-name {
                 margin-bottom: 0;
-                font-size: 9.5px;
+                font-size: 10px;
+                font-weight: 800;
             }
 
             /* Size, Price & Season */
