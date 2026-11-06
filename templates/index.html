@@ -138,10 +138,10 @@
         }
 
         .mascot-icon.lg {
-            width: 86px;
-            height: 86px;
-            min-width: 86px;
-            filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.35));
+            width: 104px;
+            height: 104px;
+            min-width: 104px;
+            filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.45));
             transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -204,7 +204,7 @@
         }
 
         .outer-title {
-            font-size: 32px;
+            font-size: 34px;
             font-weight: 900;
             letter-spacing: 0.12em;
             color: var(--text-offwhite);
@@ -223,8 +223,8 @@
             position: fixed;
             top: 0;
             right: 0;
-            width: 200px;
-            height: 200px;
+            width: 280px;
+            height: 280px;
             background: transparent;
             border: none;
             cursor: pointer;
@@ -236,6 +236,7 @@
             outline: none;
             padding: 0;
             overflow: visible;
+            clip-path: circle(160px at 100% 0%);
         }
 
         .celestial-toggle-btn:hover {
@@ -256,12 +257,12 @@
         /* Both Celestial bodies anchored half on the edge of the top-right corner */
         .celestial-moon,
         .celestial-sun {
-            width: 200px;
-            height: 200px;
+            width: 280px;
+            height: 280px;
             position: absolute;
             top: 0;
             right: 0;
-            transform-origin: 194px 6px;
+            transform-origin: 274px 6px;
             transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), filter 0.55s ease;
         }
 
@@ -270,7 +271,7 @@
             opacity: 1;
             transform: rotate(0deg) scale(1);
             pointer-events: auto;
-            filter: drop-shadow(0 0 26px rgba(182, 198, 79, 0.48)) drop-shadow(0 0 60px rgba(182, 198, 79, 0.22));
+            filter: drop-shadow(0 0 28px rgba(182, 198, 79, 0.48)) drop-shadow(0 0 70px rgba(182, 198, 79, 0.22));
         }
 
         [data-theme="dark"] .celestial-sun {
@@ -292,17 +293,17 @@
             opacity: 1;
             transform: rotate(0deg) scale(1);
             pointer-events: auto;
-            filter: drop-shadow(0 0 32px rgba(245, 185, 30, 0.68)) drop-shadow(0 0 70px rgba(240, 150, 20, 0.35));
+            filter: drop-shadow(0 0 36px rgba(245, 185, 30, 0.68)) drop-shadow(0 0 85px rgba(240, 150, 20, 0.35));
         }
 
-        /* Continuous gentle solar corona ray rotation centered at corner (194px, 6px) */
+        /* Continuous gentle solar corona ray rotation centered at corner (274px, 6px) */
         @keyframes solarCoronaCornerRot {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
 
         [data-theme="light"] .solar-rays-corner-rot {
-            transform-origin: 194px 6px;
+            transform-origin: 274px 6px;
             animation: solarCoronaCornerRot 65s linear infinite;
         }
 
@@ -1336,6 +1337,63 @@
             color: var(--text-muted);
         }
 
+        /* Calculate Action Row & Refresh Action */
+        .calc-action-row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 12px;
+            align-items: stretch;
+            width: 100%;
+        }
+
+        .btn-reset-action {
+            background: var(--bg-ink);
+            color: var(--text-offwhite);
+            border: 1px solid var(--border-hairline-strong);
+            border-radius: var(--radius-pill);
+            padding: 0 22px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+            white-space: nowrap;
+        }
+
+        .btn-reset-action:hover {
+            background: var(--accent-olive-dim);
+            border-color: var(--accent-olive);
+            color: var(--accent-olive);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 14px rgba(182, 198, 79, 0.2);
+        }
+
+        .btn-reset-action:hover .refresh-icon {
+            transform: rotate(-180deg);
+        }
+
+        .refresh-icon {
+            width: 15px;
+            height: 15px;
+            transition: transform 0.4s ease;
+        }
+
+        [data-theme="light"] .btn-reset-action {
+            background: #e7ebe0;
+            color: #141d0e;
+            border: 1px solid rgba(29, 42, 20, 0.18);
+        }
+
+        [data-theme="light"] .btn-reset-action:hover {
+            background: #d8dfcd;
+            border-color: #586b17;
+            color: #586b17;
+        }
+
         /* Calculate Action Button */
         .btn-calculate-action {
             width: 100%;
@@ -1977,22 +2035,23 @@
             }
 
             .mascot-icon.lg {
-                width: 58px;
-                height: 58px;
-                min-width: 58px;
+                width: 76px;
+                height: 76px;
+                min-width: 76px;
             }
 
             .celestial-toggle-btn {
                 top: 0;
                 right: 0;
-                width: 120px;
-                height: 120px;
+                width: 160px;
+                height: 160px;
+                clip-path: circle(95px at 100% 0%);
             }
 
             .celestial-moon,
             .celestial-sun {
-                width: 120px;
-                height: 120px;
+                width: 160px;
+                height: 160px;
                 top: 0;
                 right: 0;
             }
@@ -2230,12 +2289,12 @@
             <!-- Realistic Celestial Sun & Moon Toggle (Corner Half-Moon & Corner Half-Sun) -->
             <button class="celestial-toggle-btn" id="celestialToggleBtn" aria-label="Toggle Night and Day Theme" onclick="toggleTheme()" title="Switch Day / Night Mode">
                 <!-- Realistic High-Definition 3D Moon (Dark Mode - Half on the Edge of Top Right Corner) -->
-                <svg class="celestial-body celestial-moon" viewBox="0 0 200 200" aria-hidden="true">
+                <svg class="celestial-body celestial-moon" viewBox="0 0 280 280" aria-hidden="true">
                     <defs>
                         <!-- Ethereal Atmospheric Moonlight Halo Wash from Corner -->
                         <radialGradient id="moon-corner-glow" cx="97%" cy="3%" r="95%">
-                            <stop offset="0%" stop-color="rgba(235, 245, 210, 0.45)"/>
-                            <stop offset="30%" stop-color="rgba(182, 198, 79, 0.22)"/>
+                            <stop offset="0%" stop-color="rgba(235, 245, 210, 0.5)"/>
+                            <stop offset="30%" stop-color="rgba(182, 198, 79, 0.24)"/>
                             <stop offset="65%" stop-color="rgba(182, 198, 79, 0.08)"/>
                             <stop offset="100%" stop-color="rgba(182, 198, 79, 0)"/>
                         </radialGradient>
@@ -2253,89 +2312,89 @@
 
                         <!-- Terminator 3D Shadow Overlay Mask for Volumetric Curvature -->
                         <radialGradient id="moon-corner-terminator" cx="50%" cy="58%" r="62%">
-                            <stop offset="0%" stop-color="rgba(11, 13, 8, 0.75)"/>
-                            <stop offset="50%" stop-color="rgba(15, 20, 12, 0.38)"/>
+                            <stop offset="0%" stop-color="rgba(11, 13, 8, 0.78)"/>
+                            <stop offset="50%" stop-color="rgba(15, 20, 12, 0.4)"/>
                             <stop offset="100%" stop-color="rgba(11, 13, 8, 0)"/>
                         </radialGradient>
 
                         <!-- Organic Basalt Blur for Natural Mare Contours -->
                         <filter id="mare-soft" x="-20%" y="-20%" width="140%" height="140%">
-                            <feGaussianBlur stdDeviation="1.1"/>
+                            <feGaussianBlur stdDeviation="1.5"/>
                         </filter>
                     </defs>
 
                     <!-- Moonlight Ambient Light Wash into Night Sky -->
-                    <circle cx="194" cy="6" r="190" fill="url(#moon-corner-glow)"/>
+                    <circle cx="274" cy="6" r="275" fill="url(#moon-corner-glow)"/>
 
-                    <!-- Moon Base Spherical Disc (Emerging from Top-Right Corner) -->
-                    <circle cx="194" cy="6" r="82" fill="url(#moon-corner-sphere)"/>
+                    <!-- Moon Base Spherical Disc (Half on the Edge of Top-Right Corner) -->
+                    <circle cx="274" cy="6" r="140" fill="url(#moon-corner-sphere)"/>
 
                     <!-- Realistic Lunar Maria (Photographic Geography of Basalt Plains) -->
                     <g filter="url(#mare-soft)" opacity="0.85">
                         <!-- Oceanus Procellarum (Vast northwest dark basalt basin) -->
-                        <path d="M 134 30 C 122 45 132 68 156 64 C 172 61 178 46 170 32 C 160 18 144 16 134 30 Z" fill="rgba(68, 82, 56, 0.46)"/>
+                        <path d="M 180 45 C 160 70 176 108 214 102 C 240 98 250 74 238 52 C 222 30 196 26 180 45 Z" fill="rgba(68, 82, 56, 0.46)"/>
                         <!-- Mare Imbrium (Sea of Rains - circular dark impact basin) -->
-                        <circle cx="150" cy="36" r="15" fill="rgba(62, 74, 50, 0.4)"/>
-                        <path d="M 139 26 Q 155 25 163 34" stroke="rgba(240, 248, 230, 0.35)" stroke-width="1" fill="none"/>
+                        <circle cx="206" cy="56" r="25" fill="rgba(62, 74, 50, 0.4)"/>
+                        <path d="M 188 40 Q 214 38 228 52" stroke="rgba(240, 248, 230, 0.35)" stroke-width="1.6" fill="none"/>
                         <!-- Mare Serenitatis & Mare Tranquillitatis (Eastern equatorial maria) -->
-                        <path d="M 166 40 C 178 34 190 42 186 58 C 178 66 166 62 160 52 C 158 45 162 41 166 40 Z" fill="rgba(66, 78, 54, 0.44)"/>
+                        <path d="M 230 62 C 250 52 270 66 264 92 C 250 105 230 99 220 83 C 218 72 224 65 230 62 Z" fill="rgba(66, 78, 54, 0.44)"/>
                         <!-- Mare Crisium (Crisp isolated elliptical sea) -->
-                        <ellipse cx="186" cy="38" rx="8" ry="5.8" transform="rotate(-18 186 38)" fill="rgba(62, 74, 50, 0.52)"/>
+                        <ellipse cx="262" cy="58" rx="13" ry="9.5" transform="rotate(-18 262 58)" fill="rgba(62, 74, 50, 0.52)"/>
                         <!-- Mare Nubium & Mare Humorum (Southwestern plains) -->
-                        <path d="M 140 68 C 148 60 164 64 162 76 C 158 84 144 86 138 78 Z" fill="rgba(68, 80, 56, 0.38)"/>
+                        <path d="M 190 108 C 203 95 228 102 225 121 C 218 134 196 137 186 124 Z" fill="rgba(68, 80, 56, 0.38)"/>
                         <!-- Mare Fecunditatis & Nectaris -->
-                        <ellipse cx="180" cy="66" rx="7.5" ry="5" transform="rotate(20 180 66)" fill="rgba(66, 78, 54, 0.38)"/>
+                        <ellipse cx="252" cy="104" rx="12" ry="8" transform="rotate(20 252 104)" fill="rgba(66, 78, 54, 0.38)"/>
                     </g>
 
                     <!-- Tycho Crater Ejecta Ray System (Massive white ray lines radiating across southern disc) -->
-                    <g stroke="rgba(255, 255, 255, 0.38)" stroke-width="1.1" stroke-linecap="round">
-                        <line x1="158" y1="76" x2="134" y2="52"/>
-                        <line x1="158" y1="76" x2="124" y2="70"/>
-                        <line x1="158" y1="76" x2="148" y2="38"/>
-                        <line x1="158" y1="76" x2="175" y2="60"/>
-                        <line x1="158" y1="76" x2="184" y2="74"/>
-                        <line x1="158" y1="76" x2="152" y2="86"/>
+                    <g stroke="rgba(255, 255, 255, 0.4)" stroke-width="1.3" stroke-linecap="round">
+                        <line x1="218" y1="120" x2="178" y2="82"/>
+                        <line x1="218" y1="120" x2="162" y2="110"/>
+                        <line x1="218" y1="120" x2="202" y2="60"/>
+                        <line x1="218" y1="120" x2="245" y2="95"/>
+                        <line x1="218" y1="120" x2="260" y2="117"/>
+                        <line x1="218" y1="120" x2="208" y2="136"/>
                     </g>
 
                     <!-- Tycho Crater (Prominent southern impact crater) -->
-                    <circle cx="158" cy="76" r="5.2" fill="rgba(55, 66, 45, 0.6)"/>
-                    <circle cx="157.4" cy="75.4" r="5.0" fill="none" stroke="rgba(255, 255, 255, 0.9)" stroke-width="1"/>
-                    <circle cx="157.2" cy="75.2" r="1.4" fill="#ffffff"/>
+                    <circle cx="218" cy="120" r="8.5" fill="rgba(55, 66, 45, 0.6)"/>
+                    <circle cx="217" cy="119" r="8.2" fill="none" stroke="rgba(255, 255, 255, 0.9)" stroke-width="1.4"/>
+                    <circle cx="216.8" cy="118.8" r="2.3" fill="#ffffff"/>
 
                     <!-- Copernicus Crater (Large double-terraced crater) -->
-                    <circle cx="145" cy="48" r="9" fill="rgba(245, 250, 235, 0.16)"/>
-                    <circle cx="145" cy="48" r="4.6" fill="rgba(60, 72, 50, 0.52)"/>
-                    <circle cx="144.3" cy="47.3" r="4.4" fill="none" stroke="rgba(255, 255, 255, 0.82)" stroke-width="0.95"/>
-                    <circle cx="144" cy="47" r="1.2" fill="#ffffff" opacity="0.95"/>
+                    <circle cx="198" cy="76" r="14" fill="rgba(245, 250, 235, 0.16)"/>
+                    <circle cx="198" cy="76" r="7.5" fill="rgba(60, 72, 50, 0.52)"/>
+                    <circle cx="197" cy="75" r="7.2" fill="none" stroke="rgba(255, 255, 255, 0.85)" stroke-width="1.3"/>
+                    <circle cx="196.5" cy="74.5" r="2.0" fill="#ffffff" opacity="0.95"/>
 
                     <!-- Aristarchus Crater (The brightest beacon on the Moon!) -->
-                    <circle cx="132" cy="34" r="3.2" fill="rgba(255, 255, 255, 0.95)"/>
-                    <circle cx="132" cy="34" r="1.8" fill="#ffffff"/>
+                    <circle cx="177" cy="54" r="5.2" fill="rgba(255, 255, 255, 0.95)"/>
+                    <circle cx="177" cy="54" r="2.8" fill="#ffffff"/>
 
                     <!-- Kepler Crater -->
-                    <circle cx="134" cy="52" r="2.8" fill="rgba(60, 72, 50, 0.45)"/>
-                    <circle cx="133.5" cy="51.5" r="2.6" fill="none" stroke="rgba(255, 255, 255, 0.7)" stroke-width="0.8"/>
+                    <circle cx="180" cy="83" r="4.5" fill="rgba(60, 72, 50, 0.45)"/>
+                    <circle cx="179.3" cy="82.3" r="4.2" fill="none" stroke="rgba(255, 255, 255, 0.75)" stroke-width="1"/>
 
                     <!-- Plato Crater (Dark circular floor with bright rim) -->
-                    <ellipse cx="158" cy="20" rx="4.5" ry="3.0" fill="rgba(48, 58, 38, 0.65)"/>
-                    <ellipse cx="157.5" cy="19.5" rx="4.3" ry="2.8" fill="none" stroke="rgba(255, 255, 255, 0.6)" stroke-width="0.7"/>
+                    <ellipse cx="218" cy="30" rx="7.2" ry="4.8" fill="rgba(48, 58, 38, 0.65)"/>
+                    <ellipse cx="217.2" cy="29.2" rx="6.9" ry="4.5" fill="none" stroke="rgba(255, 255, 255, 0.65)" stroke-width="1"/>
 
                     <!-- Volumetric Terminator Shadow Mask for 3D Spheroid Depth -->
-                    <circle cx="194" cy="6" r="82" fill="url(#moon-corner-terminator)"/>
+                    <circle cx="274" cy="6" r="140" fill="url(#moon-corner-terminator)"/>
 
                     <!-- Luminous Sunlit Crest Rim -->
-                    <path d="M 112 6 A 82 82 0 0 0 194 88" fill="none" stroke="rgba(255, 255, 255, 0.75)" stroke-width="1.8" stroke-linecap="round"/>
-                    <circle cx="194" cy="6" r="82" fill="none" stroke="rgba(255, 255, 255, 0.35)" stroke-width="0.8"/>
+                    <path d="M 134 6 A 140 140 0 0 0 274 146" fill="none" stroke="rgba(255, 255, 255, 0.75)" stroke-width="2.6" stroke-linecap="round"/>
+                    <circle cx="274" cy="6" r="140" fill="none" stroke="rgba(255, 255, 255, 0.35)" stroke-width="1"/>
                 </svg>
 
                 <!-- Radiant Corner Half-Sun (Light Mode - Half on the Edge of Top Right Corner) -->
-                <svg class="celestial-body celestial-sun" viewBox="0 0 200 200" aria-hidden="true">
+                <svg class="celestial-body celestial-sun" viewBox="0 0 280 280" aria-hidden="true">
                     <defs>
                         <!-- Expansive Golden Corona Halo originating from corner -->
                         <radialGradient id="sun-corner-corona" cx="97%" cy="3%" r="95%">
-                            <stop offset="0%" stop-color="rgba(255, 235, 120, 0.55)"/>
-                            <stop offset="35%" stop-color="rgba(250, 195, 45, 0.32)"/>
-                            <stop offset="70%" stop-color="rgba(240, 160, 20, 0.1)"/>
+                            <stop offset="0%" stop-color="rgba(255, 235, 120, 0.58)"/>
+                            <stop offset="35%" stop-color="rgba(250, 195, 45, 0.35)"/>
+                            <stop offset="70%" stop-color="rgba(240, 160, 20, 0.12)"/>
                             <stop offset="100%" stop-color="rgba(240, 160, 20, 0)"/>
                         </radialGradient>
 
@@ -2364,48 +2423,48 @@
                     </defs>
 
                     <!-- Corner Golden Corona Ambient Light Wash -->
-                    <circle cx="194" cy="6" r="195" fill="url(#sun-corner-corona)"/>
+                    <circle cx="274" cy="6" r="275" fill="url(#sun-corner-corona)"/>
 
                     <!-- Rotating Solar Rays beaming outward from corner -->
                     <g class="solar-rays-corner-rot">
                         <!-- Primary Long Solar Flares Radiating into Page -->
-                        <g stroke="url(#sun-corner-ray-1)" stroke-width="3" stroke-linecap="round">
-                            <line x1="194" y1="92" x2="194" y2="188"/>
-                            <line x1="106" y1="6" x2="15" y2="6"/>
-                            <line x1="135" y1="65" x2="68" y2="132"/>
-                            <line x1="162" y1="84" x2="124" y2="175"/>
-                            <line x1="116" y1="36" x2="28" y2="72"/>
-                            <line x1="145" y1="75" x2="90" y2="155"/>
-                            <line x1="125" y1="52" x2="50" y2="108"/>
+                        <g stroke="url(#sun-corner-ray-1)" stroke-width="3.5" stroke-linecap="round">
+                            <line x1="274" y1="148" x2="274" y2="270"/>
+                            <line x1="132" y1="6" x2="10" y2="6"/>
+                            <line x1="175" y1="105" x2="80" y2="200"/>
+                            <line x1="225" y1="135" x2="170" y2="260"/>
+                            <line x1="150" y1="55" x2="35" y2="105"/>
+                            <line x1="195" y1="120" x2="120" y2="235"/>
+                            <line x1="165" y1="80" x2="65" y2="160"/>
                         </g>
 
                         <!-- Intermediate Secondary Flares -->
-                        <g stroke="url(#sun-corner-ray-2)" stroke-width="2.2" stroke-linecap="round">
-                            <line x1="178" y1="86" x2="158" y2="165"/>
-                            <line x1="114" y1="22" x2="40" y2="40"/>
-                            <line x1="154" y1="78" x2="108" y2="170"/>
-                            <line x1="120" y1="44" x2="42" y2="90"/>
-                            <line x1="140" y1="68" x2="74" y2="146"/>
-                            <line x1="130" y1="58" x2="60" y2="122"/>
+                        <g stroke="url(#sun-corner-ray-2)" stroke-width="2.5" stroke-linecap="round">
+                            <line x1="250" y1="138" x2="220" y2="250"/>
+                            <line x1="145" y1="32" x2="50" y2="58"/>
+                            <line x1="210" y1="125" x2="145" y2="255"/>
+                            <line x1="160" y1="68" x2="60" y2="135"/>
+                            <line x1="185" y1="108" x2="100" y2="220"/>
+                            <line x1="172" y1="92" x2="85" y2="185"/>
                         </g>
 
                         <!-- Radiant Coronal Streamer Flares (Diamond Rays) -->
-                        <polygon points="194,6 128,72 116,60" fill="rgba(255, 235, 130, 0.45)"/>
-                        <polygon points="194,6 82,22 92,10" fill="rgba(255, 235, 130, 0.4)"/>
-                        <polygon points="194,6 176,104 188,102" fill="rgba(255, 235, 130, 0.4)"/>
-                        <polygon points="194,6 102,46 112,38" fill="rgba(255, 240, 160, 0.5)"/>
+                        <polygon points="274,6 180,105 162,88" fill="rgba(255, 235, 130, 0.45)"/>
+                        <polygon points="274,6 115,30 128,14" fill="rgba(255, 235, 130, 0.4)"/>
+                        <polygon points="274,6 248,155 265,152" fill="rgba(255, 235, 130, 0.4)"/>
+                        <polygon points="274,6 145,70 158,58" fill="rgba(255, 240, 160, 0.5)"/>
                     </g>
 
                     <!-- Inner Corona Glow Ring -->
-                    <circle cx="194" cy="6" r="92" fill="rgba(255, 235, 130, 0.38)"/>
+                    <circle cx="274" cy="6" r="156" fill="rgba(255, 235, 130, 0.38)"/>
 
                     <!-- Sun Core Photosphere (Half on the Edge of Top Right Corner) -->
-                    <circle cx="194" cy="6" r="82" fill="url(#sun-corner-sphere)"/>
+                    <circle cx="274" cy="6" r="140" fill="url(#sun-corner-sphere)"/>
 
                     <!-- White-Hot Fusion Highlight Arc on the visible rim -->
-                    <path d="M 112 6 A 82 82 0 0 0 194 88" fill="none" stroke="rgba(255, 255, 255, 0.95)" stroke-width="2" stroke-linecap="round"/>
-                    <ellipse cx="182" cy="18" rx="28" ry="22" fill="#ffffff" opacity="0.6"/>
-                    <circle cx="194" cy="6" r="82" fill="none" stroke="rgba(255, 255, 255, 0.5)" stroke-width="0.9"/>
+                    <path d="M 134 6 A 140 140 0 0 0 274 146" fill="none" stroke="rgba(255, 255, 255, 0.95)" stroke-width="2.8" stroke-linecap="round"/>
+                    <ellipse cx="256" cy="24" rx="45" ry="35" fill="#ffffff" opacity="0.6"/>
+                    <circle cx="274" cy="6" r="140" fill="none" stroke="rgba(255, 255, 255, 0.5)" stroke-width="1.2"/>
                 </svg>
             </button>
         </header>
@@ -2455,8 +2514,15 @@
                     <button class="capsule-btn" id="modeBtnWeather" role="tab" aria-selected="false" onclick="switchView('weather')">RISK &amp; WEATHER</button>
                 </div>
 
-                <!-- Header Actions (History, Language Toggle, Model Lab) -->
+                <!-- Header Actions (Refresh, History, Language Toggle, Model Lab) -->
                 <div class="header-actions">
+                    <button class="btn-history-launcher" id="headerRefreshBtn" onclick="resetCalculator(true)" title="Clear and Refresh Calculator">
+                        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-1.19"/>
+                        </svg>
+                        <span id="txtHeaderRefresh">REFRESH</span>
+                    </button>
+
                     <button class="btn-history-launcher" id="headerHistoryBtn" onclick="openHistoryDrawer()" title="View Farm Preset History">
                         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="10"></circle>
@@ -2493,7 +2559,7 @@
                         <!-- 4 Crop Tiles in a Row -->
                         <div class="crop-tiles-row" role="radiogroup" aria-label="Select Crop">
                             <!-- Crop 1: Rice -->
-                            <button class="crop-tile" id="tileRice" role="radio" aria-pressed="true" onclick="selectCrop('rice')">
+                            <button class="crop-tile" id="tileRice" role="radio" aria-pressed="false" onclick="selectCrop('rice')">
                                 <div class="crop-tile-letter">R</div>
                                 <div class="crop-tile-name">RICE</div>
                                 <div class="crop-tile-price">&#8369;22 / KG</div>
@@ -2529,7 +2595,7 @@
                                 <div class="stepper-row">
                                     <button class="stepper-btn" aria-label="Decrease Farm Size" onclick="adjustArea(-1)">&minus;</button>
                                     <div class="stepper-val-box">
-                                        <span class="readable-num" id="areaDisplay">9</span>
+                                        <span class="readable-num" id="areaDisplay">0</span>
                                         <span class="stepper-val-unit">HA</span>
                                     </div>
                                     <button class="stepper-btn" aria-label="Increase Farm Size" onclick="adjustArea(1)">&plus;</button>
@@ -2542,7 +2608,7 @@
                                 <div class="stepper-row">
                                     <button class="stepper-btn" aria-label="Decrease Selling Price" onclick="adjustCustomPrice(-0.50)">&minus;</button>
                                     <div class="stepper-val-box">
-                                        <span class="readable-num" id="customPriceDisplay">22.00</span>
+                                        <span class="readable-num" id="customPriceDisplay">0.00</span>
                                         <span class="stepper-val-unit">&#8369;/KG</span>
                                     </div>
                                     <button class="stepper-btn" aria-label="Increase Selling Price" onclick="adjustCustomPrice(0.50)">&plus;</button>
@@ -2569,10 +2635,18 @@
                             </div>
                         </div>
 
-                        <!-- Action Button: Calculate Harvest & Income -->
-                        <button class="btn-calculate-action" id="calculateBtn" onclick="runCountUpCalc()">
-                            <span>CALCULATE HARVEST &amp; INCOME &rarr;</span>
-                        </button>
+                        <!-- Action Row: Calculate & Refresh -->
+                        <div class="calc-action-row">
+                            <button class="btn-calculate-action" id="calculateBtn" onclick="runCountUpCalc()">
+                                <span id="txtCalcBtn">CALCULATE HARVEST &amp; INCOME &rarr;</span>
+                            </button>
+                            <button class="btn-reset-action" id="resetBtn" onclick="resetCalculator(true)" title="Clear all inputs and reset calculator" aria-label="Refresh and reset inputs">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" class="refresh-icon">
+                                    <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-1.19"/>
+                                </svg>
+                                <span id="txtResetBtn">REFRESH</span>
+                            </button>
+                        </div>
 
                     </div>
 
@@ -2581,26 +2655,26 @@
                         <!-- Header -->
                         <div class="results-header-tag">
                             <svg class="mascot-icon"><use href="#farmer-mascot"/></svg>
-                            <span id="resHeaderTitle">RICE &bull; 9 HA &bull; WET SEASON</span>
+                            <span id="resHeaderTitle">SELECT CROP &amp; INPUT FARM SIZE</span>
                         </div>
 
                         <!-- Dark Profit Box -->
                         <div class="profit-dark-box">
                             <div class="profit-dark-top">
                                 <span class="profit-label">EST. NET PROFIT</span>
-                                <span class="roi-chip" id="resRoiBadge">+57%</span>
+                                <span class="roi-chip" id="resRoiBadge">0%</span>
                             </div>
-                            <div class="profit-large-val readable-num" id="resNetProfit">&#8369;230,316</div>
+                            <div class="profit-large-val readable-num" id="resNetProfit">&#8369;0</div>
                         </div>
 
                         <!-- 3 Stat Boxes Row -->
                         <div class="stats-tri-row">
                             <div class="stat-subcard">
-                                <div class="stat-subcard-val readable-num" id="resSacks">578</div>
+                                <div class="stat-subcard-val readable-num" id="resSacks">0</div>
                                 <div class="stat-subcard-lbl">SACKS</div>
                             </div>
                             <div class="stat-subcard">
-                                <div class="stat-subcard-val readable-num" id="resDays">115</div>
+                                <div class="stat-subcard-val readable-num" id="resDays">0</div>
                                 <div class="stat-subcard-lbl">DAYS</div>
                             </div>
                             <div class="stat-subcard">
@@ -2613,21 +2687,21 @@
                         <div class="scenarios-tri-row" id="scenariosRow">
                             <button class="scenario-pill-btn" id="scenBadBtn" onclick="selectScenario('bad')">
                                 <span class="scenario-tag">BAD</span>
-                                <span class="scenario-val readable-num" id="scenBadVal">&#8369;103K</span>
+                                <span class="scenario-val readable-num" id="scenBadVal">&#8369;0</span>
                             </button>
                             <button class="scenario-pill-btn active" id="scenNormBtn" onclick="selectScenario('normal')">
                                 <span class="scenario-tag">NORMAL</span>
-                                <span class="scenario-val readable-num" id="scenNormVal">&#8369;230K</span>
+                                <span class="scenario-val readable-num" id="scenNormVal">&#8369;0</span>
                             </button>
                             <button class="scenario-pill-btn" id="scenGoodBtn" onclick="selectScenario('good')">
                                 <span class="scenario-tag">GOOD</span>
-                                <span class="scenario-val readable-num" id="scenGoodVal">&#8369;326K</span>
+                                <span class="scenario-val readable-num" id="scenGoodVal">&#8369;0</span>
                             </button>
                         </div>
 
                         <!-- Footnote with Break-Even Price Insight -->
                         <div class="results-guarantee-note" id="resGuaranteeNote">
-                            ESTIMATE ONLY. NOT A GUARANTEE. &bull; BREAK-EVEN: <span id="resBreakEvenTag" class="readable-num">&#8369;14.02 / KG</span>
+                            ESTIMATE ONLY. NOT A GUARANTEE. &bull; BREAK-EVEN: <span id="resBreakEvenTag" class="readable-num">&#8369;0.00 / KG</span>
                         </div>
                     </div>
 
@@ -2957,12 +3031,12 @@
         };
 
         // ── Active State ──
-        let activeCrop = 'rice';
-        let farmArea = 9;
+        let activeCrop = null;
+        let farmArea = 0;
         let activeSeason = 'Wet';
         let activeScenario = 'normal'; // 'bad' | 'normal' | 'good'
-        let currentNetProfit = 230316;
-        let customPrice = 22.0;
+        let currentNetProfit = 0;
+        let customPrice = 0.0;
         let weatherSeason = 'Wet';
         let currentLang = 'en';
 
@@ -2975,6 +3049,9 @@
                 modeWeather: 'RISK & WEATHER',
                 historyBtn: 'HISTORY',
                 modelLabBtn: 'MODEL LAB',
+                resetBtn: 'REFRESH',
+                headerRefresh: 'REFRESH',
+                emptyResultsHeader: 'SELECT CROP & INPUT FARM SIZE',
                 plantingTitle: 'WHAT ARE YOU PLANTING?',
                 cropRice: 'RICE',
                 cropCorn: 'CORN',
@@ -3019,6 +3096,9 @@
                 modeWeather: 'PANAHON AT PELIGRO',
                 historyBtn: 'KASAYSAYAN',
                 modelLabBtn: 'MODEL LAB',
+                resetBtn: 'I-REFRESH',
+                headerRefresh: 'I-REFRESH',
+                emptyResultsHeader: 'PUMILI NG PANANIM AT ILAGAY ANG LAKI NG SAKAHAN',
                 plantingTitle: 'ANO ANG IYONG ITATANIM?',
                 cropRice: 'PALAY',
                 cropCorn: 'MAIS',
@@ -3082,6 +3162,10 @@
             if (th) th.textContent = t.historyBtn;
             const ml = document.getElementById('txtModelLabBtn');
             if (ml) ml.textContent = t.modelLabBtn;
+            const rb = document.getElementById('txtResetBtn');
+            if (rb) rb.textContent = t.resetBtn;
+            const hr = document.getElementById('txtHeaderRefresh');
+            if (hr) hr.textContent = t.headerRefresh;
 
             // Farmer inputs
             const pt = document.querySelector('.view-title-row span');
@@ -3238,25 +3322,40 @@
             if (!CROP_MODELS[cropKey]) return;
             activeCrop = cropKey;
 
-            // Reset custom price display to this crop's recommended benchmark
+            // If farmArea was 0, default to 1 HA so user can calculate right away
+            if (farmArea === 0) {
+                farmArea = 1;
+                const aDisp = document.getElementById('areaDisplay');
+                if (aDisp) aDisp.textContent = farmArea;
+            }
+
+            // Set custom price display to this crop's recommended benchmark
             customPrice = CROP_MODELS[cropKey].price;
             const disp = document.getElementById('customPriceDisplay');
             if (disp) disp.textContent = customPrice.toFixed(2);
 
             // Update tiles aria-pressed
-            document.getElementById('tileRice').setAttribute('aria-pressed', cropKey === 'rice');
-            document.getElementById('tileCorn').setAttribute('aria-pressed', cropKey === 'corn');
-            document.getElementById('tilePotato').setAttribute('aria-pressed', cropKey === 'potato');
-            document.getElementById('tileCassava').setAttribute('aria-pressed', cropKey === 'cassava');
+            ['Rice', 'Corn', 'Potato', 'Cassava'].forEach(c => {
+                const tile = document.getElementById('tile' + c);
+                if (tile) tile.setAttribute('aria-pressed', c.toLowerCase() === cropKey ? 'true' : 'false');
+            });
         }
 
         function adjustArea(delta) {
-            farmArea = Math.max(1, Math.min(100, farmArea + delta));
+            if (farmArea === 0 && delta > 0) {
+                farmArea = 1;
+            } else {
+                farmArea = Math.max(0, Math.min(100, farmArea + delta));
+            }
             document.getElementById('areaDisplay').textContent = farmArea;
         }
 
         function adjustCustomPrice(delta) {
-            customPrice = Math.max(1, Math.min(500, +(customPrice + delta).toFixed(2)));
+            if (customPrice === 0 && delta > 0) {
+                customPrice = activeCrop ? CROP_MODELS[activeCrop].price : 10.0;
+            } else {
+                customPrice = Math.max(0, Math.min(500, +(customPrice + delta).toFixed(2)));
+            }
             document.getElementById('customPriceDisplay').textContent = customPrice.toFixed(2);
         }
 
@@ -3273,7 +3372,7 @@
             document.getElementById('scenGoodBtn').classList.toggle('active', scen === 'good');
 
             // Switch scenario value on the currently calculated results
-            if (lastCalculatedData) {
+            if (lastCalculatedData && activeCrop && farmArea > 0) {
                 let chosenVal = lastCalculatedData.netNorm;
                 if (activeScenario === 'bad') chosenVal = lastCalculatedData.netBad;
                 if (activeScenario === 'good') chosenVal = lastCalculatedData.netGood;
@@ -3284,15 +3383,16 @@
 
         // ── Mathematical Engine (Specification Guaranteed) ──
         function calculateCropData(cropKey, ha, season, price = customPrice) {
-            const c = CROP_MODELS[cropKey];
-            const priceToUse = (price !== null && price !== undefined) ? price : c.price;
+            const crop = cropKey && CROP_MODELS[cropKey] ? CROP_MODELS[cropKey] : CROP_MODELS.rice;
+            const priceToUse = (price !== null && price !== undefined && price > 0) ? price : crop.price;
+            const validHa = Math.max(0, ha || 0);
             const seasonFactor = (season === 'Wet') ? 1.0 : 0.88;
             const costFactor = (season === 'Wet') ? 1.0 : 1.04;
-            const days = (season === 'Wet') ? c.baseDays : (c.baseDays + 5);
+            const days = (season === 'Wet') ? crop.baseDays : (crop.baseDays + 5);
 
-            const sacks = Math.round(c.sacksPerHa * ha * seasonFactor);
+            const sacks = Math.round(crop.sacksPerHa * validHa * seasonFactor);
             const totalKg = sacks * 50;
-            const baseCost = c.costPerHa * ha * costFactor;
+            const baseCost = crop.costPerHa * validHa * costFactor;
 
             // Break-even price
             const breakEvenPrice = totalKg > 0 ? (baseCost / totalKg) : 0;
@@ -3310,10 +3410,10 @@
             const roi = baseCost > 0 ? Math.round((netNorm / baseCost) * 100) : 0;
 
             return {
-                name: c.name,
+                name: crop.name,
                 sacks,
                 totalKg,
-                days,
+                days: validHa > 0 ? days : 0,
                 baseCost,
                 breakEvenPrice,
                 priceUsed: priceToUse,
@@ -3332,8 +3432,74 @@
             return '\u20B1' + Math.round(n / 1000) + 'K';
         }
 
+        // ── Reset Result Cards to Clean Initial State ──
+        function resetResultsCard() {
+            const t = TRANSLATIONS[currentLang] || TRANSLATIONS.en;
+            const rh = document.getElementById('resHeaderTitle');
+            if (rh) rh.textContent = t.emptyResultsHeader;
+            const np = document.getElementById('resNetProfit');
+            if (np) np.textContent = '\u20B10';
+            const roi = document.getElementById('resRoiBadge');
+            if (roi) roi.textContent = '0%';
+            const sacks = document.getElementById('resSacks');
+            if (sacks) sacks.textContent = '0';
+            const days = document.getElementById('resDays');
+            if (days) days.textContent = '0';
+            const sBad = document.getElementById('scenBadVal');
+            if (sBad) sBad.textContent = '\u20B10';
+            const sNorm = document.getElementById('scenNormVal');
+            if (sNorm) sNorm.textContent = '\u20B10';
+            const sGood = document.getElementById('scenGoodVal');
+            if (sGood) sGood.textContent = '\u20B10';
+            const beTag = document.getElementById('resBreakEvenTag');
+            if (beTag) beTag.textContent = '\u20B10.00 / KG';
+        }
+
+        // ── Full Calculator Refresh & Clear Action ──
+        function resetCalculator(showToast = true) {
+            activeCrop = null;
+            farmArea = 0;
+            customPrice = 0.0;
+            lastCalculatedData = null;
+            currentNetProfit = 0;
+
+            // Deselect all crop tiles
+            ['Rice', 'Corn', 'Potato', 'Cassava'].forEach(c => {
+                const tile = document.getElementById('tile' + c);
+                if (tile) tile.setAttribute('aria-pressed', 'false');
+            });
+
+            // Reset input stepper displays
+            const aDisp = document.getElementById('areaDisplay');
+            if (aDisp) aDisp.textContent = '0';
+            const pDisp = document.getElementById('customPriceDisplay');
+            if (pDisp) pDisp.textContent = '0.00';
+
+            // Reset scenario
+            selectScenario('normal');
+
+            // Reset results card
+            resetResultsCard();
+
+            // Reset weather sensitivity shock sliders
+            const sy = document.getElementById('sliderYieldShock');
+            if (sy) sy.value = 0;
+            const sp = document.getElementById('sliderPriceShock');
+            if (sp) sp.value = 0;
+
+            if (showToast) {
+                const isFil = (currentLang === 'fil');
+                showToast(isFil ? 'Nalinis at na-refresh ang kalkulador.' : 'Calculator cleared & refreshed.');
+            }
+        }
+
         // ── Live Calculation & UI Update ──
         function updateCalcLive(shouldAnimate = false) {
+            if (!activeCrop || farmArea <= 0) {
+                resetResultsCard();
+                return;
+            }
+
             const data = calculateCropData(activeCrop, farmArea, activeSeason, customPrice);
             lastCalculatedData = data;
             const reg = document.getElementById('regionSelect').value;
@@ -3387,6 +3553,12 @@
         }
 
         function runCountUpCalc() {
+            if (!activeCrop || farmArea <= 0) {
+                const isFil = (currentLang === 'fil');
+                showToast(isFil ? 'Pumili po ng pananim at maglagay ng laki ng sakahan (kahit 1 ektarya).' : 'Please select a crop and enter a farm size (at least 1 hectare).');
+                return;
+            }
+
             updateCalcLive(true);
             if (lastCalculatedData) {
                 autoRecordHistory(lastCalculatedData);
@@ -3648,49 +3820,11 @@
                 if (raw) presets = JSON.parse(raw);
             } catch(e) {}
 
-            // Pre-seed if empty
-            if (!presets || presets.length === 0) {
-                presets = [
-                    {
-                        id: 'preset-laguna-rice',
-                        crop: 'rice',
-                        cropName: 'RICE',
-                        letter: 'R',
-                        area: 2,
-                        season: 'Wet',
-                        region: 'Laguna, Calabarzon',
-                        price: 22.0,
-                        netProfit: 51181,
-                        date: 'Laguna Lowland Rice'
-                    },
-                    {
-                        id: 'preset-batangas-corn',
-                        crop: 'corn',
-                        cropName: 'CORN',
-                        letter: 'C',
-                        area: 3,
-                        season: 'Dry',
-                        region: 'Batangas',
-                        price: 20.5,
-                        netProfit: 168400,
-                        date: 'Batangas Hybrid Sweet Corn'
-                    },
-                    {
-                        id: 'preset-quezon-cassava',
-                        crop: 'cassava',
-                        cropName: 'CASSAVA',
-                        letter: 'K',
-                        area: 5,
-                        season: 'Dry',
-                        region: 'Quezon',
-                        price: 14.0,
-                        netProfit: 132000,
-                        date: 'Quezon Industrial Cassava'
-                    }
-                ];
-                try {
-                    localStorage.setItem(getHistoryKey(), JSON.stringify(presets));
-                } catch(e) {}
+            // Clean out any legacy mock presets if present
+            if (Array.isArray(presets)) {
+                presets = presets.filter(p => p && !['preset-laguna-rice', 'preset-batangas-corn', 'preset-quezon-cassava'].includes(p.id));
+            } else {
+                presets = [];
             }
             return presets;
         }
@@ -3772,6 +3906,11 @@
         }
 
         function saveCurrentToHistory() {
+            if (!activeCrop || farmArea <= 0) {
+                const isFil = (currentLang === 'fil');
+                showToast(isFil ? 'Pumili muna ng pananim at laki bago mag-save.' : 'Please select a crop and farm size before saving.');
+                return;
+            }
             const presets = loadHistory();
             const dateStr = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
             const c = CROP_MODELS[activeCrop];
@@ -4404,7 +4543,7 @@
                 const savedLang = localStorage.getItem('anitaya_lang');
                 if (savedLang) setLanguage(savedLang);
             } catch(e) {}
-            updateCalcLive();
+            resetCalculator(false);
             ambientField = new FieldAmbientBackground('bgFieldCanvas');
         });
     </script>
