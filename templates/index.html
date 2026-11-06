@@ -78,9 +78,12 @@
             color: var(--text-offwhite);
             min-height: 100vh;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            justify-content: flex-start;
             align-items: center;
-            padding: 24px;
+            padding: 24px 20px 48px;
+            box-sizing: border-box;
+            overflow-x: hidden;
             text-transform: uppercase;
             letter-spacing: 0.08em;
             font-size: 11px;
@@ -161,12 +164,14 @@
         /* ── OUTER PAGE LAYOUT WRAPPER ── */
         .outer-page-layout {
             width: 100%;
-            max-width: 1180px;
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             flex-direction: column;
             gap: 16px;
             position: relative;
             z-index: 1;
+            box-sizing: border-box;
         }
 
         /* ── TOP MASTHEAD OUTSIDE THE BOX ── */
@@ -177,15 +182,17 @@
             justify-content: space-between;
             padding: 4px 6px 4px;
             position: relative;
+            box-sizing: border-box;
         }
 
         .outer-brand-group {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 18px;
             cursor: pointer;
             text-decoration: none;
             transition: opacity 0.15s ease, transform 0.15s ease;
+            min-width: 0;
         }
 
         .outer-brand-group:hover {
@@ -200,22 +207,25 @@
         .outer-brand-text {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 3px;
+            min-width: 0;
         }
 
         .outer-title {
-            font-size: 34px;
+            font-size: clamp(24px, 3.2vw, 34px);
             font-weight: 900;
             letter-spacing: 0.12em;
             color: var(--text-offwhite);
             line-height: 1.05;
+            white-space: nowrap;
         }
 
         .outer-subtitle {
-            font-size: 11px;
+            font-size: clamp(8.5px, 1.2vw, 11px);
             font-weight: 700;
             letter-spacing: 0.16em;
             color: var(--text-muted);
+            line-height: 1.2;
         }
 
         /* ── REALISTIC CELESTIAL SUN & MOON (CORNER HALF-MOON & CORNER HALF-SUN) ── */
@@ -983,18 +993,6 @@
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 10px;
-        }
-
-        @media (max-width: 960px) {
-            .calendar-matrix-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 520px) {
-            .calendar-matrix-grid {
-                grid-template-columns: 1fr;
-            }
         }
 
         .calendar-month-cell {
@@ -2414,23 +2412,36 @@
             transform: translateY(0);
         }
 
-        /* ── RESPONSIVE MOBILE STYLES (< 760PX) ── */
-        @media (max-width: 760px) {
+        /* ═════════════════════════════════════════════════════════════ */
+        /* ── RESPONSIVE DESIGN & ADAPTIVE SCREEN ALIGNMENT TIERS ──    */
+        /* ═════════════════════════════════════════════════════════════ */
+
+        /* ── TIER 1: LAPTOPS & TABLETS LANDSCAPE (<= 1080px) ── */
+        @media (max-width: 1080px) {
+            .farmer-grid-layout {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .shock-sim-card {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .calendar-matrix-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+        }
+
+        /* ── TIER 2: TABLETS PORTRAIT & MEDIUM SCREENS (<= 880px) ── */
+        @media (max-width: 880px) {
             body {
-                padding: 12px;
-                padding-bottom: 90px;
+                padding: 16px 14px 44px;
             }
 
             .outer-top-bar {
-                padding-right: 64px;
-            }
-
-            .outer-title {
-                font-size: 22px;
-            }
-
-            .outer-subtitle {
-                font-size: 9px;
+                padding-right: 84px;
             }
 
             .mascot-icon.lg {
@@ -2440,67 +2451,215 @@
             }
 
             .celestial-toggle-btn {
-                top: 0;
-                right: 0;
-                width: 160px;
-                height: 160px;
-                clip-path: circle(95px at 100% 0%);
+                width: 180px;
+                height: 180px;
+                clip-path: circle(105px at 100% 0%);
             }
 
             .celestial-moon,
             .celestial-sun {
-                width: 160px;
-                height: 160px;
-                top: 0;
-                right: 0;
-            }
-
-            .app-shell {
-                border-radius: 20px;
+                width: 180px;
+                height: 180px;
+                transform-origin: 174px 6px;
             }
 
             .icon-rail {
                 display: none !important;
             }
 
-            .main-workspace {
-                padding: 16px 14px;
-                gap: 16px;
+            .app-shell {
+                border-radius: 20px;
             }
 
+            .main-workspace {
+                padding: 20px 18px;
+                gap: 18px;
+            }
+
+            .inputs-subgrid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+
+            .weather-metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .calendar-matrix-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+        }
+
+        /* ── TIER 3: MOBILE PHONES & PHABLETS (<= 680px) ── */
+        @media (max-width: 680px) {
+            body {
+                padding: 12px 10px 36px;
+            }
+
+            .outer-top-bar {
+                padding-right: 74px;
+                padding-bottom: 6px;
+            }
+
+            .outer-brand-group {
+                gap: 12px;
+            }
+
+            .mascot-icon.lg {
+                width: 58px;
+                height: 58px;
+                min-width: 58px;
+            }
+
+            .outer-brand-text {
+                gap: 2px;
+            }
+
+            .outer-title {
+                font-size: 22px;
+                letter-spacing: 0.08em;
+            }
+
+            .outer-subtitle {
+                font-size: 8.5px;
+                letter-spacing: 0.08em;
+            }
+
+            .celestial-toggle-btn {
+                width: 120px;
+                height: 120px;
+                clip-path: circle(72px at 100% 0%);
+            }
+
+            .celestial-moon,
+            .celestial-sun {
+                width: 120px;
+                height: 120px;
+                transform-origin: 114px 6px;
+            }
+
+            .app-shell {
+                border-radius: 16px;
+            }
+
+            .main-workspace {
+                padding: 14px 10px;
+                gap: 14px;
+            }
+
+            /* Header Actions Bar */
             .header-bar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+
+            .header-actions {
+                width: 100%;
+                justify-content: space-between;
+                order: 1;
+                gap: 6px;
                 flex-wrap: wrap;
             }
 
+            .btn-history-launcher {
+                padding: 6px 10px;
+                font-size: 9px;
+                gap: 5px;
+            }
+
+            .btn-model-lab {
+                padding: 6px 10px;
+                font-size: 9px;
+            }
+
+            .lang-toggle-pill {
+                padding: 2px 3px;
+            }
+
+            .lang-btn {
+                padding: 4px 8px;
+                font-size: 9px;
+            }
+
+            /* Capsule View Mode Switcher */
             .capsule-toggle {
-                order: 3;
                 width: 100%;
-                justify-content: center;
+                justify-content: stretch;
+                order: 2;
+                padding: 3px;
             }
 
             .capsule-btn {
                 flex: 1;
                 text-align: center;
+                font-size: 9px;
+                padding: 7px 4px;
+                letter-spacing: 0.04em;
             }
 
-            .farmer-grid-layout {
-                grid-template-columns: 1fr;
-                gap: 16px;
+            /* Title Row & Live Reality Badge */
+            .view-title-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
             }
 
-            /* Crop tiles in one row of four */
+            .season-live-badge {
+                font-size: 8px;
+                padding: 4px 8px;
+                width: 100%;
+                justify-content: flex-start;
+                box-sizing: border-box;
+            }
+
+            /* Seasonal Advisor Bar */
+            .seasonal-advisor-bar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 8px;
+                padding: 10px 12px;
+            }
+
+            .seasonal-adv-left {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+                width: 100%;
+            }
+
+            .seasonal-adv-badge {
+                font-size: 8px;
+                padding: 2.5px 7px;
+            }
+
+            .seasonal-adv-text {
+                font-size: 10px;
+                line-height: 1.4;
+            }
+
+            .seasonal-adv-right {
+                width: 100%;
+            }
+
+            .month-select-pill {
+                width: 100%;
+                text-align: center;
+                font-size: 9px;
+                padding: 6px 8px;
+            }
+
+            /* 4 Crop Tiles in One Row */
             .crop-tiles-row {
                 grid-template-columns: repeat(4, 1fr);
                 gap: 6px;
             }
 
             .crop-tile {
-                padding: 10px 4px 10px;
-                min-height: 84px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: space-between;
+                min-height: 136px;
+                padding: 8px 3px 8px;
                 gap: 5px;
             }
 
@@ -2517,27 +2676,100 @@
             }
 
             .crop-tile-letter {
-                display: none;
-            }
-
-            .crop-tile-price {
-                display: none;
+                display: flex !important;
+                width: 30px;
+                height: 30px;
+                font-size: 13px;
+                border-radius: 8px;
+                margin-bottom: 0;
             }
 
             .crop-tile-name {
                 margin-bottom: 0;
-                font-size: 10px;
+                font-size: 9.5px;
                 font-weight: 800;
             }
 
-            /* Size, Price & Season */
+            .crop-tile-price {
+                display: block !important;
+                font-size: 8px;
+                padding: 3px 4px;
+                margin-top: auto;
+            }
+
+            /* Sub-inputs: Full-width stacked cards */
             .inputs-subgrid {
                 grid-template-columns: 1fr;
                 gap: 8px;
             }
 
+            .input-tile-card {
+                padding: 10px 12px;
+            }
+
+            /* Calculate Action Row: Stacked nicely without fixed obstruction */
+            .calc-action-row {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                width: 100%;
+            }
+
+            .btn-calculate-action {
+                position: static !important;
+                width: 100%;
+                padding: 13px 16px;
+                font-size: 11px;
+                box-shadow: 0 4px 16px rgba(182, 198, 79, 0.28);
+            }
+
+            .btn-reset-action {
+                width: 100%;
+                padding: 10px 16px;
+                font-size: 10px;
+                justify-content: center;
+            }
+
+            /* Results Card */
+            .results-card {
+                padding: 16px 12px;
+                gap: 10px;
+            }
+
+            .profit-dark-box {
+                padding: 12px 14px;
+            }
+
+            .profit-large-val {
+                font-size: clamp(24px, 5.5vw, 32px);
+            }
+
+            .stats-tri-row,
+            .scenarios-tri-row {
+                gap: 6px;
+            }
+
+            .stat-subcard {
+                padding: 8px 4px;
+            }
+
+            .stat-subcard-val {
+                font-size: 17px;
+            }
+
+            .scenario-pill-btn {
+                padding: 8px 4px;
+            }
+
+            /* Risk & Weather View */
+            .weather-heading-group {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
             .weather-metrics-grid {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: 1fr;
                 gap: 8px;
             }
 
@@ -2546,35 +2778,77 @@
                 gap: 8px;
             }
 
-            .shock-sim-card {
+            .calendar-matrix-grid {
                 grid-template-columns: 1fr;
-                gap: 16px;
-                padding: 16px;
+                gap: 8px;
             }
 
-            .input-tile-card {
-                padding: 10px 12px;
-            }
-
-            /* Fixed Calculate button at bottom */
-            .btn-calculate-action {
-                position: fixed;
-                bottom: 12px;
-                left: 12px;
-                right: 12px;
-                width: calc(100% - 24px);
-                z-index: 900;
-                box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-            }
-
+            /* Advisor View */
             .advisor-rank-row {
-                grid-template-columns: 90px 1fr 90px;
-                padding: 12px;
-                gap: 10px;
+                grid-template-columns: 80px 1fr 90px;
+                padding: 10px 8px;
+                gap: 8px;
+                font-size: 10px;
             }
 
+            /* Model Lab */
             .ml-charts-grid {
                 grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            /* Drawer */
+            .history-drawer {
+                width: 100vw;
+                max-width: 100vw;
+                padding: 18px 14px;
+            }
+        }
+
+        /* ── TIER 4: ULTRA-COMPACT PHONES (<= 400px) ── */
+        @media (max-width: 400px) {
+            .crop-tiles-row {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+
+            .crop-tile {
+                min-height: 120px;
+                padding: 10px 6px;
+            }
+
+            .header-actions {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 6px;
+            }
+
+            .btn-history-launcher,
+            .btn-model-lab {
+                justify-content: center;
+                padding: 6px 4px;
+                font-size: 8.5px;
+            }
+
+            .lang-toggle-pill {
+                justify-content: center;
+            }
+
+            .stats-tri-row,
+            .scenarios-tri-row {
+                gap: 4px;
+            }
+
+            .stat-subcard-val {
+                font-size: 15px;
+            }
+
+            .scenario-tag {
+                font-size: 8px;
+            }
+
+            .scenario-val {
+                font-size: 10px;
             }
         }
 
