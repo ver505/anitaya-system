@@ -936,6 +936,166 @@
             letter-spacing: normal;
         }
 
+        /* 12-Month Philippine Agricultural Calendar & Suitability Matrix */
+        .calendar-matrix-card {
+            background: var(--bg-ink);
+            border: 1px solid var(--border-hairline);
+            border-radius: var(--radius-card);
+            padding: 18px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        [data-theme="light"] .calendar-matrix-card {
+            background: #f5f7ee;
+            border-color: rgba(29, 42, 20, 0.12);
+        }
+
+        .calendar-matrix-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .calendar-matrix-title-group h3 {
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            color: var(--text-offwhite);
+        }
+
+        .calendar-matrix-title-group p {
+            font-size: 9.5px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-top: 2px;
+            letter-spacing: 0.04em;
+        }
+
+        [data-theme="light"] .calendar-matrix-title-group h3 {
+            color: #141d0e;
+        }
+
+        .calendar-matrix-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        @media (max-width: 960px) {
+            .calendar-matrix-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 520px) {
+            .calendar-matrix-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .calendar-month-cell {
+            background: var(--bg-card);
+            border: 1px solid var(--border-hairline);
+            border-radius: 12px;
+            padding: 10px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .calendar-month-cell:hover {
+            border-color: var(--accent-olive);
+            transform: translateY(-2px);
+        }
+
+        .calendar-month-cell.current-reality {
+            border: 2px solid var(--accent-olive);
+            box-shadow: 0 0 16px rgba(182, 198, 79, 0.28);
+            position: relative;
+        }
+
+        [data-theme="light"] .calendar-month-cell {
+            background: #ffffff;
+            border-color: rgba(29, 42, 20, 0.12);
+        }
+
+        [data-theme="light"] .calendar-month-cell.current-reality {
+            border: 2px solid #586b17;
+            box-shadow: 0 0 14px rgba(88, 107, 23, 0.22);
+        }
+
+        .calendar-month-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .calendar-month-name {
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            color: var(--text-offwhite);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        [data-theme="light"] .calendar-month-name {
+            color: #141d0e;
+        }
+
+        .calendar-regime-tag {
+            font-size: 8.5px;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        .calendar-cell-recs {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            font-size: 9.5px;
+            font-weight: 800;
+        }
+
+        .calendar-rec-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .calendar-rec-best {
+            color: var(--accent-olive);
+        }
+
+        [data-theme="light"] .calendar-rec-best {
+            color: #4a6818;
+        }
+
+        .calendar-rec-risk {
+            color: #f87171;
+        }
+
+        [data-theme="light"] .calendar-rec-risk {
+            color: #dc2626;
+        }
+
+        .current-badge-pill {
+            background: var(--accent-olive);
+            color: #12150e;
+            font-size: 8px;
+            font-weight: 900;
+            padding: 1px 6px;
+            border-radius: var(--radius-pill);
+            letter-spacing: 0.04em;
+        }
+
         /* What-If Sensitivity Simulator Card */
         .shock-sim-card {
             background: var(--stat-card-bg);
@@ -1059,12 +1219,238 @@
         .view-title-row {
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: space-between;
+            gap: 12px;
             font-size: 13px;
             font-weight: 800;
             letter-spacing: 0.12em;
             color: var(--text-offwhite);
-            margin-bottom: 16px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .season-live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: var(--bg-ink);
+            border: 1px solid var(--border-hairline-strong);
+            border-radius: var(--radius-pill);
+            padding: 5px 12px;
+            font-size: 9.5px;
+            font-weight: 800;
+            color: var(--text-offwhite);
+            letter-spacing: 0.08em;
+            transition: all 0.2s ease;
+        }
+
+        [data-theme="light"] .season-live-badge {
+            background: #edf1e4;
+            border-color: rgba(29, 42, 20, 0.18);
+            color: #141d0e;
+        }
+
+        .live-dot-pulse {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #4ade80;
+            box-shadow: 0 0 8px #4ade80;
+            animation: liveDotPulse 1.8s infinite ease-in-out;
+            flex-shrink: 0;
+        }
+
+        @keyframes liveDotPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.35; transform: scale(0.8); }
+        }
+
+        /* Real-Time Seasonal Planting Advisor Bar */
+        .seasonal-advisor-bar {
+            background: var(--bg-ink);
+            border: 1px solid var(--border-hairline-strong);
+            border-radius: var(--radius-card);
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            margin-bottom: 14px;
+            transition: all 0.2s ease;
+        }
+
+        [data-theme="light"] .seasonal-advisor-bar {
+            background: #f0f3e8;
+            border-color: rgba(29, 42, 20, 0.16);
+        }
+
+        .seasonal-adv-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .seasonal-adv-badge {
+            background: var(--accent-olive);
+            color: #12150e;
+            font-size: 9px;
+            font-weight: 900;
+            padding: 3px 8px;
+            border-radius: var(--radius-pill);
+            letter-spacing: 0.06em;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex-shrink: 0;
+        }
+
+        .seasonal-adv-text {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-offwhite);
+            letter-spacing: 0.04em;
+            text-transform: none;
+            line-height: 1.4;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        [data-theme="light"] .seasonal-adv-text {
+            color: #141d0e;
+        }
+
+        .seasonal-adv-right {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .month-select-pill {
+            background: var(--bg-card);
+            color: var(--text-offwhite);
+            border: 1px solid var(--border-hairline-strong);
+            border-radius: var(--radius-pill);
+            padding: 5px 12px;
+            font-size: 9.5px;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            cursor: pointer;
+            outline: none;
+            transition: border-color 0.15s ease;
+        }
+
+        .month-select-pill:hover {
+            border-color: var(--accent-olive);
+        }
+
+        [data-theme="light"] .month-select-pill {
+            background: #ffffff;
+            color: #141d0e;
+            border-color: rgba(29, 42, 20, 0.22);
+        }
+
+        /* Crop Tile Seasonal Tags (Best, Moderate, High Risk) */
+        .crop-tile-season-tag {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            font-size: 8px;
+            font-weight: 900;
+            letter-spacing: 0.06em;
+            padding: 2px 6px;
+            border-radius: var(--radius-pill);
+            text-transform: uppercase;
+            transition: all 0.15s ease;
+            pointer-events: none;
+        }
+
+        .crop-tile-season-tag.best {
+            background: rgba(182, 198, 79, 0.22);
+            color: #b6c64f;
+            border: 1px solid rgba(182, 198, 79, 0.45);
+        }
+
+        [data-theme="dark"] .crop-tile[aria-pressed="true"] .crop-tile-season-tag.best {
+            background: #12150e;
+            color: #b6c64f;
+            border-color: #12150e;
+        }
+
+        [data-theme="light"] .crop-tile-season-tag.best {
+            background: rgba(88, 107, 23, 0.16);
+            color: #4a5c10;
+            border: 1px solid rgba(88, 107, 23, 0.35);
+        }
+
+        [data-theme="light"] .crop-tile[aria-pressed="true"] .crop-tile-season-tag.best {
+            background: #ffffff;
+            color: #1d2a14;
+            border-color: #ffffff;
+        }
+
+        .crop-tile-season-tag.mod {
+            background: rgba(238, 240, 228, 0.08);
+            color: var(--text-muted);
+            border: 1px solid var(--border-hairline);
+        }
+
+        [data-theme="dark"] .crop-tile[aria-pressed="true"] .crop-tile-season-tag.mod {
+            background: #12150e;
+            color: #eef0e4;
+            border-color: #12150e;
+        }
+
+        [data-theme="light"] .crop-tile-season-tag.mod {
+            background: rgba(29, 42, 20, 0.08);
+            color: #4d5e3c;
+            border-color: rgba(29, 42, 20, 0.15);
+        }
+
+        .crop-tile-season-tag.risk {
+            background: rgba(239, 68, 68, 0.16);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.35);
+        }
+
+        [data-theme="dark"] .crop-tile[aria-pressed="true"] .crop-tile-season-tag.risk {
+            background: #12150e;
+            color: #f87171;
+            border-color: #12150e;
+        }
+
+        [data-theme="light"] .crop-tile-season-tag.risk {
+            background: rgba(239, 68, 68, 0.14);
+            color: #b91c1c;
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        /* Contextual Seasonal Crop Guidance Tip Box */
+        .crop-seasonal-tip-box {
+            background: var(--bg-ink);
+            border: 1px solid var(--border-hairline-strong);
+            border-left: 3px solid var(--accent-olive);
+            border-radius: 12px;
+            padding: 10px 14px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 10.5px;
+            line-height: 1.5;
+            text-transform: none;
+            letter-spacing: 0.02em;
+            color: var(--text-offwhite);
+            transition: all 0.2s ease;
+        }
+
+        [data-theme="light"] .crop-seasonal-tip-box {
+            background: #f4f6ee;
+            border-color: rgba(29, 42, 20, 0.14);
+            border-left-color: #586b17;
+            color: #141d0e;
         }
 
         .farmer-grid-layout {
@@ -2548,7 +2934,47 @@
             <!-- ════════════════════════════════════════════════════════ -->
             <section class="view-panel active" id="view-farmer" aria-label="Farmer Calculator">
                 <div class="view-title-row">
-                    <span>WHAT ARE YOU PLANTING?</span>
+                    <span id="txtPlantingTitle">WHAT ARE YOU PLANTING?</span>
+                    <div class="season-live-badge" id="liveCalendarBadge" title="Based on Philippine Agricultural Seasons (PAGASA / DA)">
+                        <span class="live-dot-pulse"></span>
+                        <span id="txtLiveSeasonReadout">REALITY TIME: NOVEMBER 2026 &bull; LATE WET / TRANSITION</span>
+                    </div>
+                </div>
+
+                <!-- Real-Time Seasonal Planting Advisor Bar -->
+                <div class="seasonal-advisor-bar" id="seasonalAdvisorBar">
+                    <div class="seasonal-adv-left">
+                        <div class="seasonal-adv-badge" id="badgeAdvisorMonth">
+                            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.3">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                            <span id="lblLiveAdvisorMonth">NOV RECOM:</span>
+                        </div>
+                        <div class="seasonal-adv-text" id="seasonalAdvText">
+                            <strong>BEST: CORN &amp; POTATO</strong> &bull; Dry season cycle begins. High solar grain filling, zero typhoon threat at harvest.
+                        </div>
+                    </div>
+                    <div class="seasonal-adv-right">
+                        <label for="advisorMonthSelect" style="display:none;">Month</label>
+                        <select class="month-select-pill" id="advisorMonthSelect" onchange="onAdvisorMonthChange(this.value)" title="Check planting suitability for other months">
+                            <option value="current">TODAY: NOV (REALITY TIME)</option>
+                            <option value="0">JANUARY (COOL DRY)</option>
+                            <option value="1">FEBRUARY (COOL DRY)</option>
+                            <option value="2">MARCH (HOT DRY)</option>
+                            <option value="3">APRIL (HOT DRY)</option>
+                            <option value="4">MAY (EARLY WET / HABAGAT)</option>
+                            <option value="5">JUNE (WET SEASON)</option>
+                            <option value="6">JULY (PEAK HABAGAT)</option>
+                            <option value="7">AUGUST (TYPHOON PEAK)</option>
+                            <option value="8">SEPTEMBER (MONSOON)</option>
+                            <option value="9">OCTOBER (LATE MONSOON)</option>
+                            <option value="10">NOVEMBER (TRANSITION)</option>
+                            <option value="11">DECEMBER (COOL DRY)</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="farmer-grid-layout">
@@ -2560,6 +2986,7 @@
                         <div class="crop-tiles-row" role="radiogroup" aria-label="Select Crop">
                             <!-- Crop 1: Rice -->
                             <button class="crop-tile" id="tileRice" role="radio" aria-pressed="false" onclick="selectCrop('rice')">
+                                <div class="crop-tile-season-tag mod" id="tagSeasonRice">MODERATE</div>
                                 <div class="crop-tile-letter">R</div>
                                 <div class="crop-tile-name">RICE</div>
                                 <div class="crop-tile-price">&#8369;22 / KG</div>
@@ -2567,6 +2994,7 @@
 
                             <!-- Crop 2: Corn -->
                             <button class="crop-tile" id="tileCorn" role="radio" aria-pressed="false" onclick="selectCrop('corn')">
+                                <div class="crop-tile-season-tag best" id="tagSeasonCorn">&starf; BEST NOW</div>
                                 <div class="crop-tile-letter">C</div>
                                 <div class="crop-tile-name">CORN</div>
                                 <div class="crop-tile-price">&#8369;20.50 / KG</div>
@@ -2574,6 +3002,7 @@
 
                             <!-- Crop 3: Potato -->
                             <button class="crop-tile" id="tilePotato" role="radio" aria-pressed="false" onclick="selectCrop('potato')">
+                                <div class="crop-tile-season-tag best" id="tagSeasonPotato">&starf; BEST NOW</div>
                                 <div class="crop-tile-letter">P</div>
                                 <div class="crop-tile-name">POTATO</div>
                                 <div class="crop-tile-price">&#8369;45 / KG</div>
@@ -2581,10 +3010,23 @@
 
                             <!-- Crop 4: Cassava (K) -->
                             <button class="crop-tile" id="tileCassava" role="radio" aria-pressed="false" onclick="selectCrop('cassava')">
+                                <div class="crop-tile-season-tag risk" id="tagSeasonCassava">&warning; HIGH RISK</div>
                                 <div class="crop-tile-letter">K</div>
                                 <div class="crop-tile-name">CASSAVA</div>
                                 <div class="crop-tile-price">&#8369;14 / KG</div>
                             </button>
+                        </div>
+
+                        <!-- Contextual Agro-Climatic Tip for Selected Crop & Month -->
+                        <div class="crop-seasonal-tip-box" id="cropSeasonalTipBox" style="display:none;">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0; margin-top:2px; color:var(--accent-olive);">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                            </svg>
+                            <div id="txtCropSeasonalTip">
+                                <!-- Populated dynamically based on activeCrop and selected month -->
+                            </div>
                         </div>
 
                         <!-- Sub-inputs Grid: Size + Custom Price + Season/Region -->
@@ -2774,6 +3216,23 @@
                     <!-- Agronomic Disaster Mitigation Action Plan -->
                     <div class="weather-advisory-grid" id="weatherAdvisoryGrid">
                         <!-- Populated dynamically by renderWeatherRiskView() -->
+                    </div>
+
+                    <!-- 12-Month Philippine Agricultural Calendar & Suitability Matrix -->
+                    <div class="calendar-matrix-card">
+                        <div class="calendar-matrix-header">
+                            <div class="calendar-matrix-title-group">
+                                <h3 id="txtCalMatrixTitle">12-MONTH PHILIPPINE AGRI-CALENDAR &amp; CROP SUITABILITY MATRIX</h3>
+                                <p id="txtCalMatrixSub">DATASET BENCHMARKS &bull; PAGASA CLIMATE MONSOONS &bull; BEST VS. WORST SEASONS PER CROP</p>
+                            </div>
+                            <div class="season-live-badge">
+                                <span class="live-dot-pulse"></span>
+                                <span id="txtMatrixLiveNotice">CURRENT REALITY: NOVEMBER</span>
+                            </div>
+                        </div>
+                        <div class="calendar-matrix-grid" id="calendarMatrixGrid">
+                            <!-- Populated dynamically by renderCalendarMatrix() -->
+                        </div>
                     </div>
 
                     <!-- Interactive What-If Sensitivity & Disaster Shock Simulator -->
@@ -3087,7 +3546,17 @@
                 adjHarvest: 'ADJUSTED HARVEST:',
                 simRev: 'SIMULATED REVENUE:',
                 prodCosts: 'PRODUCTION COSTS:',
-                simNet: 'SIMULATED NET PROFIT / LOSS:'
+                simNet: 'SIMULATED NET PROFIT / LOSS:',
+                calMatrixTitle: '12-MONTH PHILIPPINE AGRI-CALENDAR & CROP SUITABILITY MATRIX',
+                calMatrixSub: 'DATASET BENCHMARKS • PAGASA CLIMATE MONSOONS • BEST VS. WORST SEASONS PER CROP',
+                liveBadgeCurrent: 'CURRENT REALITY: ',
+                advisorBarTitle: 'REAL-TIME SEASONAL PLANTING ADVISOR',
+                bestTag: 'BEST NOW',
+                modTag: 'MODERATE',
+                riskTag: 'HIGH RISK',
+                bestToPlant: 'BEST TO PLANT:',
+                worstToAvoid: 'HIGH RISK / AVOID:',
+                switchMonthToast: 'Viewing seasonal advice for '
             },
             fil: {
                 subtitle: 'SISTEMA SA PAGTAYA NG ANI AT KITA',
@@ -3134,9 +3603,586 @@
                 adjHarvest: 'NABAGONG DAMI NG ANI:',
                 simRev: 'TINATAYANG BENTA:',
                 prodCosts: 'GASTOS SA SAKAHAN:',
-                simNet: 'TINATAYANG TUBO O LUGI:'
+                simNet: 'TINATAYANG TUBO O LUGI:',
+                calMatrixTitle: '12-BUWANG KALENDARYO NG PAGSASAKA SA PILIPINAS AT ANGKOP NA PANANIM',
+                calMatrixSub: 'MGA BATAYAN NG DATASET • PANAHON AT MONSOON NG PAGASA • PINAKAMAINAM AT PELIGROSONG BUWAN',
+                liveBadgeCurrent: 'KASALUKUYANG PANAHON: ',
+                advisorBarTitle: 'REAL-TIME NA TAGAPAYO SA PAGTATANIM',
+                bestTag: 'PINAKAMAINAM',
+                modTag: 'KATAMTAMAN',
+                riskTag: 'DELIKADO',
+                bestToPlant: 'PINAKAMAINAM ITANIM:',
+                worstToAvoid: 'DELIKADO / IWASAN:',
+                switchMonthToast: 'Tinitingnan ang payo sa buwan ng '
             }
         };
+
+        // ── 12-Month Agro-Climatic Calendar & Crop Suitability Knowledge Engine ──
+        const PH_MONTHLY_AGRI_CALENDAR = [
+            {
+                month: 0,
+                nameEn: 'January',
+                nameFil: 'Enero',
+                code: 'JAN',
+                regimeEn: 'Amihan (Cool Dry)',
+                regimeFil: 'Amihan (Malamig na Tag-araw)',
+                status: { rice: 'mod', corn: 'best', potato: 'best', cassava: 'risk' },
+                best: ['corn', 'potato'],
+                risk: ['cassava'],
+                summaryEn: 'Cool dry Amihan brings optimal sunny days for corn grain filling and cool nights for potato tuber growth. Cassava faces dry topsoil stress without irrigation.',
+                summaryFil: 'Malamig at tuyong Amihan; maganda sa mais at patatas dahil sikat ang araw sa umaga at malamig sa gabi. Delikado sa kamoteng kahoy dahil tuyo ang lupa.',
+                tips: {
+                    rice: {
+                        en: 'Moderate window. Optimal for transplanting dry-season irrigated palay. High solar radiation gives high yield if NIA irrigation is steady.',
+                        fil: 'Katamtaman. Mainam magtanim ng palay sa tag-araw kung may maayos na patubig (irrigation). Mataas ang ani dahil sagana sa sikat ng araw.'
+                    },
+                    corn: {
+                        en: '★ BEST SEASON. Low humidity and rain-free weather eliminate ear rot and aflatoxin mold. Excellent grain weight and drying conditions.',
+                        fil: '★ PINAKAMAINAM. Walang bagyo at hindi masyadong maulan; iwas-amag (aflatoxin) ang mais at mabilis ibilad ang mga butil.'
+                    },
+                    potato: {
+                        en: '★ BEST SEASON. Cool Amihan nights (15°C–19°C) accelerate tuber bulking and starch accumulation with minimal bacterial blight.',
+                        fil: '★ PINAKAMAINAM. Malamig ang simoy ng Amihan kaya lumalaki at bumibigat ang patatas nang walang halamang nabubulok.'
+                    },
+                    cassava: {
+                        en: '⚠ HIGH RISK. Young stem cuttings suffer drought stress during initial root strike unless supplemental furrow irrigation is applied.',
+                        fil: '⚠ DELIKADO. Madaling matuyot ang bagong baon na taluktok/putol ng kamoteng kahoy dahil tuyo ang ibabaw ng lupa.'
+                    }
+                }
+            },
+            {
+                month: 1,
+                nameEn: 'February',
+                nameFil: 'Pebrero',
+                code: 'FEB',
+                regimeEn: 'Peak Amihan (Dry & Sunny)',
+                regimeFil: 'Rurok ng Amihan (Maliwalas)',
+                status: { rice: 'mod', corn: 'best', potato: 'best', cassava: 'risk' },
+                best: ['corn', 'potato'],
+                risk: ['cassava'],
+                summaryEn: 'Peak dry season with intense sunlight. Perfect for corn flowering and potato maturation. Rice requires assured irrigation. Cassava risks moisture deficit.',
+                summaryFil: 'Tuyo at maliwalas ang panahon. Paborableng-paborable sa pamumulaklak ng mais at paglaki ng patatas. Ang palay ay nangangailangan ng tuloy-tuloy na patubig.',
+                tips: {
+                    rice: {
+                        en: 'Moderate. High solar radiation boosts tillering; ensure water supply from irrigation canal remains uninterrupted.',
+                        fil: 'Katamtaman. Mabilis magsuwi ang palay sa araw; siguraduhing hindi mauubusan ng tubig mula sa irigasyon.'
+                    },
+                    corn: {
+                        en: '★ BEST SEASON. Prime grain filling window. Exceptional test weight and lowest fungal risk under clear blue skies.',
+                        fil: '★ PINAKAMAINAM. Matambok at mabigat ang butil ng mais. Walang banta ng bagyo o pagkababad sa baha.'
+                    },
+                    potato: {
+                        en: '★ BEST SEASON. Peak tuber bulking and harvest window in Benguet/upland Rizal. Premium market farmgate prices.',
+                        fil: '★ PINAKAMAINAM. Panahon ng anihan at pagpapatambok ng patatas; mataas ang presyo sa bagsakan sa ganitong buwan.'
+                    },
+                    cassava: {
+                        en: '⚠ HIGH RISK. Soil moisture is lowest. Stems take longer to sprout and mortality rate of cuttings increases.',
+                        fil: '⚠ DELIKADO. Kulang sa tubig ang lupa; maraming pinutol na sanga ang hindi tutubo kung walang pandilig.'
+                    }
+                }
+            },
+            {
+                month: 2,
+                nameEn: 'March',
+                nameFil: 'Marso',
+                code: 'MAR',
+                regimeEn: 'Tag-init / Early Hot Dry',
+                regimeFil: 'Simula ng Tag-init',
+                status: { rice: 'mod', corn: 'best', potato: 'mod', cassava: 'risk' },
+                best: ['corn'],
+                risk: ['cassava'],
+                summaryEn: 'Onset of summer heat. Ideal for dry corn harvest and drying. Highland potato harvests finish. Cassava cuttings still struggle with dry topsoil.',
+                summaryFil: 'Umiinit na ang panahon. Napakaganda sa pag-aani at pagpapatuyo ng mais. Ang patatas ay dapat anihin bago uminit nang husto ang lupa.',
+                tips: {
+                    rice: {
+                        en: 'Moderate. Approaching dry-season harvest in Laguna. High yields anticipated if free from water stress.',
+                        fil: 'Katamtaman. Nalalapit na ang anihan ng palay sa tag-araw. Mataas ang kita kapag may patubig.'
+                    },
+                    corn: {
+                        en: '★ BEST SEASON. Farmers achieve 14% moisture grain easily under intense sunshine. Top net returns per hectare.',
+                        fil: '★ PINAKAMAINAM. Mabilis matuyo ang mais sa 14% moisture content; pinakamababa ang bawas sa presyo sa kabyawan.'
+                    },
+                    potato: {
+                        en: 'Moderate. Conclude tuber harvesting before ground temperatures rise above 25°C to avoid tuber rot.',
+                        fil: 'Katamtaman. Anihin na ang natitirang patatas bago uminit ang lupa upang hindi mabulok.'
+                    },
+                    cassava: {
+                        en: '⚠ HIGH RISK. Topsoil hardens; wait for May rains before planting extensive cassava plantations.',
+                        fil: '⚠ DELIKADO. Matigas at bitak-bitak ang lupa; mas makabuting maghintay sa ulan sa Mayo bago magbaon ng cuttings.'
+                    }
+                }
+            },
+            {
+                month: 3,
+                nameEn: 'April',
+                nameFil: 'Abril',
+                code: 'APR',
+                regimeEn: 'Peak Summer (Hot Dry)',
+                regimeFil: 'Rurok ng Tag-init',
+                status: { rice: 'mod', corn: 'best', potato: 'risk', cassava: 'risk' },
+                best: ['corn'],
+                risk: ['potato', 'cassava'],
+                summaryEn: 'Hottest month of the year. Ideal for irrigated summer corn. Potato suffers severe heat shock. Land prep for wet-season rice begins.',
+                summaryFil: 'Pinakamainit na buwan. Maganda sa mais kapag may patubig. Delikado sa patatas dahil sa sobrang init. Panahon ng paghahanda ng lupa sa palay.',
+                tips: {
+                    rice: {
+                        en: 'Moderate. Main dry harvest period; stubble clearing and harrow preparation for upcoming wet season.',
+                        fil: 'Katamtaman. Panahon ng anihan sa tag-araw at pag-aararo ng lupang tatamnan sa darating na tag-ulan.'
+                    },
+                    corn: {
+                        en: '★ BEST SEASON. High photosynthetic conversion rate if watered; sweet corn and feed maize yield rapidly.',
+                        fil: '★ PINAKAMAINAM. Mabilis ang paglaki ng mais sa matinding araw kung may maayos na daloy ng patubig.'
+                    },
+                    potato: {
+                        en: '⚠ HIGH RISK. Excessive daytime heat arrests tuber formation and triggers bacterial wilt.',
+                        fil: '⚠ DELIKADO. Hindi kayang buuin ng patatas ang laman sa matinding init; madaling malanta ang dahon.'
+                    },
+                    cassava: {
+                        en: '⚠ HIGH RISK. Ground is overly parched; cuttings fail to establish roots without substantial rainfall.',
+                        fil: '⚠ DELIKADO. Masyadong tuyo ang lupa; matutuyo lamang ang mga pinutol na sanga kung itatanim ngayon.'
+                    }
+                }
+            },
+            {
+                month: 4,
+                nameEn: 'May',
+                nameFil: 'Mayo',
+                code: 'MAY',
+                regimeEn: 'Habagat Onset (Early Rains)',
+                regimeFil: 'Simula ng Tag-ulan / Habagat',
+                status: { rice: 'best', corn: 'mod', potato: 'risk', cassava: 'best' },
+                best: ['rice', 'cassava'],
+                risk: ['potato'],
+                summaryEn: 'Southwest monsoon arrives. Golden window to start wet-season rice seedbeds and plant 9-month cassava tubers into soft, moist soil.',
+                summaryFil: 'Pagsisimula ng tag-ulan. Gintong panahon para sa punla ng palay at pagbabaon ng kamoteng kahoy sa basang lupa.',
+                tips: {
+                    rice: {
+                        en: '★ BEST SEASON. Prime seedbed sowing and puddling window for wet season crop across Southern Luzon.',
+                        fil: '★ PINAKAMAINAM. Tamang-tamang panahon ng pagpupunla at paglilinang ng pinitak para sa tag-ulan.'
+                    },
+                    corn: {
+                        en: 'Moderate. Early wet corn planting is feasible if fields feature good canal drainage away from furrows.',
+                        fil: 'Katamtaman. Pwede magtanim basta may drainage ang pilapil upang hindi malunod ang binhi sa biglang ulan.'
+                    },
+                    potato: {
+                        en: '⚠ HIGH RISK. Early tropical thunderstorms create warm, soggy conditions leading to rapid tuber rot.',
+                        fil: '⚠ DELIKADO. Mainit at basa ang lupa; mabilis kumalat ang fungus at mabulok ang binhing patatas.'
+                    },
+                    cassava: {
+                        en: '★ BEST SEASON. DA recommended month. First steady rains stimulate robust root anchoring and 9-month growth cycle.',
+                        fil: '★ PINAKAMAINAM. Rekomendado ng DA; ang unang buhos ng ulan ay nagbibigay-buhay sa ugat ng kamoteng kahoy.'
+                    }
+                }
+            },
+            {
+                month: 5,
+                nameEn: 'June',
+                nameFil: 'Hunyo',
+                code: 'JUN',
+                regimeEn: 'Habagat (Wet Season Active)',
+                regimeFil: 'Aktibong Tag-ulan (Habagat)',
+                status: { rice: 'best', corn: 'mod', potato: 'risk', cassava: 'best' },
+                best: ['rice', 'cassava'],
+                risk: ['potato'],
+                summaryEn: 'Consistent monsoon rain provides continuous water for lowland rice transplanting and lush vegetative growth of cassava.',
+                summaryFil: 'Tuloy-tuloy na ulan mula sa Habagat. Tamang-tama sa pagtatanim ng palay sa pinitak at pagpapalago ng dahon ng kamoteng kahoy.',
+                tips: {
+                    rice: {
+                        en: '★ BEST SEASON. Lowland transplanting in full swing. Rainfall exceeds 240mm, minimizing irrigation pumping fuel costs.',
+                        fil: '★ PINAKAMAINAM. Masiglang paglilipat-tanim ng palay; sagana sa ulan kaya libre sa gastos sa krudo ng bomba.'
+                    },
+                    corn: {
+                        en: 'Moderate. Monitor stem borers and watch out for water ponding in heavy clay soils.',
+                        fil: 'Katamtaman. Bantayan ang uod sa tangkay at huwag hayaang magtubig ang tudling.'
+                    },
+                    potato: {
+                        en: '⚠ HIGH RISK. Heavy rains spur late blight (Phytophthora infestans); fungicide costs skyrocket.',
+                        fil: '⚠ DELIKADO. Madaling tamaan ng peste at amag (late blight); napakamahal ng pambombang gamot.'
+                    },
+                    cassava: {
+                        en: '★ BEST SEASON. Fast root establishment. Cassava thrives through monsoon and builds deep taproot resilience.',
+                        fil: '★ PINAKAMAINAM. Mabilis kumapit ang mga ugat; matibay ang pananim sa darating na mga bagyo.'
+                    }
+                }
+            },
+            {
+                month: 6,
+                nameEn: 'July',
+                nameFil: 'Hulyo',
+                code: 'JUL',
+                regimeEn: 'Peak Monsoon & Typhoon Onset',
+                regimeFil: 'Lakas ng Habagat at Bagyo',
+                status: { rice: 'best', corn: 'risk', potato: 'risk', cassava: 'mod' },
+                best: ['rice'],
+                risk: ['corn', 'potato'],
+                summaryEn: 'Heavy precipitation and typhoons cross Luzon. Rice thrives under flooded paddies; corn lodges in high winds; potato tubers drown.',
+                summaryFil: 'Madalas ang malalakas na ulan at bagyo. Hiyang na hiyang ang palay sa binabahang pilapil; nabubuwal ang mais at nalulunod ang patatas.',
+                tips: {
+                    rice: {
+                        en: '★ BEST SEASON. Vegetative tillering stage benefits from flooded conditions and nitrogen wash.',
+                        fil: '★ PINAKAMAINAM. Malulusog ang suwi ng palay sa sagaganang tubig at sustansya sa pinitak.'
+                    },
+                    corn: {
+                        en: '⚠ HIGH RISK. Saturated roots suffocate within 48 hours; high typhoon winds cause lodging and ear rotting.',
+                        fil: '⚠ DELIKADO. Nalulunod ang ugat ng mais sa baha sa loob ng dalawang araw at binubuwal ng malalakas na hangin.'
+                    },
+                    potato: {
+                        en: '⚠ HIGH RISK. Excessive rainfall washes topsoil and rots tubers underground. Planting is not advised.',
+                        fil: '⚠ DELIKADO. Natatangay ang matabang lupa at nabubulok ang laman sa ilalim. Hindi mainam magtanim.'
+                    },
+                    cassava: {
+                        en: 'Moderate. Established cassava handles rain well, but unrooted young cuttings can rot in standing water.',
+                        fil: 'Katamtaman. Ang matatandang kamoteng kahoy ay matatag, ngunit ang bagong baon ay pwedeng mabulok sa baha.'
+                    }
+                }
+            },
+            {
+                month: 7,
+                nameEn: 'August',
+                nameFil: 'Agosto',
+                code: 'AUG',
+                regimeEn: 'Peak Typhoon & Habagat',
+                regimeFil: 'Rurok ng Bagyo at Habagat',
+                status: { rice: 'best', corn: 'risk', potato: 'risk', cassava: 'mod' },
+                best: ['rice'],
+                risk: ['corn', 'potato'],
+                summaryEn: 'Highest disaster risk index of the year (285mm+ rain). Perfect for standing wet rice; disaster risk severe for open corn fields and potato plots.',
+                summaryFil: 'Pinakamataas na peligro sa bagyo at ulan sa buong taon. Maganda sa nakatayong palay sa pinitak; delikado sa mais at patatas.',
+                tips: {
+                    rice: {
+                        en: '★ BEST SEASON. Rice canopy is robust and waterlogged fields are naturally weed-suppressive.',
+                        fil: '★ PINAKAMAINAM. Matatag ang dahon ng palay at ang lalim ng tubig ay pumipigil sa pagtubo ng damo.'
+                    },
+                    corn: {
+                        en: '⚠ HIGH RISK. High humidity and wind storms destroy pollen shed and induce severe fungal leaf blights.',
+                        fil: '⚠ DELIKADO. Nawawalan ng silbi ang bulo ng mais sa ulan at dinadapuan ng sakit sa dahon.'
+                    },
+                    potato: {
+                        en: '⚠ HIGH RISK. Severe risk of total crop loss due to waterlogging, soil erosion, and bacterial rot.',
+                        fil: '⚠ DELIKADO. Malaking posibilidad na malugi dahil sa pagkaagnas ng lupa at pagkabulok ng pananim.'
+                    },
+                    cassava: {
+                        en: 'Moderate. Stems are sturdy and anchored. Ensure field perimeter ditches allow excess storm runoff.',
+                        fil: 'Katamtaman. Matatag na ang mga tangkay. Siguraduhin lamang na may labasan ang tubig-baha sa gilid ng sakahan.'
+                    }
+                }
+            },
+            {
+                month: 8,
+                nameEn: 'September',
+                nameFil: 'Setyembre',
+                code: 'SEP',
+                regimeEn: 'Late Monsoon & Typhoons',
+                regimeFil: 'Huling Bugso ng Habagat',
+                status: { rice: 'best', corn: 'risk', potato: 'risk', cassava: 'mod' },
+                best: ['rice'],
+                risk: ['corn', 'potato'],
+                summaryEn: 'Monsoon rains continue. Rice enters grain development. Corn drying remains impossible without mechanical dryers; potatoes rot.',
+                summaryFil: 'Patuloy pa rin ang pag-ulan. Naglalaman na ang butil ng palay. Mahirap magpatuyo ng mais kapag walang dryer; nabubulok ang patatas.',
+                tips: {
+                    rice: {
+                        en: '★ BEST SEASON. Panicle initiation and heading phase. Generous moisture ensures full grain filling.',
+                        fil: '★ PINAKAMAINAM. Pagbubuntis at pagluluwal ng uhay ng palay; sagana sa tubig kaya hindi mababansot ang butil.'
+                    },
+                    corn: {
+                        en: '⚠ HIGH RISK. Frequent rainfall delays mechanical cultivation and causes premature ear germination on stalk.',
+                        fil: '⚠ DELIKADO. Basa ang lupa at umuusbong agad ang butil sa mismong puso ng mais bago pa maani.'
+                    },
+                    potato: {
+                        en: '⚠ HIGH RISK. Field beds remain soggy; wait for cooler and drier weather in November.',
+                        fil: '⚠ DELIKADO. Babad pa rin ang mga kamada; mas mainam maghintay sa pagpasok ng Amihan sa Nobyembre.'
+                    },
+                    cassava: {
+                        en: 'Moderate. Steady starch storage inside mature roots. Weed maintenance recommended.',
+                        fil: 'Katamtaman. Tuloy-tuloy ang pamumuo ng arina sa ilalim ng lupa. Panatilihing malinis ang paligid sa damo.'
+                    }
+                }
+            },
+            {
+                month: 9,
+                nameEn: 'October',
+                nameFil: 'Oktubre',
+                code: 'OCT',
+                regimeEn: 'Monsoon Transition & Late Storms',
+                regimeFil: 'Pahimakas ng Habagat',
+                status: { rice: 'best', corn: 'mod', potato: 'risk', cassava: 'mod' },
+                best: ['rice'],
+                risk: ['potato'],
+                summaryEn: 'Wet-season rice harvest begins. Calabarzon experiences late tropical cyclones before winds shift to Amihan. Land prep for winter crops starts.',
+                summaryFil: 'Simula ng anihan ng palay sa tag-ulan. May mga huling bagyo pa ring dumadaan bago magpalit ng hangin patungong Amihan.',
+                tips: {
+                    rice: {
+                        en: '★ BEST SEASON. Main wet-season palay harvest window. Drain field paddies 10 days before harvesting.',
+                        fil: '★ PINAKAMAINAM. Anihan ng palay sa tag-ulan. Patuyuin ang tubig sa pinitak 10 araw bago anihin.'
+                    },
+                    corn: {
+                        en: 'Moderate. Prepare ridges and furrows for post-monsoon planting once typhoon tracks subside.',
+                        fil: 'Katamtaman. Ihanda na ang tudling para sa pagtatanim sa tag-araw kapag humupa na ang banta ng bagyo.'
+                    },
+                    potato: {
+                        en: '⚠ HIGH RISK. Late October storms still threaten hillside erosion in Benguet and upland Calabarzon.',
+                        fil: '⚠ DELIKADO. May banta pa rin ng pagguho ng kamada sa bundok dahil sa huling mga ulan.'
+                    },
+                    cassava: {
+                        en: 'Moderate. Well-established root mass is unaffected by surface runoff.',
+                        fil: 'Katamtaman. Matatag na ang mga ugat at hindi na maapektuhan ng mga karaniwang ulan.'
+                    }
+                }
+            },
+            {
+                month: 10,
+                nameEn: 'November',
+                nameFil: 'Nobyembre',
+                code: 'NOV',
+                regimeEn: 'Transition / Amihan Onset (Cool Dry)',
+                regimeFil: 'Pagpasok ng Amihan (Malamig na Simoy)',
+                status: { rice: 'mod', corn: 'best', potato: 'best', cassava: 'risk' },
+                best: ['corn', 'potato'],
+                risk: ['cassava'],
+                summaryEn: 'REALITY TIME (CURRENT): Fading rains leave rich subsoil moisture while cool Amihan winds arrive. DA prime planting window for dry corn and upland potato. Avoid cassava cuttings.',
+                summaryFil: 'KASALUKUYANG PANAHON: Paalis na ang ulan ngunit basa pa ang ilalim ng lupa; pumapasok ang malamig na Amihan. Tamang-tamang magtanim ng mais at patatas. Iwasan ang kamoteng kahoy.',
+                tips: {
+                    rice: {
+                        en: 'Moderate window. Main wet harvest is winding down. Prepare seedbeds for dry-season crop; wait for late storms to clear before transplanting.',
+                        fil: 'Katamtaman. Patapos na ang anihan sa tag-ulan. Maghanda ng punla para sa tag-araw; hintaying lumipas ang huling bagyo bago magtanim.'
+                    },
+                    corn: {
+                        en: '★ BEST SEASON (DA Prime Window). Soil moisture gives rapid seed germination, while crops flower and mature under sunny, typhoon-free Feb/March weather.',
+                        fil: '★ PINAKAMAINAM (Rekomendado ng DA). Mabilis tutubo ang binhi sa basang lupa, at aabutan ng maliwalas na tag-araw sa Pebrero/Marso nang walang banta ng bagyo.'
+                    },
+                    potato: {
+                        en: '★ BEST SEASON (Highland Prime). Arrival of cool night temperatures (15°C–20°C) stimulates maximum tuber initiation and bulking with low pest pressure.',
+                        fil: '★ PINAKAMAINAM (Para sa Patatas). Ang malamig na simoy ng Amihan sa gabi ay nagpapabilis ng pamumuo at paglaki ng laman ng patatas nang walang peste.'
+                    },
+                    cassava: {
+                        en: '⚠ HIGH RISK. Late November monsoon surges and heavy clay compaction rot young stem cuttings before they strike root. Best planted in May onset.',
+                        fil: '⚠ DELIKADO. Nabubulok ang pinutol na sanga ng kamoteng kahoy sa basang lupa kapag may biglaang ulan; mas mainam magtanim sa Mayo.'
+                    }
+                }
+            },
+            {
+                month: 11,
+                nameEn: 'December',
+                nameFil: 'Disyembre',
+                code: 'DEC',
+                regimeEn: 'Amihan (Crisp Cool Dry)',
+                regimeFil: 'Amihan (Malamig at Tuyong Simoy)',
+                status: { rice: 'mod', corn: 'best', potato: 'best', cassava: 'risk' },
+                best: ['corn', 'potato'],
+                risk: ['cassava'],
+                summaryEn: 'Cool Amihan brings minimal cloud cover, low disease pressure, and bright sun. Prime planting for corn and potato. Rice transplanting with irrigation underway.',
+                summaryFil: 'Malamig at maliwalas. Kaunti ang peste at maganda ang sikat ng araw. Pinakamainam itanim ang mais at patatas. Sinisimulan na ang paglilipat-tanim ng palay na may patubig.',
+                tips: {
+                    rice: {
+                        en: 'Moderate. Dry-season transplanting commences in NIA irrigated fields. High grain yield expected.',
+                        fil: 'Katamtaman. Sinisimulan na ang pagtatanim ng palay sa mga sakahang may patubig ng NIA. Mataas ang inaasahang ani.'
+                    },
+                    corn: {
+                        en: '★ BEST SEASON. Excellent establishment. Crisp nights and sunny days promote deep root development and sturdy stalks.',
+                        fil: '★ PINAKAMAINAM. Matatag na pagtubo ng mais. Malamig sa gabi at maaraw sa tanghali kaya malusog ang mga ugat at tangkay.'
+                    },
+                    potato: {
+                        en: '★ BEST SEASON. Exceptional weather for tuber enlargement. Low humidity suppresses bacterial wilt and fungal pathogens.',
+                        fil: '★ PINAKAMAINAM. Napakagandang panahon sa pagpapalaki ng patatas; hindi mamumutla ang dahon dahil walang amag.'
+                    },
+                    cassava: {
+                        en: '⚠ HIGH RISK. Low humidity and drying soil retard initial vegetative development without artificial irrigation.',
+                        fil: '⚠ DELIKADO. Mabagal tumubo ang sanga dahil malamig at tuyo ang hangin kung walang patubig.'
+                    }
+                }
+            }
+        ];
+
+        function getRealityMonth() {
+            return new Date().getMonth(); // 0-11 (10 = November)
+        }
+        let selectedAdvisorMonth = getRealityMonth();
+
+        function capitalize(s) {
+            if (!s) return '';
+            return s.charAt(0).toUpperCase() + s.slice(1);
+        }
+
+        function onAdvisorMonthChange(val) {
+            if (val === 'current') {
+                selectedAdvisorMonth = getRealityMonth();
+            } else {
+                selectedAdvisorMonth = parseInt(val, 10);
+            }
+            updateSeasonalAdvisorUI();
+            renderCalendarMatrix();
+            const isFil = (currentLang === 'fil');
+            const cal = PH_MONTHLY_AGRI_CALENDAR[selectedAdvisorMonth];
+            const mName = isFil ? cal.nameFil : cal.nameEn;
+            const t = TRANSLATIONS[currentLang] || TRANSLATIONS.en;
+            showToast(`${t.switchMonthToast || (isFil ? 'Tinitingnan ang payo sa ' : 'Viewing advice for ')}${mName}`);
+        }
+
+        function updateSeasonalAdvisorUI() {
+            const isFil = (currentLang === 'fil');
+            const t = TRANSLATIONS[currentLang] || TRANSLATIONS.en;
+            const realityMonth = getRealityMonth();
+            const realCal = PH_MONTHLY_AGRI_CALENDAR[realityMonth];
+            const selCal = PH_MONTHLY_AGRI_CALENDAR[selectedAdvisorMonth];
+
+            // 1. Live reality readout in Farmer view header
+            const liveReadout = document.getElementById('txtLiveSeasonReadout');
+            if (liveReadout) {
+                const rName = isFil ? realCal.nameFil.toUpperCase() : realCal.nameEn.toUpperCase();
+                const rRegime = isFil ? realCal.regimeFil.toUpperCase() : realCal.regimeEn.toUpperCase();
+                liveReadout.innerHTML = `REALITY: <strong>${rName} 2026</strong> &bull; ${rRegime}`;
+            }
+
+            // 2. Advisor bar month pill label
+            const lblMonth = document.getElementById('lblLiveAdvisorMonth');
+            if (lblMonth) {
+                const mCode = selCal.code;
+                lblMonth.textContent = `${mCode} ${isFil ? 'PAYO:' : 'RECOM:'}`;
+            }
+
+            // 3. Dropdown value sync
+            const selDropdown = document.getElementById('advisorMonthSelect');
+            if (selDropdown) {
+                if (selectedAdvisorMonth === realityMonth && selDropdown.value === 'current') {
+                    // keep 'current' option active
+                } else {
+                    selDropdown.value = String(selectedAdvisorMonth);
+                }
+            }
+
+            // 4. Recommendation text in advisor bar
+            const advText = document.getElementById('seasonalAdvText');
+            if (advText) {
+                const bestNames = selCal.best.map(k => (isFil ? t['crop' + capitalize(k)] : CROP_MODELS[k].name)).join(' & ');
+                const riskNames = selCal.risk.map(k => (isFil ? t['crop' + capitalize(k)] : CROP_MODELS[k].name)).join(', ');
+                const summary = isFil ? selCal.summaryFil : selCal.summaryEn;
+                advText.innerHTML = `<strong>${t.bestToPlant} ${bestNames}</strong> &bull; ${t.worstToAvoid} ${riskNames}. ${summary}`;
+            }
+
+            // 5. Crop tile tags
+            ['rice', 'corn', 'potato', 'cassava'].forEach(cropKey => {
+                const tag = document.getElementById('tagSeason' + capitalize(cropKey));
+                if (tag) {
+                    const status = selCal.status[cropKey]; // 'best' | 'mod' | 'risk'
+                    tag.className = 'crop-tile-season-tag ' + status;
+                    if (status === 'best') {
+                        tag.innerHTML = `&starf; ${t.bestTag}`;
+                    } else if (status === 'risk') {
+                        tag.innerHTML = `&warning; ${t.riskTag}`;
+                    } else {
+                        tag.textContent = t.modTag;
+                    }
+                }
+            });
+
+            // 6. Update contextual crop tip box if crop is selected
+            if (activeCrop) {
+                updateCropSeasonalTip(activeCrop);
+            } else {
+                const tipBox = document.getElementById('cropSeasonalTipBox');
+                if (tipBox) tipBox.style.display = 'none';
+            }
+        }
+
+        function updateCropSeasonalTip(cropKey) {
+            const tipBox = document.getElementById('cropSeasonalTipBox');
+            const txtTip = document.getElementById('txtCropSeasonalTip');
+            if (!tipBox || !txtTip) return;
+
+            if (!cropKey || !CROP_MODELS[cropKey]) {
+                tipBox.style.display = 'none';
+                return;
+            }
+
+            const isFil = (currentLang === 'fil');
+            const t = TRANSLATIONS[currentLang] || TRANSLATIONS.en;
+            const selCal = PH_MONTHLY_AGRI_CALENDAR[selectedAdvisorMonth];
+            const crop = CROP_MODELS[cropKey];
+            const cropName = isFil ? t['crop' + capitalize(cropKey)] : crop.name;
+            const monthName = isFil ? selCal.nameFil : selCal.nameEn;
+            const status = selCal.status[cropKey];
+
+            let statusLabel = '';
+            if (status === 'best') statusLabel = isFil ? '★ PINAKAMAINAM NA PANAHON' : '★ BEST SUITABILITY';
+            else if (status === 'risk') statusLabel = isFil ? '⚠ DELIKADONG PANAHON (MATAAS ANG PELIGRO)' : '⚠ HIGH RISK / POOR SUITABILITY';
+            else statusLabel = isFil ? 'KATAMTAMANG PANAHON' : 'MODERATE SUITABILITY';
+
+            const tipContent = selCal.tips[cropKey][isFil ? 'fil' : 'en'];
+
+            txtTip.innerHTML = `<strong>${cropName} &bull; ${monthName.toUpperCase()} &bull; <span style="color:${status === 'best' ? 'var(--accent-olive)' : status === 'risk' ? '#f87171' : 'var(--text-muted)'};">${statusLabel}</span>:</strong> ${tipContent}`;
+            tipBox.style.display = 'flex';
+        }
+
+        function renderCalendarMatrix() {
+            const grid = document.getElementById('calendarMatrixGrid');
+            if (!grid) return;
+
+            const isFil = (currentLang === 'fil');
+            const t = TRANSLATIONS[currentLang] || TRANSLATIONS.en;
+            const realityMonth = getRealityMonth();
+
+            // Update titles
+            const ttl = document.getElementById('txtCalMatrixTitle');
+            if (ttl) ttl.textContent = t.calMatrixTitle;
+            const sub = document.getElementById('txtCalMatrixSub');
+            if (sub) sub.textContent = t.calMatrixSub;
+            const notice = document.getElementById('txtMatrixLiveNotice');
+            if (notice) {
+                const realName = isFil ? PH_MONTHLY_AGRI_CALENDAR[realityMonth].nameFil.toUpperCase() : PH_MONTHLY_AGRI_CALENDAR[realityMonth].nameEn.toUpperCase();
+                notice.textContent = `${t.liveBadgeCurrent}${realName}`;
+            }
+
+            let html = '';
+            PH_MONTHLY_AGRI_CALENDAR.forEach((cal, idx) => {
+                const isCurrentReality = (idx === realityMonth);
+                const isSelected = (idx === selectedAdvisorMonth);
+                const mName = isFil ? cal.nameFil : cal.nameEn;
+                const regime = isFil ? cal.regimeFil : cal.regimeEn;
+
+                const bestList = cal.best.map(k => (isFil ? t['crop' + capitalize(k)] : CROP_MODELS[k].name)).join(', ');
+                const riskList = cal.risk.map(k => (isFil ? t['crop' + capitalize(k)] : CROP_MODELS[k].name)).join(', ');
+
+                const cardStyle = isSelected ? 'border-color: var(--accent-olive);' : '';
+
+                html += `
+                    <div class="calendar-month-cell ${isCurrentReality ? 'current-reality' : ''}" style="${cardStyle}" onclick="selectAdvisorMonthFromMatrix(${idx})" title="Click to view and simulate ${mName} in Farmer view">
+                        <div class="calendar-month-top">
+                            <span class="calendar-month-name">
+                                ${mName.toUpperCase()}
+                                ${isCurrentReality ? `<span class="current-badge-pill">${isFil ? '★ KASALUKUYAN' : '★ REALITY NOW'}</span>` : ''}
+                            </span>
+                            <span class="calendar-regime-tag">${cal.code}</span>
+                        </div>
+                        <div class="calendar-regime-tag" style="font-size:8.5px; opacity:0.85;">${regime}</div>
+                        <div class="calendar-cell-recs">
+                            <div class="calendar-rec-row calendar-rec-best">
+                                <span>&starf; ${t.bestTag}:</span>
+                                <span>${bestList}</span>
+                            </div>
+                            <div class="calendar-rec-row calendar-rec-risk">
+                                <span>&warning; ${t.riskTag}:</span>
+                                <span>${riskList}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            grid.innerHTML = html;
+        }
+
+        function selectAdvisorMonthFromMatrix(idx) {
+            selectedAdvisorMonth = idx;
+            const sel = document.getElementById('advisorMonthSelect');
+            if (sel) sel.value = String(idx);
+            updateSeasonalAdvisorUI();
+            renderCalendarMatrix();
+            switchView('farmer');
+            const isFil = (currentLang === 'fil');
+            const mName = isFil ? PH_MONTHLY_AGRI_CALENDAR[idx].nameFil : PH_MONTHLY_AGRI_CALENDAR[idx].nameEn;
+            const t = TRANSLATIONS[currentLang] || TRANSLATIONS.en;
+            showToast(`${t.switchMonthToast || (isFil ? 'Nalipat sa payo sa ' : 'Switched to planting advice for ')}${mName}`);
+        }
 
         function setLanguage(lang) {
             currentLang = lang;
@@ -3235,6 +4281,8 @@
 
             // Refresh current results text
             updateCalcLive(false);
+            updateSeasonalAdvisorUI();
+            renderCalendarMatrix();
             if (document.getElementById('view-weather').classList.contains('active')) {
                 renderWeatherRiskView();
             }
@@ -3339,6 +4387,9 @@
                 const tile = document.getElementById('tile' + c);
                 if (tile) tile.setAttribute('aria-pressed', c.toLowerCase() === cropKey ? 'true' : 'false');
             });
+
+            // Update contextual seasonal advisory tip for this crop
+            updateCropSeasonalTip(cropKey);
         }
 
         function adjustArea(delta) {
@@ -3486,6 +4537,10 @@
             if (sy) sy.value = 0;
             const sp = document.getElementById('sliderPriceShock');
             if (sp) sp.value = 0;
+
+            // Hide seasonal tip box
+            const tipBox = document.getElementById('cropSeasonalTipBox');
+            if (tipBox) tipBox.style.display = 'none';
 
             if (showToast) {
                 const isFil = (currentLang === 'fil');
@@ -3745,6 +4800,9 @@
                     </div>
                 `).join('');
             }
+
+            // Render 12-Month Agro-Climatic Matrix
+            renderCalendarMatrix();
 
             // Update What-If Simulator
             updateShockSim();
@@ -4544,6 +5602,8 @@
                 if (savedLang) setLanguage(savedLang);
             } catch(e) {}
             resetCalculator(false);
+            updateSeasonalAdvisorUI();
+            renderCalendarMatrix();
             ambientField = new FieldAmbientBackground('bgFieldCanvas');
         });
     </script>
