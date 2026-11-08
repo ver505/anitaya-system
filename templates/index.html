@@ -1637,13 +1637,14 @@
             display: grid;
             grid-template-columns: 1.15fr 1fr;
             gap: 22px;
-            align-items: start;
+            align-items: stretch;
         }
 
         .farmer-inputs-col {
             display: flex;
             flex-direction: column;
             gap: 16px;
+            height: 100%;
         }
 
         /* 4 Crop Tiles in a Row */
@@ -1949,11 +1950,13 @@
 
         /* Calculate Action Row & Refresh Action */
         .calc-action-row {
+            grid-column: 1 / -1;
             display: grid;
             grid-template-columns: 1fr auto;
-            gap: 12px;
+            gap: 14px;
             align-items: stretch;
             width: 100%;
+            margin-top: 4px;
         }
 
         .btn-reset-action {
@@ -2870,19 +2873,20 @@
             50% { transform: scale(1.35); opacity: 0.55; }
         }
 
-        /* ── DA-AMIA PROVINCIAL CROP ADVISORY CARD (IN FARMER INPUTS) ── */
+        /* ── DA-AMIA PROVINCIAL CROP ADVISORY CARD (FULL-WIDTH LANDSCAPE) ── */
         .province-advisory-card {
+            grid-column: 1 / -1;
             width: 100%;
             box-sizing: border-box;
-            background: linear-gradient(145deg, rgba(28, 36, 22, 0.9) 0%, rgba(15, 20, 12, 0.96) 100%);
-            border: 1px solid rgba(182, 198, 79, 0.28);
-            border-radius: var(--radius-tile);
-            padding: 18px 20px;
+            background: linear-gradient(145deg, rgba(26, 34, 20, 0.94) 0%, rgba(14, 18, 11, 0.98) 100%);
+            border: 1px solid rgba(182, 198, 79, 0.32);
+            border-radius: var(--radius-card);
+            padding: 22px 26px;
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 16px;
             margin-top: 4px;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.08);
             transition: all 0.22s ease;
         }
 
@@ -2891,8 +2895,8 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 12px;
-            padding-bottom: 10px;
+            gap: 14px;
+            padding-bottom: 12px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
@@ -2906,7 +2910,7 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            font-size: 8.5px;
+            font-size: 9px;
             font-weight: 900;
             letter-spacing: 0.12em;
             color: var(--accent-olive);
@@ -2916,12 +2920,12 @@
         .prov-name-badge-group {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             flex-wrap: wrap;
         }
 
         .province-name-highlight {
-            font-size: 16px;
+            font-size: 20px;
             font-weight: 900;
             letter-spacing: 0.06em;
             color: var(--text-offwhite);
@@ -2929,10 +2933,10 @@
         }
 
         .prov-island-pill {
-            font-size: 9px;
+            font-size: 9.5px;
             font-weight: 800;
             letter-spacing: 0.08em;
-            padding: 4px 10px;
+            padding: 4px 12px;
             border-radius: var(--radius-pill);
             background: rgba(182, 198, 79, 0.14);
             border: 1px solid rgba(182, 198, 79, 0.3);
@@ -2959,118 +2963,126 @@
         }
 
         .prov-distinction-badge {
-            font-size: 9.5px;
+            font-size: 10px;
             font-weight: 700;
             color: #fde047;
             background: rgba(234, 179, 8, 0.14);
             border: 1px solid rgba(234, 179, 8, 0.32);
-            border-radius: 8px;
-            padding: 6px 12px;
+            border-radius: 999px;
+            padding: 7px 14px;
             line-height: 1.35;
             letter-spacing: 0.02em;
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            box-shadow: 0 2px 10px rgba(234, 179, 8, 0.15);
+            box-shadow: 0 3px 12px rgba(234, 179, 8, 0.18);
         }
 
         .province-advisory-content {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
         }
 
         /* ── Landscape 2-Column Content Grid ── */
         .province-advisory-landscape-grid {
             display: grid;
-            grid-template-columns: 1.15fr 1fr;
-            gap: 14px;
+            grid-template-columns: minmax(320px, 420px) 1fr;
+            gap: 18px;
             align-items: stretch;
         }
 
-        @media (max-width: 840px) {
+        @media (max-width: 880px) {
             .province-advisory-landscape-grid {
                 grid-template-columns: 1fr;
+                gap: 14px;
             }
         }
 
         .prov-agro-specs-col {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
             justify-content: center;
         }
 
         .prov-meta-pill {
-            background: rgba(0, 0, 0, 0.35);
-            border: 1px solid var(--border-hairline);
-            border-radius: 10px;
-            padding: 9px 13px;
+            background: rgba(0, 0, 0, 0.36);
+            border: 1px solid var(--border-hairline-strong);
+            border-radius: 12px;
+            padding: 12px 16px;
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 10.5px;
+            gap: 12px;
+            font-size: 11px;
             font-weight: 700;
-            color: var(--text-muted);
+            color: var(--text-offwhite);
             letter-spacing: 0.02em;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            transition: border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .prov-meta-pill:hover {
+            border-color: rgba(182, 198, 79, 0.45);
+            background: rgba(0, 0, 0, 0.45);
         }
 
         .prov-meta-pill svg {
             flex-shrink: 0;
             color: var(--accent-olive);
-            opacity: 0.9;
+            opacity: 1;
         }
 
         .prov-meta-pill span {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            line-height: 1.45;
+            word-break: break-word;
         }
 
         .prov-crops-col {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            background: rgba(0, 0, 0, 0.22);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 12px 14px;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.26);
+            border: 1px solid rgba(182, 198, 79, 0.22);
+            border-radius: 14px;
+            padding: 14px 18px;
+            justify-content: center;
         }
 
         .province-crops-title {
-            font-size: 8.5px;
+            font-size: 9px;
             font-weight: 900;
-            letter-spacing: 0.1em;
-            color: var(--text-muted);
+            letter-spacing: 0.12em;
+            color: var(--accent-olive);
             text-transform: uppercase;
         }
 
         .province-crops-list {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             flex-wrap: wrap;
         }
 
         .province-crop-chip {
-            padding: 5px 11px;
+            padding: 6px 13px;
             border-radius: var(--radius-pill);
             background: rgba(182, 198, 79, 0.12);
-            border: 1px solid rgba(182, 198, 79, 0.28);
-            font-size: 10px;
+            border: 1px solid rgba(182, 198, 79, 0.3);
+            font-size: 10.5px;
             font-weight: 800;
             color: var(--accent-olive);
             letter-spacing: 0.03em;
             transition: all 0.18s ease;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
         }
 
         .province-crop-chip.interactive {
             cursor: pointer;
-            background: rgba(182, 198, 79, 0.18);
-            border-color: rgba(182, 198, 79, 0.45);
+            background: rgba(182, 198, 79, 0.2);
+            border-color: rgba(182, 198, 79, 0.5);
             color: #ffffff;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
@@ -3079,22 +3091,22 @@
             background: var(--accent-olive);
             color: #12150e;
             border-color: var(--accent-olive);
-            transform: translateY(-1.5px);
+            transform: translateY(-2px);
             box-shadow: 0 4px 14px rgba(182, 198, 79, 0.4);
         }
 
         /* ── Dynamic Crop Match Banner (Full-Width Bottom) ── */
         .province-crop-match-banner {
-            font-size: 11px;
+            font-size: 11.5px;
             font-weight: 600;
-            line-height: 1.55;
-            padding: 12px 16px;
+            line-height: 1.6;
+            padding: 14px 20px;
             border-radius: 12px;
             letter-spacing: 0.02em;
             text-transform: none;
             display: flex;
             flex-direction: column;
-            gap: 3px;
+            gap: 4px;
             transition: all 0.2s ease;
         }
 
@@ -4671,66 +4683,6 @@
                             </div>
                         </div>
 
-                        <!-- Official Philippine Provincial Crop Advisory Card (DA-AMIA & PSA) - Full-Width Landscape -->
-                        <div class="province-advisory-card" id="provinceAdvisoryCard">
-                            <div class="province-advisory-header">
-                                <div class="province-advisory-badge-group">
-                                    <div class="province-advisory-badge">
-                                        <span class="badge-pulse-dot"></span>
-                                        <span id="provAdvisoryBadgeText">DA-AMIA OFFICIAL SUITABILITY (NCCAG v2.0)</span>
-                                    </div>
-                                    <div class="prov-name-badge-group">
-                                        <span class="province-name-highlight" id="provAdvisoryName">LAGUNA</span>
-                                        <span class="prov-island-pill island-luzon" id="provAdvisoryIslandPill">CALABARZON (REGION IV-A) &bull; LUZON</span>
-                                    </div>
-                                </div>
-                                <div class="prov-distinction-badge" id="provAdvisoryDistinction" style="display:none;">
-                                    <!-- Populated dynamically if distinction exists -->
-                                </div>
-                            </div>
-                            <div class="province-advisory-content">
-                                <div class="province-advisory-landscape-grid">
-                                    <div class="prov-agro-specs-col">
-                                        <div class="prov-meta-pill" title="Dominant Soil Series (DA-BSWM)">
-                                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2">
-                                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                                            </svg>
-                                            <span id="provAdvisorySoil">Soil: Lipa Clay Loam</span>
-                                        </div>
-                                        <div class="prov-meta-pill" title="PAGASA Climate Type & Mean Precipitation">
-                                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2">
-                                                <path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"/>
-                                                <path d="M8 19v2M12 18v3M16 19v2"/>
-                                            </svg>
-                                            <span id="provAdvisoryClimate">Type I &bull; 2,400 mm/yr &bull; 28.2&deg;C</span>
-                                        </div>
-                                    </div>
-                                    <div class="prov-crops-col">
-                                        <span class="province-crops-title" id="provAdvisoryCropsTitle">OFFICIALLY RECOMMENDED CROPS (DA-AMIA S1/S2):</span>
-                                        <div class="province-crops-list" id="provAdvisoryCropsList">
-                                            <!-- Dynamically rendered -->
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="province-crop-match-banner recommended" id="provCropMatchBanner">
-                                    <!-- Dynamically rendered -->
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Action Row: Calculate & Refresh -->
-                        <div class="calc-action-row">
-                            <button class="btn-calculate-action" id="calculateBtn" onclick="runCountUpCalc()">
-                                <span id="txtCalcBtn">CALCULATE HARVEST &amp; INCOME &rarr;</span>
-                            </button>
-                            <button class="btn-reset-action" id="resetBtn" onclick="requestCalculatorReset()" title="Clear all inputs and reset calculator" aria-label="Refresh and reset inputs">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" class="refresh-icon">
-                                    <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-1.19"/>
-                                </svg>
-                                <span id="txtResetBtn">REFRESH</span>
-                            </button>
-                        </div>
-
                     </div>
 
                     <!-- Right Results Column -->
@@ -4786,6 +4738,66 @@
                         <div class="results-guarantee-note" id="resGuaranteeNote">
                             ESTIMATE ONLY. NOT A GUARANTEE. &bull; BREAK-EVEN: <span id="resBreakEvenTag" class="readable-num">&#8369;0.00 / KG</span>
                         </div>
+                    </div>
+
+                    <!-- Official Philippine Provincial Crop Advisory Card (DA-AMIA & PSA) - Full-Width Landscape -->
+                    <div class="province-advisory-card" id="provinceAdvisoryCard">
+                        <div class="province-advisory-header">
+                            <div class="province-advisory-badge-group">
+                                <div class="province-advisory-badge">
+                                    <span class="badge-pulse-dot"></span>
+                                    <span id="provAdvisoryBadgeText">DA-AMIA OFFICIAL SUITABILITY (NCCAG v2.0)</span>
+                                </div>
+                                <div class="prov-name-badge-group">
+                                    <span class="province-name-highlight" id="provAdvisoryName">LAGUNA</span>
+                                    <span class="prov-island-pill island-luzon" id="provAdvisoryIslandPill">CALABARZON (REGION IV-A) &bull; LUZON</span>
+                                </div>
+                            </div>
+                            <div class="prov-distinction-badge" id="provAdvisoryDistinction" style="display:none;">
+                                <!-- Populated dynamically if distinction exists -->
+                            </div>
+                        </div>
+                        <div class="province-advisory-content">
+                            <div class="province-advisory-landscape-grid">
+                                <div class="prov-agro-specs-col">
+                                    <div class="prov-meta-pill" title="Dominant Soil Series (DA-BSWM)">
+                                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2">
+                                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                                        </svg>
+                                        <span id="provAdvisorySoil">Soil: Lipa Clay Loam</span>
+                                    </div>
+                                    <div class="prov-meta-pill" title="PAGASA Climate Type & Mean Precipitation">
+                                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2">
+                                            <path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"/>
+                                            <path d="M8 19v2M12 18v3M16 19v2"/>
+                                        </svg>
+                                        <span id="provAdvisoryClimate">Type I &bull; 2,400 mm/yr &bull; 28.2&deg;C</span>
+                                    </div>
+                                </div>
+                                <div class="prov-crops-col">
+                                    <span class="province-crops-title" id="provAdvisoryCropsTitle">OFFICIALLY RECOMMENDED CROPS (DA-AMIA S1/S2):</span>
+                                    <div class="province-crops-list" id="provAdvisoryCropsList">
+                                        <!-- Dynamically rendered -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="province-crop-match-banner recommended" id="provCropMatchBanner">
+                                <!-- Dynamically rendered -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Row: Calculate & Refresh -->
+                    <div class="calc-action-row">
+                        <button class="btn-calculate-action" id="calculateBtn" onclick="runCountUpCalc()">
+                            <span id="txtCalcBtn">CALCULATE HARVEST &amp; INCOME &rarr;</span>
+                        </button>
+                        <button class="btn-reset-action" id="resetBtn" onclick="requestCalculatorReset()" title="Clear all inputs and reset calculator" aria-label="Refresh and reset inputs">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" class="refresh-icon">
+                                <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-1.19"/>
+                            </svg>
+                            <span id="txtResetBtn">REFRESH</span>
+                        </button>
                     </div>
 
                 </div>
