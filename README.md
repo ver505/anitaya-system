@@ -29,10 +29,18 @@ In the Philippines, smallholder farmers often make planting and resource-allocat
 * **Zenodo Record ID:** `18761663`
 * **DOI:** `10.5281/zenodo.18761663`
 * **URL:** [https://zenodo.org/records/18761663](https://zenodo.org/records/18761663)
-* **Dataset Size:** 25,932 records × 7 attributes
+* **Master Merged Dataset:** data/df_yield_merged.csv (25,932 records x 7 attributes)
 * **Missing Values:** 0 missing entries across all columns (100% clean and validated)
 
-### Attributes:
+### 2.1 Uncombined Raw Source Datasets (data/)
+In addition to the cleaned and merged master dataset (df_yield_merged.csv), the repository stores the 4 original uncombined source CSV datasets, preserving full data provenance:
+1. **data/yield.csv** (4.04 MB - 56,717 records): Historical crop production yields (Value in hg/ha) per Country (Area), Crop (Item), and Year from FAOSTAT.
+2. **data/rainfall.csv** (136 KB - 6,727 records): Historical annual precipitation (verage_rain_fall_mm_per_year) per Country and Year.
+3. **data/pesticides.csv** (447 KB - 4,349 records): Annual agricultural agrochemical consumption (Value in tonnes of active ingredients) from FAOSTAT Agri-Environmental indicators.
+4. **data/temp.csv** (1.42 MB - 71,311 records): Annual mean land surface temperatures (vg_temp in deg C) per Country and Year.
+5. **data/philippine_provinces_crop_suitability.csv & .json**: Official 82-province agricultural recommendation and agro-climatic profile dataset based on DA-AMIA (NCCAG v2.0), PSA, DA-BSWM, and PAGASA.
+
+### 2.2 Merged Dataset Attributes:
 | Attribute | Type | Description | Unit / Range |
 | :--- | :--- | :--- | :--- |
 | `item` | Categorical | Crop type (Rice paddy, Maize, Cassava, Potatoes, Sweet potatoes, Plantains, etc.) | 10 agricultural crops |
