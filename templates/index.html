@@ -1886,14 +1886,54 @@
             background: var(--bg-shell);
             border: 1px solid var(--border-hairline);
             border-radius: var(--radius-tile);
-            padding: 9px 28px 9px 12px;
+            padding: 9.5px 30px 9.5px 12px;
             font-size: 10.5px;
             font-weight: 700;
-            letter-spacing: 0.06em;
+            letter-spacing: 0.05em;
             color: var(--text-offwhite);
             appearance: none;
+            -webkit-appearance: none;
             cursor: pointer;
             outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .region-select-el:hover {
+            border-color: var(--border-hairline-strong);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .region-select-el:focus {
+            border-color: var(--accent-olive);
+            box-shadow: 0 0 12px rgba(182, 198, 79, 0.25);
+        }
+
+        .region-select-el optgroup {
+            background: #141b10;
+            color: var(--accent-olive);
+            font-weight: 900;
+            font-size: 10px;
+            padding: 6px 4px;
+            letter-spacing: 0.06em;
+        }
+
+        .region-select-el option {
+            background: #192215;
+            color: var(--text-offwhite);
+            font-weight: 600;
+            font-size: 10px;
+            padding: 4px 8px;
+        }
+
+        [data-theme="light"] .region-select-el optgroup {
+            background: #eef2e6;
+            color: #435b14;
+            font-weight: 900;
+        }
+
+        [data-theme="light"] .region-select-el option {
+            background: #ffffff;
+            color: #141d0e;
         }
 
         .region-select-chevron {
@@ -2665,9 +2705,9 @@
         .confirm-modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(8, 10, 6, 0.75);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
+            background: rgba(6, 9, 5, 0.78);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             z-index: 99999;
             display: flex;
             align-items: center;
@@ -2676,7 +2716,7 @@
             box-sizing: border-box;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.2s ease;
+            transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .confirm-modal-overlay.active {
@@ -2686,18 +2726,18 @@
 
         .confirm-modal-card {
             width: 100%;
-            max-width: 410px;
-            background: var(--bg-shell);
-            border: 1px solid var(--border-hairline-strong);
-            border-radius: 20px;
+            max-width: 420px;
+            background: linear-gradient(150deg, #182015 0%, #0e130c 100%);
+            border: 1px solid rgba(182, 198, 79, 0.28);
+            border-radius: 22px;
             padding: 24px 22px;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
-            gap: 16px;
-            transform: scale(0.93) translateY(8px);
-            transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.55), 0 0 20px rgba(182, 198, 79, 0.1);
+            gap: 18px;
+            transform: scale(0.92) translateY(10px);
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 32px 70px rgba(0, 0, 0, 0.75), 0 0 30px rgba(182, 198, 79, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08);
         }
 
         .confirm-modal-overlay.active .confirm-modal-card {
@@ -2711,22 +2751,24 @@
         }
 
         .confirm-modal-icon-wrap {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            background: rgba(239, 68, 68, 0.16);
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+            background: radial-gradient(circle, rgba(239, 68, 68, 0.22) 0%, rgba(239, 68, 68, 0.06) 100%);
             color: #ef4444;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid rgba(239, 68, 68, 0.28);
+            border: 1.5px solid rgba(239, 68, 68, 0.38);
+            box-shadow: 0 0 16px rgba(239, 68, 68, 0.2);
             flex-shrink: 0;
         }
 
         .confirm-modal-icon-wrap.warning {
-            background: rgba(234, 179, 8, 0.16);
-            color: #eab308;
-            border-color: rgba(234, 179, 8, 0.28);
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.22) 0%, rgba(245, 158, 11, 0.06) 100%);
+            color: #fbbf24;
+            border-color: rgba(245, 158, 11, 0.4);
+            box-shadow: 0 0 16px rgba(245, 158, 11, 0.2);
         }
 
         .confirm-modal-body {
@@ -2738,7 +2780,7 @@
         .confirm-modal-title {
             font-size: 13.5px;
             font-weight: 900;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.06em;
             color: var(--text-offwhite);
             margin: 0;
             line-height: 1.3;
@@ -2749,9 +2791,9 @@
             font-weight: 500;
             line-height: 1.55;
             color: var(--text-muted);
-            letter-spacing: 0.03em;
+            letter-spacing: 0.02em;
             margin: 0;
-            text-transform: none; /* Keep natural reading for dialogue message */
+            text-transform: none;
         }
 
         .confirm-modal-actions {
@@ -2763,7 +2805,7 @@
         .btn-confirm-cancel {
             flex: 1;
             padding: 12px 14px;
-            background: var(--pill-inactive);
+            background: rgba(255, 255, 255, 0.04);
             border: 1px solid var(--border-hairline);
             border-radius: 12px;
             color: var(--text-offwhite);
@@ -2782,7 +2824,7 @@
         .btn-confirm-danger {
             flex: 1.2;
             padding: 12px 14px;
-            background: #dc2626;
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
             border: 1px solid #ef4444;
             border-radius: 12px;
             color: #ffffff;
@@ -2790,34 +2832,586 @@
             font-weight: 900;
             letter-spacing: 0.08em;
             cursor: pointer;
-            transition: all 0.15s ease;
-            box-shadow: 0 4px 14px rgba(220, 38, 38, 0.35);
+            transition: all 0.18s ease;
+            box-shadow: 0 4px 16px rgba(220, 38, 38, 0.4);
         }
 
         .btn-confirm-danger:hover {
-            background: #b91c1c;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
             transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.55);
         }
 
         .btn-confirm-danger.warning {
-            background: #ca8a04;
-            border-color: #eab308;
-            box-shadow: 0 4px 14px rgba(202, 138, 4, 0.35);
+            background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+            border-color: #f59e0b;
+            box-shadow: 0 4px 16px rgba(217, 119, 6, 0.4);
         }
 
         .btn-confirm-danger.warning:hover {
-            background: #a16207;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            box-shadow: 0 6px 20px rgba(217, 119, 6, 0.55);
         }
 
-        /* Light Mode for Confirmation Modal */
+        /* ── ANIMATED PULSE DOT INDICATOR ── */
+        .badge-pulse-dot {
+            width: 6.5px;
+            height: 6.5px;
+            border-radius: 50%;
+            background: #22c55e;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.9);
+            animation: pulse-dot 2s infinite ease-in-out;
+            flex-shrink: 0;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.35); opacity: 0.55; }
+        }
+
+        /* ── DA-AMIA PROVINCIAL CROP ADVISORY CARD (IN FARMER INPUTS) ── */
+        .province-advisory-card {
+            background: linear-gradient(145deg, rgba(28, 35, 22, 0.85) 0%, rgba(16, 21, 13, 0.95) 100%);
+            border: 1px solid rgba(182, 198, 79, 0.24);
+            border-radius: var(--radius-tile);
+            padding: 14px 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 4px;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            transition: all 0.22s ease;
+        }
+
+        .province-advisory-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .province-advisory-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 8px;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            color: var(--accent-olive);
+            text-transform: uppercase;
+        }
+
+        .prov-name-badge-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .province-name-highlight {
+            font-size: 13px;
+            font-weight: 900;
+            letter-spacing: 0.06em;
+            color: var(--text-offwhite);
+        }
+
+        .prov-island-pill {
+            font-size: 8px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            padding: 3px 8px;
+            border-radius: var(--radius-pill);
+            background: rgba(182, 198, 79, 0.14);
+            border: 1px solid rgba(182, 198, 79, 0.3);
+            color: var(--accent-olive);
+            white-space: nowrap;
+        }
+
+        .prov-island-pill.island-luzon {
+            background: rgba(132, 204, 22, 0.14);
+            border-color: rgba(132, 204, 22, 0.32);
+            color: #bef264;
+        }
+
+        .prov-island-pill.island-visayas {
+            background: rgba(6, 182, 212, 0.14);
+            border-color: rgba(6, 182, 212, 0.32);
+            color: #67e8f9;
+        }
+
+        .prov-island-pill.island-mindanao {
+            background: rgba(245, 158, 11, 0.14);
+            border-color: rgba(245, 158, 11, 0.32);
+            color: #fde047;
+        }
+
+        .province-advisory-content {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .prov-meta-pills-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 7px;
+        }
+
+        .prov-meta-pill {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-hairline);
+            border-radius: 9px;
+            padding: 6px 9px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 9px;
+            font-weight: 700;
+            color: var(--text-muted);
+            letter-spacing: 0.02em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .prov-meta-pill svg {
+            flex-shrink: 0;
+            color: var(--accent-olive);
+            opacity: 0.85;
+        }
+
+        .prov-meta-pill span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .province-crops-section {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .province-crops-title {
+            font-size: 8px;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .province-crops-list {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .province-crop-chip {
+            padding: 3.5px 8.5px;
+            border-radius: var(--radius-pill);
+            background: rgba(182, 198, 79, 0.12);
+            border: 1px solid rgba(182, 198, 79, 0.28);
+            font-size: 9px;
+            font-weight: 800;
+            color: var(--accent-olive);
+            letter-spacing: 0.03em;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .province-crop-chip.interactive {
+            cursor: pointer;
+            background: rgba(182, 198, 79, 0.18);
+            border-color: rgba(182, 198, 79, 0.45);
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .province-crop-chip.interactive:hover {
+            background: var(--accent-olive);
+            color: #12150e;
+            border-color: var(--accent-olive);
+            transform: translateY(-1.5px);
+            box-shadow: 0 4px 12px rgba(182, 198, 79, 0.35);
+        }
+
+        .province-crop-match-banner {
+            font-size: 10px;
+            font-weight: 600;
+            line-height: 1.5;
+            padding: 9px 12px;
+            border-radius: 11px;
+            letter-spacing: 0.02em;
+            text-transform: none;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            transition: all 0.2s ease;
+        }
+
+        .province-crop-match-banner.recommended {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.15) 0%, rgba(34, 197, 94, 0.05) 100%);
+            border: 1px solid rgba(34, 197, 94, 0.38);
+            border-left: 4px solid #22c55e;
+            color: #4ade80;
+            box-shadow: 0 4px 14px rgba(34, 197, 94, 0.1);
+        }
+
+        .province-crop-match-banner.recommended strong {
+            color: #86efac;
+        }
+
+        .province-crop-match-banner.advisory {
+            background: linear-gradient(135deg, rgba(234, 179, 8, 0.15) 0%, rgba(234, 179, 8, 0.05) 100%);
+            border: 1px solid rgba(234, 179, 8, 0.38);
+            border-left: 4px solid #eab308;
+            color: #fde047;
+            box-shadow: 0 4px 14px rgba(234, 179, 8, 0.1);
+        }
+
+        .province-crop-match-banner.advisory strong {
+            color: #ffffff;
+        }
+
+        /* ── PHILIPPINE PROVINCE SUITABILITY DIRECTORY (IN ADVISOR VIEW) ── */
+        .province-directory-card {
+            background: linear-gradient(160deg, rgba(22, 28, 18, 0.95) 0%, rgba(13, 17, 11, 0.98) 100%);
+            border: 1px solid rgba(182, 198, 79, 0.22);
+            border-radius: 20px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        }
+
+        .province-directory-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .directory-top-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 8px;
+            font-weight: 900;
+            letter-spacing: 0.12em;
+            color: var(--accent-olive);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .province-dir-title-group h3 {
+            font-size: 14px;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            color: var(--text-offwhite);
+            margin: 0;
+            line-height: 1.25;
+        }
+
+        .province-dir-title-group p {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin: 4px 0 0 0;
+            letter-spacing: 0.03em;
+            line-height: 1.45;
+        }
+
+        .province-dir-filters {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        .province-search-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .province-search-box svg {
+            position: absolute;
+            left: 12px;
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+
+        .province-search-input {
+            padding: 9px 16px 9px 34px;
+            border-radius: var(--radius-pill);
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid var(--border-hairline-strong);
+            color: var(--text-offwhite);
+            font-size: 10.5px;
+            font-weight: 600;
+            outline: none;
+            width: 290px;
+            max-width: 100%;
+            transition: all 0.2s ease;
+        }
+
+        .province-search-input:focus {
+            border-color: var(--accent-olive);
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 16px rgba(182, 198, 79, 0.3);
+        }
+
+        .province-island-pills {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .prov-filter-pill {
+            padding: 5px 12px;
+            border-radius: var(--radius-pill);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-hairline);
+            color: var(--text-muted);
+            font-size: 9.5px;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            cursor: pointer;
+            transition: all 0.16s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .prov-filter-pill:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-offwhite);
+            border-color: var(--border-hairline-strong);
+        }
+
+        .prov-filter-pill.active {
+            background: var(--accent-olive);
+            color: #12150e;
+            border-color: var(--accent-olive);
+            font-weight: 900;
+            box-shadow: 0 2px 10px rgba(182, 198, 79, 0.35);
+        }
+
+        .province-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(295px, 1fr));
+            gap: 14px;
+            max-height: 540px;
+            overflow-y: auto;
+            padding-right: 6px;
+        }
+
+        .province-cards-grid::-webkit-scrollbar {
+            width: 6px;
+        }
+        .province-cards-grid::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+        .province-cards-grid::-webkit-scrollbar-thumb {
+            background: rgba(182, 198, 79, 0.5);
+            border-radius: 10px;
+        }
+        .province-cards-grid::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-olive);
+        }
+
+        .province-item-card {
+            background: linear-gradient(145deg, rgba(28, 35, 23, 0.8) 0%, rgba(18, 22, 15, 0.92) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+        }
+
+        .province-item-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(182, 198, 79, 0.45);
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45), 0 0 20px rgba(182, 198, 79, 0.15);
+        }
+
+        .prov-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .prov-item-name {
+            font-size: 13.5px;
+            font-weight: 900;
+            color: var(--text-offwhite);
+            line-height: 1.25;
+            letter-spacing: 0.03em;
+        }
+
+        .prov-item-region {
+            font-size: 8.5px;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-top: 2px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .prov-item-island-badge {
+            font-size: 8px;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            padding: 2.5px 8px;
+            border-radius: var(--radius-pill);
+            white-space: nowrap;
+        }
+
+        .prov-item-island-badge.island-luzon {
+            background: rgba(132, 204, 22, 0.15);
+            border: 1px solid rgba(132, 204, 22, 0.35);
+            color: #bef264;
+        }
+
+        .prov-item-island-badge.island-visayas {
+            background: rgba(6, 182, 212, 0.15);
+            border: 1px solid rgba(6, 182, 212, 0.35);
+            color: #67e8f9;
+        }
+
+        .prov-item-island-badge.island-mindanao {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.35);
+            color: #fde047;
+        }
+
+        .prov-item-distinction {
+            font-size: 9px;
+            font-weight: 700;
+            color: #fde047;
+            background: rgba(234, 179, 8, 0.12);
+            border: 1px solid rgba(234, 179, 8, 0.28);
+            border-radius: 7px;
+            padding: 4px 8px;
+            line-height: 1.35;
+            text-transform: none;
+            letter-spacing: 0.02em;
+        }
+
+        .prov-item-crops-box {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .prov-item-label {
+            font-size: 8px;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .prov-crops-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .prov-mini-crop-chip {
+            font-size: 8.5px;
+            font-weight: 800;
+            padding: 2.5px 7px;
+            border-radius: 6px;
+            background: rgba(182, 198, 79, 0.14);
+            border: 1px solid rgba(182, 198, 79, 0.28);
+            color: var(--accent-olive);
+        }
+
+        .prov-item-soil-climate {
+            font-size: 9px;
+            font-weight: 600;
+            color: var(--text-muted);
+            line-height: 1.45;
+            text-transform: none;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--border-hairline);
+            border-radius: 8px;
+            padding: 6px 9px;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .prov-card-metric-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .prov-card-metric-row svg {
+            flex-shrink: 0;
+            color: var(--accent-olive);
+            opacity: 0.85;
+        }
+
+        .btn-use-province {
+            margin-top: 2px;
+            padding: 9px 12px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-hairline);
+            color: var(--text-offwhite);
+            font-size: 9.5px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            transition: all 0.18s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-use-province svg {
+            transition: transform 0.18s ease;
+        }
+
+        .btn-use-province:hover {
+            background: var(--accent-olive);
+            color: #12150e;
+            border-color: var(--accent-olive);
+            font-weight: 900;
+            box-shadow: 0 4px 14px rgba(182, 198, 79, 0.35);
+        }
+
+        .btn-use-province:hover svg {
+            transform: translateX(3px);
+        }
+
+        /* ── LIGHT MODE REFINEMENTS FOR PROVINCE & CONFIRMATION COMPONENTS ── */
         [data-theme="light"] .confirm-modal-overlay {
-            background: rgba(20, 26, 16, 0.45);
+            background: rgba(14, 20, 10, 0.5);
         }
 
         [data-theme="light"] .confirm-modal-card {
             background: #ffffff;
-            border-color: rgba(29, 42, 20, 0.15);
-            box-shadow: 0 20px 48px rgba(0, 0, 0, 0.18);
+            border-color: rgba(29, 42, 20, 0.18);
+            box-shadow: 0 28px 60px rgba(0, 0, 0, 0.15), 0 0 24px rgba(107, 128, 32, 0.1);
         }
 
         [data-theme="light"] .confirm-modal-title {
@@ -2836,316 +3430,13 @@
 
         [data-theme="light"] .btn-confirm-cancel:hover {
             background: #e9ece0;
+            border-color: rgba(29, 42, 20, 0.25);
         }
 
-        /* ── DA-AMIA PROVINCIAL CROP ADVISORY CARD (IN FARMER INPUTS) ── */
-        .province-advisory-card {
-            background: rgba(182, 198, 79, 0.08);
-            border: 1px solid rgba(182, 198, 79, 0.22);
-            border-radius: var(--radius-tile);
-            padding: 12px 14px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-top: 4px;
-            transition: all 0.2s ease;
-        }
-
-        .province-advisory-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .province-advisory-badge {
-            font-size: 8.5px;
-            font-weight: 900;
-            letter-spacing: 0.1em;
-            color: var(--accent-olive);
-            text-transform: uppercase;
-        }
-
-        .province-name-highlight {
-            font-size: 12.5px;
-            font-weight: 900;
-            letter-spacing: 0.06em;
-            color: var(--text-offwhite);
-            display: block;
-        }
-
-        .province-soil-tag {
-            font-size: 9.5px;
-            font-weight: 700;
-            color: var(--text-muted);
-            letter-spacing: 0.04em;
-        }
-
-        .province-crops-row {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
-
-        .province-crop-chip {
-            padding: 3px 8px;
-            border-radius: var(--radius-pill);
-            background: rgba(182, 198, 79, 0.16);
-            border: 1px solid rgba(182, 198, 79, 0.3);
-            font-size: 9.5px;
-            font-weight: 800;
-            color: var(--accent-olive);
-            letter-spacing: 0.04em;
-        }
-
-        .province-crop-match-banner {
-            font-size: 10px;
-            font-weight: 700;
-            line-height: 1.45;
-            padding: 8px 12px;
-            border-radius: 10px;
-            letter-spacing: 0.03em;
-            text-transform: none;
-        }
-
-        .province-crop-match-banner.recommended {
-            background: rgba(34, 197, 94, 0.14);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            color: #4ade80;
-        }
-
-        .province-crop-match-banner.advisory {
-            background: rgba(234, 179, 8, 0.14);
-            border: 1px solid rgba(234, 179, 8, 0.3);
-            color: #facc15;
-        }
-
-        /* ── PHILIPPINE PROVINCE SUITABILITY DIRECTORY (IN RISK & WEATHER VIEW) ── */
-        .province-directory-card {
-            background: var(--bg-ink);
-            border: 1px solid var(--border-hairline);
-            border-radius: var(--radius-card);
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .province-directory-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .province-dir-title-group h3 {
-            font-size: 12.5px;
-            font-weight: 900;
-            letter-spacing: 0.1em;
-            color: var(--text-offwhite);
-            margin: 0;
-        }
-
-        .province-dir-title-group p {
-            font-size: 9.5px;
-            font-weight: 600;
-            color: var(--text-muted);
-            margin: 3px 0 0 0;
-            letter-spacing: 0.04em;
-        }
-
-        .province-search-input {
-            padding: 8px 14px;
-            border-radius: var(--radius-pill);
-            background: var(--bg-card);
-            border: 1px solid var(--border-hairline-strong);
-            color: var(--text-offwhite);
-            font-size: 10.5px;
-            font-weight: 600;
-            outline: none;
-            width: 280px;
-            max-width: 100%;
-            transition: all 0.2s ease;
-        }
-
-        .province-search-input:focus {
-            border-color: var(--accent-olive);
-            box-shadow: 0 0 10px rgba(182, 198, 79, 0.25);
-        }
-
-        .province-filter-pills {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .prov-filter-pill {
-            padding: 6px 14px;
-            border-radius: var(--radius-pill);
-            background: var(--pill-inactive);
-            border: 1px solid var(--border-hairline);
-            color: var(--text-muted);
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: 0.06em;
-            cursor: pointer;
-            transition: all 0.15s ease;
-        }
-
-        .prov-filter-pill:hover,
-        .prov-filter-pill.active {
-            background: var(--accent-olive);
-            color: #12150e;
-            border-color: var(--accent-olive);
-            font-weight: 900;
-        }
-
-        .province-cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 12px;
-            max-height: 520px;
-            overflow-y: auto;
-            padding-right: 4px;
-        }
-
-        .province-cards-grid::-webkit-scrollbar {
-            width: 6px;
-        }
-        .province-cards-grid::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-        }
-        .province-cards-grid::-webkit-scrollbar-thumb {
-            background: var(--accent-olive);
-            border-radius: 10px;
-        }
-
-        .province-item-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-hairline);
-            border-radius: 14px;
-            padding: 14px 14px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
-        }
-
-        .province-item-card:hover {
-            transform: translateY(-2px);
-            border-color: var(--border-hairline-strong);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
-        }
-
-        .prov-item-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 8px;
-        }
-
-        .prov-item-name {
-            font-size: 13px;
-            font-weight: 900;
-            color: var(--text-offwhite);
-            line-height: 1.2;
-        }
-
-        .prov-item-region {
-            font-size: 9px;
-            font-weight: 700;
-            color: var(--text-muted);
-            margin-top: 2px;
-        }
-
-        .prov-item-island-badge {
-            font-size: 8.5px;
-            font-weight: 900;
-            letter-spacing: 0.08em;
-            padding: 2px 7px;
-            border-radius: var(--radius-pill);
-            background: var(--pill-inactive);
-            color: var(--accent-olive);
-            border: 1px solid var(--border-hairline);
-            white-space: nowrap;
-        }
-
-        .prov-item-crops-box {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .prov-item-label {
-            font-size: 8.5px;
-            font-weight: 800;
-            letter-spacing: 0.08em;
-            color: var(--text-muted);
-        }
-
-        .prov-crops-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px;
-        }
-
-        .prov-mini-crop-chip {
-            font-size: 9px;
-            font-weight: 800;
-            padding: 2px 6px;
-            border-radius: 6px;
-            background: rgba(182, 198, 79, 0.14);
-            border: 1px solid rgba(182, 198, 79, 0.25);
-            color: var(--accent-olive);
-        }
-
-        .prov-item-distinction {
-            font-size: 9px;
-            font-weight: 700;
-            color: #d4e868;
-            line-height: 1.35;
-            text-transform: none;
-            letter-spacing: 0.02em;
-        }
-
-        .prov-item-soil-climate {
-            font-size: 8.5px;
-            font-weight: 600;
-            color: var(--text-muted);
-            line-height: 1.35;
-            text-transform: none;
-        }
-
-        .btn-use-province {
-            margin-top: 2px;
-            padding: 7px 10px;
-            border-radius: 8px;
-            background: var(--pill-inactive);
-            border: 1px solid var(--border-hairline);
-            color: var(--text-offwhite);
-            font-size: 9px;
-            font-weight: 800;
-            letter-spacing: 0.08em;
-            cursor: pointer;
-            transition: all 0.15s ease;
-            text-align: center;
-        }
-
-        .btn-use-province:hover {
-            background: var(--accent-olive);
-            color: #12150e;
-            border-color: var(--accent-olive);
-            font-weight: 900;
-        }
-
-        /* ── LIGHT MODE STYLES FOR PROVINCE COMPONENTS ── */
         [data-theme="light"] .province-advisory-card {
-            background: #f4f7ed;
-            border-color: rgba(107, 128, 32, 0.22);
+            background: linear-gradient(145deg, #ffffff 0%, #f6f9f0 100%);
+            border-color: rgba(107, 128, 32, 0.25);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
         }
 
         [data-theme="light"] .province-advisory-badge {
@@ -3156,31 +3447,82 @@
             color: #141d0e;
         }
 
-        [data-theme="light"] .province-soil-tag {
+        [data-theme="light"] .prov-island-pill.island-luzon {
+            background: rgba(107, 128, 32, 0.12);
+            border-color: rgba(107, 128, 32, 0.28);
+            color: #3b5311;
+        }
+
+        [data-theme="light"] .prov-island-pill.island-visayas {
+            background: rgba(14, 116, 144, 0.12);
+            border-color: rgba(14, 116, 144, 0.28);
+            color: #0e7490;
+        }
+
+        [data-theme="light"] .prov-island-pill.island-mindanao {
+            background: rgba(180, 83, 9, 0.12);
+            border-color: rgba(180, 83, 9, 0.28);
+            color: #b45309;
+        }
+
+        [data-theme="light"] .prov-meta-pill {
+            background: #f5f8ef;
+            border-color: rgba(29, 42, 20, 0.12);
             color: #4d5e3c;
+        }
+
+        [data-theme="light"] .prov-meta-pill svg {
+            color: #556b2f;
         }
 
         [data-theme="light"] .province-crop-chip {
             background: rgba(107, 128, 32, 0.12);
-            border-color: rgba(107, 128, 32, 0.25);
+            border-color: rgba(107, 128, 32, 0.28);
             color: #2e5c12;
         }
 
+        [data-theme="light"] .province-crop-chip.interactive {
+            background: rgba(107, 128, 32, 0.18);
+            border-color: #6b8020;
+            color: #1a380a;
+        }
+
+        [data-theme="light"] .province-crop-chip.interactive:hover {
+            background: #6b8020;
+            color: #ffffff;
+            border-color: #6b8020;
+        }
+
         [data-theme="light"] .province-crop-match-banner.recommended {
-            background: rgba(34, 197, 94, 0.12);
-            border-color: rgba(34, 197, 94, 0.3);
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.14) 0%, rgba(34, 197, 94, 0.05) 100%);
+            border-color: rgba(34, 197, 94, 0.35);
+            border-left-color: #16a34a;
             color: #15803d;
         }
 
+        [data-theme="light"] .province-crop-match-banner.recommended strong {
+            color: #14532d;
+        }
+
         [data-theme="light"] .province-crop-match-banner.advisory {
-            background: rgba(234, 179, 8, 0.14);
-            border-color: rgba(234, 179, 8, 0.3);
+            background: linear-gradient(135deg, rgba(234, 179, 8, 0.14) 0%, rgba(234, 179, 8, 0.05) 100%);
+            border-color: rgba(234, 179, 8, 0.35);
+            border-left-color: #ca8a04;
             color: #854d0e;
         }
 
+        [data-theme="light"] .province-crop-match-banner.advisory strong {
+            color: #713f12;
+        }
+
         [data-theme="light"] .province-directory-card {
-            background: #f5f7ee;
-            border-color: rgba(29, 42, 20, 0.12);
+            background: #ffffff;
+            border-color: rgba(29, 42, 20, 0.14);
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.05);
+        }
+
+        [data-theme="light"] .directory-top-badge {
+            color: #556b2f;
         }
 
         [data-theme="light"] .province-dir-title-group h3 {
@@ -3192,33 +3534,44 @@
         }
 
         [data-theme="light"] .province-search-input {
-            background: #ffffff;
-            border-color: rgba(29, 42, 20, 0.15);
+            background: #f7f9f2;
+            border-color: rgba(29, 42, 20, 0.16);
             color: #141d0e;
         }
 
         [data-theme="light"] .province-search-input:focus {
+            background: #ffffff;
             border-color: #6b8020;
-            box-shadow: 0 0 10px rgba(107, 128, 32, 0.2);
+            box-shadow: 0 0 14px rgba(107, 128, 32, 0.22);
         }
 
         [data-theme="light"] .prov-filter-pill {
-            background: #e9ece0;
-            border-color: rgba(29, 42, 20, 0.12);
+            background: #f4f6ee;
+            border-color: rgba(29, 42, 20, 0.14);
             color: #4d5e3c;
         }
 
-        [data-theme="light"] .prov-filter-pill:hover,
+        [data-theme="light"] .prov-filter-pill:hover {
+            background: #e9ece0;
+            color: #141d0e;
+        }
+
         [data-theme="light"] .prov-filter-pill.active {
             background: #6b8020;
             color: #ffffff;
             border-color: #6b8020;
+            box-shadow: 0 2px 10px rgba(107, 128, 32, 0.3);
         }
 
         [data-theme="light"] .province-item-card {
             background: #ffffff;
             border-color: rgba(29, 42, 20, 0.12);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+        }
+
+        [data-theme="light"] .province-item-card:hover {
+            border-color: #6b8020;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08), 0 0 16px rgba(107, 128, 32, 0.15);
         }
 
         [data-theme="light"] .prov-item-name {
@@ -3229,29 +3582,49 @@
             color: #4d5e3c;
         }
 
-        [data-theme="light"] .prov-item-island-badge {
-            background: #f4f6ee;
-            color: #556b2f;
-            border-color: rgba(29, 42, 20, 0.15);
+        [data-theme="light"] .prov-item-island-badge.island-luzon {
+            background: rgba(107, 128, 32, 0.12);
+            border-color: rgba(107, 128, 32, 0.28);
+            color: #3b5311;
+        }
+
+        [data-theme="light"] .prov-item-island-badge.island-visayas {
+            background: rgba(14, 116, 144, 0.12);
+            border-color: rgba(14, 116, 144, 0.28);
+            color: #0e7490;
+        }
+
+        [data-theme="light"] .prov-item-island-badge.island-mindanao {
+            background: rgba(180, 83, 9, 0.12);
+            border-color: rgba(180, 83, 9, 0.28);
+            color: #b45309;
+        }
+
+        [data-theme="light"] .prov-item-distinction {
+            background: rgba(234, 179, 8, 0.14);
+            border-color: rgba(234, 179, 8, 0.3);
+            color: #854d0e;
         }
 
         [data-theme="light"] .prov-mini-crop-chip {
             background: rgba(107, 128, 32, 0.12);
-            border-color: rgba(107, 128, 32, 0.25);
-            color: #2e5c12;
-        }
-
-        [data-theme="light"] .prov-item-distinction {
+            border-color: rgba(107, 128, 32, 0.28);
             color: #2e5c12;
         }
 
         [data-theme="light"] .prov-item-soil-climate {
+            background: #f7f9f2;
+            border-color: rgba(29, 42, 20, 0.12);
             color: #4d5e3c;
         }
 
+        [data-theme="light"] .prov-card-metric-row svg {
+            color: #556b2f;
+        }
+
         [data-theme="light"] .btn-use-province {
-            background: #f4f6ee;
-            border-color: rgba(29, 42, 20, 0.15);
+            background: #f4f7ee;
+            border-color: rgba(29, 42, 20, 0.16);
             color: #141d0e;
         }
 
@@ -4244,21 +4617,32 @@
                             <div class="province-advisory-card" id="provinceAdvisoryCard">
                                 <div class="province-advisory-header">
                                     <div class="province-advisory-badge">
-                                        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.3">
-                                            <path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/>
-                                            <circle cx="12" cy="10" r="3"/>
-                                        </svg>
-                                        <span id="provAdvisoryBadgeText">DA-AMIA PROVINCIAL SUITABILITY</span>
+                                        <span class="badge-pulse-dot"></span>
+                                        <span id="provAdvisoryBadgeText">DA-AMIA OFFICIAL SUITABILITY</span>
                                     </div>
-                                    <span class="province-name-highlight" id="provAdvisoryName">LAGUNA</span>
+                                    <div class="prov-name-badge-group">
+                                        <span class="province-name-highlight" id="provAdvisoryName">LAGUNA</span>
+                                        <span class="prov-island-pill island-luzon" id="provAdvisoryIslandPill">REGION IV-A &bull; LUZON</span>
+                                    </div>
                                 </div>
                                 <div class="province-advisory-content">
-                                    <div class="province-advisory-meta">
-                                        <span class="province-soil-tag" id="provAdvisorySoil">Soil: Lipa Clay Loam</span>
-                                        <span class="province-soil-tag" id="provAdvisoryClimate">Type I &bull; 2,400 mm/yr</span>
+                                    <div class="prov-meta-pills-row">
+                                        <div class="prov-meta-pill" title="Dominant Soil Series (DA-BSWM)">
+                                            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2">
+                                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                                            </svg>
+                                            <span id="provAdvisorySoil">Soil: Lipa Clay Loam</span>
+                                        </div>
+                                        <div class="prov-meta-pill" title="PAGASA Climate Type & Mean Precipitation">
+                                            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2">
+                                                <path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"/>
+                                                <path d="M8 19v2M12 18v3M16 19v2"/>
+                                            </svg>
+                                            <span id="provAdvisoryClimate">Type I &bull; 2,400 mm/yr</span>
+                                        </div>
                                     </div>
                                     <div class="province-crops-section">
-                                        <span class="province-crops-title" id="provAdvisoryCropsTitle">OFFICIALLY RECOMMENDED CROPS:</span>
+                                        <span class="province-crops-title" id="provAdvisoryCropsTitle">OFFICIALLY RECOMMENDED CROPS (DA-AMIA):</span>
                                         <div class="province-crops-list" id="provAdvisoryCropsList">
                                             <!-- Dynamically rendered -->
                                         </div>
@@ -4366,12 +4750,16 @@
                     <div class="province-directory-card" id="provinceDirectoryCard">
                         <div class="province-directory-header">
                             <div class="province-dir-title-group">
+                                <div class="directory-top-badge">
+                                    <span class="badge-pulse-dot"></span>
+                                    <span>NATIONAL AGRICULTURAL REPOSITORY &bull; 82 PROVINCES</span>
+                                </div>
                                 <h3 id="txtProvDirTitle">PHILIPPINE PROVINCIAL CROP SUITABILITY DIRECTORY</h3>
                                 <p id="txtProvDirSubtitle">OFFICIAL CROP RECOMMENDATIONS, SOIL SERIES, AND PAGASA CLIMATE TYPES ACROSS ALL 82 PROVINCES (DA-AMIA NCCAG v2.0 &amp; PSA)</p>
                             </div>
                             <div class="province-dir-filters">
                                 <div class="province-search-box">
-                                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4">
                                         <circle cx="11" cy="11" r="8"></circle>
                                         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                                     </svg>
@@ -6550,19 +6938,26 @@
             if (!p) return;
 
             const nameEl = document.getElementById('provAdvisoryName');
+            const islandPill = document.getElementById('provAdvisoryIslandPill');
             const soilEl = document.getElementById('provAdvisorySoil');
             const climateEl = document.getElementById('provAdvisoryClimate');
             const cropsListEl = document.getElementById('provAdvisoryCropsList');
             const matchBannerEl = document.getElementById('provCropMatchBanner');
 
             if (nameEl) {
-                nameEl.textContent = `${p.province.toUpperCase()} (${p.island_group.toUpperCase()})`;
+                nameEl.textContent = p.province.toUpperCase();
+            }
+            if (islandPill) {
+                islandPill.textContent = `${p.region.toUpperCase()} \u2022 ${p.island_group.toUpperCase()}`;
+                const islKey = (p.island_group || '').toLowerCase();
+                islandPill.className = `prov-island-pill island-${islKey}`;
             }
             if (soilEl) {
-                soilEl.textContent = `Dominant Soil: ${p.dominant_soil}`;
+                soilEl.textContent = `Soil: ${p.dominant_soil}`;
             }
             if (climateEl) {
-                climateEl.textContent = `PAGASA: ${p.climate_type.split('(')[0].trim()} \u2022 ${p.annual_rainfall_mm.toLocaleString()} mm/yr \u2022 ${p.avg_temp_c}\u00B0C`;
+                const climShort = p.climate_type.split('(')[0].trim();
+                climateEl.textContent = `${climShort} \u2022 ${p.annual_rainfall_mm.toLocaleString()} mm/yr \u2022 ${p.avg_temp_c}\u00B0C`;
             }
 
             // Render Recommended Crop Chips
@@ -6602,10 +6997,15 @@
                     matchBannerEl.style.borderColor = 'var(--border-hairline-strong)';
                     matchBannerEl.style.background = 'rgba(255, 255, 255, 0.03)';
                     matchBannerEl.innerHTML = `
-                        <div style="font-weight: 700; color: var(--accent-olive); margin-bottom: 2px;">
-                            ${isFil ? 'PAALALA SA MGA MAGSASAKA' : 'PROVINCIAL AGRONOMIC GUIDE (DA-AMIA)'}:
+                        <div style="font-weight: 800; color: var(--accent-olive); display: flex; align-items: center; gap: 6px;">
+                            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.3">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                            </svg>
+                            <span>${isFil ? 'PAALALA SA MGA MAGSASAKA' : 'PROVINCIAL AGRONOMIC GUIDE (DA-AMIA)'}:</span>
                         </div>
-                        <div>${p.agronomic_advice || 'Select a crop above to evaluate suitability for this province.'}</div>
+                        <div style="font-size: 9.5px; line-height: 1.45; color: var(--text-muted);">${p.agronomic_advice || 'Select a crop above to evaluate suitability for this province.'}</div>
                     `;
                     return;
                 }
@@ -6639,11 +7039,15 @@
                     matchBannerEl.style.background = '';
                     const gradeText = isPrimary ? p.da_suitability_grade : 'Moderately Suitable (S2)';
                     matchBannerEl.innerHTML = `
-                        <div style="font-weight: 800; margin-bottom: 2px;">
-                            ${isFil ? '&#10003; OPISYAL NA INIREREKOMENDA' : '&#10003; OFFICIALLY HIGHLY RECOMMENDED'}:
+                        <div style="font-weight: 800; display: flex; align-items: center; gap: 6px;">
+                            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                            <span>${isFil ? 'OPISYAL NA INIREREKOMENDA' : 'OFFICIALLY HIGHLY RECOMMENDED'} (${gradeText})</span>
                         </div>
                         <div>
-                            <strong>${cropDisplayName}</strong> ${isFil ? 'ay opisyal na priority crop sa' : 'is an officially designated priority crop in'} <strong>${p.province}</strong> (${gradeText}). ${p.national_distinction ? ' \u2014 ' + p.national_distinction : ''}
+                            <strong>${cropDisplayName}</strong> ${isFil ? 'ay opisyal na priority crop sa' : 'is an officially designated priority crop in'} <strong>${p.province}</strong>. ${p.national_distinction ? ' \u2014 ' + p.national_distinction : ''}
                         </div>
                     `;
                 } else {
@@ -6651,13 +7055,16 @@
                     matchBannerEl.style.borderColor = '';
                     matchBannerEl.style.background = '';
                     matchBannerEl.innerHTML = `
-                        <div style="font-weight: 800; margin-bottom: 2px;">
-                            ${isFil ? '&#9432; AGRO-CLIMATIC ADVISORY' : '&#9432; AGRO-CLIMATIC CROP ADVISORY'}:
+                        <div style="font-weight: 800; display: flex; align-items: center; gap: 6px;">
+                            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.3">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                            <span>${isFil ? 'AGRO-CLIMATIC ADVISORY' : 'AGRO-CLIMATIC CROP ADVISORY'}</span>
                         </div>
                         <div>
                             ${isFil 
                                 ? `Ang <strong>${cropDisplayName}</strong> ay nangangailangan ng mas masusing patubig at micro-climate control sa <strong>${p.province}</strong>. Ang DA-AMIA ay nagmumungkahi ng <strong>${p.primary_crops}</strong> bilang may pinakamataas na ani sa lupang <em>${p.dominant_soil}</em>.` 
-                                : `<strong>${cropDisplayName}</strong> requires careful micro-climate and soil moisture management in <strong>${p.province}</strong>. DA-AMIA identifies <strong>${p.primary_crops}</strong> as prime suitability for <em>${p.dominant_soil}</em>.`
+                                : `<strong>${cropDisplayName}</strong> requires micro-climate & soil moisture management in <strong>${p.province}</strong>. DA-AMIA identifies <strong>${p.primary_crops}</strong> as prime suitability for <em>${p.dominant_soil}</em>.`
                             }
                         </div>
                     `;
@@ -6707,7 +7114,7 @@
 
             if (filtered.length === 0) {
                 grid.innerHTML = `
-                    <div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 36px 16px; font-size: 11px;">
+                    <div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 42px 16px; font-size: 11px;">
                         NO PHILIPPINE PROVINCES FOUND MATCHING "${query.toUpperCase()}".<br>TRY SEARCHING FOR "RICE", "BENGUET", "ILOILO", OR "ISABELA".
                     </div>
                 `;
@@ -6717,6 +7124,8 @@
             grid.innerHTML = filtered.map(p => {
                 const primCrops = (p.primary_crops || '').split(';').map(s => s.trim()).filter(Boolean);
                 const chipsHtml = primCrops.map(c => `<span class="prov-mini-crop-chip">${c}</span>`).join('');
+                const islKey = (p.island_group || '').toLowerCase();
+                const islClass = `island-${islKey}`;
                 return `
                     <div class="province-item-card">
                         <div class="prov-item-header">
@@ -6724,18 +7133,26 @@
                                 <div class="prov-item-name">${p.province}</div>
                                 <div class="prov-item-region">${p.region}</div>
                             </div>
-                            <span class="prov-item-island-badge">${p.island_group}</span>
-                        </div>
-                        <div class="prov-item-crops">
-                            ${chipsHtml}
+                            <span class="prov-item-island-badge ${islClass}">${p.island_group}</span>
                         </div>
                         ${p.national_distinction ? `<div class="prov-item-distinction">&#9733; ${p.national_distinction}</div>` : ''}
+                        <div class="prov-item-crops-box">
+                            <span class="prov-item-label">OFFICIAL CROPS:</span>
+                            <div class="prov-crops-tags">${chipsHtml}</div>
+                        </div>
                         <div class="prov-item-soil-climate">
-                            <strong>Soil:</strong> ${p.dominant_soil}<br>
-                            <strong>Rainfall:</strong> ${p.annual_rainfall_mm.toLocaleString()} mm &bull; <strong>Temp:</strong> ${p.avg_temp_c}&deg;C
+                            <div class="prov-card-metric-row" title="Dominant Soil Series">
+                                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                                <span>${p.dominant_soil}</span>
+                            </div>
+                            <div class="prov-card-metric-row" title="PAGASA Climate Type & Mean Precipitation">
+                                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"/><path d="M8 19v2M12 18v3M16 19v2"/></svg>
+                                <span>${p.climate_type.split('(')[0].trim()} &bull; ${p.annual_rainfall_mm.toLocaleString()} mm/yr &bull; ${p.avg_temp_c}&deg;C</span>
+                            </div>
                         </div>
                         <button type="button" class="btn-use-province" onclick="applyProvinceToCalculator('${p.province.replace(/'/g, "\\'")}')">
-                            APPLY TO CALCULATOR &rarr;
+                            <span>APPLY TO CALCULATOR</span>
+                            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                         </button>
                     </div>
                 `;
