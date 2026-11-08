@@ -2661,6 +2661,606 @@
             transform: translateY(0);
         }
 
+        /* ── CONFIRMATION & VALIDATION DIALOG MODAL ── */
+        .confirm-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(8, 10, 6, 0.75);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            box-sizing: border-box;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .confirm-modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .confirm-modal-card {
+            width: 100%;
+            max-width: 410px;
+            background: var(--bg-shell);
+            border: 1px solid var(--border-hairline-strong);
+            border-radius: 20px;
+            padding: 24px 22px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            transform: scale(0.93) translateY(8px);
+            transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.55), 0 0 20px rgba(182, 198, 79, 0.1);
+        }
+
+        .confirm-modal-overlay.active .confirm-modal-card {
+            transform: scale(1) translateY(0);
+        }
+
+        .confirm-modal-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .confirm-modal-icon-wrap {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(239, 68, 68, 0.16);
+            color: #ef4444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(239, 68, 68, 0.28);
+            flex-shrink: 0;
+        }
+
+        .confirm-modal-icon-wrap.warning {
+            background: rgba(234, 179, 8, 0.16);
+            color: #eab308;
+            border-color: rgba(234, 179, 8, 0.28);
+        }
+
+        .confirm-modal-body {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .confirm-modal-title {
+            font-size: 13.5px;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            color: var(--text-offwhite);
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        .confirm-modal-msg {
+            font-size: 11px;
+            font-weight: 500;
+            line-height: 1.55;
+            color: var(--text-muted);
+            letter-spacing: 0.03em;
+            margin: 0;
+            text-transform: none; /* Keep natural reading for dialogue message */
+        }
+
+        .confirm-modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 4px;
+        }
+
+        .btn-confirm-cancel {
+            flex: 1;
+            padding: 12px 14px;
+            background: var(--pill-inactive);
+            border: 1px solid var(--border-hairline);
+            border-radius: 12px;
+            color: var(--text-offwhite);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .btn-confirm-cancel:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--border-hairline-strong);
+        }
+
+        .btn-confirm-danger {
+            flex: 1.2;
+            padding: 12px 14px;
+            background: #dc2626;
+            border: 1px solid #ef4444;
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            box-shadow: 0 4px 14px rgba(220, 38, 38, 0.35);
+        }
+
+        .btn-confirm-danger:hover {
+            background: #b91c1c;
+            transform: translateY(-1px);
+        }
+
+        .btn-confirm-danger.warning {
+            background: #ca8a04;
+            border-color: #eab308;
+            box-shadow: 0 4px 14px rgba(202, 138, 4, 0.35);
+        }
+
+        .btn-confirm-danger.warning:hover {
+            background: #a16207;
+        }
+
+        /* Light Mode for Confirmation Modal */
+        [data-theme="light"] .confirm-modal-overlay {
+            background: rgba(20, 26, 16, 0.45);
+        }
+
+        [data-theme="light"] .confirm-modal-card {
+            background: #ffffff;
+            border-color: rgba(29, 42, 20, 0.15);
+            box-shadow: 0 20px 48px rgba(0, 0, 0, 0.18);
+        }
+
+        [data-theme="light"] .confirm-modal-title {
+            color: #141d0e;
+        }
+
+        [data-theme="light"] .confirm-modal-msg {
+            color: #4d5e3c;
+        }
+
+        [data-theme="light"] .btn-confirm-cancel {
+            background: #f4f6ee;
+            border-color: rgba(29, 42, 20, 0.15);
+            color: #141d0e;
+        }
+
+        [data-theme="light"] .btn-confirm-cancel:hover {
+            background: #e9ece0;
+        }
+
+        /* ── DA-AMIA PROVINCIAL CROP ADVISORY CARD (IN FARMER INPUTS) ── */
+        .province-advisory-card {
+            background: rgba(182, 198, 79, 0.08);
+            border: 1px solid rgba(182, 198, 79, 0.22);
+            border-radius: var(--radius-tile);
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .province-advisory-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .province-advisory-badge {
+            font-size: 8.5px;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            color: var(--accent-olive);
+            text-transform: uppercase;
+        }
+
+        .province-name-highlight {
+            font-size: 12.5px;
+            font-weight: 900;
+            letter-spacing: 0.06em;
+            color: var(--text-offwhite);
+            display: block;
+        }
+
+        .province-soil-tag {
+            font-size: 9.5px;
+            font-weight: 700;
+            color: var(--text-muted);
+            letter-spacing: 0.04em;
+        }
+
+        .province-crops-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .province-crop-chip {
+            padding: 3px 8px;
+            border-radius: var(--radius-pill);
+            background: rgba(182, 198, 79, 0.16);
+            border: 1px solid rgba(182, 198, 79, 0.3);
+            font-size: 9.5px;
+            font-weight: 800;
+            color: var(--accent-olive);
+            letter-spacing: 0.04em;
+        }
+
+        .province-crop-match-banner {
+            font-size: 10px;
+            font-weight: 700;
+            line-height: 1.45;
+            padding: 8px 12px;
+            border-radius: 10px;
+            letter-spacing: 0.03em;
+            text-transform: none;
+        }
+
+        .province-crop-match-banner.recommended {
+            background: rgba(34, 197, 94, 0.14);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: #4ade80;
+        }
+
+        .province-crop-match-banner.advisory {
+            background: rgba(234, 179, 8, 0.14);
+            border: 1px solid rgba(234, 179, 8, 0.3);
+            color: #facc15;
+        }
+
+        /* ── PHILIPPINE PROVINCE SUITABILITY DIRECTORY (IN RISK & WEATHER VIEW) ── */
+        .province-directory-card {
+            background: var(--bg-ink);
+            border: 1px solid var(--border-hairline);
+            border-radius: var(--radius-card);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .province-directory-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .province-dir-title-group h3 {
+            font-size: 12.5px;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            color: var(--text-offwhite);
+            margin: 0;
+        }
+
+        .province-dir-title-group p {
+            font-size: 9.5px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin: 3px 0 0 0;
+            letter-spacing: 0.04em;
+        }
+
+        .province-search-input {
+            padding: 8px 14px;
+            border-radius: var(--radius-pill);
+            background: var(--bg-card);
+            border: 1px solid var(--border-hairline-strong);
+            color: var(--text-offwhite);
+            font-size: 10.5px;
+            font-weight: 600;
+            outline: none;
+            width: 280px;
+            max-width: 100%;
+            transition: all 0.2s ease;
+        }
+
+        .province-search-input:focus {
+            border-color: var(--accent-olive);
+            box-shadow: 0 0 10px rgba(182, 198, 79, 0.25);
+        }
+
+        .province-filter-pills {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .prov-filter-pill {
+            padding: 6px 14px;
+            border-radius: var(--radius-pill);
+            background: var(--pill-inactive);
+            border: 1px solid var(--border-hairline);
+            color: var(--text-muted);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .prov-filter-pill:hover,
+        .prov-filter-pill.active {
+            background: var(--accent-olive);
+            color: #12150e;
+            border-color: var(--accent-olive);
+            font-weight: 900;
+        }
+
+        .province-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 12px;
+            max-height: 520px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .province-cards-grid::-webkit-scrollbar {
+            width: 6px;
+        }
+        .province-cards-grid::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        .province-cards-grid::-webkit-scrollbar-thumb {
+            background: var(--accent-olive);
+            border-radius: 10px;
+        }
+
+        .province-item-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-hairline);
+            border-radius: 14px;
+            padding: 14px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+        }
+
+        .province-item-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--border-hairline-strong);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+        }
+
+        .prov-item-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .prov-item-name {
+            font-size: 13px;
+            font-weight: 900;
+            color: var(--text-offwhite);
+            line-height: 1.2;
+        }
+
+        .prov-item-region {
+            font-size: 9px;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .prov-item-island-badge {
+            font-size: 8.5px;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            padding: 2px 7px;
+            border-radius: var(--radius-pill);
+            background: var(--pill-inactive);
+            color: var(--accent-olive);
+            border: 1px solid var(--border-hairline);
+            white-space: nowrap;
+        }
+
+        .prov-item-crops-box {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .prov-item-label {
+            font-size: 8.5px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+        }
+
+        .prov-crops-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .prov-mini-crop-chip {
+            font-size: 9px;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 6px;
+            background: rgba(182, 198, 79, 0.14);
+            border: 1px solid rgba(182, 198, 79, 0.25);
+            color: var(--accent-olive);
+        }
+
+        .prov-item-distinction {
+            font-size: 9px;
+            font-weight: 700;
+            color: #d4e868;
+            line-height: 1.35;
+            text-transform: none;
+            letter-spacing: 0.02em;
+        }
+
+        .prov-item-soil-climate {
+            font-size: 8.5px;
+            font-weight: 600;
+            color: var(--text-muted);
+            line-height: 1.35;
+            text-transform: none;
+        }
+
+        .btn-use-province {
+            margin-top: 2px;
+            padding: 7px 10px;
+            border-radius: 8px;
+            background: var(--pill-inactive);
+            border: 1px solid var(--border-hairline);
+            color: var(--text-offwhite);
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            text-align: center;
+        }
+
+        .btn-use-province:hover {
+            background: var(--accent-olive);
+            color: #12150e;
+            border-color: var(--accent-olive);
+            font-weight: 900;
+        }
+
+        /* ── LIGHT MODE STYLES FOR PROVINCE COMPONENTS ── */
+        [data-theme="light"] .province-advisory-card {
+            background: #f4f7ed;
+            border-color: rgba(107, 128, 32, 0.22);
+        }
+
+        [data-theme="light"] .province-advisory-badge {
+            color: #556b2f;
+        }
+
+        [data-theme="light"] .province-name-highlight {
+            color: #141d0e;
+        }
+
+        [data-theme="light"] .province-soil-tag {
+            color: #4d5e3c;
+        }
+
+        [data-theme="light"] .province-crop-chip {
+            background: rgba(107, 128, 32, 0.12);
+            border-color: rgba(107, 128, 32, 0.25);
+            color: #2e5c12;
+        }
+
+        [data-theme="light"] .province-crop-match-banner.recommended {
+            background: rgba(34, 197, 94, 0.12);
+            border-color: rgba(34, 197, 94, 0.3);
+            color: #15803d;
+        }
+
+        [data-theme="light"] .province-crop-match-banner.advisory {
+            background: rgba(234, 179, 8, 0.14);
+            border-color: rgba(234, 179, 8, 0.3);
+            color: #854d0e;
+        }
+
+        [data-theme="light"] .province-directory-card {
+            background: #f5f7ee;
+            border-color: rgba(29, 42, 20, 0.12);
+        }
+
+        [data-theme="light"] .province-dir-title-group h3 {
+            color: #141d0e;
+        }
+
+        [data-theme="light"] .province-dir-title-group p {
+            color: #4d5e3c;
+        }
+
+        [data-theme="light"] .province-search-input {
+            background: #ffffff;
+            border-color: rgba(29, 42, 20, 0.15);
+            color: #141d0e;
+        }
+
+        [data-theme="light"] .province-search-input:focus {
+            border-color: #6b8020;
+            box-shadow: 0 0 10px rgba(107, 128, 32, 0.2);
+        }
+
+        [data-theme="light"] .prov-filter-pill {
+            background: #e9ece0;
+            border-color: rgba(29, 42, 20, 0.12);
+            color: #4d5e3c;
+        }
+
+        [data-theme="light"] .prov-filter-pill:hover,
+        [data-theme="light"] .prov-filter-pill.active {
+            background: #6b8020;
+            color: #ffffff;
+            border-color: #6b8020;
+        }
+
+        [data-theme="light"] .province-item-card {
+            background: #ffffff;
+            border-color: rgba(29, 42, 20, 0.12);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        }
+
+        [data-theme="light"] .prov-item-name {
+            color: #141d0e;
+        }
+
+        [data-theme="light"] .prov-item-region {
+            color: #4d5e3c;
+        }
+
+        [data-theme="light"] .prov-item-island-badge {
+            background: #f4f6ee;
+            color: #556b2f;
+            border-color: rgba(29, 42, 20, 0.15);
+        }
+
+        [data-theme="light"] .prov-mini-crop-chip {
+            background: rgba(107, 128, 32, 0.12);
+            border-color: rgba(107, 128, 32, 0.25);
+            color: #2e5c12;
+        }
+
+        [data-theme="light"] .prov-item-distinction {
+            color: #2e5c12;
+        }
+
+        [data-theme="light"] .prov-item-soil-climate {
+            color: #4d5e3c;
+        }
+
+        [data-theme="light"] .btn-use-province {
+            background: #f4f6ee;
+            border-color: rgba(29, 42, 20, 0.15);
+            color: #141d0e;
+        }
+
+        [data-theme="light"] .btn-use-province:hover {
+            background: #6b8020;
+            color: #ffffff;
+            border-color: #6b8020;
+        }
+
         /* ═════════════════════════════════════════════════════════════ */
         /* ── RESPONSIVE DESIGN & ADAPTIVE SCREEN ALIGNMENT TIERS ──    */
         /* ═════════════════════════════════════════════════════════════ */
@@ -3456,7 +4056,7 @@
 
                 <!-- Header Actions (Refresh, History, Language Toggle, Model Lab) -->
                 <div class="header-actions">
-                    <button class="btn-history-launcher" id="headerRefreshBtn" onclick="resetCalculator(true)" title="Clear and Refresh Calculator">
+                    <button class="btn-history-launcher" id="headerRefreshBtn" onclick="requestCalculatorReset()" title="Clear and Refresh Calculator">
                         <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-1.19"/>
                         </svg>
@@ -3619,14 +4219,53 @@
                                     <button class="season-pill-btn" id="chipDry" onclick="setSeason('Dry')">DRY</button>
                                 </div>
                                 <div class="region-select-box">
-                                    <select class="region-select-el" id="regionSelect">
-                                        <option value="Laguna, Calabarzon" selected>LAGUNA, CALABARZON</option>
-                                        <option value="Batangas">BATANGAS</option>
-                                        <option value="Quezon">QUEZON</option>
+                                    <select class="region-select-el" id="regionSelect" onchange="onProvinceChanged()">
+                                        {% if provinces_by_region %}
+                                            {% for reg_name, provs in provinces_by_region.items() %}
+                                            <optgroup label="{{ reg_name }}">
+                                                {% for p in provs %}
+                                                <option value="{{ p.province }}" {% if p.province == 'Laguna' %}selected{% endif %}>{{ p.province | upper }} ({{ p.island_group }})</option>
+                                                {% endfor %}
+                                            </optgroup>
+                                            {% endfor %}
+                                        {% else %}
+                                            <option value="Laguna" selected>LAGUNA</option>
+                                            <option value="Batangas">BATANGAS</option>
+                                            <option value="Quezon">QUEZON</option>
+                                        {% endif %}
                                     </select>
                                     <svg class="region-select-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                                         <polyline points="6 9 12 15 18 9"></polyline>
                                     </svg>
+                                </div>
+                            </div>
+
+                            <!-- Official Philippine Provincial Crop Advisory Card (DA-AMIA & PSA) -->
+                            <div class="province-advisory-card" id="provinceAdvisoryCard">
+                                <div class="province-advisory-header">
+                                    <div class="province-advisory-badge">
+                                        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.3">
+                                            <path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/>
+                                            <circle cx="12" cy="10" r="3"/>
+                                        </svg>
+                                        <span id="provAdvisoryBadgeText">DA-AMIA PROVINCIAL SUITABILITY</span>
+                                    </div>
+                                    <span class="province-name-highlight" id="provAdvisoryName">LAGUNA</span>
+                                </div>
+                                <div class="province-advisory-content">
+                                    <div class="province-advisory-meta">
+                                        <span class="province-soil-tag" id="provAdvisorySoil">Soil: Lipa Clay Loam</span>
+                                        <span class="province-soil-tag" id="provAdvisoryClimate">Type I &bull; 2,400 mm/yr</span>
+                                    </div>
+                                    <div class="province-crops-section">
+                                        <span class="province-crops-title" id="provAdvisoryCropsTitle">OFFICIALLY RECOMMENDED CROPS:</span>
+                                        <div class="province-crops-list" id="provAdvisoryCropsList">
+                                            <!-- Dynamically rendered -->
+                                        </div>
+                                    </div>
+                                    <div class="province-crop-match-banner recommended" id="provCropMatchBanner">
+                                        <!-- Dynamically rendered -->
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -3636,7 +4275,7 @@
                             <button class="btn-calculate-action" id="calculateBtn" onclick="runCountUpCalc()">
                                 <span id="txtCalcBtn">CALCULATE HARVEST &amp; INCOME &rarr;</span>
                             </button>
-                            <button class="btn-reset-action" id="resetBtn" onclick="resetCalculator(true)" title="Clear all inputs and reset calculator" aria-label="Refresh and reset inputs">
+                            <button class="btn-reset-action" id="resetBtn" onclick="requestCalculatorReset()" title="Clear all inputs and reset calculator" aria-label="Refresh and reset inputs">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" class="refresh-icon">
                                     <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-1.19"/>
                                 </svg>
@@ -3721,6 +4360,35 @@
 
                     <div class="advisor-footnote">
                         COMPARED AT YOUR FARM SIZE AND SEASON. ESTIMATE ONLY. NOT A GUARANTEE.
+                    </div>
+
+                    <!-- ── 82 PHILIPPINE PROVINCES CROP SUITABILITY DIRECTORY (DA-AMIA & PSA) ── -->
+                    <div class="province-directory-card" id="provinceDirectoryCard">
+                        <div class="province-directory-header">
+                            <div class="province-dir-title-group">
+                                <h3 id="txtProvDirTitle">PHILIPPINE PROVINCIAL CROP SUITABILITY DIRECTORY</h3>
+                                <p id="txtProvDirSubtitle">OFFICIAL CROP RECOMMENDATIONS, SOIL SERIES, AND PAGASA CLIMATE TYPES ACROSS ALL 82 PROVINCES (DA-AMIA NCCAG v2.0 &amp; PSA)</p>
+                            </div>
+                            <div class="province-dir-filters">
+                                <div class="province-search-box">
+                                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4">
+                                        <circle cx="11" cy="11" r="8"></circle>
+                                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                    </svg>
+                                    <input type="text" id="provSearchInput" class="province-search-input" placeholder="Search province, region, crop or soil series..." oninput="filterProvinceDirectory()">
+                                </div>
+                                <div class="province-island-pills">
+                                    <button type="button" class="prov-filter-pill active" id="pillProvAll" onclick="setProvinceIslandFilter('ALL')">ALL (82)</button>
+                                    <button type="button" class="prov-filter-pill" id="pillProvLuzon" onclick="setProvinceIslandFilter('Luzon')">LUZON (38)</button>
+                                    <button type="button" class="prov-filter-pill" id="pillProvVisayas" onclick="setProvinceIslandFilter('Visayas')">VISAYAS (16)</button>
+                                    <button type="button" class="prov-filter-pill" id="pillProvMindanao" onclick="setProvinceIslandFilter('Mindanao')">MINDANAO (28)</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="province-cards-grid" id="provinceCardsGrid">
+                            <!-- Populated dynamically by renderProvinceDirectory() -->
+                        </div>
                     </div>
                 </div>
             </section>
@@ -4001,6 +4669,29 @@
     <!-- Toast Notification -->
     <div id="toastBox" class="toast-notify" role="alert" aria-live="assertive"></div>
 
+    <!-- ── CONFIRMATION & VALIDATION DIALOG MODAL ── -->
+    <div id="confirmDialogOverlay" class="confirm-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="confirmModalTitle">
+        <div class="confirm-modal-card">
+            <div class="confirm-modal-header">
+                <div id="confirmModalIconWrap" class="confirm-modal-icon-wrap">
+                    <svg id="confirmModalIcon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                </div>
+                <div class="confirm-modal-body">
+                    <h3 id="confirmModalTitle" class="confirm-modal-title">CONFIRM ACTION</h3>
+                    <p id="confirmModalMsg" class="confirm-modal-msg">Are you sure you want to proceed?</p>
+                </div>
+            </div>
+            <div class="confirm-modal-actions">
+                <button type="button" class="btn-confirm-cancel" id="confirmModalCancelBtn" onclick="closeConfirmDialog(false)">CANCEL</button>
+                <button type="button" class="btn-confirm-danger" id="confirmModalConfirmBtn" onclick="onConfirmDialogAccept()">CONFIRM</button>
+            </div>
+        </div>
+    </div>
+
     <!-- ── APPLICATION CONTROLLER & LOGIC ── -->
     <script>
         // ── Crop Model Benchmarks & Constants ──
@@ -4052,6 +4743,13 @@
         let customPrice = 0.0;
         let weatherSeason = 'Wet';
         let currentLang = 'en';
+
+        // ── Official Philippine Provincial Crop Suitability Catalog (DA-AMIA & PSA) ──
+        const PHILIPPINE_PROVINCES = {{ provinces_data | tojson | safe if provinces_data else '[]' }};
+        let currentIslandFilter = 'ALL';
+
+        // ── Confirmation Modal Dialog State ──
+        let confirmModalCallback = null;
 
         // ── Language Dictionary (English & Filipino / Tagalog) ──
         const TRANSLATIONS = {
@@ -4845,6 +5543,8 @@
             updateCalcLive(false);
             updateSeasonalAdvisorUI();
             renderCalendarMatrix();
+            updateProvinceAdvisoryUI();
+            renderProvinceDirectory();
             if (document.getElementById('view-weather').classList.contains('active')) {
                 renderWeatherRiskView();
             }
@@ -4952,6 +5652,9 @@
 
             // Update contextual seasonal advisory tip for this crop
             updateCropSeasonalTip(cropKey);
+
+            // Update official DA-AMIA provincial crop suitability match
+            updateProvinceAdvisoryUI();
         }
 
         function adjustArea(delta) {
@@ -5068,6 +5771,98 @@
             if (beTag) beTag.textContent = '\u20B10.00 / KG';
         }
 
+        // ── Custom Confirmation Dialog Modal Controller ──
+        function showConfirmDialog({ title, message, confirmText = 'CONFIRM', cancelText = 'CANCEL', isWarning = false, onConfirm }) {
+            const overlay = document.getElementById('confirmDialogOverlay');
+            const titleEl = document.getElementById('confirmModalTitle');
+            const msgEl = document.getElementById('confirmModalMsg');
+            const confirmBtn = document.getElementById('confirmModalConfirmBtn');
+            const cancelBtn = document.getElementById('confirmModalCancelBtn');
+            const iconWrap = document.getElementById('confirmModalIconWrap');
+
+            if (!overlay) return;
+
+            confirmModalCallback = (typeof onConfirm === 'function') ? onConfirm : null;
+
+            if (titleEl) titleEl.textContent = title;
+            if (msgEl) msgEl.textContent = message;
+            if (confirmBtn) {
+                confirmBtn.textContent = confirmText;
+                confirmBtn.className = isWarning ? 'btn-confirm-danger warning' : 'btn-confirm-danger';
+            }
+            if (cancelBtn) cancelBtn.textContent = cancelText;
+            if (iconWrap) {
+                iconWrap.className = isWarning ? 'confirm-modal-icon-wrap warning' : 'confirm-modal-icon-wrap';
+            }
+
+            overlay.classList.add('active');
+            if (confirmBtn) confirmBtn.focus();
+        }
+
+        function closeConfirmDialog(confirmed = false) {
+            const overlay = document.getElementById('confirmDialogOverlay');
+            if (overlay) overlay.classList.remove('active');
+            if (confirmed && typeof confirmModalCallback === 'function') {
+                const cb = confirmModalCallback;
+                confirmModalCallback = null;
+                cb();
+            } else {
+                confirmModalCallback = null;
+            }
+        }
+
+        function onConfirmDialogAccept() {
+            closeConfirmDialog(true);
+        }
+
+        // Global ESC and Enter listeners for confirmation dialog
+        document.addEventListener('keydown', (e) => {
+            const overlay = document.getElementById('confirmDialogOverlay');
+            if (!overlay || !overlay.classList.contains('active')) return;
+
+            if (e.key === 'Escape') {
+                e.preventDefault();
+                closeConfirmDialog(false);
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                onConfirmDialogAccept();
+            }
+        });
+
+        // Click outside modal card on overlay backdrop to cancel
+        const confirmOverlayEl = document.getElementById('confirmDialogOverlay');
+        if (confirmOverlayEl) {
+            confirmOverlayEl.addEventListener('click', (e) => {
+                if (e.target === confirmOverlayEl) {
+                    closeConfirmDialog(false);
+                }
+            });
+        }
+
+        // ── Validation Guard for Calculator Reset ──
+        function requestCalculatorReset() {
+            const isAlreadyClean = (!activeCrop && farmArea === 0 && (!customPrice || customPrice === 0));
+            if (isAlreadyClean) {
+                const isFil = (currentLang === 'fil');
+                showToast(isFil ? 'Nasa default na kalagayan na ang kalkulador.' : 'Calculator is already in default clean state.');
+                return;
+            }
+
+            const isFil = (currentLang === 'fil');
+            showConfirmDialog({
+                title: isFil ? 'I-RESET ANG KALKULADOR?' : 'RESET CALCULATOR INPUTS?',
+                message: isFil 
+                    ? 'I-re-reset nito ang napiling pananim, sukat ng sakahan, at custom na presyo pabalik sa default (0). Nais mo bang magpatuloy?'
+                    : 'This will clear your selected crop, land area, custom price, and calculated harvest yield back to default. Continue?',
+                confirmText: isFil ? 'I-RESET' : 'RESET INPUTS',
+                cancelText: isFil ? 'KANSELAHIN' : 'CANCEL',
+                isWarning: true,
+                onConfirm: () => {
+                    resetCalculator(true);
+                }
+            });
+        }
+
         // ── Full Calculator Refresh & Clear Action ──
         function resetCalculator(showToast = true) {
             activeCrop = null;
@@ -5103,6 +5898,9 @@
             // Hide seasonal tip box
             const tipBox = document.getElementById('cropSeasonalTipBox');
             if (tipBox) tipBox.style.display = 'none';
+
+            // Reset provincial advisory banner
+            updateProvinceAdvisoryUI();
 
             if (showToast) {
                 const isFil = (currentLang === 'fil');
@@ -5563,21 +6361,56 @@
         }
 
         function deletePreset(id) {
-            let presets = loadHistory();
-            presets = presets.filter(p => p.id !== id);
-            try {
-                localStorage.setItem(getHistoryKey(), JSON.stringify(presets));
-            } catch(e) {}
-            renderHistoryList();
-            showToast(currentLang === 'fil' ? 'Tinanggal ang preset.' : 'Preset removed.');
+            const presets = loadHistory();
+            const p = presets.find(item => item.id === id);
+            const cropName = p ? p.cropName : 'preset';
+            const isFil = (currentLang === 'fil');
+
+            showConfirmDialog({
+                title: isFil ? 'BURAHIN ANG PRESET?' : 'DELETE PRESET RECORD?',
+                message: isFil 
+                    ? `Sigurado ka bang nais mong tanggalin ang preset na "${cropName}" mula sa iyong kasaysayan?`
+                    : `Are you sure you want to remove the "${cropName}" scenario from your saved history?`,
+                confirmText: isFil ? 'BURAHIN' : 'DELETE',
+                cancelText: isFil ? 'KANSELAHIN' : 'CANCEL',
+                isWarning: true,
+                onConfirm: () => {
+                    let updated = loadHistory().filter(item => item.id !== id);
+                    try {
+                        localStorage.setItem(getHistoryKey(), JSON.stringify(updated));
+                    } catch(e) {}
+                    renderHistoryList();
+                    showToast(isFil ? 'Tinanggal ang preset.' : 'Preset removed.');
+                }
+            });
         }
 
         function clearAllPresets() {
-            try {
-                localStorage.removeItem(getHistoryKey());
-            } catch(e) {}
-            renderHistoryList();
-            showToast(currentLang === 'fil' ? 'Na-clear ang kasaysayan.' : 'History cleared and reset.');
+            const presets = loadHistory();
+            const isFil = (currentLang === 'fil');
+
+            // Validation: Check if there's anything to clear
+            if (!presets || presets.length === 0) {
+                showToast(isFil ? 'Walang naka-save na preset upang i-clear.' : 'No saved presets to clear.');
+                return;
+            }
+
+            showConfirmDialog({
+                title: isFil ? 'BURAHIN LAHAT NG PRESET?' : 'CLEAR ALL PRESET HISTORY?',
+                message: isFil 
+                    ? `Sigurado ka bang nais mong burahin ang lahat ng ${presets.length} na-save na talaan? Hindi na ito maibabalik.`
+                    : `Are you sure you want to permanently clear all ${presets.length} saved scenario presets? This action cannot be undone.`,
+                confirmText: isFil ? 'OO, BURAHIN LAHAT' : 'CLEAR ALL',
+                cancelText: isFil ? 'KANSELAHIN' : 'CANCEL',
+                isWarning: false,
+                onConfirm: () => {
+                    try {
+                        localStorage.removeItem(getHistoryKey());
+                    } catch(e) {}
+                    renderHistoryList();
+                    showToast(isFil ? 'Na-clear ang lahat ng preset sa kasaysayan.' : 'History cleared and reset.');
+                }
+            });
         }
 
         function autoRecordHistory(data) {
@@ -5670,6 +6503,268 @@
             });
 
             listEl.innerHTML = html;
+            renderProvinceDirectory();
+        }
+
+        // ── Philippine Provincial Crop Suitability & Agro-Climatic Advisory Controller (DA-AMIA & PSA) ──
+        function getSelectedProvinceData() {
+            const selectEl = document.getElementById('regionSelect');
+            if (!selectEl) return null;
+            const selVal = (selectEl.value || '').trim().toLowerCase();
+
+            if (!PHILIPPINE_PROVINCES || PHILIPPINE_PROVINCES.length === 0) return null;
+
+            let found = PHILIPPINE_PROVINCES.find(p => p.province.toLowerCase() === selVal);
+            if (!found) {
+                found = PHILIPPINE_PROVINCES.find(p => selVal.includes(p.province.toLowerCase()) || p.province.toLowerCase().includes(selVal));
+            }
+            return found || PHILIPPINE_PROVINCES[0];
+        }
+
+        function onProvinceChanged() {
+            const p = getSelectedProvinceData();
+            if (!p) return;
+
+            updateProvinceAdvisoryUI(p);
+
+            // Update Advisor subtitle if active
+            const advSub = document.getElementById('advisorSubtitle');
+            if (advSub) {
+                advSub.textContent = `${farmArea} HA \u2022 ${activeSeason.toUpperCase()} SEASON \u2022 ${p.province.toUpperCase()} (${p.region.toUpperCase()})`;
+            }
+
+            // Update Weather risk title
+            const wTitle = document.getElementById('txtWeatherTitle');
+            if (wTitle) {
+                wTitle.textContent = `${p.province.toUpperCase()} & ${p.region.toUpperCase()} AGRO-CLIMATIC RISK ASSESSMENT`;
+            }
+
+            // If calculation active, refresh live
+            if (activeCrop && farmArea > 0) {
+                updateCalcLive(false);
+            }
+        }
+
+        function updateProvinceAdvisoryUI(provinceObj) {
+            const p = provinceObj || getSelectedProvinceData();
+            if (!p) return;
+
+            const nameEl = document.getElementById('provAdvisoryName');
+            const soilEl = document.getElementById('provAdvisorySoil');
+            const climateEl = document.getElementById('provAdvisoryClimate');
+            const cropsListEl = document.getElementById('provAdvisoryCropsList');
+            const matchBannerEl = document.getElementById('provCropMatchBanner');
+
+            if (nameEl) {
+                nameEl.textContent = `${p.province.toUpperCase()} (${p.island_group.toUpperCase()})`;
+            }
+            if (soilEl) {
+                soilEl.textContent = `Dominant Soil: ${p.dominant_soil}`;
+            }
+            if (climateEl) {
+                climateEl.textContent = `PAGASA: ${p.climate_type.split('(')[0].trim()} \u2022 ${p.annual_rainfall_mm.toLocaleString()} mm/yr \u2022 ${p.avg_temp_c}\u00B0C`;
+            }
+
+            // Render Recommended Crop Chips
+            if (cropsListEl) {
+                const primaryList = (p.primary_crops || '').split(';').map(s => s.trim()).filter(Boolean);
+                const secondaryList = (p.secondary_crops || '').split(';').map(s => s.trim()).filter(Boolean).slice(0, 3);
+                const allRec = [...primaryList, ...secondaryList];
+
+                let chipsHtml = '';
+                allRec.forEach(cName => {
+                    const low = cName.toLowerCase();
+                    let matchedKey = null;
+                    if (low.includes('rice') || low.includes('paddy')) matchedKey = 'rice';
+                    else if (low.includes('maize') || low.includes('corn')) matchedKey = 'corn';
+                    else if (low.includes('potato')) matchedKey = 'potato';
+                    else if (low.includes('cassava')) matchedKey = 'cassava';
+
+                    const isInteractive = Boolean(matchedKey);
+                    const titleText = isInteractive ? `Click to calculate ${cName} now` : 'Official DA-AMIA recommendation';
+                    const clickAttr = isInteractive ? `onclick="quickSelectCropFromAdvisory('${matchedKey}')"` : '';
+
+                    chipsHtml += `
+                        <span class="province-crop-chip ${isInteractive ? 'interactive' : ''}" ${clickAttr} title="${titleText}">
+                            ${isInteractive ? '\u2605 ' : ''}${cName}
+                        </span>
+                    `;
+                });
+                cropsListEl.innerHTML = chipsHtml;
+            }
+
+            // Render Crop Match Suitability Banner
+            if (matchBannerEl) {
+                const isFil = (currentLang === 'fil');
+
+                if (!activeCrop) {
+                    matchBannerEl.className = 'province-crop-match-banner';
+                    matchBannerEl.style.borderColor = 'var(--border-hairline-strong)';
+                    matchBannerEl.style.background = 'rgba(255, 255, 255, 0.03)';
+                    matchBannerEl.innerHTML = `
+                        <div style="font-weight: 700; color: var(--accent-olive); margin-bottom: 2px;">
+                            ${isFil ? 'PAALALA SA MGA MAGSASAKA' : 'PROVINCIAL AGRONOMIC GUIDE (DA-AMIA)'}:
+                        </div>
+                        <div>${p.agronomic_advice || 'Select a crop above to evaluate suitability for this province.'}</div>
+                    `;
+                    return;
+                }
+
+                const currentKey = activeCrop.toLowerCase();
+                const primaryStr = (p.primary_crops || '').toLowerCase();
+                const secStr = (p.secondary_crops || '').toLowerCase();
+
+                let isPrimary = false;
+                let isSecondary = false;
+
+                if (currentKey === 'rice') {
+                    isPrimary = primaryStr.includes('rice') || primaryStr.includes('paddy');
+                    isSecondary = secStr.includes('rice') || secStr.includes('paddy');
+                } else if (currentKey === 'corn') {
+                    isPrimary = primaryStr.includes('maize') || primaryStr.includes('corn');
+                    isSecondary = secStr.includes('maize') || secStr.includes('corn');
+                } else if (currentKey === 'potato') {
+                    isPrimary = primaryStr.includes('potato');
+                    isSecondary = secStr.includes('potato');
+                } else if (currentKey === 'cassava') {
+                    isPrimary = primaryStr.includes('cassava');
+                    isSecondary = secStr.includes('cassava');
+                }
+
+                const cropDisplayName = CROP_MODELS[activeCrop].name;
+
+                if (isPrimary || isSecondary) {
+                    matchBannerEl.className = 'province-crop-match-banner recommended';
+                    matchBannerEl.style.borderColor = '';
+                    matchBannerEl.style.background = '';
+                    const gradeText = isPrimary ? p.da_suitability_grade : 'Moderately Suitable (S2)';
+                    matchBannerEl.innerHTML = `
+                        <div style="font-weight: 800; margin-bottom: 2px;">
+                            ${isFil ? '&#10003; OPISYAL NA INIREREKOMENDA' : '&#10003; OFFICIALLY HIGHLY RECOMMENDED'}:
+                        </div>
+                        <div>
+                            <strong>${cropDisplayName}</strong> ${isFil ? 'ay opisyal na priority crop sa' : 'is an officially designated priority crop in'} <strong>${p.province}</strong> (${gradeText}). ${p.national_distinction ? ' \u2014 ' + p.national_distinction : ''}
+                        </div>
+                    `;
+                } else {
+                    matchBannerEl.className = 'province-crop-match-banner advisory';
+                    matchBannerEl.style.borderColor = '';
+                    matchBannerEl.style.background = '';
+                    matchBannerEl.innerHTML = `
+                        <div style="font-weight: 800; margin-bottom: 2px;">
+                            ${isFil ? '&#9432; AGRO-CLIMATIC ADVISORY' : '&#9432; AGRO-CLIMATIC CROP ADVISORY'}:
+                        </div>
+                        <div>
+                            ${isFil 
+                                ? `Ang <strong>${cropDisplayName}</strong> ay nangangailangan ng mas masusing patubig at micro-climate control sa <strong>${p.province}</strong>. Ang DA-AMIA ay nagmumungkahi ng <strong>${p.primary_crops}</strong> bilang may pinakamataas na ani sa lupang <em>${p.dominant_soil}</em>.` 
+                                : `<strong>${cropDisplayName}</strong> requires careful micro-climate and soil moisture management in <strong>${p.province}</strong>. DA-AMIA identifies <strong>${p.primary_crops}</strong> as prime suitability for <em>${p.dominant_soil}</em>.`
+                            }
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        function quickSelectCropFromAdvisory(cropKey) {
+            if (!cropKey || !CROP_MODELS[cropKey]) return;
+            selectCrop(cropKey);
+            runCountUpCalc();
+            showToast((currentLang === 'fil' ? 'Napili ang: ' : 'Selected recommended crop: ') + CROP_MODELS[cropKey].name);
+        }
+
+        // ── 82 Philippine Provinces Directory Grid ──
+        function renderProvinceDirectory() {
+            const grid = document.getElementById('provinceCardsGrid');
+            if (!grid) return;
+
+            if (!PHILIPPINE_PROVINCES || PHILIPPINE_PROVINCES.length === 0) {
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 24px;">Loading Philippine Provincial Dataset...</div>';
+                return;
+            }
+
+            const searchInput = document.getElementById('provSearchInput');
+            const query = (searchInput ? searchInput.value : '').trim().toLowerCase();
+
+            let filtered = PHILIPPINE_PROVINCES;
+
+            // Island Group Filter
+            if (currentIslandFilter && currentIslandFilter !== 'ALL') {
+                filtered = filtered.filter(p => (p.island_group || '').toLowerCase() === currentIslandFilter.toLowerCase());
+            }
+
+            // Search Filter
+            if (query) {
+                filtered = filtered.filter(p => {
+                    const prov = (p.province || '').toLowerCase();
+                    const reg = (p.region || '').toLowerCase();
+                    const prim = (p.primary_crops || '').toLowerCase();
+                    const sec = (p.secondary_crops || '').toLowerCase();
+                    const soil = (p.dominant_soil || '').toLowerCase();
+                    const dist = (p.national_distinction || '').toLowerCase();
+                    return prov.includes(query) || reg.includes(query) || prim.includes(query) || sec.includes(query) || soil.includes(query) || dist.includes(query);
+                });
+            }
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 36px 16px; font-size: 11px;">
+                        NO PHILIPPINE PROVINCES FOUND MATCHING "${query.toUpperCase()}".<br>TRY SEARCHING FOR "RICE", "BENGUET", "ILOILO", OR "ISABELA".
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(p => {
+                const primCrops = (p.primary_crops || '').split(';').map(s => s.trim()).filter(Boolean);
+                const chipsHtml = primCrops.map(c => `<span class="prov-mini-crop-chip">${c}</span>`).join('');
+                return `
+                    <div class="province-item-card">
+                        <div class="prov-item-header">
+                            <div>
+                                <div class="prov-item-name">${p.province}</div>
+                                <div class="prov-item-region">${p.region}</div>
+                            </div>
+                            <span class="prov-item-island-badge">${p.island_group}</span>
+                        </div>
+                        <div class="prov-item-crops">
+                            ${chipsHtml}
+                        </div>
+                        ${p.national_distinction ? `<div class="prov-item-distinction">&#9733; ${p.national_distinction}</div>` : ''}
+                        <div class="prov-item-soil-climate">
+                            <strong>Soil:</strong> ${p.dominant_soil}<br>
+                            <strong>Rainfall:</strong> ${p.annual_rainfall_mm.toLocaleString()} mm &bull; <strong>Temp:</strong> ${p.avg_temp_c}&deg;C
+                        </div>
+                        <button type="button" class="btn-use-province" onclick="applyProvinceToCalculator('${p.province.replace(/'/g, "\\'")}')">
+                            APPLY TO CALCULATOR &rarr;
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterProvinceDirectory() {
+            renderProvinceDirectory();
+        }
+
+        function setProvinceIslandFilter(island) {
+            currentIslandFilter = island;
+            ['All', 'Luzon', 'Visayas', 'Mindanao'].forEach(isl => {
+                const btn = document.getElementById('pillProv' + isl);
+                if (btn) btn.classList.toggle('active', (isl.toUpperCase() === island.toUpperCase()));
+            });
+            renderProvinceDirectory();
+        }
+
+        function applyProvinceToCalculator(provinceName) {
+            const selectEl = document.getElementById('regionSelect');
+            if (selectEl) {
+                selectEl.value = provinceName;
+            }
+            onProvinceChanged();
+            switchView('farmer');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            const isFil = (currentLang === 'fil');
+            showToast((isFil ? 'Napili ang probinsya: ' : 'Applied province to calculator: ') + provinceName);
         }
 
         // ── Model Lab SVG Charts ──
@@ -5795,11 +6890,13 @@
         // ── Backend API Synchronization ──
         async function syncWithBackend(localData) {
             try {
+                const regVal = document.getElementById('regionSelect').value;
                 const payload = {
                     crop: CROP_MODELS[activeCrop].key,
                     land_area: farmArea,
                     season: activeSeason === 'Wet' ? 'Wet Season' : 'Dry Season',
-                    region: document.getElementById('regionSelect').value
+                    province: regVal,
+                    region: regVal
                 };
 
                 const res = await fetch('/api/predict', {
@@ -6384,6 +7481,8 @@
                 if (savedLang) setLanguage(savedLang);
             } catch(e) {}
             resetCalculator(false);
+            onProvinceChanged();
+            renderProvinceDirectory();
             updateSeasonalAdvisorUI();
             renderCalendarMatrix();
             ambientField = new FieldAmbientBackground('bgFieldCanvas');

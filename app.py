@@ -22,10 +22,14 @@ def add_header(response):
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_PATH = os.path.join(BASE_DIR, "models", "anitaya_best_pipeline.joblib")
 METRICS_PATH = os.path.join(BASE_DIR, "models", "model_metrics.json")
+PROVINCES_PATH = os.path.join(BASE_DIR, "data", "philippine_provinces_crop_suitability.json")
 
 # Load model pipeline and metrics
 pipeline = None
 metrics_data = {}
+provinces_data = []
+provinces_by_name = {}
+provinces_by_region = {}
 
 try:
     pipeline = joblib.load(MODEL_PATH)
@@ -39,6 +43,21 @@ try:
     print("AniTaya: Metrics and Philippine benchmarks loaded successfully.")
 except Exception as e:
     print(f"AniTaya Warning: Could not load metrics: {e}")
+
+# Load Official Philippine Provincial Crop Suitability & Recommendation Dataset (DA-AMIA & PSA)
+try:
+    if os.path.exists(PROVINCES_PATH):
+        with open(PROVINCES_PATH, "r", encoding="utf-8") as f:
+            provinces_data = json.load(f)
+        for p in provinces_data:
+            provinces_by_name[p["province"].strip().lower()] = p
+            reg = p["region"]
+            if reg not in provinces_by_region:
+                provinces_by_region[reg] = []
+            provinces_by_region[reg].append(p)
+        print(f"AniTaya: Loaded {len(provinces_data)} Philippine provinces with official DA-AMIA & PSA crop recommendations.")
+except Exception as e:
+    print(f"AniTaya Warning: Could not load provincial suitability data: {e}")
 
 # Philippine Regional Climate Presets
 REGIONAL_PRESETS = {
@@ -65,6 +84,8 @@ def index():
         "index.html",
         crops=crops,
         regional_presets=REGIONAL_PRESETS,
+        provinces_data=provinces_data,
+        provinces_by_region=provinces_by_region,
         model_comparison=model_comparison,
         best_model=best_model,
         feature_importances=feature_importances,
@@ -77,6 +98,27 @@ def get_benchmarks():
         "crops": metrics_data.get("ph_benchmarks", {}),
         "regions": REGIONAL_PRESETS
     })
+
+@app.route("/api/provinces", methods=["GET"])
+def get_provinces():
+    return jsonify({
+        "status": "success",
+        "count": len(provinces_data),
+        "authority": "Department of Agriculture (DA-AMIA NCCAG v2.0) & Philippine Statistics Authority (PSA)",
+        "data": provinces_data
+    })
+
+@app.route("/api/province/<province_name>", methods=["GET"])
+def get_province(province_name):
+    query = province_name.strip().lower()
+    p = provinces_by_name.get(query)
+    if not p:
+        matches = [item for item in provinces_data if query in item["province"].lower()]
+        if matches:
+            p = matches[0]
+    if p:
+        return jsonify({"status": "success", "data": p})
+    return jsonify({"status": "error", "message": f"Province '{province_name}' not found in official DA-AMIA catalog."}), 404
 
 @app.route("/api/metrics", methods=["GET"])
 def get_metrics():
@@ -94,11 +136,26 @@ def predict():
         land_area = float(data.get("land_area", 1.0))
         season = data.get("season", "Wet Season").strip()
         region = data.get("region", "Laguna / CALABARZON (Region IV-A)")
+        province_name = data.get("province", "").strip()
 
-        # Auto-resolve climate parameters from selected region if not explicitly provided
-        reg_info = REGIONAL_PRESETS.get(region, REGIONAL_PRESETS["Laguna / CALABARZON (Region IV-A)"])
-        default_rainfall = reg_info["rainfall"]
-        default_temp = reg_info["temp"]
+        # Check if province matches official DA database
+        matched_province = None
+        if province_name:
+            matched_province = provinces_by_name.get(province_name.lower())
+            if not matched_province:
+                matches = [p for p in provinces_data if province_name.lower() in p["province"].lower()]
+                if matches:
+                    matched_province = matches[0]
+
+        # Auto-resolve climate parameters from selected province or region
+        if matched_province:
+            default_rainfall = matched_province["annual_rainfall_mm"]
+            default_temp = matched_province["avg_temp_c"]
+            region = matched_province["region"]
+        else:
+            reg_info = REGIONAL_PRESETS.get(region, REGIONAL_PRESETS["Laguna / CALABARZON (Region IV-A)"])
+            default_rainfall = reg_info["rainfall"]
+            default_temp = reg_info["temp"]
 
         rainfall = float(data.get("rainfall") if data.get("rainfall") is not None else default_rainfall)
         avg_temp = float(data.get("avg_temp") if data.get("avg_temp") is not None else default_temp)
@@ -267,6 +324,24 @@ def predict():
                 "model_mae": metrics_data.get("best_model", {}).get("test_mae", 6908.5)
             }
         }
+
+        if matched_province:
+            is_rec = crop.lower() in matched_province["primary_crops"].lower()
+            response_payload["province_suitability"] = {
+                "province": matched_province["province"],
+                "region": matched_province["region"],
+                "is_recommended": is_rec,
+                "da_grade": matched_province["da_suitability_grade"],
+                "primary_crops": matched_province["primary_crops"],
+                "secondary_crops": matched_province["secondary_crops"],
+                "soil_type": matched_province["dominant_soil"],
+                "climate_type": matched_province["climate_type"],
+                "annual_rainfall_mm": matched_province["annual_rainfall_mm"],
+                "avg_temp_c": matched_province["avg_temp_c"],
+                "elevation": matched_province["elevation_category"],
+                "national_distinction": matched_province["national_distinction"],
+                "agronomic_advice": matched_province["agronomic_advice"]
+            }
 
         return jsonify(response_payload)
 
