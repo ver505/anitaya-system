@@ -2856,6 +2856,586 @@
             box-shadow: 0 6px 20px rgba(217, 119, 6, 0.55);
         }
 
+        /* ── SYSTEM GUIDE BUTTON & TITLE ROW (TOP MASTHEAD) ── */
+        .outer-title-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-system-guide {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 13px;
+            border-radius: var(--radius-pill);
+            background: rgba(182, 198, 79, 0.16);
+            border: 1px solid rgba(182, 198, 79, 0.45);
+            color: var(--accent-olive);
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35), 0 0 14px rgba(182, 198, 79, 0.22);
+            white-space: nowrap;
+            text-transform: uppercase;
+        }
+
+        .btn-system-guide:hover {
+            background: var(--accent-olive);
+            color: #12150e;
+            border-color: var(--accent-olive);
+            transform: translateY(-2px) scale(1.04);
+            box-shadow: 0 6px 20px rgba(182, 198, 79, 0.55);
+        }
+
+        .btn-system-guide svg {
+            flex-shrink: 0;
+            color: inherit;
+        }
+
+        /* ── IN-CALCULATOR CATEGORY INFO TRIGGERS & TOOLTIPS ── */
+        .view-title-with-guide {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .category-info-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(182, 198, 79, 0.14);
+            border: 1px solid rgba(182, 198, 79, 0.32);
+            color: var(--accent-olive);
+            padding: 3px 9px;
+            border-radius: var(--radius-pill);
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            transition: all 0.18s ease;
+        }
+
+        .category-info-badge:hover {
+            background: var(--accent-olive);
+            color: #12150e;
+            border-color: var(--accent-olive);
+            transform: translateY(-1px);
+        }
+
+        .input-tile-label-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .category-info-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 19px;
+            height: 19px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-hairline-strong);
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.18s ease;
+            padding: 0;
+            flex-shrink: 0;
+        }
+
+        .category-info-pill:hover {
+            background: var(--accent-olive);
+            color: #12150e;
+            border-color: var(--accent-olive);
+            transform: scale(1.15);
+            box-shadow: 0 0 10px rgba(182, 198, 79, 0.35);
+        }
+
+        .category-info-pill.results-pill {
+            margin-left: auto;
+            background: rgba(18, 21, 14, 0.14);
+            border-color: rgba(18, 21, 14, 0.28);
+            color: #12150e;
+        }
+
+        .category-info-pill.results-pill:hover {
+            background: #12150e;
+            color: #ffffff;
+            border-color: #12150e;
+        }
+
+        /* ── SYSTEM GUIDE MODAL (AIM, IMPORTANCE, HOW TO USE) ── */
+        .guide-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 8, 4, 0.82);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 16px;
+            box-sizing: border-box;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .guide-modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .guide-modal-card {
+            width: 100%;
+            max-width: 760px;
+            max-height: 90vh;
+            background: linear-gradient(155deg, #182215 0%, #0d120a 100%);
+            border: 1px solid rgba(182, 198, 79, 0.32);
+            border-radius: 24px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: scale(0.94) translateY(12px);
+            transition: transform 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 36px 80px rgba(0, 0, 0, 0.85), 0 0 32px rgba(182, 198, 79, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+
+        .guide-modal-overlay.active .guide-modal-card {
+            transform: scale(1) translateY(0);
+        }
+
+        .guide-modal-header {
+            padding: 20px 24px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(0, 0, 0, 0.25);
+        }
+
+        .guide-header-brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            min-width: 0;
+        }
+
+        .guide-header-brand .mascot-icon {
+            width: 44px;
+            height: 44px;
+            min-width: 44px;
+        }
+
+        .guide-header-text {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            min-width: 0;
+        }
+
+        .guide-header-title-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .guide-modal-title {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            color: var(--text-offwhite);
+            line-height: 1.2;
+        }
+
+        .guide-modal-tag {
+            font-size: 8.5px;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            padding: 3px 8px;
+            border-radius: var(--radius-pill);
+            background: rgba(182, 198, 79, 0.18);
+            border: 1px solid rgba(182, 198, 79, 0.35);
+            color: var(--accent-olive);
+            white-space: nowrap;
+        }
+
+        .guide-modal-subtitle {
+            margin: 0;
+            font-size: 10.5px;
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: 0.02em;
+            line-height: 1.4;
+        }
+
+        .guide-modal-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-hairline);
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.18s ease;
+            flex-shrink: 0;
+        }
+
+        .guide-modal-close:hover {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: #ef4444;
+            color: #ffffff;
+            transform: rotate(90deg);
+        }
+
+        /* Guide Tabs Bar */
+        .guide-modal-tabs {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            padding: 12px 24px;
+            background: rgba(0, 0, 0, 0.18);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .guide-tab-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-radius: var(--radius-pill);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: var(--text-muted);
+            font-size: 10.5px;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            cursor: pointer;
+            transition: all 0.18s ease;
+            white-space: nowrap;
+        }
+
+        .guide-tab-btn:hover {
+            background: rgba(182, 198, 79, 0.1);
+            color: var(--text-offwhite);
+            border-color: rgba(182, 198, 79, 0.3);
+        }
+
+        .guide-tab-btn.active {
+            background: var(--accent-olive);
+            color: #12150e;
+            border-color: var(--accent-olive);
+            box-shadow: 0 4px 14px rgba(182, 198, 79, 0.35);
+            font-weight: 900;
+        }
+
+        .guide-tab-btn svg {
+            flex-shrink: 0;
+        }
+
+        /* Modal Body */
+        .guide-modal-body {
+            padding: 22px 24px;
+            overflow-y: auto;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .guide-modal-body::-webkit-scrollbar {
+            width: 6px;
+        }
+        .guide-modal-body::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+        }
+        .guide-modal-body::-webkit-scrollbar-thumb {
+            background: rgba(182, 198, 79, 0.28);
+            border-radius: 3px;
+        }
+        .guide-modal-body::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-olive);
+        }
+
+        .guide-tab-pane {
+            display: none;
+            flex-direction: column;
+            gap: 18px;
+            animation: fadeInGuide 0.22s ease forwards;
+        }
+
+        .guide-tab-pane.active {
+            display: flex;
+        }
+
+        @keyframes fadeInGuide {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .guide-section-box {
+            background: rgba(0, 0, 0, 0.32);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 18px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .guide-section-box:hover {
+            border-color: rgba(182, 198, 79, 0.35);
+        }
+
+        .guide-section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .guide-section-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            background: rgba(182, 198, 79, 0.16);
+            border: 1px solid rgba(182, 198, 79, 0.35);
+            color: var(--accent-olive);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .guide-section-title {
+            margin: 0;
+            font-size: 13.5px;
+            font-weight: 900;
+            letter-spacing: 0.05em;
+            color: var(--text-offwhite);
+        }
+
+        .guide-section-desc {
+            margin: 0;
+            font-size: 11.5px;
+            line-height: 1.6;
+            color: var(--text-muted);
+        }
+
+        .guide-pill-points {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 4px;
+        }
+
+        @media (max-width: 640px) {
+            .guide-modal-tabs {
+                grid-template-columns: 1fr;
+            }
+            .guide-pill-points {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .guide-point-pill {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 10px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .guide-point-title {
+            font-size: 10.5px;
+            font-weight: 800;
+            color: var(--accent-olive);
+            letter-spacing: 0.05em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .guide-point-text {
+            font-size: 10.5px;
+            line-height: 1.5;
+            color: var(--text-offwhite);
+        }
+
+        /* Step-by-Step Cards */
+        .guide-steps-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .guide-step-card {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            background: rgba(0, 0, 0, 0.28);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 14px;
+            padding: 14px 18px;
+            transition: all 0.18s ease;
+        }
+
+        .guide-step-card:hover {
+            border-color: rgba(182, 198, 79, 0.38);
+            transform: translateX(4px);
+        }
+
+        .guide-step-number {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--accent-olive);
+            color: #12150e;
+            font-size: 12px;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 0 12px rgba(182, 198, 79, 0.4);
+        }
+
+        .guide-step-content {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .guide-step-heading {
+            font-size: 12.5px;
+            font-weight: 800;
+            color: var(--text-offwhite);
+            letter-spacing: 0.02em;
+        }
+
+        .guide-step-text {
+            font-size: 11px;
+            line-height: 1.55;
+            color: var(--text-muted);
+        }
+
+        .guide-step-highlight {
+            color: var(--accent-olive);
+            font-weight: 700;
+        }
+
+        /* Category Cards in Tab 3 */
+        .guide-cat-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 16px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .guide-cat-card.highlight-pulse {
+            border-color: var(--accent-olive);
+            background: rgba(182, 198, 79, 0.12);
+            box-shadow: 0 0 20px rgba(182, 198, 79, 0.35);
+        }
+
+        .guide-cat-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .guide-cat-name {
+            font-size: 12px;
+            font-weight: 900;
+            color: var(--accent-olive);
+            letter-spacing: 0.06em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .guide-cat-tag {
+            font-size: 9px;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: var(--radius-pill);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+        }
+
+        .guide-cat-body {
+            font-size: 11px;
+            line-height: 1.55;
+            color: var(--text-offwhite);
+        }
+
+        /* Modal Footer */
+        .guide-modal-footer {
+            padding: 14px 24px;
+            background: rgba(0, 0, 0, 0.35);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .guide-footer-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 10.5px;
+            color: var(--text-muted);
+        }
+
+        .guide-footer-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #22c55e;
+            box-shadow: 0 0 8px #22c55e;
+        }
+
+        .btn-guide-gotit {
+            padding: 10px 22px;
+            background: var(--accent-olive);
+            color: #12150e;
+            border: 1px solid var(--accent-olive);
+            border-radius: var(--radius-pill);
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            transition: all 0.18s ease;
+            box-shadow: 0 4px 14px rgba(182, 198, 79, 0.3);
+        }
+
+        .btn-guide-gotit:hover {
+            transform: translateY(-1.5px);
+            box-shadow: 0 6px 20px rgba(182, 198, 79, 0.5);
+        }
+
         /* ── ANIMATED PULSE DOT INDICATOR ── */
         .badge-pulse-dot {
             width: 6.5px;
@@ -3485,6 +4065,100 @@
         [data-theme="light"] .btn-confirm-cancel:hover {
             background: #e9ece0;
             border-color: rgba(29, 42, 20, 0.25);
+        }
+
+        /* ── LIGHT MODE OVERRIDES FOR SYSTEM GUIDE COMPONENTS ── */
+        [data-theme="light"] .btn-system-guide {
+            background: rgba(107, 128, 32, 0.12);
+            border-color: rgba(107, 128, 32, 0.38);
+            color: #435914;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        [data-theme="light"] .btn-system-guide:hover {
+            background: #6b8020;
+            color: #ffffff;
+            border-color: #6b8020;
+        }
+        [data-theme="light"] .category-info-badge {
+            background: rgba(107, 128, 32, 0.12);
+            border-color: rgba(107, 128, 32, 0.3);
+            color: #435914;
+        }
+        [data-theme="light"] .category-info-badge:hover {
+            background: #6b8020;
+            color: #ffffff;
+            border-color: #6b8020;
+        }
+        [data-theme="light"] .category-info-pill {
+            background: rgba(29, 42, 20, 0.06);
+            border-color: rgba(29, 42, 20, 0.18);
+            color: #4d5e3c;
+        }
+        [data-theme="light"] .category-info-pill:hover {
+            background: #6b8020;
+            color: #ffffff;
+            border-color: #6b8020;
+        }
+        [data-theme="light"] .guide-modal-overlay {
+            background: rgba(15, 20, 10, 0.55);
+        }
+        [data-theme="light"] .guide-modal-card {
+            background: #ffffff;
+            border-color: rgba(29, 42, 20, 0.16);
+            box-shadow: 0 32px 70px rgba(0, 0, 0, 0.18);
+        }
+        [data-theme="light"] .guide-modal-header {
+            background: #f7f9f2;
+            border-bottom-color: rgba(29, 42, 20, 0.08);
+        }
+        [data-theme="light"] .guide-modal-title {
+            color: #141d0e;
+        }
+        [data-theme="light"] .guide-modal-subtitle {
+            color: #556b2f;
+        }
+        [data-theme="light"] .guide-modal-tabs {
+            background: #f3f6ec;
+            border-bottom-color: rgba(29, 42, 20, 0.08);
+        }
+        [data-theme="light"] .guide-tab-btn {
+            background: #ffffff;
+            border-color: rgba(29, 42, 20, 0.12);
+            color: #4d5e3c;
+        }
+        [data-theme="light"] .guide-tab-btn.active {
+            background: #6b8020;
+            color: #ffffff;
+            border-color: #6b8020;
+        }
+        [data-theme="light"] .guide-section-box,
+        [data-theme="light"] .guide-step-card,
+        [data-theme="light"] .guide-cat-card {
+            background: #f9fbf6;
+            border-color: rgba(29, 42, 20, 0.1);
+        }
+        [data-theme="light"] .guide-section-title,
+        [data-theme="light"] .guide-step-heading,
+        [data-theme="light"] .guide-point-text,
+        [data-theme="light"] .guide-cat-body {
+            color: #141d0e;
+        }
+        [data-theme="light"] .guide-section-desc,
+        [data-theme="light"] .guide-step-text {
+            color: #4d5e3c;
+        }
+        [data-theme="light"] .guide-point-pill {
+            background: #ffffff;
+            border-color: rgba(29, 42, 20, 0.08);
+        }
+        [data-theme="light"] .guide-modal-footer {
+            background: #f7f9f2;
+            border-top-color: rgba(29, 42, 20, 0.08);
+        }
+        [data-theme="light"] .btn-guide-gotit {
+            background: #6b8020;
+            color: #ffffff;
+            border-color: #6b8020;
         }
 
         [data-theme="light"] .province-advisory-card {
@@ -4263,8 +4937,18 @@
             <div class="outer-brand-group" onclick="switchView('farmer')">
                 <svg class="mascot-icon lg"><use href="#farmer-mascot"/></svg>
                 <div class="outer-brand-text">
-                    <span class="outer-title">ANITAYA</span>
-                    <span class="outer-subtitle">HARVEST &amp; INCOME PREDICTION SYSTEM</span>
+                    <div class="outer-title-row">
+                        <span class="outer-title">ANITAYA</span>
+                        <button type="button" class="btn-system-guide" id="btnSystemGuide" onclick="event.stopPropagation(); openSystemGuideModal('aim')" aria-label="System Guide, Aim & Importance" title="AniTaya Guide, Aim & Importance">
+                            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                            </svg>
+                            <span class="btn-guide-label" id="txtGuideBtn">GUIDE &amp; AIM</span>
+                        </button>
+                    </div>
+                    <span class="outer-subtitle" id="txtOuterSubtitle">HARVEST &amp; INCOME PREDICTION SYSTEM</span>
                 </div>
             </div>
 
@@ -4530,7 +5214,13 @@
             <!-- ════════════════════════════════════════════════════════ -->
             <section class="view-panel active" id="view-farmer" aria-label="Farmer Calculator">
                 <div class="view-title-row">
-                    <span id="txtPlantingTitle">WHAT ARE YOU PLANTING?</span>
+                    <div class="view-title-with-guide">
+                        <span id="txtPlantingTitle">WHAT ARE YOU PLANTING?</span>
+                        <button type="button" class="category-info-badge" onclick="openSystemGuideModal('categories', 'crop')" title="Learn how crop selection affects yield and season" aria-label="Crop Category Guide">
+                            <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                            <span class="category-info-label" id="lblCropInfoBadge">INFO</span>
+                        </button>
+                    </div>
                     <div class="season-live-badge" id="liveCalendarBadge" title="Based on Philippine Agricultural Seasons (PAGASA / DA)">
                         <span class="live-dot-pulse"></span>
                         <span id="txtLiveSeasonReadout">REALITY TIME: NOVEMBER 2026 &bull; LATE WET / TRANSITION</span>
@@ -4628,8 +5318,13 @@
                         <!-- Sub-inputs Grid: Size + Custom Price + Season/Region -->
                         <div class="inputs-subgrid">
                             <!-- Farm Size Stepper -->
-                            <div class="input-tile-card">
-                                <span class="input-tile-label" id="lblFarmSize">FARM SIZE</span>
+                            <div class="input-tile-card" id="cardFarmSize">
+                                <div class="input-tile-label-row">
+                                    <span class="input-tile-label" id="lblFarmSize">FARM SIZE</span>
+                                    <button type="button" class="category-info-pill" onclick="openSystemGuideModal('categories', 'size')" title="Land area in hectares (1 ha = 10,000 sqm)" aria-label="Farm Size Info">
+                                        <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                                    </button>
+                                </div>
                                 <div class="stepper-row">
                                     <button class="stepper-btn" aria-label="Decrease Farm Size" onclick="adjustArea(-1)">&minus;</button>
                                     <div class="stepper-val-box">
@@ -4641,8 +5336,13 @@
                             </div>
 
                             <!-- Custom Selling Price Stepper -->
-                            <div class="input-tile-card">
-                                <span class="input-tile-label" id="lblSellingPrice">SELLING PRICE</span>
+                            <div class="input-tile-card" id="cardSellingPrice">
+                                <div class="input-tile-label-row">
+                                    <span class="input-tile-label" id="lblSellingPrice">SELLING PRICE</span>
+                                    <button type="button" class="category-info-pill" onclick="openSystemGuideModal('categories', 'price')" title="PSA benchmark farmgate price per kg vs custom buyer rates" aria-label="Selling Price Info">
+                                        <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                                    </button>
+                                </div>
                                 <div class="stepper-row">
                                     <button class="stepper-btn" aria-label="Decrease Selling Price" onclick="adjustCustomPrice(-0.50)">&minus;</button>
                                     <div class="stepper-val-box">
@@ -4654,8 +5354,13 @@
                             </div>
 
                             <!-- Season Toggle & Region Select -->
-                            <div class="input-tile-card">
-                                <span class="input-tile-label" id="lblSeasonRegion">SEASON &amp; REGION</span>
+                            <div class="input-tile-card" id="cardSeasonRegion">
+                                <div class="input-tile-label-row">
+                                    <span class="input-tile-label" id="lblSeasonRegion">SEASON &amp; REGION</span>
+                                    <button type="button" class="category-info-pill" onclick="openSystemGuideModal('categories', 'region')" title="Wet (Habagat) vs Dry (Amihan) and official DA-AMIA province ratings" aria-label="Season &amp; Region Info">
+                                        <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                                    </button>
+                                </div>
                                 <div class="season-pill-toggle">
                                     <button class="season-pill-btn active" id="chipWet" onclick="setSeason('Wet')">WET</button>
                                     <button class="season-pill-btn" id="chipDry" onclick="setSeason('Dry')">DRY</button>
@@ -4691,6 +5396,9 @@
                         <div class="results-header-tag">
                             <svg class="mascot-icon"><use href="#farmer-mascot"/></svg>
                             <span id="resHeaderTitle">SELECT CROP &amp; INPUT FARM SIZE</span>
+                            <button type="button" class="category-info-pill results-pill" onclick="openSystemGuideModal('categories', 'results')" title="How Net Profit, Sacks, and Break-Even are calculated" aria-label="Results Calculation Info">
+                                <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                            </button>
                         </div>
 
                         <!-- Dark Profit Box -->
@@ -4747,6 +5455,9 @@
                                 <div class="province-advisory-badge">
                                     <span class="badge-pulse-dot"></span>
                                     <span id="provAdvisoryBadgeText">DA-AMIA OFFICIAL SUITABILITY (NCCAG v2.0)</span>
+                                    <button type="button" class="category-info-pill" onclick="openSystemGuideModal('categories', 'da-amia')" title="About DA-AMIA National Color-Coded Agricultural Guide" aria-label="DA-AMIA Guide Info">
+                                        <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                                    </button>
                                 </div>
                                 <div class="prov-name-badge-group">
                                     <span class="province-name-highlight" id="provAdvisoryName">LAGUNA</span>
@@ -5156,6 +5867,233 @@
         </div>
     </div>
 
+    <!-- ── SYSTEM GUIDE, AIM & IMPORTANCE MODAL ── -->
+    <div id="systemGuideModal" class="guide-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="guideModalTitle" onclick="if(event.target === this) closeSystemGuideModal()">
+        <div class="guide-modal-card">
+            <!-- Modal Header -->
+            <div class="guide-modal-header">
+                <div class="guide-header-brand">
+                    <svg class="mascot-icon"><use href="#farmer-mascot"/></svg>
+                    <div class="guide-header-text">
+                        <div class="guide-header-title-wrap">
+                            <h3 id="guideModalTitle" class="guide-modal-title">ANITAYA SYSTEM GUIDE</h3>
+                            <span class="guide-modal-tag">OFFICIAL CSST 102</span>
+                        </div>
+                        <p class="guide-modal-subtitle" id="guideModalSubtitle">AIM, IMPORTANCE, HOW TO USE &amp; CATEGORY BENCHMARKS</p>
+                    </div>
+                </div>
+                <button type="button" class="guide-modal-close" onclick="closeSystemGuideModal()" title="Close Guide" aria-label="Close Guide">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Modal Navigation Tabs -->
+            <div class="guide-modal-tabs" role="tablist">
+                <button type="button" class="guide-tab-btn active" id="tabBtnAim" role="tab" aria-selected="true" onclick="switchGuideTab('aim')">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <span id="txtTabAim">AIM &amp; IMPORTANCE</span>
+                </button>
+                <button type="button" class="guide-tab-btn" id="tabBtnHowTo" role="tab" aria-selected="false" onclick="switchGuideTab('howto')">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+                    <span id="txtTabHowTo">HOW TO USE</span>
+                </button>
+                <button type="button" class="guide-tab-btn" id="tabBtnCategories" role="tab" aria-selected="false" onclick="switchGuideTab('categories')">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    <span id="txtTabCategories">CATEGORY GUIDE</span>
+                </button>
+            </div>
+
+            <!-- Modal Body (Scrollable) -->
+            <div class="guide-modal-body" id="guideModalBody">
+
+                <!-- ── TAB 1: AIM & IMPORTANCE ── -->
+                <div class="guide-tab-pane active" id="paneGuideAim">
+                    <div class="guide-section-box">
+                        <div class="guide-section-header">
+                            <div class="guide-section-icon">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            </div>
+                            <h4 class="guide-section-title" id="txtAimTitle">THE AIM OF ANITAYA</h4>
+                        </div>
+                        <p class="guide-section-desc" id="txtAimDesc">
+                            In the Philippines, smallholder farmers often make planting and loan-borrowing decisions based on intuition or historical weather patterns that are increasingly disrupted by climate variability. Crucial decisions—such as crop selection, input purchasing (fertilizers and seeds), and credit financing—are made without reliable data on expected harvest volume and financial return.
+                        </p>
+                        <p class="guide-section-desc" id="txtAimDesc2">
+                            <strong>AniTaya</strong> (<em>Ani</em> = Harvest, <em>Taya</em> = Forecast/Estimate) was created to bridge data science and Filipino agriculture. Its primary aim is to empower farmers with an end-to-end, scientifically validated predictive system that forecasts crop yields in Metric Tons and standard 50-kg cavans, calculates complete production costs, and projects net farmer profit before planting begins.
+                        </p>
+                    </div>
+
+                    <div class="guide-section-box">
+                        <div class="guide-section-header">
+                            <div class="guide-section-icon">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                            </div>
+                            <h4 class="guide-section-title" id="txtImportanceTitle">WHY ANITAYA IS ESSENTIAL (IMPORTANCE)</h4>
+                        </div>
+                        <div class="guide-pill-points">
+                            <div class="guide-point-pill">
+                                <span class="guide-point-title">
+                                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                    PREVENTING DEBT &amp; CROP LOSS
+                                </span>
+                                <span class="guide-point-text" id="txtImpPoint1">By revealing production expenses and break-even selling prices per kilogram in advance, AniTaya protects farming families from entering high-interest predatory debt traps.</span>
+                            </div>
+                            <div class="guide-point-pill">
+                                <span class="guide-point-title">
+                                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                    96.60% MACHINE LEARNING ACCURACY
+                                </span>
+                                <span class="guide-point-text" id="txtImpPoint2">Powered by a Random Forest regression pipeline trained on over 25,900 international and local agricultural observations across multi-year climate cycles.</span>
+                            </div>
+                            <div class="guide-point-pill">
+                                <span class="guide-point-title">
+                                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                    CLIMATE RESILIENCE &amp; MONSOON ADVICE
+                                </span>
+                                <span class="guide-point-text" id="txtImpPoint3">Considers PAGASA rainfall and typhoon risk to suggest when to plant and when to avoid high-risk crops during peak monsoon months.</span>
+                            </div>
+                            <div class="guide-point-pill">
+                                <span class="guide-point-title">
+                                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                    82 PROVINCES OFFICIAL DA-AMIA GUIDE
+                                </span>
+                                <span class="guide-point-text" id="txtImpPoint4">Integrates the official DA National Color-Coded Agricultural Guide (NCCAG v2.0) with BSWM dominant soil series for all Philippine provinces.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── TAB 2: HOW TO USE (STEP-BY-STEP) ── -->
+                <div class="guide-tab-pane" id="paneGuideHowTo">
+                    <div class="guide-steps-list">
+                        <div class="guide-step-card">
+                            <div class="guide-step-number">1</div>
+                            <div class="guide-step-content">
+                                <span class="guide-step-heading" id="txtStep1Head">CHOOSE YOUR CROP</span>
+                                <span class="guide-step-text" id="txtStep1Body">Click on any of the 4 crop tiles: <strong class="guide-step-highlight">Rice (Palay), Corn (Mais), Potato (Patatas), or Cassava (Kamoteng Kahoy)</strong>. Look at the season badge (<span style="color:#86efac;">★ BEST NOW</span>, <span style="color:#fde047;">MODERATE</span>, or <span style="color:#ef4444;">⚠️ HIGH RISK</span>) to see if current weather favors this crop.</span>
+                            </div>
+                        </div>
+                        <div class="guide-step-card">
+                            <div class="guide-step-number">2</div>
+                            <div class="guide-step-content">
+                                <span class="guide-step-heading" id="txtStep2Head">INPUT FARM SIZE &amp; SELLING PRICE</span>
+                                <span class="guide-step-text" id="txtStep2Body">Use the <strong class="guide-step-highlight">&plus;</strong> and <strong class="guide-step-highlight">&minus;</strong> steppers to enter your land area in <strong>Hectares (HA)</strong> (1 HA = 10,000 sqm). The selling price automatically defaults to the official PSA farmgate average per kg, but you can adjust it to match your local market price.</span>
+                            </div>
+                        </div>
+                        <div class="guide-step-card">
+                            <div class="guide-step-number">3</div>
+                            <div class="guide-step-content">
+                                <span class="guide-step-heading" id="txtStep3Head">SELECT SEASON &amp; PROVINCE</span>
+                                <span class="guide-step-text" id="txtStep3Body">Toggle between <strong>WET</strong> (Habagat/Monsoon) or <strong>DRY</strong> (Amihan) season. Then select your province from the dropdown. The <strong>DA-AMIA Official Suitability Card</strong> below will instantly show your province's dominant soil series, climate type, and officially recommended crops.</span>
+                            </div>
+                        </div>
+                        <div class="guide-step-card">
+                            <div class="guide-step-number">4</div>
+                            <div class="guide-step-content">
+                                <span class="guide-step-heading" id="txtStep4Head">CLICK "CALCULATE HARVEST &amp; INCOME"</span>
+                                <span class="guide-step-text" id="txtStep4Body">Hit the signature olive button at the bottom. Watch the live count-up animation calculate your <strong>Estimated Net Profit</strong>, total <strong>50-kg Sacks/Cavans</strong>, maturity days, and break-even price. Test <strong>BAD / NORMAL / GOOD</strong> scenario buttons to prepare for climate shocks.</span>
+                            </div>
+                        </div>
+                        <div class="guide-step-card">
+                            <div class="guide-step-number">5</div>
+                            <div class="guide-step-content">
+                                <span class="guide-step-heading" id="txtStep5Head">EXPLORE "ADVISOR" &amp; "RISK &amp; WEATHER"</span>
+                                <span class="guide-step-text" id="txtStep5Body">Use the top navigation to switch to <strong>ADVISOR</strong> to compare which crop earns the highest profit for your farm size, or <strong>RISK &amp; WEATHER</strong> to simulate typhoon and price shocks on your revenue.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── TAB 3: CATEGORY GUIDE & BENCHMARKS ── -->
+                <div class="guide-tab-pane" id="paneGuideCategories">
+                    <div class="guide-cat-card" id="guideCatCrop">
+                        <div class="guide-cat-title-row">
+                            <span class="guide-cat-name">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                                CROP SELECTION CATEGORY
+                            </span>
+                            <span class="guide-cat-tag">PRIMARY FEATURE (60.5% WEIGHT)</span>
+                        </div>
+                        <div class="guide-cat-body" id="txtCatCropBody">
+                            Each crop carries unique genetics, nutrient demand, and harvest rates. Rice yields ~3.2–4.5 MT/ha (64–90 cavans); Corn yields ~4.2–5.5 MT/ha; Potatoes yield ~16–18 MT/ha; and Cassava yields ~12–15 MT/ha. Season tags evaluate current PAGASA rainfall patterns to protect against root rotting or drought.
+                        </div>
+                    </div>
+
+                    <div class="guide-cat-card" id="guideCatSize">
+                        <div class="guide-cat-title-row">
+                            <span class="guide-cat-name">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.3"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+                                FARM SIZE (HECTARES)
+                            </span>
+                            <span class="guide-cat-tag">LAND AREA (HA)</span>
+                        </div>
+                        <div class="guide-cat-body" id="txtCatSizeBody">
+                            Land size is measured in <strong>Hectares (HA)</strong>, where 1 HA equals 10,000 square meters (~2.47 acres). Typical Filipino smallholder farms range between 0.5 HA and 3.0 HA. Total production costs and gross revenue scale directly with land area.
+                        </div>
+                    </div>
+
+                    <div class="guide-cat-card" id="guideCatPrice">
+                        <div class="guide-cat-title-row">
+                            <span class="guide-cat-name">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.3"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                                SELLING PRICE (&#8369; / KG)
+                            </span>
+                            <span class="guide-cat-tag">PSA FARMGATE BENCHMARKS</span>
+                        </div>
+                        <div class="guide-cat-body" id="txtCatPriceBody">
+                            Represents the farmgate price you receive when selling harvest to traders or cooperatives. Defaults are based on PSA official benchmarks: Rice (&#8369;22.00/kg), Corn (&#8369;20.50/kg), Potato (&#8369;45.00/kg), and Cassava (&#8369;14.00/kg). Adjust this if your local buyers offer higher or lower prices.
+                        </div>
+                    </div>
+
+                    <div class="guide-cat-card" id="guideCatRegion">
+                        <div class="guide-cat-title-row">
+                            <span class="guide-cat-name">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.3"><circle cx="12" cy="12" r="10"></circle><path d="M8 12h8"></path><path d="M12 8v8"></path></svg>
+                                SEASON &amp; REGION (DA-AMIA NCCAG v2.0)
+                            </span>
+                            <span class="guide-cat-tag">PHILIPPINE AGRO-CLIMATIC</span>
+                        </div>
+                        <div class="guide-cat-body" id="txtCatRegionBody">
+                            The Philippines experiences two main monsoons: <strong>Wet Season (Habagat)</strong> from June to November with heavy rains and typhoons, and <strong>Dry Season (Amihan)</strong> from December to May with high solar radiation. Our database maps all 82 provinces with dominant soil series from DA-BSWM and suitability grades (S1 Highly Suitable / S2 Moderately Suitable).
+                        </div>
+                    </div>
+
+                    <div class="guide-cat-card" id="guideCatResults">
+                        <div class="guide-cat-title-row">
+                            <span class="guide-cat-name">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.3"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                                RESULTS &amp; FINANCIAL FORMULAS
+                            </span>
+                            <span class="guide-cat-tag">NET PROFIT &amp; CAVANS</span>
+                        </div>
+                        <div class="guide-cat-body" id="txtCatResultsBody">
+                            <strong>Gross Revenue:</strong> Total kg &times; Selling Price. <br>
+                            <strong>Production Costs:</strong> Seeds + Fertilizer (N-P-K) + Agrochemicals + Fuel/Tractor + Labor. (Rice: &#8369;45k/ha; Corn: &#8369;38k/ha; Potato: &#8369;95k/ha; Cassava: &#8369;32k/ha). <br>
+                            <strong>Net Profit:</strong> Gross Revenue &minus; Production Costs. <br>
+                            <strong>Break-Even Price:</strong> Minimum &#8369;/kg to avoid losses. <br>
+                            <strong>Sacks:</strong> Standard Philippine 50-kg cavans (<em>kaban</em>).
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="guide-modal-footer">
+                <div class="guide-footer-left">
+                    <span class="guide-footer-dot"></span>
+                    <span id="txtGuideFooterNote">Created for Filipino farmers, agricultural students &amp; researchers (CSST 102).</span>
+                </div>
+                <button type="button" class="btn-guide-gotit" onclick="closeSystemGuideModal()">
+                    <span id="txtGuideGotIt">GOT IT, LET'S CALCULATE &rarr;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- ── APPLICATION CONTROLLER & LOGIC ── -->
     <script>
         // ── Crop Model Benchmarks & Constants ──
@@ -5219,6 +6157,15 @@
         const TRANSLATIONS = {
             en: {
                 subtitle: 'HARVEST & INCOME PREDICTION SYSTEM',
+                guideBtn: 'GUIDE & AIM',
+                cropInfoBadge: 'INFO',
+                guideTitle: 'ANITAYA SYSTEM GUIDE',
+                guideSubtitle: 'AIM, IMPORTANCE, HOW TO USE & CATEGORY BENCHMARKS',
+                tabAim: 'AIM & IMPORTANCE',
+                tabHowTo: 'HOW TO USE',
+                tabCategories: 'CATEGORY GUIDE',
+                guideFooter: 'Created for Filipino farmers, agricultural students & researchers.',
+                guideGotIt: 'GOT IT, LET\'S CALCULATE →',
                 modeFarmer: 'FARMER',
                 modeAdvisor: 'ADVISOR',
                 modeWeather: 'RISK & WEATHER',
@@ -5276,6 +6223,15 @@
             },
             fil: {
                 subtitle: 'SISTEMA SA PAGTAYA NG ANI AT KITA',
+                guideBtn: 'GABAY AT LAYUNIN',
+                cropInfoBadge: 'GABAY',
+                guideTitle: 'GABAY SA SISTEMA NG ANITAYA',
+                guideSubtitle: 'LAYUNIN, KAHALAGAHAN, PAANO GAMITIN AT GABAY SA KATEGORYA',
+                tabAim: 'LAYUNIN AT KAHALAGAHAN',
+                tabHowTo: 'PAANO GAMITIN',
+                tabCategories: 'GABAY SA KATEGORYA',
+                guideFooter: 'Ginawa para sa magsasakang Pilipino, mag-aaral ng agrikultura at mananaliksik.',
+                guideGotIt: 'NAINTINDIHAN KO NA, MAGKWENTA TAYO →',
                 modeFarmer: 'MAGSASAKA',
                 modeAdvisor: 'TAGAPAYO',
                 modeWeather: 'PANAHON AT PELIGRO',
@@ -5914,6 +6870,24 @@
             // Header titles and buttons
             const sub = document.querySelector('.outer-subtitle');
             if (sub) sub.textContent = t.subtitle;
+            const gb = document.getElementById('txtGuideBtn');
+            if (gb) gb.textContent = t.guideBtn || 'GUIDE & AIM';
+            const cib = document.getElementById('lblCropInfoBadge');
+            if (cib) cib.textContent = t.cropInfoBadge || 'INFO';
+            const gTitle = document.getElementById('guideModalTitle');
+            if (gTitle) gTitle.textContent = t.guideTitle || 'ANITAYA SYSTEM GUIDE';
+            const gSub = document.getElementById('guideModalSubtitle');
+            if (gSub) gSub.textContent = t.guideSubtitle || 'AIM, IMPORTANCE, HOW TO USE & CATEGORY BENCHMARKS';
+            const tAim = document.getElementById('txtTabAim');
+            if (tAim) tAim.textContent = t.tabAim || 'AIM & IMPORTANCE';
+            const tHow = document.getElementById('txtTabHowTo');
+            if (tHow) tHow.textContent = t.tabHowTo || 'HOW TO USE';
+            const tCat = document.getElementById('txtTabCategories');
+            if (tCat) tCat.textContent = t.tabCategories || 'CATEGORY GUIDE';
+            const gFoot = document.getElementById('txtGuideFooterNote');
+            if (gFoot) gFoot.textContent = t.guideFooter || 'Created for Filipino farmers, agricultural students & researchers.';
+            const gGot = document.getElementById('txtGuideGotIt');
+            if (gGot) gGot.textContent = t.guideGotIt || 'GOT IT, LET\'S CALCULATE →';
             const mf = document.getElementById('modeBtnFarmer');
             if (mf) mf.textContent = t.modeFarmer;
             const ma = document.getElementById('modeBtnAdvisor');
@@ -6302,6 +7276,73 @@
                 }
             });
         }
+
+        // ── SYSTEM GUIDE MODAL CONTROLLER ──
+        function openSystemGuideModal(tabName, categoryKey) {
+            const modal = document.getElementById('systemGuideModal');
+            if (!modal) return;
+
+            modal.classList.add('active');
+            if (tabName) {
+                switchGuideTab(tabName);
+            } else {
+                switchGuideTab('aim');
+            }
+
+            if (categoryKey) {
+                setTimeout(() => {
+                    const keyMap = {
+                        'crop': 'guideCatCrop',
+                        'size': 'guideCatSize',
+                        'price': 'guideCatPrice',
+                        'region': 'guideCatRegion',
+                        'results': 'guideCatResults',
+                        'da-amia': 'guideCatRegion'
+                    };
+                    const targetId = keyMap[categoryKey.toLowerCase()] || `guideCat${categoryKey}`;
+                    const targetEl = document.getElementById(targetId);
+                    if (targetEl) {
+                        targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        targetEl.classList.add('highlight-pulse');
+                        setTimeout(() => targetEl.classList.remove('highlight-pulse'), 2200);
+                    }
+                }, 160);
+            }
+        }
+
+        function closeSystemGuideModal() {
+            const modal = document.getElementById('systemGuideModal');
+            if (modal) modal.classList.remove('active');
+        }
+
+        function switchGuideTab(tabName) {
+            const btnAim = document.getElementById('tabBtnAim');
+            const btnHowTo = document.getElementById('tabBtnHowTo');
+            const btnCategories = document.getElementById('tabBtnCategories');
+
+            const paneAim = document.getElementById('paneGuideAim');
+            const paneHowTo = document.getElementById('paneGuideHowTo');
+            const paneCategories = document.getElementById('paneGuideCategories');
+
+            if (btnAim) btnAim.className = 'guide-tab-btn' + (tabName === 'aim' ? ' active' : '');
+            if (btnHowTo) btnHowTo.className = 'guide-tab-btn' + (tabName === 'howto' ? ' active' : '');
+            if (btnCategories) btnCategories.className = 'guide-tab-btn' + (tabName === 'categories' ? ' active' : '');
+
+            if (paneAim) paneAim.className = 'guide-tab-pane' + (tabName === 'aim' ? ' active' : '');
+            if (paneHowTo) paneHowTo.className = 'guide-tab-pane' + (tabName === 'howto' ? ' active' : '');
+            if (paneCategories) paneCategories.className = 'guide-tab-pane' + (tabName === 'categories' ? ' active' : '');
+        }
+
+        // Global ESC listener for System Guide Modal
+        document.addEventListener('keydown', (e) => {
+            const guideModal = document.getElementById('systemGuideModal');
+            if (guideModal && guideModal.classList.contains('active')) {
+                if (e.key === 'Escape') {
+                    e.preventDefault();
+                    closeSystemGuideModal();
+                }
+            }
+        });
 
         // ── Validation Guard for Calculator Reset ──
         function requestCalculatorReset() {
