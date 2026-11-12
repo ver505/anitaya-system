@@ -168,6 +168,51 @@
         "Labor": 20.0,
         "Storage & Transport": 10.0
       }
+    },
+    "Rice": {
+      "filipino_name": "Palay (Palay / Bigas)",
+      "farmgate_price_per_kg": 22.0,
+      "cost_per_ha": 45000.0,
+      "typical_yield_mt_ha": 4.2,
+      "cavan_weight_kg": 50,
+      "growing_days": 115,
+      "recommended_season": "Wet & Dry Season",
+      "production_cost_breakdown": {
+        "Seeds": 12.0,
+        "Fertilizers & Agrochemicals": 32.0,
+        "Labor & Land Preparation": 38.0,
+        "Fuel, Irrigation & Threshing": 18.0
+      }
+    },
+    "Corn": {
+      "filipino_name": "Mais (Corn / Yellow & White)",
+      "farmgate_price_per_kg": 20.5,
+      "cost_per_ha": 38000.0,
+      "typical_yield_mt_ha": 4.5,
+      "cavan_weight_kg": 50,
+      "growing_days": 105,
+      "recommended_season": "Dry Season / Late Wet",
+      "production_cost_breakdown": {
+        "Seeds": 15.0,
+        "Fertilizers & Agrochemicals": 35.0,
+        "Labor & Land Preparation": 35.0,
+        "Machinery & Fuel": 15.0
+      }
+    },
+    "Potato": {
+      "filipino_name": "Patatas (Irish Potato)",
+      "farmgate_price_per_kg": 45.0,
+      "cost_per_ha": 95000.0,
+      "typical_yield_mt_ha": 18.0,
+      "cavan_weight_kg": 50,
+      "growing_days": 90,
+      "recommended_season": "Cool Dry Season",
+      "production_cost_breakdown": {
+        "Seed Tubers": 40.0,
+        "Fertilizers & Crop Care": 30.0,
+        "Labor": 20.0,
+        "Storage & Transport": 10.0
+      }
     }
   }
 }

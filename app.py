@@ -132,7 +132,22 @@ def predict():
             return jsonify({"status": "error", "message": "No input payload provided."}), 400
 
         # Extract and validate inputs
-        crop = data.get("crop", "Rice, paddy").strip()
+        raw_crop = data.get("crop", "Rice").strip()
+        CROP_NAME_MAP = {
+            "rice": "Rice, paddy",
+            "rice, paddy": "Rice, paddy",
+            "palay": "Rice, paddy",
+            "corn": "Maize",
+            "maize": "Maize",
+            "mais": "Maize",
+            "potato": "Potatoes",
+            "potatoes": "Potatoes",
+            "patatas": "Potatoes",
+            "cassava": "Cassava",
+            "kamoteng kahoy": "Cassava"
+        }
+        ml_crop = CROP_NAME_MAP.get(raw_crop.lower(), raw_crop)
+        crop = ml_crop
         land_area = float(data.get("land_area", 1.0))
         season = data.get("season", "Wet Season").strip()
         region = data.get("region", "Laguna / CALABARZON (Region IV-A)")

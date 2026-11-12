@@ -5454,8 +5454,8 @@
                             <div class="province-advisory-badge-group">
                                 <div class="province-advisory-badge">
                                     <span class="badge-pulse-dot"></span>
-                                    <span id="provAdvisoryBadgeText">DA-AMIA OFFICIAL SUITABILITY (NCCAG v2.0)</span>
-                                    <button type="button" class="category-info-pill" onclick="openSystemGuideModal('categories', 'da-amia')" title="About DA-AMIA National Color-Coded Agricultural Guide" aria-label="DA-AMIA Guide Info">
+                                    <span id="provAdvisoryBadgeText">PROVINCE CROP GUIDE &amp; ADVISORY</span>
+                                    <button type="button" class="category-info-pill" onclick="openSystemGuideModal('categories', 'da-amia')" title="About Provincial Crop Suitability Guide" aria-label="Provincial Guide Info">
                                         <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
                                     </button>
                                 </div>
@@ -5475,18 +5475,18 @@
                                         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2">
                                             <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
                                         </svg>
-                                        <span id="provAdvisorySoil">Soil: Lipa Clay Loam</span>
+                                        <span id="provAdvisorySoil">Soil: Clay &amp; Loam (Rich farm soil)</span>
                                     </div>
                                     <div class="prov-meta-pill" title="PAGASA Climate Type & Mean Precipitation">
                                         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2">
                                             <path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"/>
                                             <path d="M8 19v2M12 18v3M16 19v2"/>
                                         </svg>
-                                        <span id="provAdvisoryClimate">Type I &bull; 2,400 mm/yr &bull; 28.2&deg;C</span>
+                                        <span id="provAdvisoryClimate">Wet &amp; Dry Seasons &bull; 2,400 mm/yr &bull; 28.2&deg;C</span>
                                     </div>
                                 </div>
                                 <div class="prov-crops-col">
-                                    <span class="province-crops-title" id="provAdvisoryCropsTitle">OFFICIALLY RECOMMENDED CROPS (DA-AMIA S1/S2):</span>
+                                    <span class="province-crops-title" id="provAdvisoryCropsTitle">BEST CROPS TO PLANT IN THIS PROVINCE:</span>
                                     <div class="province-crops-list" id="provAdvisoryCropsList">
                                         <!-- Dynamically rendered -->
                                     </div>
@@ -6196,16 +6196,16 @@
                 breakEven: 'BREAK-EVEN',
                 recalcToast: 'Harvest & net income recalculated.',
                 saveToast: 'Farm simulation saved to History!',
-                weatherTitle: 'LAGUNA & CALABARZON AGRO-CLIMATIC RISK ASSESSMENT',
-                weatherSub: 'SEASONAL WEATHER PROJECTIONS, DISASTER VULNERABILITY & SENSITIVITY SHOCK SIMULATOR',
-                monthlyPrecip: 'MONTHLY PRECIPITATION',
-                avgTemp: 'AVERAGE TEMPERATURE',
-                relHumidity: 'RELATIVE HUMIDITY',
-                disasterIndex: 'DISASTER RISK INDEX',
-                shockHeader: '"WHAT-IF" DISASTER & PRICE SHOCK SIMULATOR',
-                shockSub: 'Test financial survival under unexpected weather damage or farmgate price drops',
-                yieldImpact: 'HARVEST YIELD IMPACT (TYPHOON / WEATHER)',
-                priceImpact: 'FARMGATE SELLING PRICE SHOCK',
+                weatherTitle: 'WEATHER & DISASTER RISK CHECKER',
+                weatherSub: 'Check rainfall, typhoon risks, and how storms or price drops affect your farm income',
+                monthlyPrecip: 'MONTHLY RAINFALL (Ulan)',
+                avgTemp: 'TEMPERATURE (Init / Lamig)',
+                relHumidity: 'AIR MOISTURE (Humidity)',
+                disasterIndex: 'TYPHOON & FLOOD RISK',
+                shockHeader: '“WHAT-IF” TYPHOON & PRICE SHOCK SIMULATOR',
+                shockSub: 'See how much you earn if a typhoon hits or if market prices drop',
+                yieldImpact: 'HARVEST LOSS / GAIN FROM WEATHER',
+                priceImpact: 'FARMGATE SELLING PRICE DROP / RISE',
                 adjHarvest: 'ADJUSTED HARVEST:',
                 simRev: 'SIMULATED REVENUE:',
                 prodCosts: 'PRODUCTION COSTS:',
@@ -6216,10 +6216,12 @@
                 advisorBarTitle: 'REAL-TIME SEASONAL PLANTING ADVISOR',
                 bestTag: 'BEST NOW',
                 modTag: 'MODERATE',
-                riskTag: 'HIGH RISK',
+                riskTag: 'AVOID NOW',
                 bestToPlant: 'BEST TO PLANT:',
-                worstToAvoid: 'HIGH RISK / AVOID:',
-                switchMonthToast: 'Viewing seasonal advice for '
+                worstToAvoid: 'AVOID NOW:',
+                switchMonthToast: 'Viewing seasonal advice for ',
+                provAdvisoryBadge: 'PROVINCE CROP GUIDE & ADVISORY',
+                provAdvisoryCropsTitle: 'BEST CROPS TO PLANT IN THIS PROVINCE:'
             },
             fil: {
                 subtitle: 'SISTEMA SA PAGTAYA NG ANI AT KITA',
@@ -6241,10 +6243,10 @@
                 headerRefresh: 'I-REFRESH',
                 emptyResultsHeader: 'PUMILI NG PANANIM AT ILAGAY ANG LAKI NG SAKAHAN',
                 plantingTitle: 'ANO ANG IYONG ITATANIM?',
-                cropRice: 'PALAY',
-                cropCorn: 'MAIS',
-                cropPotato: 'PATATAS',
-                cropCassava: 'KAMOTENG KAHOY',
+                cropRice: 'PALAY (RICE)',
+                cropCorn: 'MAIS (CORN)',
+                cropPotato: 'PATATAS (POTATO)',
+                cropCassava: 'KAMOTENG KAHOY (CASSAVA)',
                 farmSize: 'LAKI NG SAKAHAN',
                 sellingPrice: 'PRESYO NG BENTA',
                 seasonRegion: 'PANAHON AT REHIYON',
@@ -6262,15 +6264,15 @@
                 breakEven: 'PATAS (BREAK-EVEN)',
                 recalcToast: 'Kinalkula ang ani at netong kita.',
                 saveToast: 'Nai-save ang sakahan sa Kasaysayan!',
-                weatherTitle: 'PAGTAYA SA PANAHON AT PELIGRO SA LAGUNA AT CALABARZON',
-                weatherSub: 'PAGTAYA SA ULAN AT BAGYO, PELIGRO SA SAKAHAN AT "WHAT-IF" SIMULATOR',
+                weatherTitle: 'PAGTAYA SA PANAHON AT PELIGRO SA SAKAHAN',
+                weatherSub: 'Alamin ang ulan, bagyo, at kung paano maaapektuhan ang kita ng sakahan',
                 monthlyPrecip: 'BUWANANG BUHOS NG ULAN',
-                avgTemp: 'KATAMTAMANG INIT',
-                relHumidity: 'HALUMIGMIG (HUMIDITY)',
-                disasterIndex: 'ANTAS NG PELIGRO SA BAGYO',
-                shockHeader: '"WHAT-IF" PAGSUBOK SA BAGYO AT PRESYO',
+                avgTemp: 'KATAMTAMANG INIT O LAMIG',
+                relHumidity: 'HALUMIGMIG SA HANGIN (HUMIDITY)',
+                disasterIndex: 'PELIGRO SA BAGYO AT BAHA',
+                shockHeader: '“WHAT-IF” PAGSUBOK SA BAGYO AT PRESYO',
                 shockSub: 'Alamin kung kikita pa rin kapag binagyo o bumaba ang presyo ng benta sa palengke',
-                yieldImpact: 'EPEKTO SA DAMI NG ANI (BAGYO / ULAN)',
+                yieldImpact: 'BUNGA NG BAGYO SA DAMI NG ANI',
                 priceImpact: 'PAGBABAGO SA PRESYO NG BENTA (₱/KG)',
                 adjHarvest: 'NABAGONG DAMI NG ANI:',
                 simRev: 'TINATAYANG BENTA:',
@@ -6282,10 +6284,12 @@
                 advisorBarTitle: 'REAL-TIME NA TAGAPAYO SA PAGTATANIM',
                 bestTag: 'PINAKAMAINAM',
                 modTag: 'KATAMTAMAN',
-                riskTag: 'DELIKADO',
+                riskTag: 'IWASAN MUNA',
                 bestToPlant: 'PINAKAMAINAM ITANIM:',
-                worstToAvoid: 'DELIKADO / IWASAN:',
-                switchMonthToast: 'Tinitingnan ang payo sa buwan ng '
+                worstToAvoid: 'IWASAN MUNA:',
+                switchMonthToast: 'Tinitingnan ang payo sa buwan ng ',
+                provAdvisoryBadge: 'GABAY SA PANANIM NG PROBINSYA',
+                provAdvisoryCropsTitle: 'PINAKAMAINAM NA ITANIM SA PROBINSYANG ITO:'
             }
         };
 
@@ -6402,7 +6406,7 @@
                         fil: 'Katamtaman. Panahon ng anihan sa tag-araw at pag-aararo ng lupang tatamnan sa darating na tag-ulan.'
                     },
                     corn: {
-                        en: '★ BEST SEASON. High photosynthetic conversion rate if watered; sweet corn and feed maize yield rapidly.',
+                        en: '★ BEST SEASON. Sunny weather and warm soils help sweet corn and grain corn grow rapidly with steady watering.',
                         fil: '★ PINAKAMAINAM. Mabilis ang paglaki ng mais sa matinding araw kung may maayos na daloy ng patubig.'
                     },
                     potato: {
@@ -6976,6 +6980,12 @@
             // History drawer title
             const hd = document.getElementById('txtHistoryDrawerTitle');
             if (hd) hd.textContent = (lang === 'fil') ? 'KASAYSAYAN NG SAKAHAN' : 'FARM PRESET HISTORY';
+
+            // Province Advisory Card titles
+            const pab = document.getElementById('provAdvisoryBadgeText');
+            if (pab) pab.textContent = t.provAdvisoryBadge || 'PROVINCE CROP GUIDE & ADVISORY';
+            const pct = document.getElementById('provAdvisoryCropsTitle');
+            if (pct) pct.textContent = t.provAdvisoryCropsTitle || 'BEST CROPS TO PLANT IN THIS PROVINCE:';
 
             // Refresh current results text
             updateCalcLive(false);
@@ -8070,11 +8080,25 @@
                 islandPill.className = `prov-island-pill island-${islKey}`;
             }
             if (soilEl) {
-                soilEl.textContent = `Soil: ${p.dominant_soil}`;
+                const soilRaw = p.dominant_soil || 'Loam';
+                let simpleSoilDesc = 'Rich, fertile farm soil';
+                const sLow = soilRaw.toLowerCase();
+                if (sLow.includes('clay')) simpleSoilDesc = 'Holds water well (Great for Rice)';
+                else if (sLow.includes('silt') || sLow.includes('alluvial')) simpleSoilDesc = 'Nutrient-rich river plain (Great for Corn)';
+                else if (sLow.includes('loam')) simpleSoilDesc = 'Well-drained soil (Ideal for Corn & Potato)';
+                else if (sLow.includes('volcanic') || sLow.includes('ash')) simpleSoilDesc = 'Deep & fertile (Ideal for Cassava)';
+
+                soilEl.innerHTML = `<span><strong>Soil:</strong> ${soilRaw}</span> &bull; <span style="color:var(--accent-lime); font-size:9.5px;">${simpleSoilDesc}</span>`;
             }
             if (climateEl) {
-                const climShort = p.climate_type.split('(')[0].trim();
-                climateEl.textContent = `${climShort} \u2022 ${p.annual_rainfall_mm.toLocaleString()} mm/yr \u2022 ${p.avg_temp_c}\u00B0C`;
+                const cLow = (p.climate_type || '').toLowerCase();
+                let simpleClimDesc = 'Tropical weather';
+                if (cLow.includes('type i') && !cLow.includes('type iv')) simpleClimDesc = 'Wet & Dry seasons';
+                else if (cLow.includes('type ii')) simpleClimDesc = 'Year-round rains';
+                else if (cLow.includes('type iii')) simpleClimDesc = 'Short dry season';
+                else if (cLow.includes('type iv') || cLow.includes('type i & iv')) simpleClimDesc = 'Gentle rains all year';
+
+                climateEl.innerHTML = `<span><strong>Climate:</strong> ${simpleClimDesc}</span> &bull; <span>${p.annual_rainfall_mm.toLocaleString()} mm rain/yr &bull; ${p.avg_temp_c}\u00B0C</span>`;
             }
 
             const distEl = document.getElementById('provAdvisoryDistinction');
@@ -8103,13 +8127,13 @@
                     let displayName = '';
                     if (low.includes('rice') || low.includes('paddy')) {
                         matchedKey = 'rice';
-                        displayName = 'RICE, PADDY';
+                        displayName = 'RICE';
                     } else if (low.includes('maize') || low.includes('corn')) {
                         matchedKey = 'corn';
-                        displayName = 'MAIZE';
+                        displayName = 'CORN';
                     } else if (low.includes('potato') && !low.includes('sweet')) {
                         matchedKey = 'potato';
-                        displayName = 'POTATOES';
+                        displayName = 'POTATO';
                     } else if (low.includes('cassava')) {
                         matchedKey = 'cassava';
                         displayName = 'CASSAVA';
@@ -8124,7 +8148,7 @@
 
                 // Guarantee at least 1 dataset crop exists
                 if (matchedCrops.length === 0) {
-                    matchedCrops.push({ key: 'rice', name: 'RICE, PADDY' });
+                    matchedCrops.push({ key: 'rice', name: 'RICE' });
                 }
 
                 let chipsHtml = '';
@@ -8153,9 +8177,9 @@
                                 <line x1="12" y1="16" x2="12" y2="12"></line>
                                 <line x1="12" y1="8" x2="12.01" y2="8"></line>
                             </svg>
-                            <span>${isFil ? 'PAALALA SA MGA MAGSASAKA' : 'PROVINCIAL AGRONOMIC GUIDE (DA-AMIA)'}:</span>
+                            <span>${isFil ? 'PAYO SA MGA MAGSASAKA DITO' : 'FARMER ADVICE FOR THIS PROVINCE'}:</span>
                         </div>
-                        <div style="font-size: 9.5px; line-height: 1.45; color: var(--text-muted);">${p.agronomic_advice || 'Select a crop above to evaluate suitability for this province.'}</div>
+                        <div style="font-size: 9.5px; line-height: 1.45; color: var(--text-muted);">${p.agronomic_advice || 'Select a crop above to see your predicted harvest and profit.'}</div>
                     `;
                     return;
                 }
@@ -8187,17 +8211,16 @@
                     matchBannerEl.className = 'province-crop-match-banner recommended';
                     matchBannerEl.style.borderColor = '';
                     matchBannerEl.style.background = '';
-                    const gradeText = isPrimary ? p.da_suitability_grade : 'Moderately Suitable (S2)';
                     matchBannerEl.innerHTML = `
                         <div style="font-weight: 800; display: flex; align-items: center; gap: 6px;">
                             <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5">
                                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                                 <polyline points="22 4 12 14.01 9 11.01"></polyline>
                             </svg>
-                            <span>${isFil ? 'OPISYAL NA INIREREKOMENDA' : 'OFFICIALLY HIGHLY RECOMMENDED'} (${gradeText})</span>
+                            <span>${isFil ? '★ MAGANDANG ITANIM DITO' : '★ BEST CROP CHOICE FOR ' + p.province.toUpperCase()}</span>
                         </div>
-                        <div>
-                            <strong>${cropDisplayName}</strong> ${isFil ? 'ay opisyal na priority crop sa' : 'is an officially designated priority crop in'} <strong>${p.province}</strong>. ${p.national_distinction ? ' \u2014 ' + p.national_distinction : ''}
+                        <div style="font-size: 10px; line-height: 1.45;">
+                            <strong>${cropDisplayName}</strong> ${isFil ? 'ay natural na hiyang at may mataas na ani sa lupang ito' : 'grows naturally well with high yields and good income in this province'}. ${p.national_distinction ? ' \u2014 ' + p.national_distinction : ''}
                         </div>
                     `;
                 } else {
@@ -8209,12 +8232,12 @@
                             <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.3">
                                 <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                             </svg>
-                            <span>${isFil ? 'AGRO-CLIMATIC ADVISORY' : 'AGRO-CLIMATIC CROP ADVISORY'}</span>
+                            <span>${isFil ? 'PAALALA SA PAGTATANIM' : 'FARMER TIP FOR THIS CROP'}</span>
                         </div>
-                        <div>
+                        <div style="font-size: 10px; line-height: 1.45;">
                             ${isFil 
-                                ? `Ang <strong>${cropDisplayName}</strong> ay nangangailangan ng mas masusing patubig at micro-climate control sa <strong>${p.province}</strong>. Ang DA-AMIA ay nagmumungkahi ng <strong>${p.primary_crops}</strong> bilang may pinakamataas na ani sa lupang <em>${p.dominant_soil}</em>.` 
-                                : `<strong>${cropDisplayName}</strong> requires micro-climate & soil moisture management in <strong>${p.province}</strong>. DA-AMIA identifies <strong>${p.primary_crops}</strong> as prime suitability for <em>${p.dominant_soil}</em>.`
+                                ? `Ang <strong>${cropDisplayName}</strong> ay maaari pa ring itanim kung may sapat na patubig at alaga. Sa <strong>${p.province}</strong>, ang <strong>${p.primary_crops}</strong> ang pinakamadaling palakihin sa lupang <em>${p.dominant_soil}</em>.` 
+                                : `<strong>${cropDisplayName}</strong> can still be planted with steady water and care. For <strong>${p.province}</strong>, <strong>${p.primary_crops}</strong> are the easiest to grow with reliable yields on <em>${p.dominant_soil}</em>.`
                             }
                         </div>
                     `;
