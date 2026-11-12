@@ -39,6 +39,9 @@
             --chart-subtle: #8c9878;
             --chart-line: #556b2f;
             --theme-icon: #eef0e4;
+            --scrollbar-track: rgba(11, 13, 8, 0.7);
+            --scrollbar-thumb: rgba(182, 198, 79, 0.35);
+            --scrollbar-thumb-hover: #b6c64f;
             --radius-shell: 28px;
             --radius-card: 18px;
             --radius-tile: 16px;
@@ -69,7 +72,48 @@
             --chart-subtle: #4e643f;
             --chart-line: #a8bfa0;
             --theme-icon: #14220f;
+            --scrollbar-track: rgba(235, 240, 228, 0.7);
+            --scrollbar-thumb: rgba(46, 89, 28, 0.3);
+            --scrollbar-thumb-hover: #2e591c;
             --shadow-subtle: 0 4px 20px rgba(0,0,0,0.06);
+        }
+
+        /* ── MODERN SLEEK FLOATING AGRICULTURAL SCROLLBAR ── */
+        html {
+            scrollbar-width: thin;
+            scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+            scroll-behavior: smooth;
+        }
+
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--scrollbar-track);
+            border-radius: 9999px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: var(--scrollbar-thumb);
+            border-radius: 9999px;
+            border: 2px solid transparent;
+            background-clip: content-box;
+            transition: background-color 0.2s ease;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: var(--scrollbar-thumb-hover);
+        }
+
+        ::-webkit-scrollbar-corner {
+            background: transparent;
         }
 
         body {
@@ -3222,14 +3266,17 @@
             width: 6px;
         }
         .guide-modal-body::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.2);
+            background: var(--scrollbar-track);
+            border-radius: 9999px;
         }
         .guide-modal-body::-webkit-scrollbar-thumb {
-            background: rgba(182, 198, 79, 0.28);
-            border-radius: 3px;
+            background-color: var(--scrollbar-thumb);
+            border-radius: 9999px;
+            border: 1px solid transparent;
+            background-clip: content-box;
         }
         .guide-modal-body::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-olive);
+            background-color: var(--scrollbar-thumb-hover);
         }
 
         .guide-tab-pane {
@@ -3914,15 +3961,17 @@
             width: 6px;
         }
         .province-cards-grid::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
+            background: var(--scrollbar-track);
+            border-radius: 9999px;
         }
         .province-cards-grid::-webkit-scrollbar-thumb {
-            background: rgba(182, 198, 79, 0.5);
-            border-radius: 10px;
+            background-color: var(--scrollbar-thumb);
+            border-radius: 9999px;
+            border: 1px solid transparent;
+            background-clip: content-box;
         }
         .province-cards-grid::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-olive);
+            background-color: var(--scrollbar-thumb-hover);
         }
 
         .province-item-card {
