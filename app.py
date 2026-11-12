@@ -64,11 +64,11 @@ REGIONAL_PRESETS = {
     "Laguna / CALABARZON (Region IV-A)": {"rainfall": 2400.0, "temp": 28.2, "desc": "Tropical rainforest climate, wet monsoon peaks from July to November"},
     "Central Luzon (Region III - Rice Granary)": {"rainfall": 1950.0, "temp": 28.5, "desc": "Distinct wet and dry seasons, prime zone for Rice and Corn"},
     "Ilocos Region (Region I)": {"rainfall": 1800.0, "temp": 28.0, "desc": "Pronounced dry season (Nov-Apr), wet season (May-Oct)"},
-    "Cagayan Valley (Region II)": {"rainfall": 2100.0, "temp": 27.5, "desc": "Fertile river basin, major producer of corn, rice, and root crops"},
-    "Bicol Region (Region V)": {"rainfall": 3100.0, "temp": 27.8, "desc": "High annual rainfall; requires resilient root crops and robust drainage"},
-    "Western Visayas (Region VI)": {"rainfall": 2350.0, "temp": 28.1, "desc": "Rich alluvial plains, strong rice and sugarcane production"},
+    "Cagayan Valley (Region II)": {"rainfall": 2100.0, "temp": 27.5, "desc": "Fertile river basin, major producer of corn, rice, and cassava"},
+    "Bicol Region (Region V)": {"rainfall": 3100.0, "temp": 27.8, "desc": "High annual rainfall; requires resilient cassava and robust drainage"},
+    "Western Visayas (Region VI)": {"rainfall": 2350.0, "temp": 28.1, "desc": "Rich alluvial plains, strong rice and corn production"},
     "Davao Region (Region XI)": {"rainfall": 1900.0, "temp": 28.4, "desc": "Even rainfall distribution year-round, typhoon-free tropical belt"},
-    "Northern Mindanao (Region X)": {"rainfall": 2200.0, "temp": 27.2, "desc": "Highland and plateau agriculture, high corn and root crop yields"},
+    "Northern Mindanao (Region X)": {"rainfall": 2200.0, "temp": 27.2, "desc": "Highland and plateau agriculture, high corn and cassava yields"},
     "Cordillera / Benguet Highlands": {"rainfall": 2600.0, "temp": 19.5, "desc": "Cool mountain climate, premier producing region for Irish Potatoes"}
 }
 

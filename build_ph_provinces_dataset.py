@@ -86,7 +86,7 @@ PROVINCES_DATA = [
         "elevation_category": "Rugged Windswept Coastal Hills",
         "da_suitability_grade": "Moderately Suitable (S2)",
         "national_distinction": "Northern Windswept Island Cassava & Rootcrop Biosphere (DA-BAR)",
-        "agronomic_advice": "Due to frequent typhoon track exposure, deep subterranean root crops (cassava, cassava, cassava) offer the highest financial security."
+        "agronomic_advice": "Due to frequent typhoon track exposure, deep-rooting cassava offers the highest food security against severe monsoons."
     },
     {
         "province": "Cagayan",
@@ -130,8 +130,8 @@ PROVINCES_DATA = [
         "avg_temp_c": 25.5,
         "elevation_category": "Inter-Mountain Valley (250-700m)",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Citrus Capital & Major Upland Vegetable Gateway (DA-AMIA)",
-        "agronomic_advice": "Cool valley breezes reduce pest pressure. Very high returns for integrated rice-upland crops and citrus orchards."
+        "national_distinction": "Major Upland Rice, Corn & Cassava Production Gateway (DA-AMIA)",
+        "agronomic_advice": "Cool valley breezes reduce pest pressure. Very high returns for irrigated rice in valleys and yellow corn on well-drained slopes."
     },
     {
         "province": "Quirino",
@@ -161,7 +161,7 @@ PROVINCES_DATA = [
         "elevation_category": "Pacific Coastal Terraces & Sierra Madre Foothills",
         "da_suitability_grade": "Moderately Suitable (S2)",
         "national_distinction": "Eastern Seaboard High-Rainfall Agro-Forestry Zone (DA)",
-        "agronomic_advice": "High rainfall requires well-drained loams. Intercropping cassava and root crops under cassava stands provides maximum stability."
+        "agronomic_advice": "High rainfall requires well-drained loams. Planting cassava and seasonal yellow corn provides maximum yield stability."
     },
     {
         "province": "Bataan",
@@ -266,7 +266,7 @@ PROVINCES_DATA = [
         "elevation_category": "Volcanic Rolling Plateaus (100-400m)",
         "da_suitability_grade": "Highly Suitable (S1)",
         "national_distinction": "Leading Calabarzon Grain & Rootcrop Production Hub (DA/PSA)",
-        "agronomic_advice": "Taal volcanic ash soils are naturally porous and rich in minerals; ideal for yellow corn, corn, cassava, and upland root crops."
+        "agronomic_advice": "Taal volcanic ash soils are naturally porous and rich in minerals; ideal for yellow corn, cassava, and lowland rice."
     },
     {
         "province": "Cavite",
@@ -296,7 +296,7 @@ PROVINCES_DATA = [
         "elevation_category": "Laguna de Bay Shore Plain to Mount Banahaw Foothills",
         "da_suitability_grade": "Highly Suitable (S1)",
         "national_distinction": "Global Rice Research Center (IRRI) & Key CALABARZON Food Basin (PSA/PhilRice)",
-        "agronomic_advice": "Home to AniTaya and top agricultural academic institutions. Lowland areas near Laguna Lake excel in double-crop rice; foothill municipalities thrive in corn, cassava, and upland root crops."
+        "agronomic_advice": "Home to AniTaya and top agricultural academic institutions. Lowland areas near Laguna Lake excel in double-crop rice; foothill municipalities thrive in corn and cassava."
     },
     {
         "province": "Quezon",
@@ -325,7 +325,7 @@ PROVINCES_DATA = [
         "avg_temp_c": 27.9,
         "elevation_category": "Lowland Plain to Sierra Madre Foothills",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Leading Urban-Perimeter High-Value Vegetable Supplier (DA)",
+        "national_distinction": "Key Regional Grain & Cassava Food Security Basin (DA-AMIA)",
         "agronomic_advice": "Close proximity to Metro Manila provides premium prices for fresh harvest. Upland cassava and corn thrive on well-drained slopes."
     },
     {
@@ -341,7 +341,7 @@ PROVINCES_DATA = [
         "elevation_category": "Island Mountain Ridge & Coastal Strips",
         "da_suitability_grade": "Moderately Suitable (S2)",
         "national_distinction": "Organic Island Agriculture & Arrowroot (Maranta) Center (DA-BAR)",
-        "agronomic_advice": "Island ecosystem favors organic farming and drought-resilient root crops such as arrowroot, cassava, and cassava."
+        "agronomic_advice": "Island ecosystem favors organic farming and drought-resilient cassava and yellow corn."
     },
     {
         "province": "Occidental Mindoro",
@@ -370,8 +370,8 @@ PROVINCES_DATA = [
         "avg_temp_c": 27.6,
         "elevation_category": "Eastern Alluvial Coastal Plain to Halcon",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Calamansi Capital of the Philippines & Food Hub of MIMAROPA (DA)",
-        "agronomic_advice": "Consistent rainfall without prolonged drought supports continuous flowering for calamansi and high double-cropped rice yields."
+        "national_distinction": "Premier Rice Granary & Major Grain Hub of MIMAROPA (PSA/PhilRice)",
+        "agronomic_advice": "Consistent rainfall without prolonged drought supports high double-cropped rice yields and productive yellow corn rotations."
     },
     {
         "province": "Palawan",
@@ -385,8 +385,8 @@ PROVINCES_DATA = [
         "avg_temp_c": 28.0,
         "elevation_category": "Elongated Coastal Plain to Spine Mountains",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Cashew Capital of the Philippines (#1 Producer) (DA/PSA)",
-        "agronomic_advice": "Southern Palawan has low typhoon exposure. Deep fertile soils accommodate hybrid corn and cassava, while cashew dominates dry slopes."
+        "national_distinction": "Top Rice & Yellow Corn Food Security Basin of Palawan (PSA)",
+        "agronomic_advice": "Southern Palawan has low typhoon exposure. Deep fertile soils accommodate hybrid corn, double-cropped rice, and high-yield cassava."
     },
     {
         "province": "Romblon",
@@ -415,8 +415,8 @@ PROVINCES_DATA = [
         "avg_temp_c": 27.4,
         "elevation_category": "Mayon Volcanic Plains to Coastal Flats",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Volcanic Soil Food Basket & Major Pili Center (PSA)",
-        "agronomic_advice": "Mayon volcanic ash gives superb potassium and trace mineral levels. Plant typhoon-submersible rice varieties and bedded root crops."
+        "national_distinction": "Volcanic Soil Grain & High-Yield Cassava Basin (PSA)",
+        "agronomic_advice": "Mayon volcanic ash gives superb potassium and trace mineral levels. Plant typhoon-submersible rice varieties and bedded cassava."
     },
     {
         "province": "Camarines Norte",
@@ -461,7 +461,7 @@ PROVINCES_DATA = [
         "elevation_category": "Rugged Mountainous Island Terrain",
         "da_suitability_grade": "Highly Suitable for Abaca/Rootcrops (S1)",
         "national_distinction": "Eastern Seaboard Typhoon-Resilient Cassava & Rice Biosphere (DA)",
-        "agronomic_advice": "High humidity and continuous rainfall make Catanduanes the world champion for cassava fiber. Root crops provide secure food reserves during typhoon season."
+        "agronomic_advice": "High humidity and continuous rainfall favor resilient cassava and flood-tolerant rice varieties during typhoon season."
     },
     {
         "province": "Masbate",
@@ -490,8 +490,8 @@ PROVINCES_DATA = [
         "avg_temp_c": 27.2,
         "elevation_category": "Volcanic Slopes to Coastal Inlets",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Premier Pili & Indigenous Agrobiodiversity Sanctuary (DA)",
-        "agronomic_advice": "Bulusan volcanic soils support high-yielding rice and native pili. Root crops planted along drainage channels prevent soil erosion."
+        "national_distinction": "Key Bicol Rice & Soil-Resilient Cassava Agro-Zone (DA-AMIA)",
+        "agronomic_advice": "Bulusan volcanic soils support high-yielding rice, yellow corn, and cassava along drainage slopes to prevent soil erosion."
     },
     {
         "province": "Abra",
@@ -686,7 +686,7 @@ PROVINCES_DATA = [
         "elevation_category": "Karst Limestone Plains & Chocolate Hills Terraces",
         "da_suitability_grade": "Highly Suitable (S1)",
         "national_distinction": "Rice Granary of Central Visayas & Upland Cassava Reserve (PSA)",
-        "agronomic_advice": "Malinao, Bayongan, and Capayas dams supply reliable water for palay. Rolling limestone hills are the native habitat for purple yam (cassava) and cassava."
+        "agronomic_advice": "Malinao, Bayongan, and Capayas dams supply reliable irrigation for double-cropped palay; rolling limestone hills support hardy cassava."
     },
     {
         "province": "Cebu",
@@ -715,7 +715,7 @@ PROVINCES_DATA = [
         "avg_temp_c": 28.2,
         "elevation_category": "Volcanic Slopes (Mount Talinis) to Coastal Plain",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Major Sugarcane, Yellow Corn & Marine Agriculture Producer (PSA)",
+        "national_distinction": "Major Yellow Corn, Lowland Rice & Cassava Production Hub (PSA)",
         "agronomic_advice": "Volcanic soils around Mount Talinis give high sucrose content for corn. Bais and Tanjay river plains produce strong rice and corn crops."
     },
     {
@@ -746,7 +746,7 @@ PROVINCES_DATA = [
         "elevation_category": "Volcanic Island Center to Coastal Plain",
         "da_suitability_grade": "Highly Suitable (S1)",
         "national_distinction": "High-Yield Volcanic Rice & Rootcrop Island Producer (DA)",
-        "agronomic_advice": "Abundant volcanic freshwater streams allow multi-cropped irrigated palay. Root crops on slopes stabilize soil during heavy rain events."
+        "agronomic_advice": "Abundant volcanic freshwater streams allow multi-cropped irrigated palay; cassava on slopes stabilizes soil during heavy rain events."
     },
     {
         "province": "Eastern Samar",
@@ -896,7 +896,7 @@ PROVINCES_DATA = [
         "elevation_category": "Volcanic Slopes to Sea Inlets",
         "da_suitability_grade": "Highly Suitable (S1)",
         "national_distinction": "Volcanic Upland Cassava & Highland Maize Agro-Zone (DA)",
-        "agronomic_advice": "Porous volcanic andosols give extraordinary sweetness to upland root crops. Cassava and cassava flourish on upland volcanic loam."
+        "agronomic_advice": "Porous volcanic andosols support high starch density in cassava and excellent grain yields in upland yellow corn."
     },
     {
         "province": "Lanao del Norte",
@@ -926,7 +926,7 @@ PROVINCES_DATA = [
         "elevation_category": "Coastal Plain to Mount Malindang Slopes",
         "da_suitability_grade": "Highly Suitable (S1)",
         "national_distinction": "Mount Malindang Watershed Buffer & Organic Food Hub (DA-BAR)",
-        "agronomic_advice": "Fresh water runoff from Mount Malindang ensures reliable irrigation for palay. High organic matter favors corn and root crops."
+        "agronomic_advice": "Fresh water runoff from Mount Malindang ensures reliable irrigation for palay; high organic matter favors yellow corn and cassava."
     },
     {
         "province": "Misamis Oriental",
@@ -1091,7 +1091,7 @@ PROVINCES_DATA = [
         "elevation_category": "Lower Agusan River Basin (<50m)",
         "da_suitability_grade": "Highly Suitable (S1)",
         "national_distinction": "Agusan River Alluvial Rice Basin of Caraga (PSA)",
-        "agronomic_advice": "Agusan delta soils have deep clay alluvium; use flood-tolerant rice varieties and plant root crops on raised beds."
+        "agronomic_advice": "Agusan delta soils have deep clay alluvium; use flood-tolerant rice varieties and plant cassava on raised beds."
     },
     {
         "province": "Agusan del Sur",
@@ -1105,8 +1105,8 @@ PROVINCES_DATA = [
         "avg_temp_c": 27.3,
         "elevation_category": "Central Agusan Basin & Marsh Periphery",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Oil Palm & Commercial Wood Plantation Capital of the Philippines (DA)",
-        "agronomic_advice": "Consistently moist soils produce maximum fresh fruit bunch (FFB) yields for oil palm; rice thrives on irrigated flatlands."
+        "national_distinction": "Key Food Production & Grain Corridor in Caraga (Region XIII) (DA-AMIA)",
+        "agronomic_advice": "Consistently moist alluvial soils deliver high yields for irrigated rice, yellow corn, and cassava."
     },
     {
         "province": "Dinagat Islands",
@@ -1136,7 +1136,7 @@ PROVINCES_DATA = [
         "elevation_category": "Coastal Terraces & Siargao Island Plains",
         "da_suitability_grade": "Highly Suitable (S1)",
         "national_distinction": "Northeastern Mindanao Rice & Island Agritourism Hub (PSA)",
-        "agronomic_advice": "Heavy rainfall requires robust canal drainage. Intercrop root crops under cassava to preserve topsoil during northeast monsoons."
+        "agronomic_advice": "Heavy rainfall requires robust canal drainage; plant flood-tolerant rice and cassava on contoured slopes."
     },
     {
         "province": "Surigao del Sur",
@@ -1151,7 +1151,7 @@ PROVINCES_DATA = [
         "elevation_category": "Pacific Coastal Plains to Diwata Ranges",
         "da_suitability_grade": "Highly Suitable (S1)",
         "national_distinction": "Highest Rainfall Belt in the Philippines with Rich Alluvial Basins (PAGASA/DA)",
-        "agronomic_advice": "Tremendous water abundance; select submergence-tolerant rice (Sub1 varieties). Oil palm and root crops thrive on well-sloped land."
+        "agronomic_advice": "Tremendous water abundance; select submergence-tolerant rice (Sub1 varieties) and plant cassava on well-sloped land."
     },
     {
         "province": "Basilan",
@@ -1226,7 +1226,7 @@ PROVINCES_DATA = [
         "elevation_category": "Volcanic Island Cones & Plains",
         "da_suitability_grade": "Highly Suitable (S1)",
         "national_distinction": "Archipelagic Island Cassava Staple Heartland & Rainfed Grain Producer (DA-BAR)",
-        "agronomic_advice": "Cassava is the premier cultural staple crop with over 20 native cultivars. Volcanic soils generate outstanding maize and mangosteen fruit."
+        "agronomic_advice": "Cassava is the premier staple crop with high tuber density; fertile volcanic soils also support productive yellow corn."
     },
     {
         "province": "Tawi-Tawi",
