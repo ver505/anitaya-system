@@ -1669,14 +1669,14 @@
         .crop-seasonal-tip-box {
             background: var(--bg-ink);
             border: 1px solid var(--border-hairline-strong);
-            border-left: 3px solid var(--accent-olive);
+            border-left: 3.5px solid var(--accent-olive);
             border-radius: 12px;
-            padding: 10px 14px;
+            padding: 13px 16px;
             display: flex;
             align-items: flex-start;
-            gap: 10px;
-            font-size: 10.5px;
-            line-height: 1.5;
+            gap: 12px;
+            font-size: 11.5px;
+            line-height: 1.55;
             text-transform: none;
             letter-spacing: 0.02em;
             color: var(--text-offwhite);
@@ -1693,22 +1693,24 @@
         .farmer-grid-layout {
             display: grid;
             grid-template-columns: 1.08fr 1fr;
-            gap: 20px;
-            align-items: start;
+            gap: 22px;
+            align-items: stretch;
         }
 
         .farmer-inputs-col {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 18px;
             width: 100%;
+            height: 100%;
         }
 
         .farmer-results-col {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 18px;
             width: 100%;
+            height: 100%;
         }
 
         /* 4 Crop Tiles in a Row */
@@ -1722,17 +1724,17 @@
             background: var(--bg-ink);
             border: 1px solid var(--border-hairline);
             border-radius: var(--radius-tile);
-            padding: 12px 10px 14px;
+            padding: 18px 12px 18px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            min-height: 168px;
+            min-height: 220px;
             text-align: center;
             cursor: pointer;
             transition: all 0.15s ease;
             position: relative;
-            gap: 8px;
+            gap: 10px;
         }
 
         .crop-tile:hover {
@@ -1741,24 +1743,24 @@
         }
 
         .crop-tile-letter {
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
+            width: 50px;
+            height: 50px;
+            border-radius: 13px;
             background: var(--pill-inactive);
             color: var(--text-offwhite);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 15px;
+            font-size: 20px;
             font-weight: 800;
             margin-bottom: 0;
             flex-shrink: 0;
         }
 
         .crop-tile-name {
-            font-size: 11px;
-            font-weight: 800;
-            letter-spacing: 0.08em;
+            font-size: 13px;
+            font-weight: 900;
+            letter-spacing: 0.09em;
             margin-bottom: 0;
             color: var(--text-offwhite);
             line-height: 1.2;
@@ -1766,10 +1768,10 @@
 
         .crop-tile-price {
             background: var(--pill-inactive);
-            padding: 5px 8px;
+            padding: 7px 10px;
             border-radius: var(--radius-pill);
-            font-size: 9.5px;
-            font-weight: 700;
+            font-size: 11px;
+            font-weight: 800;
             letter-spacing: 0.06em;
             color: var(--text-muted);
             width: 100%;
@@ -1823,7 +1825,7 @@
         .inputs-subgrid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
+            gap: 16px;
         }
 
         .inputs-subgrid .card-season-region {
@@ -1834,10 +1836,10 @@
             background: var(--bg-ink);
             border: 1px solid var(--border-hairline);
             border-radius: var(--radius-tile);
-            padding: 14px 16px;
+            padding: 18px 20px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 14px;
             transition: all 0.2s ease;
         }
 
@@ -1849,20 +1851,20 @@
         }
 
         .input-tile-label {
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: 0.1em;
+            font-size: 11.5px;
+            font-weight: 900;
+            letter-spacing: 0.12em;
             color: var(--text-muted);
         }
 
         .input-mode-tag {
-            font-size: 8px;
+            font-size: 8.5px;
             font-weight: 800;
             letter-spacing: 0.06em;
             color: var(--accent-olive);
             background: var(--accent-olive-dim);
             border: 1px solid rgba(182, 198, 79, 0.35);
-            padding: 2px 7px;
+            padding: 3px 8px;
             border-radius: var(--radius-pill);
             margin-left: auto;
             text-transform: uppercase;
@@ -1879,11 +1881,11 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 8px;
+            gap: 10px;
             background: var(--bg-shell);
             border: 1px solid var(--border-hairline);
-            border-radius: var(--radius-tile);
-            padding: 5px 8px;
+            border-radius: 14px;
+            padding: 8px 10px;
             transition: all 0.2s ease;
         }
 
@@ -1898,12 +1900,12 @@
         }
 
         .stepper-btn {
-            width: 34px;
-            height: 34px;
-            border-radius: 9px;
+            width: 42px;
+            height: 42px;
+            border-radius: 11px;
             background: #1e2a16;
             color: var(--text-offwhite);
-            font-size: 17px;
+            font-size: 20px;
             font-weight: 900;
             display: flex;
             align-items: center;
@@ -1942,24 +1944,25 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 8px;
             flex: 1;
             min-width: 0;
             padding: 0 4px;
         }
 
         .stepper-num-input {
-            width: 76px;
-            min-width: 64px;
+            width: 86px;
+            min-width: 70px;
+            height: 42px;
             background: rgba(255, 255, 255, 0.08);
             border: 1px solid var(--border-hairline-strong);
-            border-radius: 8px;
+            border-radius: 10px;
             color: var(--text-offwhite);
             font-family: inherit;
-            font-size: 18px;
+            font-size: 22px;
             font-weight: 900;
             text-align: center;
-            padding: 3px 6px;
+            padding: 4px 6px;
             outline: none;
             transition: all 0.18s ease;
             -moz-appearance: textfield;
@@ -1967,8 +1970,8 @@
         }
 
         .stepper-num-input.price-input {
-            width: 88px;
-            min-width: 76px;
+            width: 108px;
+            min-width: 90px;
         }
 
         .stepper-num-input::-webkit-outer-spin-button,
@@ -2007,7 +2010,7 @@
         }
 
         .stepper-val-unit {
-            font-size: 11px;
+            font-size: 13px;
             font-weight: 800;
             color: var(--text-muted);
             letter-spacing: 0.05em;
@@ -2017,8 +2020,8 @@
 
         .season-region-dual-row {
             display: grid;
-            grid-template-columns: 140px 1fr;
-            gap: 10px;
+            grid-template-columns: 160px 1fr;
+            gap: 14px;
             align-items: center;
         }
 
@@ -2026,18 +2029,18 @@
         .season-pill-toggle {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 4px;
+            gap: 5px;
             background: var(--bg-shell);
             border: 1px solid var(--border-hairline);
-            padding: 3px;
-            border-radius: var(--radius-tile);
+            padding: 4px;
+            border-radius: 14px;
         }
 
         .season-pill-btn {
-            padding: 7px;
+            padding: 11px 12px;
             border-radius: 10px;
-            font-size: 10px;
-            font-weight: 800;
+            font-size: 11.5px;
+            font-weight: 900;
             letter-spacing: 0.08em;
             color: var(--text-muted);
             text-align: center;
@@ -2061,17 +2064,17 @@
         /* Region Select */
         .region-select-box {
             position: relative;
-            margin-top: 2px;
         }
 
         .region-select-el {
             width: 100%;
+            height: 48px;
             background: var(--bg-shell);
             border: 1px solid var(--border-hairline);
-            border-radius: var(--radius-tile);
-            padding: 9.5px 30px 9.5px 12px;
-            font-size: 10.5px;
-            font-weight: 700;
+            border-radius: 14px;
+            padding: 12px 36px 12px 16px;
+            font-size: 12px;
+            font-weight: 800;
             letter-spacing: 0.05em;
             color: var(--text-offwhite);
             appearance: none;
@@ -2121,12 +2124,12 @@
 
         .region-select-chevron {
             position: absolute;
-            right: 12px;
+            right: 14px;
             top: 50%;
             transform: translateY(-50%);
             pointer-events: none;
-            width: 12px;
-            height: 12px;
+            width: 14px;
+            height: 14px;
             color: var(--text-muted);
         }
 
@@ -2134,10 +2137,11 @@
         .calc-action-row {
             display: grid;
             grid-template-columns: 1fr auto;
-            gap: 12px;
+            gap: 14px;
             align-items: stretch;
             width: 100%;
-            margin-top: 4px;
+            margin-top: auto;
+            padding-top: 6px;
         }
 
         .btn-reset-action {
@@ -2145,12 +2149,13 @@
             color: var(--text-offwhite);
             border: 1px solid var(--border-hairline-strong);
             border-radius: var(--radius-pill);
-            padding: 0 22px;
+            padding: 0 26px;
+            min-height: 58px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 800;
             letter-spacing: 0.1em;
             cursor: pointer;
@@ -2171,8 +2176,8 @@
         }
 
         .refresh-icon {
-            width: 15px;
-            height: 15px;
+            width: 16px;
+            height: 16px;
             transition: transform 0.4s ease;
         }
 
@@ -2191,12 +2196,13 @@
         /* Calculate Action Button */
         .btn-calculate-action {
             width: 100%;
+            min-height: 58px;
             background: var(--accent-olive);
             color: #12150e;
             border: 1px solid #c9db57;
             border-radius: var(--radius-pill);
-            padding: 15px 24px;
-            font-size: 12px;
+            padding: 16px 28px;
+            font-size: 13px;
             font-weight: 900;
             letter-spacing: 0.12em;
             display: flex;
