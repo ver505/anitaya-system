@@ -1836,22 +1836,33 @@
             color: var(--text-muted);
         }
 
-        /* Farm Size Stepper */
+        /* Farm Size & Selling Price Stepper */
         .stepper-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 8px;
+            gap: 6px;
             background: var(--bg-shell);
             border: 1px solid var(--border-hairline);
             border-radius: var(--radius-tile);
-            padding: 4px;
+            padding: 4px 6px;
+            transition: border-color 0.2s ease;
+        }
+
+        .stepper-row:focus-within {
+            border-color: var(--accent-olive);
+            box-shadow: 0 0 10px var(--accent-olive-dim);
+        }
+
+        [data-theme="light"] .stepper-row:focus-within {
+            border-color: #2e591c;
+            box-shadow: 0 0 10px rgba(46, 89, 28, 0.18);
         }
 
         .stepper-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
+            width: 32px;
+            height: 32px;
+            border-radius: 9px;
             background: #1e2a16;
             color: var(--text-offwhite);
             font-size: 16px;
@@ -1861,12 +1872,20 @@
             justify-content: center;
             border: 1px solid var(--border-hairline);
             transition: all 0.15s ease;
+            cursor: pointer;
+            flex-shrink: 0;
+            user-select: none;
         }
 
         .stepper-btn:hover {
             background: var(--accent-olive);
             color: #12150e;
             border-color: var(--accent-olive);
+            transform: scale(1.05);
+        }
+
+        .stepper-btn:active {
+            transform: scale(0.95);
         }
 
         [data-theme="light"] .stepper-btn {
@@ -1883,11 +1902,64 @@
 
         .stepper-val-box {
             display: flex;
-            align-items: baseline;
+            align-items: center;
+            justify-content: center;
             gap: 4px;
-            font-size: 20px;
-            font-weight: 900;
+            flex: 1;
+            min-width: 0;
+            padding: 0 2px;
+        }
+
+        .stepper-num-input {
+            width: 100%;
+            max-width: 58px;
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 6px;
             color: var(--text-offwhite);
+            font-family: inherit;
+            font-size: 19px;
+            font-weight: 900;
+            text-align: center;
+            padding: 2px 2px;
+            outline: none;
+            transition: all 0.18s ease;
+            -moz-appearance: textfield;
+            cursor: text;
+        }
+
+        .stepper-num-input.price-input {
+            max-width: 78px;
+        }
+
+        .stepper-num-input::-webkit-outer-spin-button,
+        .stepper-num-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .stepper-num-input:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--border-hairline-strong);
+        }
+
+        .stepper-num-input:focus {
+            background: var(--bg-ink);
+            border-color: var(--accent-olive);
+        }
+
+        [data-theme="light"] .stepper-num-input {
+            color: #14220f;
+        }
+
+        [data-theme="light"] .stepper-num-input:hover {
+            background: rgba(0, 0, 0, 0.04);
+            border-color: rgba(29, 42, 20, 0.22);
+        }
+
+        [data-theme="light"] .stepper-num-input:focus {
+            background: #ffffff;
+            border-color: #2e591c;
         }
 
         .stepper-val-unit {
@@ -1895,6 +1967,8 @@
             font-weight: 800;
             color: var(--text-muted);
             letter-spacing: 0.06em;
+            flex-shrink: 0;
+            user-select: none;
         }
 
         /* Season Pill Toggle */
@@ -5458,12 +5532,24 @@
                                     </button>
                                 </div>
                                 <div class="stepper-row">
-                                    <button class="stepper-btn" aria-label="Decrease Farm Size" onclick="adjustArea(-1)">&minus;</button>
+                                    <button type="button" class="stepper-btn" aria-label="Decrease Farm Size" onclick="adjustArea(-1)">&minus;</button>
                                     <div class="stepper-val-box">
-                                        <span class="readable-num" id="areaDisplay">0</span>
+                                        <input type="number" 
+                                               class="stepper-num-input" 
+                                               id="areaDisplay" 
+                                               value="0" 
+                                               min="0" 
+                                               max="500" 
+                                               step="any" 
+                                               oninput="onAreaInput(this.value)" 
+                                               onblur="onAreaBlur()" 
+                                               onkeydown="if(event.key==='Enter'){this.blur(); runCountUpCalc();}" 
+                                               aria-label="Farm size in hectares" 
+                                               placeholder="0" 
+                                               title="Type farm size in hectares or use - / + buttons">
                                         <span class="stepper-val-unit">HA</span>
                                     </div>
-                                    <button class="stepper-btn" aria-label="Increase Farm Size" onclick="adjustArea(1)">&plus;</button>
+                                    <button type="button" class="stepper-btn" aria-label="Increase Farm Size" onclick="adjustArea(1)">&plus;</button>
                                 </div>
                             </div>
 
@@ -5476,12 +5562,24 @@
                                     </button>
                                 </div>
                                 <div class="stepper-row">
-                                    <button class="stepper-btn" aria-label="Decrease Selling Price" onclick="adjustCustomPrice(-0.50)">&minus;</button>
+                                    <button type="button" class="stepper-btn" aria-label="Decrease Selling Price" onclick="adjustCustomPrice(-0.50)">&minus;</button>
                                     <div class="stepper-val-box">
-                                        <span class="readable-num" id="customPriceDisplay">0.00</span>
+                                        <input type="number" 
+                                               class="stepper-num-input price-input" 
+                                               id="customPriceDisplay" 
+                                               value="0.00" 
+                                               min="0" 
+                                               max="1000" 
+                                               step="any" 
+                                               oninput="onPriceInput(this.value)" 
+                                               onblur="onPriceBlur()" 
+                                               onkeydown="if(event.key==='Enter'){this.blur(); runCountUpCalc();}" 
+                                               aria-label="Selling price in pesos per kilogram" 
+                                               placeholder="0.00" 
+                                               title="Type selling price per kg or use - / + buttons">
                                         <span class="stepper-val-unit">&#8369;/KG</span>
                                     </div>
-                                    <button class="stepper-btn" aria-label="Increase Selling Price" onclick="adjustCustomPrice(0.50)">&plus;</button>
+                                    <button type="button" class="stepper-btn" aria-label="Increase Selling Price" onclick="adjustCustomPrice(0.50)">&plus;</button>
                                 </div>
                             </div>
 
@@ -7215,14 +7313,12 @@
             // If farmArea was 0, default to 1 HA so user can calculate right away
             if (farmArea === 0) {
                 farmArea = 1;
-                const aDisp = document.getElementById('areaDisplay');
-                if (aDisp) aDisp.textContent = farmArea;
+                setAreaDisplay(farmArea);
             }
 
             // Set custom price display to this crop's recommended benchmark
             customPrice = CROP_MODELS[cropKey].price;
-            const disp = document.getElementById('customPriceDisplay');
-            if (disp) disp.textContent = customPrice.toFixed(2);
+            setPriceDisplay(customPrice);
 
             // Update tiles aria-pressed
             ['Rice', 'Corn', 'Potato', 'Cassava'].forEach(c => {
@@ -7237,22 +7333,106 @@
             updateProvinceAdvisoryUI();
         }
 
+        // ── Typed & Stepper Synchronizers for Farm Size & Selling Price ──
+        function setAreaDisplay(val) {
+            const aDisp = document.getElementById('areaDisplay');
+            if (aDisp) {
+                if ('value' in aDisp) aDisp.value = val;
+                aDisp.textContent = val;
+            }
+        }
+
+        function setPriceDisplay(val) {
+            const pDisp = document.getElementById('customPriceDisplay');
+            if (pDisp) {
+                const formatted = (typeof val === 'number') ? val.toFixed(2) : val;
+                if ('value' in pDisp) pDisp.value = formatted;
+                pDisp.textContent = formatted;
+            }
+        }
+
         function adjustArea(delta) {
-            if (farmArea === 0 && delta > 0) {
+            const aDisp = document.getElementById('areaDisplay');
+            let current = farmArea;
+            if (aDisp && aDisp.value !== undefined && aDisp.value !== '' && !isNaN(parseFloat(aDisp.value))) {
+                current = parseFloat(aDisp.value);
+            }
+            if (current === 0 && delta > 0) {
                 farmArea = 1;
             } else {
-                farmArea = Math.max(0, Math.min(100, farmArea + delta));
+                farmArea = Math.max(0, Math.min(500, +(current + delta).toFixed(2)));
             }
-            document.getElementById('areaDisplay').textContent = farmArea;
+            setAreaDisplay(farmArea);
+            if (activeCrop && farmArea > 0) updateCalcLive(false);
         }
 
         function adjustCustomPrice(delta) {
-            if (customPrice === 0 && delta > 0) {
+            const pDisp = document.getElementById('customPriceDisplay');
+            let current = customPrice;
+            if (pDisp && pDisp.value !== undefined && pDisp.value !== '' && !isNaN(parseFloat(pDisp.value))) {
+                current = parseFloat(pDisp.value);
+            }
+            if (current === 0 && delta > 0) {
                 customPrice = activeCrop ? CROP_MODELS[activeCrop].price : 10.0;
             } else {
-                customPrice = Math.max(0, Math.min(500, +(customPrice + delta).toFixed(2)));
+                customPrice = Math.max(0, Math.min(1000, +(current + delta).toFixed(2)));
             }
-            document.getElementById('customPriceDisplay').textContent = customPrice.toFixed(2);
+            setPriceDisplay(customPrice);
+            if (activeCrop && farmArea > 0) updateCalcLive(false);
+        }
+
+        function onAreaInput(val) {
+            const num = parseFloat(val);
+            if (!isNaN(num) && num >= 0) {
+                farmArea = Math.min(500, num);
+            } else {
+                farmArea = 0;
+            }
+            if (activeCrop && farmArea > 0) {
+                updateCalcLive(false);
+            } else if (farmArea === 0) {
+                resetResultsCard();
+            }
+        }
+
+        function onAreaBlur() {
+            const aDisp = document.getElementById('areaDisplay');
+            if (aDisp) {
+                if (aDisp.value === '' || isNaN(parseFloat(aDisp.value)) || parseFloat(aDisp.value) < 0) {
+                    farmArea = 0;
+                    setAreaDisplay(0);
+                } else {
+                    farmArea = Math.min(500, parseFloat(aDisp.value));
+                    setAreaDisplay(farmArea);
+                }
+            }
+            if (activeCrop && farmArea > 0) updateCalcLive(false);
+        }
+
+        function onPriceInput(val) {
+            const num = parseFloat(val);
+            if (!isNaN(num) && num >= 0) {
+                customPrice = Math.min(1000, num);
+            } else {
+                customPrice = 0.0;
+            }
+            if (activeCrop && farmArea > 0) {
+                updateCalcLive(false);
+            }
+        }
+
+        function onPriceBlur() {
+            const pDisp = document.getElementById('customPriceDisplay');
+            if (pDisp) {
+                if (pDisp.value === '' || isNaN(parseFloat(pDisp.value)) || parseFloat(pDisp.value) < 0) {
+                    customPrice = 0.0;
+                    setPriceDisplay('0.00');
+                } else {
+                    customPrice = Math.min(1000, parseFloat(pDisp.value));
+                    setPriceDisplay(customPrice);
+                }
+            }
+            if (activeCrop && farmArea > 0) updateCalcLive(false);
         }
 
         function setSeason(season) {
@@ -7525,10 +7705,8 @@
             });
 
             // Reset input stepper displays
-            const aDisp = document.getElementById('areaDisplay');
-            if (aDisp) aDisp.textContent = '0';
-            const pDisp = document.getElementById('customPriceDisplay');
-            if (pDisp) pDisp.textContent = '0.00';
+            setAreaDisplay(0);
+            setPriceDisplay('0.00');
 
             // Reset scenario
             selectScenario('normal');
@@ -7615,6 +7793,18 @@
         }
 
         function runCountUpCalc() {
+            // Read from input fields in case user typed and immediately clicked Calculate
+            const aDisp = document.getElementById('areaDisplay');
+            if (aDisp && aDisp.value !== undefined && aDisp.value !== '') {
+                const parsedArea = parseFloat(aDisp.value);
+                if (!isNaN(parsedArea) && parsedArea >= 0) farmArea = parsedArea;
+            }
+            const pDisp = document.getElementById('customPriceDisplay');
+            if (pDisp && pDisp.value !== undefined && pDisp.value !== '') {
+                const parsedPrice = parseFloat(pDisp.value);
+                if (!isNaN(parsedPrice) && parsedPrice >= 0) customPrice = parsedPrice;
+            }
+
             if (!activeCrop || farmArea <= 0) {
                 const isFil = (currentLang === 'fil');
                 showToast(isFil ? 'Pumili po ng pananim at maglagay ng laki ng sakahan (kahit 1 ektarya).' : 'Please select a crop and enter a farm size (at least 1 hectare).');
@@ -7956,10 +8146,10 @@
 
             selectCrop(p.crop);
             farmArea = p.area;
-            document.getElementById('areaDisplay').textContent = farmArea;
+            setAreaDisplay(farmArea);
 
             customPrice = Number(p.price) || CROP_MODELS[p.crop].price;
-            document.getElementById('customPriceDisplay').textContent = customPrice.toFixed(2);
+            setPriceDisplay(customPrice);
 
             setSeason(p.season);
 
