@@ -374,6 +374,36 @@
             transition: background 0.18s ease, border-color 0.18s ease;
         }
 
+        /* ── FARMER-MODE STEPPED SHELL ── */
+        /* When in farmer view on desktop, the shell becomes transparent
+           and a live SVG underneath draws the stepped L-shaped border.
+           Advisor and Risk & Weather tabs are NEVER affected. */
+        .app-shell.shell-farmer-mode {
+            background: transparent;
+            border-color: transparent;
+            box-shadow: none;
+            overflow: visible;
+        }
+        .shell-farmer-bg {
+            /* Absolutely-positioned SVG that renders the stepped shape */
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: visible;
+        }
+        /* All children above the SVG */
+        .app-shell.shell-farmer-mode > :not(.shell-farmer-bg) {
+            position: relative;
+            z-index: 1;
+        }
+        /* Icon rail border must still look connected */
+        .app-shell.shell-farmer-mode .icon-rail {
+            border-right-color: transparent;
+        }
+
         /* ── LEFT ICON RAIL (DESKTOP) ── */
         .icon-rail {
             width: 68px;
@@ -5395,7 +5425,21 @@
             </button>
         </header>
 
-        <div class="app-shell">
+        <div class="app-shell" id="appShell">
+
+        <!-- ── FARMER STEPPED SHAPE SVG (Farmer view only, desktop only) ── -->
+        <!-- This invisible SVG layer renders the stepped L-shaped box background.
+             It is updated live by updateFarmerShellShape() JS below.
+             For Advisor / Risk & Weather tabs the shell-farmer-mode class is removed
+             and this SVG is hidden, restoring the standard rectangular box. -->
+        <svg class="shell-farmer-bg" id="shellFarmerBg" aria-hidden="true"
+             xmlns="http://www.w3.org/2000/svg" style="display:none;">
+            <path id="shellFarmerPath"
+                  fill="var(--bg-shell)"
+                  stroke="var(--border-hairline)"
+                  stroke-width="1.2"
+                  d="" />
+        </svg>
 
         <!-- ── LEFT ICON RAIL (DESKTOP) ── -->
         <aside class="icon-rail" aria-label="Quick Navigation">
@@ -7348,6 +7392,11 @@
             }
             document.getElementById('railBtnLab').classList.toggle('active', viewName === 'modellab');
 
+            // ── Farmer stepped shell ──
+            // Apply the L-shaped shell ONLY when viewing the Farmer tab on desktop.
+            // All other tabs restore the normal rectangular box.
+            updateFarmerShellShape(viewName);
+
             if (viewName === 'advisor') {
                 renderAdvisorView();
             } else if (viewName === 'weather') {
@@ -7356,6 +7405,118 @@
                 renderCharts();
             }
         }
+
+        // ── Farmer Stepped Shell Geometry ──
+        // Draws a live SVG path in the shape of an L-box that hugs:
+        //   - Left column: from top down to the bottom of the CALCULATE button row
+        //   - Right column: from top all the way to the bottom of the Province Advisory card
+        // On mobile (<= 960px) the shape is disabled and the standard box is restored.
+        function updateFarmerShellShape(viewName) {
+            const appShell   = document.getElementById('appShell');
+            const svgEl      = document.getElementById('shellFarmerBg');
+            const pathEl     = document.getElementById('shellFarmerPath');
+            const calcRow    = document.getElementById('calcActionRow');
+            const resultsCol = document.getElementById('farmerResultsCol');
+            const iconRail   = document.querySelector('.icon-rail');
+
+            const isFarmerView = (viewName === 'farmer');
+            const isDesktop    = window.innerWidth > 960;
+
+            if (!isFarmerView || !isDesktop || !calcRow || !resultsCol || !appShell) {
+                // Restore normal rectangular shell for non-farmer tabs or mobile
+                appShell.classList.remove('shell-farmer-mode');
+                if (svgEl) svgEl.style.display = 'none';
+                if (iconRail) iconRail.style.height = '';
+                return;
+            }
+
+            // Measure positions relative to the shell
+            const shellRect  = appShell.getBoundingClientRect();
+            const calcRect   = calcRow.getBoundingClientRect();
+            const resultsRect = resultsCol.getBoundingClientRect();
+
+            const W  = Math.round(shellRect.width);
+            const H  = Math.round(shellRect.height);
+            const R  = 28;  // outer corner radius (matches --radius-shell)
+            const Rs = 18;  // step corner radius (smooth L-turn)
+
+            // Y cut: bottom of the calc row + 20px breathing room
+            const Y_cut = Math.min(
+                Math.round(calcRect.bottom - shellRect.top + 20),
+                H - Rs * 2
+            );
+            // X split: left edge of results column - small gap
+            const X_split = Math.max(
+                Math.round(resultsRect.left - shellRect.left - 10),
+                Rs * 2
+            );
+
+            if (W <= 0 || H <= 0 || Y_cut <= R || X_split <= R) {
+                // Geometry not ready yet; skip
+                return;
+            }
+
+            // Build SVG quadratic-bezier path for the stepped L-shape:
+            //
+            //   ┌────────────────────────────────────────┐
+            //   │  left column    │   right column       │
+            //   │                 │                      │
+            //   │  [CALCULATE]    │   [results card]     │
+            //   └─────────────────│                      │
+            //                     │   [province card]    │
+            //                     └──────────────────────┘
+            //
+            const d = [
+                `M ${R} 0`,
+                `H ${W - R}`,
+                `Q ${W} 0 ${W} ${R}`,
+                `V ${H - R}`,
+                `Q ${W} ${H} ${W - R} ${H}`,
+                `H ${X_split + Rs}`,
+                `Q ${X_split} ${H} ${X_split} ${H - Rs}`,
+                `V ${Y_cut + Rs}`,
+                `Q ${X_split} ${Y_cut} ${X_split - Rs} ${Y_cut}`,
+                `H ${R}`,
+                `Q 0 ${Y_cut} 0 ${Y_cut - R}`,
+                `V ${R}`,
+                `Q 0 0 ${R} 0 Z`
+            ].join(' ');
+
+            pathEl.setAttribute('d', d);
+            svgEl.setAttribute('width', W);
+            svgEl.setAttribute('height', H);
+            svgEl.style.display = 'block';
+
+            // Clip icon-rail height to match the left column cutoff
+            if (iconRail) {
+                iconRail.style.height = Y_cut + 'px';
+                iconRail.style.overflow = 'hidden';
+            }
+
+            appShell.classList.add('shell-farmer-mode');
+        }
+
+        // ResizeObserver keeps the shape live as content grows/shrinks
+        (function initShellObserver() {
+            const calcRow    = document.getElementById('calcActionRow');
+            const resultsCol = document.getElementById('farmerResultsCol');
+            if (!calcRow || !resultsCol) return;
+            const ro = new ResizeObserver(() => {
+                const appShell = document.getElementById('appShell');
+                if (appShell && appShell.classList.contains('shell-farmer-mode')) {
+                    updateFarmerShellShape('farmer');
+                }
+            });
+            ro.observe(calcRow);
+            ro.observe(resultsCol);
+            window.addEventListener('resize', () => {
+                const appShell = document.getElementById('appShell');
+                if (!appShell) return;
+                const isFarmer = document.getElementById('view-farmer') &&
+                                 document.getElementById('view-farmer').classList.contains('active');
+                updateFarmerShellShape(isFarmer ? 'farmer' : 'other');
+            });
+        })();
 
         function focusScenarios() {
             const el = document.getElementById('scenariosRow');
@@ -9482,6 +9643,12 @@
             updateSeasonalAdvisorUI();
             renderCalendarMatrix();
             ambientField = new FieldAmbientBackground('bgFieldCanvas');
+
+            // ── Initialize farmer stepped shell on first load ──
+            // Delay one frame so layout has fully painted
+            requestAnimationFrame(() => {
+                setTimeout(() => updateFarmerShellShape('farmer'), 60);
+            });
         });
     </script>
 </body>
