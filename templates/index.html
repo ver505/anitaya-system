@@ -1815,8 +1815,12 @@
         /* Sub-inputs Grid: Size + Price + Season/Region */
         .inputs-subgrid {
             display: grid;
-            grid-template-columns: 1fr 1fr 1.35fr;
+            grid-template-columns: 1fr 1fr;
             gap: 12px;
+        }
+
+        .inputs-subgrid .card-season-region {
+            grid-column: 1 / -1;
         }
 
         .input-tile-card {
@@ -1826,14 +1830,41 @@
             padding: 14px 16px;
             display: flex;
             flex-direction: column;
+            gap: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .input-tile-label-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             gap: 8px;
         }
 
         .input-tile-label {
-            font-size: 9.5px;
+            font-size: 10px;
             font-weight: 800;
             letter-spacing: 0.1em;
             color: var(--text-muted);
+        }
+
+        .input-mode-tag {
+            font-size: 8px;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            color: var(--accent-olive);
+            background: var(--accent-olive-dim);
+            border: 1px solid rgba(182, 198, 79, 0.35);
+            padding: 2px 7px;
+            border-radius: var(--radius-pill);
+            margin-left: auto;
+            text-transform: uppercase;
+        }
+
+        [data-theme="light"] .input-mode-tag {
+            color: #2e591c;
+            background: rgba(46, 89, 28, 0.12);
+            border-color: rgba(46, 89, 28, 0.25);
         }
 
         /* Farm Size & Selling Price Stepper */
@@ -1841,31 +1872,31 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 6px;
+            gap: 8px;
             background: var(--bg-shell);
             border: 1px solid var(--border-hairline);
             border-radius: var(--radius-tile);
-            padding: 4px 6px;
-            transition: border-color 0.2s ease;
+            padding: 5px 8px;
+            transition: all 0.2s ease;
         }
 
         .stepper-row:focus-within {
             border-color: var(--accent-olive);
-            box-shadow: 0 0 10px var(--accent-olive-dim);
+            box-shadow: 0 0 12px var(--accent-olive-dim);
         }
 
         [data-theme="light"] .stepper-row:focus-within {
             border-color: #2e591c;
-            box-shadow: 0 0 10px rgba(46, 89, 28, 0.18);
+            box-shadow: 0 0 12px rgba(46, 89, 28, 0.2);
         }
 
         .stepper-btn {
-            width: 32px;
-            height: 32px;
+            width: 34px;
+            height: 34px;
             border-radius: 9px;
             background: #1e2a16;
             color: var(--text-offwhite);
-            font-size: 16px;
+            font-size: 17px;
             font-weight: 900;
             display: flex;
             align-items: center;
@@ -1891,7 +1922,7 @@
         [data-theme="light"] .stepper-btn {
             background: #e7ebe0;
             color: #141d0e;
-            border: 1px solid rgba(29, 42, 20, 0.12);
+            border: 1px solid rgba(29, 42, 20, 0.14);
         }
 
         [data-theme="light"] .stepper-btn:hover {
@@ -1904,24 +1935,24 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 4px;
+            gap: 6px;
             flex: 1;
             min-width: 0;
-            padding: 0 2px;
+            padding: 0 4px;
         }
 
         .stepper-num-input {
-            width: 100%;
-            max-width: 58px;
-            background: transparent;
-            border: 1px solid transparent;
-            border-radius: 6px;
+            width: 76px;
+            min-width: 64px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border-hairline-strong);
+            border-radius: 8px;
             color: var(--text-offwhite);
             font-family: inherit;
-            font-size: 19px;
+            font-size: 18px;
             font-weight: 900;
             text-align: center;
-            padding: 2px 2px;
+            padding: 3px 6px;
             outline: none;
             transition: all 0.18s ease;
             -moz-appearance: textfield;
@@ -1929,7 +1960,8 @@
         }
 
         .stepper-num-input.price-input {
-            max-width: 78px;
+            width: 88px;
+            min-width: 76px;
         }
 
         .stepper-num-input::-webkit-outer-spin-button,
@@ -1939,36 +1971,48 @@
         }
 
         .stepper-num-input:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: var(--border-hairline-strong);
+            background: rgba(255, 255, 255, 0.14);
+            border-color: var(--accent-olive);
         }
 
         .stepper-num-input:focus {
             background: var(--bg-ink);
             border-color: var(--accent-olive);
+            box-shadow: 0 0 10px var(--accent-olive-dim);
         }
 
         [data-theme="light"] .stepper-num-input {
+            background: #ffffff;
+            border-color: rgba(29, 42, 20, 0.22);
             color: #14220f;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
         }
 
         [data-theme="light"] .stepper-num-input:hover {
-            background: rgba(0, 0, 0, 0.04);
-            border-color: rgba(29, 42, 20, 0.22);
+            border-color: #2e591c;
+            background: #ffffff;
         }
 
         [data-theme="light"] .stepper-num-input:focus {
             background: #ffffff;
             border-color: #2e591c;
+            box-shadow: 0 0 10px rgba(46, 89, 28, 0.2);
         }
 
         .stepper-val-unit {
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 800;
             color: var(--text-muted);
-            letter-spacing: 0.06em;
+            letter-spacing: 0.05em;
             flex-shrink: 0;
             user-select: none;
+        }
+
+        .season-region-dual-row {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 10px;
+            align-items: center;
         }
 
         /* Season Pill Toggle */
@@ -4648,8 +4692,11 @@
             }
 
             .inputs-subgrid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 8px;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            .inputs-subgrid .card-season-region {
+                grid-column: 1 / -1;
             }
 
             .weather-metrics-grid {
@@ -5523,10 +5570,11 @@
 
                         <!-- Sub-inputs Grid: Size + Custom Price + Season/Region -->
                         <div class="inputs-subgrid">
-                            <!-- Farm Size Stepper -->
+                            <!-- Farm Size Stepper & Manual Typing -->
                             <div class="input-tile-card" id="cardFarmSize">
                                 <div class="input-tile-label-row">
                                     <span class="input-tile-label" id="lblFarmSize">FARM SIZE</span>
+                                    <span class="input-mode-tag" id="tagFarmSizeMode">TYPE OR + / &minus;</span>
                                     <button type="button" class="category-info-pill" onclick="openSystemGuideModal('categories', 'size')" title="Land area in hectares (1 ha = 10,000 sqm)" aria-label="Farm Size Info">
                                         <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
                                     </button>
@@ -5546,17 +5594,18 @@
                                                onkeydown="if(event.key==='Enter'){this.blur(); runCountUpCalc();}" 
                                                aria-label="Farm size in hectares" 
                                                placeholder="0" 
-                                               title="Type farm size in hectares or use - / + buttons">
+                                               title="Click and type your farm size in hectares, or use - / + buttons">
                                         <span class="stepper-val-unit">HA</span>
                                     </div>
                                     <button type="button" class="stepper-btn" aria-label="Increase Farm Size" onclick="adjustArea(1)">&plus;</button>
                                 </div>
                             </div>
 
-                            <!-- Custom Selling Price Stepper -->
+                            <!-- Custom Selling Price Stepper & Manual Typing -->
                             <div class="input-tile-card" id="cardSellingPrice">
                                 <div class="input-tile-label-row">
                                     <span class="input-tile-label" id="lblSellingPrice">SELLING PRICE</span>
+                                    <span class="input-mode-tag" id="tagPriceMode">TYPE OR + / &minus;</span>
                                     <button type="button" class="category-info-pill" onclick="openSystemGuideModal('categories', 'price')" title="PSA benchmark farmgate price per kg vs custom buyer rates" aria-label="Selling Price Info">
                                         <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
                                     </button>
@@ -5576,27 +5625,28 @@
                                                onkeydown="if(event.key==='Enter'){this.blur(); runCountUpCalc();}" 
                                                aria-label="Selling price in pesos per kilogram" 
                                                placeholder="0.00" 
-                                               title="Type selling price per kg or use - / + buttons">
+                                               title="Click and type your selling price per kg, or use - / + buttons">
                                         <span class="stepper-val-unit">&#8369;/KG</span>
                                     </div>
                                     <button type="button" class="stepper-btn" aria-label="Increase Selling Price" onclick="adjustCustomPrice(0.50)">&plus;</button>
                                 </div>
                             </div>
 
-                            <!-- Season Toggle & Region Select -->
-                            <div class="input-tile-card" id="cardSeasonRegion">
+                            <!-- Season Toggle & Region Select (Spans Full Width of Subgrid) -->
+                            <div class="input-tile-card card-season-region" id="cardSeasonRegion">
                                 <div class="input-tile-label-row">
                                     <span class="input-tile-label" id="lblSeasonRegion">SEASON &amp; REGION</span>
                                     <button type="button" class="category-info-pill" onclick="openSystemGuideModal('categories', 'region')" title="Wet (Habagat) vs Dry (Amihan) and official DA-AMIA province ratings" aria-label="Season &amp; Region Info">
                                         <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
                                     </button>
                                 </div>
-                                <div class="season-pill-toggle">
-                                    <button class="season-pill-btn active" id="chipWet" onclick="setSeason('Wet')">WET</button>
-                                    <button class="season-pill-btn" id="chipDry" onclick="setSeason('Dry')">DRY</button>
-                                </div>
-                                <div class="region-select-box">
-                                    <select class="region-select-el" id="regionSelect" onchange="onProvinceChanged()">
+                                <div class="season-region-dual-row">
+                                    <div class="season-pill-toggle">
+                                        <button type="button" class="season-pill-btn active" id="chipWet" onclick="setSeason('Wet')">WET</button>
+                                        <button type="button" class="season-pill-btn" id="chipDry" onclick="setSeason('Dry')">DRY</button>
+                                    </div>
+                                    <div class="region-select-box">
+                                        <select class="region-select-el" id="regionSelect" onchange="onProvinceChanged()">
                                         {% if provinces_by_region %}
                                             {% for reg_name, provs in provinces_by_region.items() %}
                                             <optgroup label="{{ reg_name }}">
@@ -7142,8 +7192,12 @@
             if (pt) pt.textContent = t.plantingTitle;
             const fs = document.getElementById('lblFarmSize');
             if (fs) fs.textContent = t.farmSize;
+            const tagFs = document.getElementById('tagFarmSizeMode');
+            if (tagFs) tagFs.textContent = (lang === 'fil') ? 'I-TYPE O + / −' : 'TYPE OR + / −';
             const sp = document.getElementById('lblSellingPrice');
             if (sp) sp.textContent = t.sellingPrice;
+            const tagSp = document.getElementById('tagPriceMode');
+            if (tagSp) tagSp.textContent = (lang === 'fil') ? 'I-TYPE O + / −' : 'TYPE OR + / −';
             const sr = document.getElementById('lblSeasonRegion');
             if (sr) sr.textContent = t.seasonRegion;
             const cw = document.getElementById('chipWet');
