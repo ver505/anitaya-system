@@ -1692,16 +1692,23 @@
 
         .farmer-grid-layout {
             display: grid;
-            grid-template-columns: 1.15fr 1fr;
-            gap: 22px;
-            align-items: stretch;
+            grid-template-columns: 1.08fr 1fr;
+            gap: 20px;
+            align-items: start;
         }
 
         .farmer-inputs-col {
             display: flex;
             flex-direction: column;
             gap: 16px;
-            height: 100%;
+            width: 100%;
+        }
+
+        .farmer-results-col {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
         }
 
         /* 4 Crop Tiles in a Row */
@@ -2125,10 +2132,9 @@
 
         /* Calculate Action Row & Refresh Action */
         .calc-action-row {
-            grid-column: 1 / -1;
             display: grid;
             grid-template-columns: 1fr auto;
-            gap: 14px;
+            gap: 12px;
             align-items: stretch;
             width: 100%;
             margin-top: 4px;
@@ -3679,19 +3685,17 @@
             50% { transform: scale(1.35); opacity: 0.55; }
         }
 
-        /* ── DA-AMIA PROVINCIAL CROP ADVISORY CARD (FULL-WIDTH LANDSCAPE) ── */
+        /* ── DA-AMIA PROVINCIAL CROP ADVISORY CARD (RIGHT COLUMN ADVISORY) ── */
         .province-advisory-card {
-            grid-column: 1 / -1;
             width: 100%;
             box-sizing: border-box;
             background: linear-gradient(145deg, rgba(26, 34, 20, 0.94) 0%, rgba(14, 18, 11, 0.98) 100%);
             border: 1px solid rgba(182, 198, 79, 0.32);
             border-radius: var(--radius-card);
-            padding: 22px 26px;
+            padding: 20px 22px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
-            margin-top: 4px;
+            gap: 15px;
             box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.08);
             transition: all 0.22s ease;
         }
@@ -3793,15 +3797,15 @@
         /* ── Landscape 2-Column Content Grid ── */
         .province-advisory-landscape-grid {
             display: grid;
-            grid-template-columns: minmax(320px, 420px) 1fr;
-            gap: 18px;
+            grid-template-columns: 1.05fr 0.95fr;
+            gap: 14px;
             align-items: stretch;
         }
 
-        @media (max-width: 880px) {
+        @media (max-width: 680px) {
             .province-advisory-landscape-grid {
                 grid-template-columns: 1fr;
-                gap: 14px;
+                gap: 12px;
             }
         }
 
@@ -4631,8 +4635,8 @@
         /* ── RESPONSIVE DESIGN & ADAPTIVE SCREEN ALIGNMENT TIERS ──    */
         /* ═════════════════════════════════════════════════════════════ */
 
-        /* ── TIER 1: LAPTOPS & TABLETS LANDSCAPE (<= 1080px) ── */
-        @media (max-width: 1080px) {
+        /* ── TIER 1: TABLETS & MOBILE STACKING (<= 960px) ── */
+        @media (max-width: 960px) {
             .farmer-grid-layout {
                 grid-template-columns: 1fr;
                 gap: 20px;
@@ -5670,7 +5674,25 @@
 
                     </div>
 
-                    <!-- Right Results Column -->
+                    <!-- Action Row: Calculate & Refresh (Left Column Action) -->
+                    <div class="calc-action-row">
+                        <button class="btn-calculate-action" id="calculateBtn" onclick="runCountUpCalc()">
+                            <span id="txtCalcBtn">CALCULATE HARVEST &amp; INCOME &rarr;</span>
+                        </button>
+                        <button class="btn-reset-action" id="resetBtn" onclick="requestCalculatorReset()" title="Clear all inputs and reset calculator" aria-label="Refresh and reset inputs">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" class="refresh-icon">
+                                <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-1.19"/>
+                            </svg>
+                            <span id="txtResetBtn">REFRESH</span>
+                        </button>
+                    </div>
+
+                </div> <!-- End Left Column (farmer-inputs-col) -->
+
+                <!-- Right Column: Results & Province Advisory (Matches Guide Layout) -->
+                <div class="farmer-results-col">
+
+                    <!-- Top-Right Box: Results Card -->
                     <div class="results-card" aria-live="polite">
                         <!-- Header -->
                         <div class="results-header-tag">
@@ -5728,7 +5750,7 @@
                         </div>
                     </div>
 
-                    <!-- Official Philippine Provincial Crop Advisory Card (DA-AMIA & PSA) - Full-Width Landscape -->
+                    <!-- Bottom-Right Box: Official Philippine Provincial Crop Advisory Card (DA-AMIA & PSA) -->
                     <div class="province-advisory-card" id="provinceAdvisoryCard">
                         <div class="province-advisory-header">
                             <div class="province-advisory-badge-group">
@@ -5778,20 +5800,9 @@
                         </div>
                     </div>
 
-                    <!-- Action Row: Calculate & Refresh -->
-                    <div class="calc-action-row">
-                        <button class="btn-calculate-action" id="calculateBtn" onclick="runCountUpCalc()">
-                            <span id="txtCalcBtn">CALCULATE HARVEST &amp; INCOME &rarr;</span>
-                        </button>
-                        <button class="btn-reset-action" id="resetBtn" onclick="requestCalculatorReset()" title="Clear all inputs and reset calculator" aria-label="Refresh and reset inputs">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" class="refresh-icon">
-                                <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-1.19"/>
-                            </svg>
-                            <span id="txtResetBtn">REFRESH</span>
-                        </button>
-                    </div>
+                </div> <!-- End Right Column (farmer-results-col) -->
 
-                </div>
+            </div> <!-- End farmer-grid-layout -->
             </section>
 
             <!-- ════════════════════════════════════════════════════════ -->
