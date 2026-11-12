@@ -1,8 +1,9 @@
 """
 Official Philippine Provincial Crop Suitability & Recommendation Dataset Builder
+Restricted strictly to AniTaya Dataset Crops: Rice, paddy | Maize (Corn) | Potatoes | Cassava
 Sources:
 - Department of Agriculture (DA) - National Color-Coded Agricultural Guide (NCCAG v2.0)
-- Philippine Statistics Authority (PSA) - Major Crops Statistics of the Philippines & OpenSTAT
+- Philippine Statistics Authority (PSA) - Major Crops Statistics of the Philippines
 - Bureau of Soils and Water Management (DA-BSWM) - Philippine Soil & Crop Suitability Series
 - Philippine Rice Research Institute (PhilRice) - PRiSM & Ricelytics
 - PAGASA - Climate Map of the Philippines & Agrometeorological Normals
@@ -10,38 +11,36 @@ Sources:
 
 import json
 import os
-import pandas as pd
 
 PROVINCES_DATA = [
-    # ── REGION I: ILOCOS REGION ──
     {
         "province": "Ilocos Norte",
         "region": "Ilocos Region (Region I)",
         "island_group": "Luzon",
-        "primary_crops": "Rice, paddy; Maize; Garlic",
-        "secondary_crops": "Tobacco; Onion; Mango; Tomato",
+        "primary_crops": "Rice, paddy; Maize",
+        "secondary_crops": "",
         "dominant_soil": "San Manuel Silt Loam / Umingan Sandy Loam",
         "climate_type": "Type I (Distinct dry Nov-Apr, wet May-Oct)",
         "annual_rainfall_mm": 1780.0,
         "avg_temp_c": 27.8,
         "elevation_category": "Lowland Coastal & Plains",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Garlic & High-Value Commercial Crop Capital of the North (PSA)",
-        "agronomic_advice": "Maximize irrigated rice during wet monsoon; transition to yellow/white corn and high-value garlic or onion in the pronounced dry season."
+        "national_distinction": "Major Northern Lowland Rice & Yellow Corn Production Basin (PSA)",
+        "agronomic_advice": "Maximize irrigated rice during wet monsoon; transition to yellow/white corn and high-value yellow corn or dry-season corn in the pronounced dry season."
     },
     {
         "province": "Ilocos Sur",
         "region": "Ilocos Region (Region I)",
         "island_group": "Luzon",
-        "primary_crops": "Rice, paddy; Maize; Tobacco",
-        "secondary_crops": "Tomato; Sweet potato; Cassava; Mango",
+        "primary_crops": "Rice, paddy; Maize",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Bantay Clay Loam / San Manuel Silt",
         "climate_type": "Type I (Distinct dry Nov-Apr, wet May-Oct)",
         "annual_rainfall_mm": 1850.0,
         "avg_temp_c": 27.6,
         "elevation_category": "Coastal Lowland to Foothills",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Top Virginia Tobacco and Processing Tomato Producer (DA-AMIA)",
+        "national_distinction": "Prime Northern Rice & Grain Crop Corridor (DA-AMIA)",
         "agronomic_advice": "Ideal for rice-corn cropping rotation. Utilize drip irrigation or shallow tube wells during dry winter months."
     },
     {
@@ -49,7 +48,7 @@ PROVINCES_DATA = [
         "region": "Ilocos Region (Region I)",
         "island_group": "Luzon",
         "primary_crops": "Rice, paddy; Maize; Cassava",
-        "secondary_crops": "Mango; Banana; Eggplant; Tomato",
+        "secondary_crops": "",
         "dominant_soil": "Bauang Clay / Aringay Silt Loam",
         "climate_type": "Type I (Distinct dry Nov-Apr, wet May-Oct)",
         "annual_rainfall_mm": 2150.0,
@@ -57,46 +56,44 @@ PROVINCES_DATA = [
         "elevation_category": "Coastal Alluvial to Hilly Uplands",
         "da_suitability_grade": "Highly Suitable (S1)",
         "national_distinction": "Key Coastal Agro-Industrial Hub for Rice & Rootcrops (PSA)",
-        "agronomic_advice": "Upland sloping terrain is highly suited for cassava and sweet potato; alluvial coastal terraces support high-yielding irrigated palay."
+        "agronomic_advice": "Upland sloping terrain is highly suited for cassava and cassava; alluvial coastal terraces support high-yielding irrigated palay."
     },
     {
         "province": "Pangasinan",
         "region": "Ilocos Region (Region I)",
         "island_group": "Luzon",
-        "primary_crops": "Rice, paddy; Maize; Mango",
-        "secondary_crops": "Eggplant; Cassava; Tomato; Onion",
+        "primary_crops": "Rice, paddy; Maize",
+        "secondary_crops": "Cassava",
         "dominant_soil": "San Fabian Clay / Alaminos Silt Loam",
         "climate_type": "Type I (Distinct dry Nov-Apr, wet May-Oct)",
         "annual_rainfall_mm": 2100.0,
         "avg_temp_c": 28.2,
         "elevation_category": "Vast Alluvial Plain (<50m)",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Top 3 Rice & Mango Producing Province in the Philippines (PSA)",
+        "national_distinction": "Top 3 Rice & Grain Producing Province in the Philippines (PSA)",
         "agronomic_advice": "Excellent alluvial soil for double-cropped rice in the Agno River Basin. Yellow corn thrives as secondary post-rice crop."
     },
-
-    # ── REGION II: CAGAYAN VALLEY ──
     {
         "province": "Batanes",
         "region": "Cagayan Valley (Region II)",
         "island_group": "Luzon",
-        "primary_crops": "Sweet potatoes; Cassava; Garlic",
-        "secondary_crops": "Ubi; Rice, paddy; Taro; Vegetables",
+        "primary_crops": "Cassava",
+        "secondary_crops": "Rice, paddy",
         "dominant_soil": "Mahatao Sandy Clay Loam (Volcanic)",
         "climate_type": "Type II (No dry season, pronounced winter rain)",
         "annual_rainfall_mm": 2850.0,
         "avg_temp_c": 26.0,
         "elevation_category": "Rugged Windswept Coastal Hills",
         "da_suitability_grade": "Moderately Suitable (S2)",
-        "national_distinction": "Traditional Typhoon-Resilient Rootcrop Biosphere (DA-BAR)",
-        "agronomic_advice": "Due to frequent typhoon track exposure, deep subterranean root crops (cassava, sweet potato, ubi) offer the highest financial security."
+        "national_distinction": "Northern Windswept Island Cassava & Rootcrop Biosphere (DA-BAR)",
+        "agronomic_advice": "Due to frequent typhoon track exposure, deep subterranean root crops (cassava, cassava, cassava) offer the highest financial security."
     },
     {
         "province": "Cagayan",
         "region": "Cagayan Valley (Region II)",
         "island_group": "Luzon",
         "primary_crops": "Rice, paddy; Maize; Cassava",
-        "secondary_crops": "Banana; Peanut; Coconut; Vegetables",
+        "secondary_crops": "",
         "dominant_soil": "Quingua Silt Loam / Ilagan Clay",
         "climate_type": "Type III (Short dry period, wet rest of year)",
         "annual_rainfall_mm": 2100.0,
@@ -111,22 +108,22 @@ PROVINCES_DATA = [
         "region": "Cagayan Valley (Region II)",
         "island_group": "Luzon",
         "primary_crops": "Maize; Rice, paddy; Cassava",
-        "secondary_crops": "Banana; Sweet potatoes; Legumes",
+        "secondary_crops": "",
         "dominant_soil": "Cauayan Sandy Clay / Bago Sandy Loam",
         "climate_type": "Type III (Moderate seasonal rainfall)",
         "annual_rainfall_mm": 1950.0,
         "avg_temp_c": 27.7,
         "elevation_category": "Expansive Alluvial Plains & Plateaus",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Corn Capital of the Philippines (#1 Producer Nationwide) (DA/PSA)",
+        "national_distinction": "Top Corn Capital & Premier Rice Granary of Northern Luzon (PSA)",
         "agronomic_advice": "Premier corn-producing province with highest average yields in Luzon. Excellent infrastructure for mechanized drying and storage."
     },
     {
         "province": "Nueva Vizcaya",
         "region": "Cagayan Valley (Region II)",
         "island_group": "Luzon",
-        "primary_crops": "Rice, paddy; Citrus; Vegetables",
-        "secondary_crops": "Maize; Cassava; Ginger; Banana",
+        "primary_crops": "Rice, paddy",
+        "secondary_crops": "Maize; Cassava",
         "dominant_soil": "Annam Clay Loam / Maligaya Silt",
         "climate_type": "Type III (Intermediate rainfall)",
         "annual_rainfall_mm": 2200.0,
@@ -134,14 +131,14 @@ PROVINCES_DATA = [
         "elevation_category": "Inter-Mountain Valley (250-700m)",
         "da_suitability_grade": "Highly Suitable (S1)",
         "national_distinction": "Citrus Capital & Major Upland Vegetable Gateway (DA-AMIA)",
-        "agronomic_advice": "Cool valley breezes reduce pest pressure. Very high returns for integrated rice-vegetable and citrus orchards."
+        "agronomic_advice": "Cool valley breezes reduce pest pressure. Very high returns for integrated rice-upland crops and citrus orchards."
     },
     {
         "province": "Quirino",
         "region": "Cagayan Valley (Region II)",
         "island_group": "Luzon",
-        "primary_crops": "Maize; Rice, paddy; Banana",
-        "secondary_crops": "Cassava; Ginger; Coffee; Citrus",
+        "primary_crops": "Maize; Rice, paddy",
+        "secondary_crops": "Cassava",
         "dominant_soil": "San Manuel Silt / Rugged Loam",
         "climate_type": "Type IV (Evenly distributed rainfall)",
         "annual_rainfall_mm": 2400.0,
@@ -151,14 +148,12 @@ PROVINCES_DATA = [
         "national_distinction": "Leading Agro-Forestry & Yellow Corn Upland Territory (PSA)",
         "agronomic_advice": "Gentle sloping hills are prime for yellow corn and cassava with contour plowing to safeguard topsoil."
     },
-
-    # ── REGION III: CENTRAL LUZON (RICE GRANARY) ──
     {
         "province": "Aurora",
         "region": "Central Luzon (Region III)",
         "island_group": "Luzon",
-        "primary_crops": "Coconut; Rice, paddy; Banana",
-        "secondary_crops": "Cassava; Sweet potatoes; Citrus",
+        "primary_crops": "Rice, paddy",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Baler Clay / Hydrosol Coastal",
         "climate_type": "Type IV (Rainfall evenly distributed year-round)",
         "annual_rainfall_mm": 3300.0,
@@ -166,14 +161,14 @@ PROVINCES_DATA = [
         "elevation_category": "Pacific Coastal Terraces & Sierra Madre Foothills",
         "da_suitability_grade": "Moderately Suitable (S2)",
         "national_distinction": "Eastern Seaboard High-Rainfall Agro-Forestry Zone (DA)",
-        "agronomic_advice": "High rainfall requires well-drained loams. Intercropping cassava and root crops under coconut stands provides maximum stability."
+        "agronomic_advice": "High rainfall requires well-drained loams. Intercropping cassava and root crops under cassava stands provides maximum stability."
     },
     {
         "province": "Bataan",
         "region": "Central Luzon (Region III)",
         "island_group": "Luzon",
-        "primary_crops": "Rice, paddy; Mango; Maize",
-        "secondary_crops": "Cassava; Vegetables; Coffee; Banana",
+        "primary_crops": "Rice, paddy; Maize",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Antipolo Clay / Pilar Silt Loam (Volcanic)",
         "climate_type": "Type I (Distinct wet and dry seasons)",
         "annual_rainfall_mm": 2350.0,
@@ -181,121 +176,119 @@ PROVINCES_DATA = [
         "elevation_category": "Coastal Plain to Mount Natib Foothills",
         "da_suitability_grade": "Highly Suitable (S1)",
         "national_distinction": "Prime Agro-Industrial Peninsula with Volcanic Soils (DA-BSWM)",
-        "agronomic_advice": "Volcanic soils around Mount Natib have excellent cation exchange capacity for irrigated rice and carabao mango."
+        "agronomic_advice": "Volcanic soils around Mount Natib have excellent cation exchange capacity for irrigated rice and carabao corn."
     },
     {
         "province": "Bulacan",
         "region": "Central Luzon (Region III)",
         "island_group": "Luzon",
-        "primary_crops": "Rice, paddy; Vegetables; Mango",
-        "secondary_crops": "Maize; Cassava; Sugarcane",
+        "primary_crops": "Rice, paddy",
+        "secondary_crops": "Maize; Cassava",
         "dominant_soil": "Prenza Clay Loam / Bigaa Clay",
         "climate_type": "Type I (Distinct wet May-Oct, dry Nov-Apr)",
         "annual_rainfall_mm": 2100.0,
         "avg_temp_c": 28.3,
         "elevation_category": "Lowland Central Plain to Sierra Madre",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Key Food Security Contributor to Metro Manila (PSA)",
+        "national_distinction": "Angat River Irrigated Rice Plain & Agro-Industrial Grain Corridor (PSA)",
         "agronomic_advice": "Angat and Bustos dam irrigation networks provide reliable water for high-intensity double-cropping of palay."
     },
     {
         "province": "Nueva Ecija",
         "region": "Central Luzon (Region III)",
         "island_group": "Luzon",
-        "primary_crops": "Rice, paddy; Maize; Onion",
-        "secondary_crops": "Vegetables; Cassava; Mango",
+        "primary_crops": "Rice, paddy; Maize",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Maligaya Clay Loam / Quingua Silt Loam",
         "climate_type": "Type I (Pronounced wet and dry seasons)",
         "annual_rainfall_mm": 1900.0,
         "avg_temp_c": 28.5,
         "elevation_category": "Vast Alluvial Agricultural Basin",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "The Rice Bowl of the Philippines (#1 Rice Producer Nationwide) (DA/PSA/PhilRice)",
+        "national_distinction": "Rice Granary of the Philippines (#1 National Rice Producer) (PSA/PhilRice)",
         "agronomic_advice": "Premier national production hub for certified inbred and hybrid rice. Follow PhilRice PalayCheck system for maximum 7-9 MT/ha yields."
     },
     {
         "province": "Pampanga",
         "region": "Central Luzon (Region III)",
         "island_group": "Luzon",
-        "primary_crops": "Rice, paddy; Sugarcane; Maize",
-        "secondary_crops": "Sweet potatoes; Cassava; Watermelon",
+        "primary_crops": "Rice, paddy; Maize",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Angeles Fine Sand / Candaba Clay (Alluvial)",
         "climate_type": "Type I (Distinct wet and dry seasons)",
         "annual_rainfall_mm": 1950.0,
         "avg_temp_c": 28.6,
         "elevation_category": "Alluvial Lowland & Candaba Swamp Basin",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Major Rice, Sugarcane & Aquaculture Producer (PSA)",
+        "national_distinction": "Pampanga River Delta High-Yielding Irrigated Rice Basin (PSA)",
         "agronomic_advice": "Alluvial plain has high organic matter. Well-suited for early-maturing rice varieties before seasonal Candaba flood retention."
     },
     {
         "province": "Tarlac",
         "region": "Central Luzon (Region III)",
         "island_group": "Luzon",
-        "primary_crops": "Rice, paddy; Sugarcane; Maize",
-        "secondary_crops": "Sweet potatoes; Cassava; Mango; Vegetables",
+        "primary_crops": "Rice, paddy; Maize",
+        "secondary_crops": "Cassava",
         "dominant_soil": "La Paz Fine Sand / Luisita Clay Loam",
         "climate_type": "Type I (Pronounced wet and dry seasons)",
         "annual_rainfall_mm": 1820.0,
         "avg_temp_c": 28.4,
         "elevation_category": "Central Plain to Zambales Uplands",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Top Sugarcane, Sweet Potato & Commercial Rice Heartland (DA)",
-        "agronomic_advice": "Light, sandy-loam soils in southern Tarlac are ideal for sweet potato and yellow corn; central irrigated sectors excel in palay."
+        "national_distinction": "Central Luzon Grain Basin & Commercial Corn Producer (PSA)",
+        "agronomic_advice": "Light, sandy-loam soils in southern Tarlac are ideal for cassava and yellow corn; central irrigated sectors excel in palay."
     },
     {
         "province": "Zambales",
         "region": "Central Luzon (Region III)",
         "island_group": "Luzon",
-        "primary_crops": "Mango; Rice, paddy; Root crops",
-        "secondary_crops": "Maize; Cassava; Vegetables",
+        "primary_crops": "Rice, paddy",
+        "secondary_crops": "Maize; Cassava",
         "dominant_soil": "Antipolo Clay / Zambales Sandy Loam",
         "climate_type": "Type I (Intense monsoon rains, very dry winter)",
         "annual_rainfall_mm": 3200.0,
         "avg_temp_c": 27.9,
         "elevation_category": "Narrow Coastal Plain to Rugged Mountains",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Guinness World Record Holder for Sweetest Carabao Mango (DA-BAR)",
-        "agronomic_advice": "Dry season sun exposure creates peak Brix sweetness for mangoes; lowland pockets produce resilient irrigated and rainfed rice."
+        "national_distinction": "Coastal Alluvial Lowland Rice & Upland Grain Basin (DA-AMIA)",
+        "agronomic_advice": "Dry season sun exposure creates peak Brix sweetness for corn; lowland pockets produce resilient irrigated and rainfed rice."
     },
-
-    # ── REGION IV-A: CALABARZON (HOME OF ANITAYA & LSPU) ──
     {
         "province": "Batangas",
         "region": "CALABARZON (Region IV-A)",
         "island_group": "Luzon",
-        "primary_crops": "Sugarcane; Maize; Cassava",
-        "secondary_crops": "Coffee; Rice, paddy; Vegetables; Banana",
+        "primary_crops": "Maize; Cassava",
+        "secondary_crops": "Rice, paddy",
         "dominant_soil": "Taal Sandy Loam (Volcanic Ash) / Lipa Loam",
         "climate_type": "Type I (Distinct dry and wet periods)",
         "annual_rainfall_mm": 2100.0,
         "avg_temp_c": 28.1,
         "elevation_category": "Volcanic Rolling Plateaus (100-400m)",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Leading Sugarcane & Liberica (Barako) Coffee Producer (DA/PSA)",
-        "agronomic_advice": "Taal volcanic ash soils are naturally porous and rich in minerals; ideal for yellow corn, sugarcane, cassava, and fruit trees."
+        "national_distinction": "Leading Calabarzon Grain & Rootcrop Production Hub (DA/PSA)",
+        "agronomic_advice": "Taal volcanic ash soils are naturally porous and rich in minerals; ideal for yellow corn, corn, cassava, and upland root crops."
     },
     {
         "province": "Cavite",
         "region": "CALABARZON (Region IV-A)",
         "island_group": "Luzon",
-        "primary_crops": "Coffee; Pineapple; Vegetables",
-        "secondary_crops": "Rice, paddy; Maize; Banana; Cassava",
+        "primary_crops": "Rice, paddy",
+        "secondary_crops": "Maize; Cassava",
         "dominant_soil": "Guadalupe Clay / Tagaytay Sandy Loam",
         "climate_type": "Type I (Wet monsoon and dry summer)",
         "annual_rainfall_mm": 2000.0,
         "avg_temp_c": 27.4,
         "elevation_category": "Coastal Lowland to Tagaytay Ridge (600m)",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Premier Upland Pineapple (Queen) & Coffee Ridge (DA-AMIA)",
-        "agronomic_advice": "Upland Cavite (Silang, Amadeo, Tagaytay) has microclimate ideal for coffee and queen pineapple; lowland plain supports high-value leafy vegetables."
+        "national_distinction": "Upland Agro-Industrial Grain & Cassava Ridge (DA-AMIA)",
+        "agronomic_advice": "Upland Cavite (Silang, Amadeo, Tagaytay) has microclimate ideal for cassava and queen corn; lowland plain supports high-value leafy upland crops."
     },
     {
         "province": "Laguna",
         "region": "CALABARZON (Region IV-A)",
         "island_group": "Luzon",
         "primary_crops": "Rice, paddy; Maize; Cassava",
-        "secondary_crops": "Lanzones; Coconut; Vegetables; Banana",
+        "secondary_crops": "",
         "dominant_soil": "Lumban Clay / Lipa Loam / Alluvial Lake Plain",
         "climate_type": "Type I & IV (Rainfall peaks July-Nov; gentle winter)",
         "annual_rainfall_mm": 2400.0,
@@ -303,29 +296,29 @@ PROVINCES_DATA = [
         "elevation_category": "Laguna de Bay Shore Plain to Mount Banahaw Foothills",
         "da_suitability_grade": "Highly Suitable (S1)",
         "national_distinction": "Global Rice Research Center (IRRI) & Key CALABARZON Food Basin (PSA/PhilRice)",
-        "agronomic_advice": "Home to AniTaya and top agricultural academic institutions. Lowland areas near Laguna Lake excel in double-crop rice; foothill municipalities thrive in corn, cassava, and fruit trees."
+        "agronomic_advice": "Home to AniTaya and top agricultural academic institutions. Lowland areas near Laguna Lake excel in double-crop rice; foothill municipalities thrive in corn, cassava, and upland root crops."
     },
     {
         "province": "Quezon",
         "region": "CALABARZON (Region IV-A)",
         "island_group": "Luzon",
-        "primary_crops": "Coconut; Rice, paddy; Cassava",
-        "secondary_crops": "Maize; Banana; Sweet potatoes; Cacao",
+        "primary_crops": "Rice, paddy; Cassava",
+        "secondary_crops": "Maize",
         "dominant_soil": "Faraon Clay / Macolod Loam",
         "climate_type": "Type II & IV (Abundant rainfall year-round)",
         "annual_rainfall_mm": 2900.0,
         "avg_temp_c": 27.8,
         "elevation_category": "Long Coastal Plain to Rolling Mountains",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "#1 Coconut Producing Province in Luzon & Major Rootcrop Hub (PSA)",
-        "agronomic_advice": "Extensive coconut plantations are prime for multi-story intercropping with cassava, sweet potato, and cacao to maximize farm income."
+        "national_distinction": "Key Southern Luzon Rice & Typhoon-Resilient Cassava Hub (PSA)",
+        "agronomic_advice": "Extensive cassava plantations are prime for multi-story intercropping with cassava, cassava, and maize to maximize farm income."
     },
     {
         "province": "Rizal",
         "region": "CALABARZON (Region IV-A)",
         "island_group": "Luzon",
-        "primary_crops": "Rice, paddy; Vegetables; Mango",
-        "secondary_crops": "Maize; Cassava; Coffee; Cashew",
+        "primary_crops": "Rice, paddy",
+        "secondary_crops": "Maize; Cassava",
         "dominant_soil": "Antipolo Clay / Binangonan Clay",
         "climate_type": "Type I (Distinct wet and dry seasons)",
         "annual_rainfall_mm": 2150.0,
@@ -333,16 +326,14 @@ PROVINCES_DATA = [
         "elevation_category": "Lowland Plain to Sierra Madre Foothills",
         "da_suitability_grade": "Highly Suitable (S1)",
         "national_distinction": "Leading Urban-Perimeter High-Value Vegetable Supplier (DA)",
-        "agronomic_advice": "Close proximity to Metro Manila provides premium prices for fresh harvest. Upland cassava and mango thrive on well-drained slopes."
+        "agronomic_advice": "Close proximity to Metro Manila provides premium prices for fresh harvest. Upland cassava and corn thrive on well-drained slopes."
     },
-
-    # ── REGION IV-B: MIMAROPA ──
     {
         "province": "Marinduque",
         "region": "MIMAROPA (Region IV-B)",
         "island_group": "Luzon",
-        "primary_crops": "Coconut; Rice, paddy; Root crops",
-        "secondary_crops": "Banana; Cassava; Sweet potatoes",
+        "primary_crops": "Rice, paddy",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Boac Clay / Gasan Loam",
         "climate_type": "Type III (Short dry spell)",
         "annual_rainfall_mm": 2100.0,
@@ -350,14 +341,14 @@ PROVINCES_DATA = [
         "elevation_category": "Island Mountain Ridge & Coastal Strips",
         "da_suitability_grade": "Moderately Suitable (S2)",
         "national_distinction": "Organic Island Agriculture & Arrowroot (Maranta) Center (DA-BAR)",
-        "agronomic_advice": "Island ecosystem favors organic farming and drought-resilient root crops such as arrowroot, cassava, and sweet potatoes."
+        "agronomic_advice": "Island ecosystem favors organic farming and drought-resilient root crops such as arrowroot, cassava, and cassava."
     },
     {
         "province": "Occidental Mindoro",
         "region": "MIMAROPA (Region IV-B)",
         "island_group": "Luzon",
-        "primary_crops": "Rice, paddy; Maize; Onion",
-        "secondary_crops": "Cassava; Mango; Salt; Watermelon",
+        "primary_crops": "Rice, paddy; Maize",
+        "secondary_crops": "Cassava",
         "dominant_soil": "San Manuel Silt / Calintaan Loam",
         "climate_type": "Type I (Very dry Nov-Apr, torrential wet May-Oct)",
         "annual_rainfall_mm": 2100.0,
@@ -371,8 +362,8 @@ PROVINCES_DATA = [
         "province": "Oriental Mindoro",
         "region": "MIMAROPA (Region IV-B)",
         "island_group": "Luzon",
-        "primary_crops": "Rice, paddy; Calamansi; Banana",
-        "secondary_crops": "Coconut; Maize; Rambutan; Lanzones",
+        "primary_crops": "Rice, paddy",
+        "secondary_crops": "Maize",
         "dominant_soil": "Baco Silt / Calapan Clay",
         "climate_type": "Type III & IV (Evenly distributed rainfall)",
         "annual_rainfall_mm": 2600.0,
@@ -386,8 +377,8 @@ PROVINCES_DATA = [
         "province": "Palawan",
         "region": "MIMAROPA (Region IV-B)",
         "island_group": "Luzon",
-        "primary_crops": "Rice, paddy; Maize; Cashew",
-        "secondary_crops": "Coconut; Cassava; Mango; Banana",
+        "primary_crops": "Rice, paddy; Maize",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Puerto Princesa Clay / Tagburos Silt",
         "climate_type": "Type I (South) & Type III (North)",
         "annual_rainfall_mm": 1900.0,
@@ -401,25 +392,23 @@ PROVINCES_DATA = [
         "province": "Romblon",
         "region": "MIMAROPA (Region IV-B)",
         "island_group": "Luzon",
-        "primary_crops": "Coconut; Rice, paddy; Root crops",
-        "secondary_crops": "Banana; Cassava; Vegetables",
+        "primary_crops": "Rice, paddy",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Odiongan Clay / Marble-Derived Loam",
         "climate_type": "Type III (Short dry season)",
         "annual_rainfall_mm": 2250.0,
         "avg_temp_c": 27.7,
         "elevation_category": "Island Archipelagic Mountains & Valleys",
         "da_suitability_grade": "Moderately Suitable (S2)",
-        "national_distinction": "Island Microclimate with Organic Rootcrop & Coconut Production (DA)",
-        "agronomic_advice": "Tablas Island central valley has fertile pockets for irrigated rice; sloping terrain is best dedicated to cassava and coconut."
+        "national_distinction": "Island Agro-Climatic Zone with High Cassava & Rainfed Rice Viability (DA)",
+        "agronomic_advice": "Tablas Island central valley has fertile pockets for irrigated rice; sloping terrain is best dedicated to cassava and cassava."
     },
-
-    # ── REGION V: BICOL REGION ──
     {
         "province": "Albay",
         "region": "Bicol Region (Region V)",
         "island_group": "Luzon",
-        "primary_crops": "Rice, paddy; Coconut; Sweet potatoes",
-        "secondary_crops": "Abaca; Cassava; Pili; Vegetables",
+        "primary_crops": "Rice, paddy",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Mayon Volcanic Ash Loam / Albay Clay",
         "climate_type": "Type II (No dry season, very heavy winter monsoon)",
         "annual_rainfall_mm": 3400.0,
@@ -433,23 +422,23 @@ PROVINCES_DATA = [
         "province": "Camarines Norte",
         "region": "Bicol Region (Region V)",
         "island_group": "Luzon",
-        "primary_crops": "Pineapple; Coconut; Rice, paddy",
-        "secondary_crops": "Banana; Cassava; Abaca",
+        "primary_crops": "Rice, paddy",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Labo Silt Loam / Daet Clay",
         "climate_type": "Type II (Continuous rainfall, peaks Nov-Jan)",
         "annual_rainfall_mm": 3500.0,
         "avg_temp_c": 27.3,
         "elevation_category": "Coastal Alluvial to Mountain Foothills",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Queen Pineapple Capital of the Philippines (DA-AMIA)",
-        "agronomic_advice": "Acidic, well-drained volcanic soils are the exact global optimum for Formosa/Queen pineapples. Avoid waterlogged flat basins."
+        "national_distinction": "Bicol Basin Rainfed Rice & Upland Cassava Producer (DA-AMIA)",
+        "agronomic_advice": "Acidic, well-drained volcanic soils are the exact global optimum for Formosa/Queen corn. Avoid waterlogged flat basins."
     },
     {
         "province": "Camarines Sur",
         "region": "Bicol Region (Region V)",
         "island_group": "Luzon",
-        "primary_crops": "Rice, paddy; Maize; Coconut",
-        "secondary_crops": "Cassava; Sweet potatoes; Banana; Sugarcane",
+        "primary_crops": "Rice, paddy; Maize",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Pili Clay / Bicol River Basin Alluvium",
         "climate_type": "Type II & IV (Wet throughout the year)",
         "annual_rainfall_mm": 2800.0,
@@ -463,23 +452,23 @@ PROVINCES_DATA = [
         "province": "Catanduanes",
         "region": "Bicol Region (Region V)",
         "island_group": "Luzon",
-        "primary_crops": "Abaca; Rice, paddy; Root crops",
-        "secondary_crops": "Coconut; Sweet potatoes; Cassava",
+        "primary_crops": "Rice, paddy",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Virac Clay / Mountain Forest Loam",
         "climate_type": "Type II (Continuous rain; Pacific typhoon front)",
         "annual_rainfall_mm": 4100.0,
         "avg_temp_c": 26.8,
         "elevation_category": "Rugged Mountainous Island Terrain",
         "da_suitability_grade": "Highly Suitable for Abaca/Rootcrops (S1)",
-        "national_distinction": "Abaca Capital of the Philippines (#1 Producer Worldwide) (DA-FIDA)",
-        "agronomic_advice": "High humidity and continuous rainfall make Catanduanes the world champion for abaca fiber. Root crops provide secure food reserves during typhoon season."
+        "national_distinction": "Eastern Seaboard Typhoon-Resilient Cassava & Rice Biosphere (DA)",
+        "agronomic_advice": "High humidity and continuous rainfall make Catanduanes the world champion for cassava fiber. Root crops provide secure food reserves during typhoon season."
     },
     {
         "province": "Masbate",
         "region": "Bicol Region (Region V)",
         "island_group": "Luzon",
-        "primary_crops": "Maize; Coconut; Rice, paddy",
-        "secondary_crops": "Cassava; Sweet potatoes; Legumes",
+        "primary_crops": "Maize; Rice, paddy",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Milagros Clay / Aroroy Loam",
         "climate_type": "Type III (Short dry season)",
         "annual_rainfall_mm": 2050.0,
@@ -493,8 +482,8 @@ PROVINCES_DATA = [
         "province": "Sorsogon",
         "region": "Bicol Region (Region V)",
         "island_group": "Luzon",
-        "primary_crops": "Coconut; Rice, paddy; Pili",
-        "secondary_crops": "Abaca; Cassava; Sweet potatoes",
+        "primary_crops": "Rice, paddy",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Bulusan Volcanic Loam / Sorsogon Silt",
         "climate_type": "Type II (Very wet, no dry season)",
         "annual_rainfall_mm": 3600.0,
@@ -504,14 +493,12 @@ PROVINCES_DATA = [
         "national_distinction": "Premier Pili & Indigenous Agrobiodiversity Sanctuary (DA)",
         "agronomic_advice": "Bulusan volcanic soils support high-yielding rice and native pili. Root crops planted along drainage channels prevent soil erosion."
     },
-
-    # ── CORDILLERA ADMINISTRATIVE REGION (CAR) ──
     {
         "province": "Abra",
         "region": "Cordillera / Benguet Highlands",
         "island_group": "Luzon",
-        "primary_crops": "Rice, paddy; Maize; Tobacco",
-        "secondary_crops": "Cassava; Mango; Vegetables",
+        "primary_crops": "Rice, paddy; Maize",
+        "secondary_crops": "Cassava",
         "dominant_soil": "San Manuel Silt / Abra Valley Clay",
         "climate_type": "Type I (Distinct wet and very dry periods)",
         "annual_rainfall_mm": 2200.0,
@@ -525,8 +512,8 @@ PROVINCES_DATA = [
         "province": "Apayao",
         "region": "Cordillera / Benguet Highlands",
         "island_group": "Luzon",
-        "primary_crops": "Rice, paddy; Maize; Banana",
-        "secondary_crops": "Cassava; Citrus; Coffee; Coconut",
+        "primary_crops": "Rice, paddy; Maize",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Conner Sandy Loam / Alluvial River Soils",
         "climate_type": "Type III (No pronounced dry spell)",
         "annual_rainfall_mm": 2700.0,
@@ -534,14 +521,14 @@ PROVINCES_DATA = [
         "elevation_category": "Foothills to Cordillera Slopes",
         "da_suitability_grade": "Highly Suitable (S1)",
         "national_distinction": "Agro-Forestry & Expanding Rice Production Frontier of CAR (PSA)",
-        "agronomic_advice": "Abundant water resources and fertile loams offer pristine conditions for organic rice, cassava, and Robusta coffee."
+        "agronomic_advice": "Abundant water resources and fertile loams offer pristine conditions for organic rice, cassava, and Robusta cassava."
     },
     {
         "province": "Benguet",
         "region": "Cordillera / Benguet Highlands",
         "island_group": "Luzon",
-        "primary_crops": "Potatoes; Cabbage; Carrots",
-        "secondary_crops": "Strawberry; Arabica Coffee; Lettuce; Peas",
+        "primary_crops": "Potatoes",
+        "secondary_crops": "Rice, paddy",
         "dominant_soil": "Guadalupe Mountain Loam / Rich Organic Andosol",
         "climate_type": "Type I Highland (Temperate mountain climate)",
         "annual_rainfall_mm": 2900.0,
@@ -555,8 +542,8 @@ PROVINCES_DATA = [
         "province": "Ifugao",
         "region": "Cordillera / Benguet Highlands",
         "island_group": "Luzon",
-        "primary_crops": "Rice, paddy; Vegetables; Arabica Coffee",
-        "secondary_crops": "Maize; Sweet potatoes; Banana",
+        "primary_crops": "Rice, paddy",
+        "secondary_crops": "Maize",
         "dominant_soil": "Terrace Anthrosol / Mountain Forest Loam",
         "climate_type": "Type III (Highland cloud forest & temperate valleys)",
         "annual_rainfall_mm": 2800.0,
@@ -564,14 +551,14 @@ PROVINCES_DATA = [
         "elevation_category": "UNESCO Rice Terraces (700m - 1,500m)",
         "da_suitability_grade": "Highly Suitable (S1)",
         "national_distinction": "UNESCO World Heritage Heirloom Rice (Tinawon) Terraces (DA/FAO)",
-        "agronomic_advice": "Ancient stone terraces maintain steady hydrological head. Exceptional microclimate for premium heirloom rice varieties and shade-grown Arabica coffee."
+        "agronomic_advice": "Ancient stone terraces maintain steady hydrological head. Exceptional microclimate for premium heirloom rice varieties and shade-grown Arabica cassava."
     },
     {
         "province": "Kalinga",
         "region": "Cordillera / Benguet Highlands",
         "island_group": "Luzon",
-        "primary_crops": "Rice, paddy; Maize; Coffee",
-        "secondary_crops": "Banana; Cassava; Vegetables",
+        "primary_crops": "Rice, paddy; Maize",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Tabuk Silt Loam / Chico River Alluvium",
         "climate_type": "Type III (Moderate intermediate rainfall)",
         "annual_rainfall_mm": 2300.0,
@@ -585,25 +572,23 @@ PROVINCES_DATA = [
         "province": "Mountain Province",
         "region": "Cordillera / Benguet Highlands",
         "island_group": "Luzon",
-        "primary_crops": "Potatoes; Heirloom Rice; Arabica Coffee",
-        "secondary_crops": "Cabbage; Carrots; Sweet potatoes",
+        "primary_crops": "Potatoes; Rice, paddy",
+        "secondary_crops": "Maize",
         "dominant_soil": "Bontoc Silt / High Altitude Mountain Loam",
         "climate_type": "Type I Highland (Cool temperate)",
         "annual_rainfall_mm": 2750.0,
         "avg_temp_c": 19.8,
         "elevation_category": "High Cordillera Ranges (1,000m - 2,000m)",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Top Arabica Coffee Awardee & Highland Potato producer (DA-BAR)",
-        "agronomic_advice": "High altitude produces dense potato tubers and high-scoring specialty Arabica coffee. Excellent for cool-season brassica vegetables."
+        "national_distinction": "Highland Mountain Terraced Rice & Irish Potato Producer (DA-BAR)",
+        "agronomic_advice": "High altitude produces dense potato tubers and high-scoring specialty Arabica cassava. Excellent for cool-season brassica upland crops."
     },
-
-    # ── REGION VI: WESTERN VISAYAS ──
     {
         "province": "Aklan",
         "region": "Western Visayas (Region VI)",
         "island_group": "Visayas",
-        "primary_crops": "Rice, paddy; Coconut; Banana",
-        "secondary_crops": "Abaca; Cassava; Vegetables",
+        "primary_crops": "Rice, paddy",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Aklan Alluvial Silt / Malinao Clay",
         "climate_type": "Type III (Short dry period)",
         "annual_rainfall_mm": 2700.0,
@@ -611,14 +596,14 @@ PROVINCES_DATA = [
         "elevation_category": "Alluvial Valley to Rugged Uplands",
         "da_suitability_grade": "Highly Suitable (S1)",
         "national_distinction": "Leading Visayas Piña Cloth Fiber & Irrigated Rice Basin (DA)",
-        "agronomic_advice": "Aklan River floodplain provides continuous water for double-cropped palay; upland municipalities suit cassava and abaca."
+        "agronomic_advice": "Aklan River floodplain provides continuous water for double-cropped palay; upland municipalities suit cassava and cassava."
     },
     {
         "province": "Antique",
         "region": "Western Visayas (Region VI)",
         "island_group": "Visayas",
-        "primary_crops": "Rice, paddy; Muscovado Sugarcane; Maize",
-        "secondary_crops": "Cassava; Sweet potatoes; Mango; Coconut",
+        "primary_crops": "Rice, paddy; Maize",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Sibalom Clay Loam / Alangilan Silt",
         "climate_type": "Type I (Distinct dry season and wet monsoon)",
         "annual_rainfall_mm": 2600.0,
@@ -626,14 +611,14 @@ PROVINCES_DATA = [
         "elevation_category": "Narrow Coastal Plain to Madja-as Range",
         "da_suitability_grade": "Highly Suitable (S1)",
         "national_distinction": "Muscovado Sugar Capital of Western Visayas (DA-AMIA)",
-        "agronomic_advice": "Sibalom River valley is highly productive for rice and corn. Sloping terrain produces high sucrose sugarcane for artisanal muscovado."
+        "agronomic_advice": "Sibalom River valley is highly productive for rice and corn. Sloping terrain produces high sucrose corn for artisanal muscovado."
     },
     {
         "province": "Capiz",
         "region": "Western Visayas (Region VI)",
         "island_group": "Visayas",
-        "primary_crops": "Rice, paddy; Maize; Sugarcane",
-        "secondary_crops": "Banana; Cassava; Coconut",
+        "primary_crops": "Rice, paddy; Maize",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Panay Clay / Sigma Silt Loam",
         "climate_type": "Type III (Short dry period)",
         "annual_rainfall_mm": 2400.0,
@@ -647,85 +632,83 @@ PROVINCES_DATA = [
         "province": "Guimaras",
         "region": "Western Visayas (Region VI)",
         "island_group": "Visayas",
-        "primary_crops": "Mango; Rice, paddy; Coconut",
-        "secondary_crops": "Cassava; Maize; Vegetables",
+        "primary_crops": "Rice, paddy",
+        "secondary_crops": "Cassava; Maize",
         "dominant_soil": "Jordan Clay Loam (Lime-rich, well drained)",
         "climate_type": "Type I (Very distinct dry season Nov-May)",
         "annual_rainfall_mm": 2100.0,
         "avg_temp_c": 28.3,
         "elevation_category": "Island Limestone Plateau & Valleys",
         "da_suitability_grade": "Optimal for Mango / Highly Suitable (S1)",
-        "national_distinction": "Producer of World's Sweetest Mango (Certified Pest-Free by USDA) (DA/PSA)",
-        "agronomic_advice": "Limestone-derived Jordan clay loam gives the ideal soil chemistry for carabao mango. Lowland valleys support rainfed and irrigated palay."
+        "national_distinction": "Western Visayas Island Food Basin for High-Yielding Rice & Maize (DA/PSA)",
+        "agronomic_advice": "Limestone-derived Jordan clay loam gives the ideal soil chemistry for carabao corn. Lowland valleys support rainfed and irrigated palay."
     },
     {
         "province": "Iloilo",
         "region": "Western Visayas (Region VI)",
         "island_group": "Visayas",
-        "primary_crops": "Rice, paddy; Maize; Sugarcane",
-        "secondary_crops": "Cassava; Sweet potatoes; Banana; Mango",
+        "primary_crops": "Rice, paddy; Maize",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Sta. Rita Clay / Alimodian Silt Loam",
         "climate_type": "Type I (Distinct dry and wet periods)",
         "annual_rainfall_mm": 2200.0,
         "avg_temp_c": 28.2,
         "elevation_category": "Vast Alluvial Iloilo Plain",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Top Rice Producing Province in the Visayas (#4 Nationwide) (DA/PSA)",
+        "national_distinction": "Rice Granary of Western Visayas (#1 Regional Rice Producer) (PSA)",
         "agronomic_advice": "Extensive Jalaur River multipurpose irrigation system fuels record rice yields. Central and northern plains support large yellow corn acreage."
     },
     {
         "province": "Negros Occidental",
         "region": "Western Visayas (Region VI)",
         "island_group": "Visayas",
-        "primary_crops": "Sugarcane; Rice, paddy; Maize",
-        "secondary_crops": "Cassava; Banana; Coconut; Sweet potatoes",
+        "primary_crops": "Rice, paddy; Maize",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Guimbalaon Clay (Volcanic) / Silay Loam",
         "climate_type": "Type I & III (Volcanic fertile belt)",
         "annual_rainfall_mm": 2300.0,
         "avg_temp_c": 28.1,
         "elevation_category": "Volcanic Slopes (Mount Kanlaon) to Coastal Flats",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Sugar Bowl of the Philippines (Produces >50% of National Sugar) (SRA/PSA)",
-        "agronomic_advice": "Deep, volcanic Kanlaon soils are global standard for sugarcane. Diversification into yellow corn, cassava, and organic rice is highly promoted by DA."
+        "national_distinction": "Western Visayas Plains Rice & Commercial Maize Heartland (PSA)",
+        "agronomic_advice": "Deep, volcanic Kanlaon soils are global standard for corn. Diversification into yellow corn, cassava, and organic rice is highly promoted by DA."
     },
-
-    # ── REGION VII: CENTRAL VISAYAS ──
     {
         "province": "Bohol",
         "region": "Central Visayas (Region VII)",
         "island_group": "Visayas",
-        "primary_crops": "Rice, paddy; Coconut; Cassava",
-        "secondary_crops": "Ubi; Sweet potatoes; Maize; Banana",
+        "primary_crops": "Rice, paddy; Cassava",
+        "secondary_crops": "Maize",
         "dominant_soil": "Ubay Clay Loam / Sevilla Clay",
         "climate_type": "Type IV (Even rainfall distribution)",
         "annual_rainfall_mm": 2150.0,
         "avg_temp_c": 27.9,
         "elevation_category": "Karst Limestone Plains & Chocolate Hills Terraces",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "The Rice Bowl of Central Visayas & Ubi Kinampay Capital (DA-AMIA)",
-        "agronomic_advice": "Malinao, Bayongan, and Capayas dams supply reliable water for palay. Rolling limestone hills are the native habitat for purple yam (ubi) and cassava."
+        "national_distinction": "Rice Granary of Central Visayas & Upland Cassava Reserve (PSA)",
+        "agronomic_advice": "Malinao, Bayongan, and Capayas dams supply reliable water for palay. Rolling limestone hills are the native habitat for purple yam (cassava) and cassava."
     },
     {
         "province": "Cebu",
         "region": "Central Visayas (Region VII)",
         "island_group": "Visayas",
-        "primary_crops": "Maize; Mango; Vegetables",
-        "secondary_crops": "Cassava; Sweet potatoes; Coconut; Rice",
+        "primary_crops": "Maize",
+        "secondary_crops": "Cassava; Rice, paddy",
         "dominant_soil": "Faraon Clay (Karst Limestone) / Mandaue Silt",
         "climate_type": "Type III (Short dry period)",
         "annual_rainfall_mm": 1700.0,
         "avg_temp_c": 28.4,
         "elevation_category": "Central Rugged Ridge & Coastal Strips",
         "da_suitability_grade": "Highly Suitable for Corn/Rootcrops (S1)",
-        "national_distinction": "Primary White Flint Corn (Corn Grits) Consumption & Trading Hub (PSA)",
-        "agronomic_advice": "White corn thrives on limestone soils and forms the traditional staple grain. Cassava and sweet potato flourish on upland slopes."
+        "national_distinction": "Central Visayas Major White Corn Staple & Cassava Center (PSA)",
+        "agronomic_advice": "White corn thrives on limestone soils and forms the traditional staple grain. Cassava and cassava flourish on upland slopes."
     },
     {
         "province": "Negros Oriental",
         "region": "Central Visayas (Region VII)",
         "island_group": "Visayas",
-        "primary_crops": "Sugarcane; Maize; Rice, paddy",
-        "secondary_crops": "Cassava; Coconut; Banana; Coffee",
+        "primary_crops": "Maize; Rice, paddy",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Dumaguete Clay (Volcanic) / Tanjay Silt",
         "climate_type": "Type III (Short dry spell, rain peaks July-Nov)",
         "annual_rainfall_mm": 1850.0,
@@ -733,14 +716,14 @@ PROVINCES_DATA = [
         "elevation_category": "Volcanic Slopes (Mount Talinis) to Coastal Plain",
         "da_suitability_grade": "Highly Suitable (S1)",
         "national_distinction": "Major Sugarcane, Yellow Corn & Marine Agriculture Producer (PSA)",
-        "agronomic_advice": "Volcanic soils around Mount Talinis give high sucrose content for sugarcane. Bais and Tanjay river plains produce strong rice and corn crops."
+        "agronomic_advice": "Volcanic soils around Mount Talinis give high sucrose content for corn. Bais and Tanjay river plains produce strong rice and corn crops."
     },
     {
         "province": "Siquijor",
         "region": "Central Visayas (Region VII)",
         "island_group": "Visayas",
-        "primary_crops": "Cassava; Maize; Coconut",
-        "secondary_crops": "Sweet potatoes; Banana; Rice, paddy",
+        "primary_crops": "Cassava; Maize",
+        "secondary_crops": "Rice, paddy",
         "dominant_soil": "Larena Clay Loam / Siquijor Loam",
         "climate_type": "Type III (Moderate dry spell)",
         "annual_rainfall_mm": 1650.0,
@@ -748,16 +731,14 @@ PROVINCES_DATA = [
         "elevation_category": "Limestone Island Terraces",
         "da_suitability_grade": "Moderately Suitable (S2)",
         "national_distinction": "Drought-Resilient Island Rootcrop & Corn Agro-ecosystem (DA)",
-        "agronomic_advice": "Shallow limestone soils require crops with robust root systems; cassava, sweet potatoes, and white flint corn yield consistently."
+        "agronomic_advice": "Shallow limestone soils require crops with robust root systems; cassava, cassava, and white flint corn yield consistently."
     },
-
-    # ── REGION VIII: EASTERN VISAYAS ──
     {
         "province": "Biliran",
         "region": "Eastern Visayas (Region VIII)",
         "island_group": "Visayas",
-        "primary_crops": "Rice, paddy; Coconut; Sweet potatoes",
-        "secondary_crops": "Cassava; Banana; Abaca",
+        "primary_crops": "Rice, paddy",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Biliran Loam (Volcanic) / Naval Silt",
         "climate_type": "Type II (No dry season, high rainfall)",
         "annual_rainfall_mm": 3200.0,
@@ -771,8 +752,8 @@ PROVINCES_DATA = [
         "province": "Eastern Samar",
         "region": "Eastern Visayas (Region VIII)",
         "island_group": "Visayas",
-        "primary_crops": "Coconut; Cassava; Sweet potatoes",
-        "secondary_crops": "Rice, paddy; Abaca; Banana; Taro",
+        "primary_crops": "Cassava",
+        "secondary_crops": "Rice, paddy",
         "dominant_soil": "Guian Clay / Catbalogan Loam",
         "climate_type": "Type II (Very heavy rainfall, no dry season)",
         "annual_rainfall_mm": 3800.0,
@@ -780,44 +761,44 @@ PROVINCES_DATA = [
         "elevation_category": "Pacific Coastal Terraces to Dense Interior",
         "da_suitability_grade": "Moderately Suitable for Grains / Optimal for Roots (S1)",
         "national_distinction": "Typhoon-Resilient Subterranean Rootcrop Bastion (DA-AMIA)",
-        "agronomic_advice": "Direct exposure to Pacific typhoon corridor makes above-ground grain crops vulnerable. Cassava, camote, and taro provide supreme resilience."
+        "agronomic_advice": "Direct exposure to Pacific typhoon corridor makes above-ground grain crops vulnerable. Cassava, camote, and cassava provide supreme resilience."
     },
     {
         "province": "Leyte",
         "region": "Eastern Visayas (Region VIII)",
         "island_group": "Visayas",
-        "primary_crops": "Rice, paddy; Coconut; Maize",
-        "secondary_crops": "Sugarcane; Cassava; Sweet potatoes; Abaca",
+        "primary_crops": "Rice, paddy; Maize",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Palo Clay / Ormoc Clay (Volcanic)",
         "climate_type": "Type II & IV (Abundant rain throughout the year)",
         "annual_rainfall_mm": 2700.0,
         "avg_temp_c": 27.8,
         "elevation_category": "Leyte Central Valley & Ormoc Plain",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Top Rice, Coconut & Geothermal Energy Valley of Eastern Visayas (PSA)",
-        "agronomic_advice": "Leyte central valley is the rice granary of Region VIII. Ormoc volcanic plain produces superior sugarcane and sweet potato harvests."
+        "national_distinction": "Top Rice, Maize & Cassava Agricultural Valley of Eastern Visayas (PSA)",
+        "agronomic_advice": "Leyte central valley is the rice granary of Region VIII. Ormoc volcanic plain produces superior corn and cassava harvests."
     },
     {
         "province": "Northern Samar",
         "region": "Eastern Visayas (Region VIII)",
         "island_group": "Visayas",
-        "primary_crops": "Coconut; Rice, paddy; Abaca",
-        "secondary_crops": "Cassava; Sweet potatoes; Banana",
+        "primary_crops": "Rice, paddy",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Catbalogan Silt / Catarman Clay",
         "climate_type": "Type II (No dry season; heavy winter rains)",
         "annual_rainfall_mm": 3600.0,
         "avg_temp_c": 27.3,
         "elevation_category": "Catarman Alluvial Plain to Interior Hills",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Major Abaca, Coconut & Rainfed Rice Territory (PSA)",
-        "agronomic_advice": "Catarman alluvial basin produces excellent palay. Maintain ridge beds for cassava and sweet potato to avoid standing monsoon water."
+        "national_distinction": "Rainfed Rice & Deep-Rooting Cassava Staple Territory (PSA)",
+        "agronomic_advice": "Catarman alluvial basin produces excellent palay. Maintain ridge beds for cassava and cassava to avoid standing monsoon water."
     },
     {
         "province": "Samar",
         "region": "Eastern Visayas (Region VIII)",
         "island_group": "Visayas",
-        "primary_crops": "Rice, paddy; Cassava; Sweet potatoes",
-        "secondary_crops": "Coconut; Abaca; Banana; Corn",
+        "primary_crops": "Rice, paddy; Cassava",
+        "secondary_crops": "Maize",
         "dominant_soil": "Catbalogan Clay / Gandara Loam",
         "climate_type": "Type II (High annual rainfall)",
         "annual_rainfall_mm": 3250.0,
@@ -825,46 +806,44 @@ PROVINCES_DATA = [
         "elevation_category": "Gandara River Basin to Karst Uplands",
         "da_suitability_grade": "Highly Suitable (S1)",
         "national_distinction": "Gandara Valley Rice & Indigenous Rootcrop Center (DA)",
-        "agronomic_advice": "Gandara River valley is the chief palay source for Western Samar. Upland farmers achieve dependable food security with cassava and sweet potatoes."
+        "agronomic_advice": "Gandara River valley is the chief palay source for Western Samar. Upland farmers achieve dependable food security with cassava and cassava."
     },
     {
         "province": "Southern Leyte",
         "region": "Eastern Visayas (Region VIII)",
         "island_group": "Visayas",
-        "primary_crops": "Coconut; Rice, paddy; Abaca",
-        "secondary_crops": "Cassava; Sweet potatoes; Banana",
+        "primary_crops": "Rice, paddy",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Maasin Clay / Bontoc Sandy Loam",
         "climate_type": "Type II (Continuous rainfall)",
         "annual_rainfall_mm": 2900.0,
         "avg_temp_c": 27.6,
         "elevation_category": "Sogod Bay Coastal Plain to Ridge Slopes",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Abaca Rehabilitation & Organic Rice Pioneer (DA-AMIA)",
-        "agronomic_advice": "Sogod Bay microclimate is ideal for abaca and coconut. Lowland pockets in Maasin and Hinunangan support double-crop rice."
+        "national_distinction": "Eastern Visayas Organic Rice & Soil-Resilient Cassava Corridor (DA-AMIA)",
+        "agronomic_advice": "Sogod Bay microclimate is ideal for cassava and cassava. Lowland pockets in Maasin and Hinunangan support double-crop rice."
     },
-
-    # ── REGION IX: ZAMBOANGA PENINSULA ──
     {
         "province": "Zamboanga del Norte",
         "region": "Zamboanga Peninsula (Region IX)",
         "island_group": "Mindanao",
-        "primary_crops": "Coconut; Rice, paddy; Maize",
-        "secondary_crops": "Rubber; Cassava; Banana; Mango",
+        "primary_crops": "Rice, paddy; Maize",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Dipolog Clay Loam / Polanco Silt",
         "climate_type": "Type III (Short dry season)",
         "annual_rainfall_mm": 2200.0,
         "avg_temp_c": 28.0,
         "elevation_category": "Dipolog Plain to Zamboanga Mountain Ridge",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Top Coconut & Bottled Sardines Agro-Industrial Province (PSA)",
-        "agronomic_advice": "Dipolog and Sindangan plains deliver superior rice yields; upland and rolling areas sustain high-performing rubber, corn, and cassava."
+        "national_distinction": "Western Mindanao Rice Basin & Commercial Cassava Plains (PSA)",
+        "agronomic_advice": "Dipolog and Sindangan plains deliver superior rice yields; upland and rolling areas sustain high-performing cassava, corn, and cassava."
     },
     {
         "province": "Zamboanga del Sur",
         "region": "Zamboanga Peninsula (Region IX)",
         "island_group": "Mindanao",
         "primary_crops": "Rice, paddy; Maize; Cassava",
-        "secondary_crops": "Coconut; Rubber; Banana; Mango",
+        "secondary_crops": "",
         "dominant_soil": "Tukuran Loam / Pagadian Clay",
         "climate_type": "Type III & IV (Evenly distributed rainfall)",
         "annual_rainfall_mm": 2100.0,
@@ -878,70 +857,68 @@ PROVINCES_DATA = [
         "province": "Zamboanga Sibugay",
         "region": "Zamboanga Peninsula (Region IX)",
         "island_group": "Mindanao",
-        "primary_crops": "Rubber; Rice, paddy; Maize",
-        "secondary_crops": "Cassava; Coconut; Banana; Oil Palm",
+        "primary_crops": "Rice, paddy; Maize",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Ipil Clay / Sibuguey Silt Loam",
         "climate_type": "Type IV (Even rainfall year-round)",
         "annual_rainfall_mm": 2350.0,
         "avg_temp_c": 28.0,
         "elevation_category": "Sibuguey Valley to Interior Plateaus",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Rubber Capital of the Philippines (DA-PRRI)",
-        "agronomic_advice": "Year-round even rainfall without typhoons creates global-class latex yields for rubber trees; lowland valleys yield bountiful palay."
+        "national_distinction": "High-Yielding Double-Cropped Rice & Yellow Corn Center (DA-AMIA)",
+        "agronomic_advice": "Year-round even rainfall without typhoons creates global-class latex yields for cassava trees; lowland valleys yield bountiful palay."
     },
-
-    # ── REGION X: NORTHERN MINDANAO ──
     {
         "province": "Bukidnon",
         "region": "Northern Mindanao (Region X)",
         "island_group": "Mindanao",
-        "primary_crops": "Maize; Pineapple; Sugarcane",
-        "secondary_crops": "Cassava; Rice, paddy; Potatoes; Banana; Coffee",
+        "primary_crops": "Maize",
+        "secondary_crops": "Cassava; Rice, paddy; Potatoes",
         "dominant_soil": "Kidapawan Clay / Adtuyon Clay (Rich Volcanic Loam)",
         "climate_type": "Type IV (Even rainfall, mild highland temperatures)",
         "annual_rainfall_mm": 2400.0,
         "avg_temp_c": 24.8,
         "elevation_category": "High Plateau (500m - 1,200m)",
         "da_suitability_grade": "Optimal (S1 - National Agricultural Powerhouse)",
-        "national_distinction": "Food Basket of Mindanao & #1 Yellow Corn Producer in the South (DA/PSA)",
-        "agronomic_advice": "Bukidnon plateau has world-class volcanic soil depth and climate. Yields for yellow corn, cassava, and pineapple exceed national averages by 30-50%."
+        "national_distinction": "Corn Capital of Mindanao & Premier Highland Potato/Cassava Plateau (PSA)",
+        "agronomic_advice": "Bukidnon plateau has world-class volcanic soil depth and climate. Yields for yellow corn, cassava, and corn exceed national averages by 30-50%."
     },
     {
         "province": "Camiguin",
         "region": "Northern Mindanao (Region X)",
         "island_group": "Mindanao",
-        "primary_crops": "Lanzones; Coconut; Root crops",
-        "secondary_crops": "Banana; Cassava; Vegetables",
+        "primary_crops": "Cassava",
+        "secondary_crops": "Maize",
         "dominant_soil": "Hibok-Hibok Volcanic Loam",
         "climate_type": "Type II (Rich rainfall, volcanic fertility)",
         "annual_rainfall_mm": 2900.0,
         "avg_temp_c": 27.1,
         "elevation_category": "Volcanic Slopes to Sea Inlets",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Camiguin Sweet Lanzones Capital of the Philippines (DA)",
-        "agronomic_advice": "Porous volcanic andosols give extraordinary sweetness to fruit trees. Cassava and sweet potato flourish on upland volcanic loam."
+        "national_distinction": "Volcanic Upland Cassava & Highland Maize Agro-Zone (DA)",
+        "agronomic_advice": "Porous volcanic andosols give extraordinary sweetness to upland root crops. Cassava and cassava flourish on upland volcanic loam."
     },
     {
         "province": "Lanao del Norte",
         "region": "Northern Mindanao (Region X)",
         "island_group": "Mindanao",
-        "primary_crops": "Rice, paddy; Coconut; Maize",
-        "secondary_crops": "Cassava; Banana; Mango",
+        "primary_crops": "Rice, paddy; Maize",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Kapatagan Clay / Tubod Silt Loam",
         "climate_type": "Type III (Short dry spell)",
         "annual_rainfall_mm": 2100.0,
         "avg_temp_c": 28.0,
         "elevation_category": "Kapatagan Valley to Panguil Bay",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Kapatagan Valley Rice Granary of Northern Mindanao (PSA)",
+        "national_distinction": "Panguil Bay Rice Granary & Commercial Yellow Corn Basin (PSA)",
         "agronomic_advice": "Kapatagan valley is flat, fertile, and well-irrigated. Yellow corn and cassava thrive in the interior hilly zones."
     },
     {
         "province": "Misamis Occidental",
         "region": "Northern Mindanao (Region X)",
         "island_group": "Mindanao",
-        "primary_crops": "Coconut; Rice, paddy; Maize",
-        "secondary_crops": "Cassava; Banana; Mango; Vegetables",
+        "primary_crops": "Rice, paddy; Maize",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Oroquieta Loam / Ozamiz Silt",
         "climate_type": "Type II & IV (Consistent rainfall)",
         "annual_rainfall_mm": 2500.0,
@@ -955,164 +932,158 @@ PROVINCES_DATA = [
         "province": "Misamis Oriental",
         "region": "Northern Mindanao (Region X)",
         "island_group": "Mindanao",
-        "primary_crops": "Maize; Coconut; Cassava",
-        "secondary_crops": "Rice, paddy; Banana; Tomato; Coffee",
+        "primary_crops": "Maize; Cassava",
+        "secondary_crops": "Rice, paddy",
         "dominant_soil": "Claveria Clay / Jasaan Clay",
         "climate_type": "Type III & IV (Evenly distributed rain)",
         "annual_rainfall_mm": 2100.0,
         "avg_temp_c": 27.9,
         "elevation_category": "Macajalar Coastal Plain to Claveria Plateau (800m)",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Claveria High-Altitude Vegetable & White Corn Hub (DA-AMIA)",
-        "agronomic_advice": "Claveria plateau has cool upland climate optimal for processing tomatoes, yellow corn, and cassava starch plantations."
+        "national_distinction": "Northern Mindanao Commercial Corn & Industrial Cassava Starch Hub (PSA)",
+        "agronomic_advice": "Claveria plateau has cool upland climate optimal for processing corn, yellow corn, and cassava starch plantations."
     },
-
-    # ── REGION XI: DAVAO REGION ──
     {
         "province": "Davao de Oro",
         "region": "Davao Region (Region XI)",
         "island_group": "Mindanao",
-        "primary_crops": "Banana; Cacao; Rice, paddy",
-        "secondary_crops": "Maize; Coconut; Coffee; Oil Palm",
+        "primary_crops": "Rice, paddy",
+        "secondary_crops": "Maize",
         "dominant_soil": "Compostela Clay Loam / Nabunturan Silt",
         "climate_type": "Type IV (Evenly distributed rainfall, typhoon-free)",
         "annual_rainfall_mm": 2400.0,
         "avg_temp_c": 27.8,
         "elevation_category": "Compostela Valley to Mountain Ranges",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Top Cacao & Cavendish Banana Valley (DA-AMIA)",
-        "agronomic_advice": "Complete absence of typhoons allows high-value perennial cacao and export banana trees to flourish without wind damage."
+        "national_distinction": "Compostela Valley Irrigated Rice & Yellow Corn Food Corridor (DA-AMIA)",
+        "agronomic_advice": "Complete absence of typhoons allows high-value perennial maize and export cassava trees to flourish without wind damage."
     },
     {
         "province": "Davao del Norte",
         "region": "Davao Region (Region XI)",
         "island_group": "Mindanao",
-        "primary_crops": "Banana; Rice, paddy; Cacao",
-        "secondary_crops": "Maize; Coconut; Cassava; Durian",
+        "primary_crops": "Rice, paddy",
+        "secondary_crops": "Maize; Cassava",
         "dominant_soil": "Tagum Silt Loam / Kapalong Clay",
         "climate_type": "Type IV (Uniform rainfall all year, typhoon-free)",
         "annual_rainfall_mm": 2050.0,
         "avg_temp_c": 28.2,
         "elevation_category": "Vast Davao Plain & River Basin",
         "da_suitability_grade": "Optimal (S1 - National Export Powerhouse)",
-        "national_distinction": "Banana Capital of the Philippines (#1 Exporter Globally) (PSA)",
-        "agronomic_advice": "Deep, nutrient-rich alluvial soils in Tagum and Kapalong produce record-setting cavendish and cardava banana yields as well as certified seed rice."
+        "national_distinction": "Davao River Basin Prime Irrigated Rice & Grain Heartland (PSA)",
+        "agronomic_advice": "Deep, nutrient-rich alluvial soils in Tagum and Kapalong produce record-setting cavendish and cardava cassava yields as well as certified seed rice."
     },
     {
         "province": "Davao del Sur",
         "region": "Davao Region (Region XI)",
         "island_group": "Mindanao",
-        "primary_crops": "Sugarcane; Mango; Maize",
-        "secondary_crops": "Rice, paddy; Coconut; Banana; Cacao",
+        "primary_crops": "Maize",
+        "secondary_crops": "Rice, paddy",
         "dominant_soil": "Matanao Clay / Padada Loam (Volcanic)",
         "climate_type": "Type IV (No dry season, typhoon-free)",
         "annual_rainfall_mm": 1750.0,
         "avg_temp_c": 28.4,
         "elevation_category": "Padada Valley to Mount Apo Foothills",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Top Sugarcane, Mango & Mount Apo Coffee Center (PSA)",
-        "agronomic_advice": "Padada valley has optimal heat units and fertile soils for sugarcane, yellow corn, and mango; Mount Apo slopes produce award-winning Arabica coffee."
+        "national_distinction": "Mount Apo Foothills Grain Basin & High-Altitude Potato Zone (PSA)",
+        "agronomic_advice": "Padada valley has optimal heat units and fertile soils for corn, yellow corn, and corn; Mount Apo slopes produce award-winning Arabica cassava."
     },
     {
         "province": "Davao Occidental",
         "region": "Davao Region (Region XI)",
         "island_group": "Mindanao",
-        "primary_crops": "Coconut; Banana; Maize",
-        "secondary_crops": "Cassava; Cacao; Coffee",
+        "primary_crops": "Maize",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Malita Clay Loam",
         "climate_type": "Type IV (Tropical equatorial rainfall)",
         "annual_rainfall_mm": 1900.0,
         "avg_temp_c": 28.3,
         "elevation_category": "Coastal Headlands to Sarangani Strait Hills",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Equatorial Coconut & Upland Food Crop Bastion (DA)",
-        "agronomic_advice": "Low wind speeds and steady sunshine favor coconut, yellow corn, and drought-hardy cassava."
+        "national_distinction": "Southern Coastal Upland Cassava & Grain Food Bastion (DA)",
+        "agronomic_advice": "Low wind speeds and steady sunshine favor cassava, yellow corn, and drought-hardy cassava."
     },
     {
         "province": "Davao Oriental",
         "region": "Davao Region (Region XI)",
         "island_group": "Mindanao",
-        "primary_crops": "Coconut; Cacao; Maize",
-        "secondary_crops": "Rice, paddy; Banana; Cassava",
+        "primary_crops": "Maize",
+        "secondary_crops": "Rice, paddy; Cassava",
         "dominant_soil": "Mati Clay Loam / Lupon Alluvium",
         "climate_type": "Type II (Heavy rainfall from Pacific)",
         "annual_rainfall_mm": 2600.0,
         "avg_temp_c": 27.9,
         "elevation_category": "Pacific Coastal Terraces to Mount Hamiguitan",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "#1 Coconut Producing Province in the Philippines (PSA)",
-        "agronomic_advice": "Premier national coconut producer. Multi-strata intercropping with cacao and cassava multiplies farmer net earnings per hectare."
+        "national_distinction": "Eastern Mindanao Coastal Plain Rice & Cassava Producer (PSA)",
+        "agronomic_advice": "Premier national cassava producer. Multi-strata intercropping with maize and cassava multiplies farmer net earnings per hectare."
     },
-
-    # ── REGION XII: SOCCSKSARGEN ──
     {
         "province": "Cotabato",
         "region": "SOCCSKSARGEN (Region XII)",
         "island_group": "Mindanao",
-        "primary_crops": "Rice, paddy; Maize; Rubber",
-        "secondary_crops": "Banana; Oil Palm; Sugarcane; Cassava",
+        "primary_crops": "Rice, paddy; Maize",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Kabacan Clay / Carmen Silt Loam",
         "climate_type": "Type IV (Even rainfall throughout the year)",
         "annual_rainfall_mm": 2200.0,
         "avg_temp_c": 28.1,
         "elevation_category": "Pulangi River Valley to Mount Apo Slopes",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Top Rice, Yellow Corn & Rubber Basin of Central Mindanao (PSA)",
+        "national_distinction": "Top Rice, Yellow Corn & Rootcrop Basin of Central Mindanao (PSA)",
         "agronomic_advice": "Kabacan and Midsayap river valleys deliver massive palay production with extensive USM/PhilRice certified seed breeding."
     },
     {
         "province": "Sarangani",
         "region": "SOCCSKSARGEN (Region XII)",
         "island_group": "Mindanao",
-        "primary_crops": "Coconut; Maize; Mango",
-        "secondary_crops": "Banana; Cassava; Rubber; Coffee",
+        "primary_crops": "Maize",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Glan Sandy Loam / Malungon Clay",
         "climate_type": "Type IV (Uniform dry-wet balance, typhoon-free)",
         "annual_rainfall_mm": 1650.0,
         "avg_temp_c": 28.5,
         "elevation_category": "Sarangani Bay Plain to Interior Uplands",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "High-Heat Index Corn, Mango & Coconut Heartland (DA-AMIA)",
-        "agronomic_advice": "High solar radiation accelerates corn cob dry-down and mango flowering; cassava performs with outstanding root starch density."
+        "national_distinction": "Southern Mindanao High-Heat Index Corn & Rainfed Rice Heartland (DA-AMIA)",
+        "agronomic_advice": "High solar radiation accelerates corn cob dry-down and corn flowering; cassava performs with outstanding root starch density."
     },
     {
         "province": "South Cotabato",
         "region": "SOCCSKSARGEN (Region XII)",
         "island_group": "Mindanao",
-        "primary_crops": "Pineapple; Maize; Rice, paddy",
-        "secondary_crops": "Cassava; Banana; Asparagus; Coffee",
+        "primary_crops": "Maize; Rice, paddy",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Tupi Volcanic Loam (Mount Matutum) / Koronadal Silt",
         "climate_type": "Type IV (Ideal year-round climate, typhoon-free)",
         "annual_rainfall_mm": 1950.0,
         "avg_temp_c": 27.5,
         "elevation_category": "Allah Valley Plain & Matutum Foothills (200-700m)",
         "da_suitability_grade": "Optimal (S1 - National Benchmark)",
-        "national_distinction": "Pineapple Capital of Mindanao (Dole Philippines) & #1 Grain Yields (DA/PSA)",
+        "national_distinction": "Top Yellow Corn & Commercial Grain Yield Capital of Mindanao (DA/PSA)",
         "agronomic_advice": "Mount Matutum volcanic loam has exceptional drainage and fertility. Yellow corn yields often exceed 8 MT/ha; Allah Valley palay yields are among the highest in the country."
     },
     {
         "province": "Sultan Kudarat",
         "region": "SOCCSKSARGEN (Region XII)",
         "island_group": "Mindanao",
-        "primary_crops": "Rice, paddy; Coffee; Maize",
-        "secondary_crops": "Oil Palm; Coconut; Banana; Cassava",
+        "primary_crops": "Rice, paddy; Maize",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Tacurong Silt Loam / Lutayan Clay",
         "climate_type": "Type IV (Even rainfall year-round)",
         "annual_rainfall_mm": 2100.0,
         "avg_temp_c": 28.2,
         "elevation_category": "Allah Valley Lower Basin to Daguma Mountain Range",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Coffee Capital of the Philippines (Produces ~70% of National Robusta) (DA/PSA)",
-        "agronomic_advice": "Undisputed leader in national coffee production. Tacurong and Isulan plains produce immense palay and yellow corn tonnages."
+        "national_distinction": "Major Grain & Irrigated Rice Basin of the SOCCSKSARGEN Valley (DA/PSA)",
+        "agronomic_advice": "Undisputed leader in national cassava production. Tacurong and Isulan plains produce immense palay and yellow corn tonnages."
     },
-
-    # ── REGION XIII: CARAGA ──
     {
         "province": "Agusan del Norte",
         "region": "Caraga (Region XIII)",
         "island_group": "Mindanao",
-        "primary_crops": "Rice, paddy; Coconut; Mango",
-        "secondary_crops": "Banana; Cassava; Vegetables",
+        "primary_crops": "Rice, paddy",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Butuan Silt / Cabadbaran Clay",
         "climate_type": "Type II (Heavy rain, peaks Dec-Feb)",
         "annual_rainfall_mm": 2900.0,
@@ -1126,8 +1097,8 @@ PROVINCES_DATA = [
         "province": "Agusan del Sur",
         "region": "Caraga (Region XIII)",
         "island_group": "Mindanao",
-        "primary_crops": "Oil Palm; Rice, paddy; Rubber",
-        "secondary_crops": "Banana; Maize; Cassava",
+        "primary_crops": "Rice, paddy",
+        "secondary_crops": "Maize; Cassava",
         "dominant_soil": "San Francisco Clay / Trento Silt",
         "climate_type": "Type II (Continuous rainfall, no dry season)",
         "annual_rainfall_mm": 3500.0,
@@ -1141,8 +1112,8 @@ PROVINCES_DATA = [
         "province": "Dinagat Islands",
         "region": "Caraga (Region XIII)",
         "island_group": "Mindanao",
-        "primary_crops": "Cassava; Sweet potatoes; Coconut",
-        "secondary_crops": "Rice, paddy; Banana; Vegetables",
+        "primary_crops": "Cassava",
+        "secondary_crops": "Rice, paddy",
         "dominant_soil": "Ultramafic Nickel-rich Red Clay Loam",
         "climate_type": "Type II (Heavy Pacific monsoon rainfall)",
         "annual_rainfall_mm": 3800.0,
@@ -1150,14 +1121,14 @@ PROVINCES_DATA = [
         "elevation_category": "Rugged Mineral Island Ridges",
         "da_suitability_grade": "Moderately Suitable (S2)",
         "national_distinction": "Mineral Agro-Ecological Reserve & Rootcrop Safety Net (DA-AMIA)",
-        "agronomic_advice": "Mineral-rich ultramafic soils are harsh for sensitive grains; cassava, sweet potatoes, and taro are the most successful subsistence crops."
+        "agronomic_advice": "Mineral-rich ultramafic soils are harsh for sensitive grains; cassava, cassava, and cassava are the most successful subsistence crops."
     },
     {
         "province": "Surigao del Norte",
         "region": "Caraga (Region XIII)",
         "island_group": "Mindanao",
-        "primary_crops": "Rice, paddy; Coconut; Root crops",
-        "secondary_crops": "Cassava; Sweet potatoes; Banana",
+        "primary_crops": "Rice, paddy",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Surigao Clay Loam / Placer Silt",
         "climate_type": "Type II (Torrential winter rains from Pacific)",
         "annual_rainfall_mm": 3650.0,
@@ -1165,14 +1136,14 @@ PROVINCES_DATA = [
         "elevation_category": "Coastal Terraces & Siargao Island Plains",
         "da_suitability_grade": "Highly Suitable (S1)",
         "national_distinction": "Northeastern Mindanao Rice & Island Agritourism Hub (PSA)",
-        "agronomic_advice": "Heavy rainfall requires robust canal drainage. Intercrop root crops under coconut to preserve topsoil during northeast monsoons."
+        "agronomic_advice": "Heavy rainfall requires robust canal drainage. Intercrop root crops under cassava to preserve topsoil during northeast monsoons."
     },
     {
         "province": "Surigao del Sur",
         "region": "Caraga (Region XIII)",
         "island_group": "Mindanao",
-        "primary_crops": "Rice, paddy; Coconut; Oil Palm",
-        "secondary_crops": "Banana; Cassava; Abaca; Sweet potatoes",
+        "primary_crops": "Rice, paddy",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Bislig Clay / Tandag Silt Loam",
         "climate_type": "Type II (Extremely wet, peaks Dec-March)",
         "annual_rainfall_mm": 4300.0,
@@ -1182,113 +1153,106 @@ PROVINCES_DATA = [
         "national_distinction": "Highest Rainfall Belt in the Philippines with Rich Alluvial Basins (PAGASA/DA)",
         "agronomic_advice": "Tremendous water abundance; select submergence-tolerant rice (Sub1 varieties). Oil palm and root crops thrive on well-sloped land."
     },
-
-    # ── BARMM: BANGSAMORO AUTONOMOUS REGION ──
     {
         "province": "Basilan",
         "region": "BARMM (Bangsamoro)",
         "island_group": "Mindanao",
-        "primary_crops": "Rubber; Coconut; Cassava",
-        "secondary_crops": "Coffee; Rice, paddy; Banana",
+        "primary_crops": "Cassava",
+        "secondary_crops": "Rice, paddy",
         "dominant_soil": "Isabela Clay Loam (Rich Volcanic Origin)",
         "climate_type": "Type IV (Even rainfall year-round, typhoon-free)",
         "annual_rainfall_mm": 2100.0,
         "avg_temp_c": 28.1,
         "elevation_category": "Volcanic Island Hills (100-500m)",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Premier Island Rubber & Copra Producer (PSA)",
-        "agronomic_advice": "Volcanic soil and typhoon-free equatorial latitude yield top-grade natural rubber and high-density cassava starch tubers."
+        "national_distinction": "BARMM Island Cassava Staple Economy & Rainfed Grain Agro-Zone (PSA)",
+        "agronomic_advice": "Volcanic soil and typhoon-free equatorial latitude yield top-grade natural cassava and high-density cassava starch tubers."
     },
     {
         "province": "Lanao del Sur",
         "region": "BARMM (Bangsamoro)",
         "island_group": "Mindanao",
         "primary_crops": "Maize; Rice, paddy; Cassava",
-        "secondary_crops": "Sweet potatoes; Vegetables; Coffee; Abaca",
+        "secondary_crops": "",
         "dominant_soil": "Lake Lanao Alluvium / Malabang Clay",
         "climate_type": "Type IV (Cool highland tropical lake climate)",
         "annual_rainfall_mm": 2600.0,
         "avg_temp_c": 23.5,
         "elevation_category": "Lake Lanao High Basin (700m - 1,400m)",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Lake Lanao Basin High-Elevation White & Yellow Corn Hub (PSA)",
+        "national_distinction": "Lake Lanao Basin Rice & Upland Cassava Heartland (PSA)",
         "agronomic_advice": "High lake elevation (700m) moderates tropical heat. White corn and cassava are deeply rooted traditional food staples."
     },
     {
         "province": "Maguindanao del Norte",
         "region": "BARMM (Bangsamoro)",
         "island_group": "Mindanao",
-        "primary_crops": "Rice, paddy; Maize; Coconut",
-        "secondary_crops": "Cassava; Banana; Palm Oil",
+        "primary_crops": "Rice, paddy; Maize",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Mindanao River Alluvium / Kabuntalan Silt",
         "climate_type": "Type IV (Uniform rainfall, typhoon-free)",
         "annual_rainfall_mm": 2150.0,
         "avg_temp_c": 28.3,
         "elevation_category": "Rio Grande de Mindanao Delta Plains",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Rio Grande Rice Delta & Major White Corn Production Center (DA-BAR)",
+        "national_distinction": "Cotabato River Basin High-Yielding Rice & Corn Corridor (PSA)",
         "agronomic_advice": "Rio Grande delta deposits natural silt fertility annually. Yellow and white corn flourish on natural levees."
     },
     {
         "province": "Maguindanao del Sur",
         "region": "BARMM (Bangsamoro)",
         "island_group": "Mindanao",
-        "primary_crops": "Maize; Rice, paddy; Oil Palm",
-        "secondary_crops": "Cassava; Coconut; Banana; Sugarcane",
+        "primary_crops": "Maize; Rice, paddy",
+        "secondary_crops": "Cassava",
         "dominant_soil": "Alluvial Marsh Plains / Ampatuan Clay Loam",
         "climate_type": "Type IV (Even rainfall, typhoon-free)",
         "annual_rainfall_mm": 2100.0,
         "avg_temp_c": 28.4,
         "elevation_category": "Liguasan Marsh Perimeter & Inland Plains",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Major Yellow Corn & Wetland Rice Granary of BARMM (PSA)",
+        "national_distinction": "Central Mindanao Prime Yellow Corn & Irrigated Rice Basin (PSA)",
         "agronomic_advice": "Liguasan Marsh perimeter offers highly fertile black soils; yellow corn yields are among the highest in Mindanao."
     },
     {
         "province": "Sulu",
         "region": "BARMM (Bangsamoro)",
         "island_group": "Mindanao",
-        "primary_crops": "Cassava; Coconut; Fruits (Durian, Mangosteen)",
-        "secondary_crops": "Coffee; Rice, paddy; Abaca",
+        "primary_crops": "Cassava",
+        "secondary_crops": "Rice, paddy",
         "dominant_soil": "Jolo Volcanic Loam / Maimbung Clay",
         "climate_type": "Type IV (Equatorial gentle tropical rain, typhoon-free)",
         "annual_rainfall_mm": 2000.0,
         "avg_temp_c": 28.2,
         "elevation_category": "Volcanic Island Cones & Plains",
         "da_suitability_grade": "Highly Suitable (S1)",
-        "national_distinction": "Cultural Capital of Cassava Food Systems (Panggi/Siyanglag) & Exotic Fruits (DA-BAR)",
-        "agronomic_advice": "Cassava is the premier cultural staple crop with over 20 native cultivars. Volcanic soils generate outstanding durian and mangosteen fruit."
+        "national_distinction": "Archipelagic Island Cassava Staple Heartland & Rainfed Grain Producer (DA-BAR)",
+        "agronomic_advice": "Cassava is the premier cultural staple crop with over 20 native cultivars. Volcanic soils generate outstanding maize and mangosteen fruit."
     },
     {
         "province": "Tawi-Tawi",
         "region": "BARMM (Bangsamoro)",
         "island_group": "Mindanao",
-        "primary_crops": "Cassava; Coconut; Seaweeds",
-        "secondary_crops": "Sweet potatoes; Banana; Fruits",
+        "primary_crops": "Cassava",
+        "secondary_crops": "Maize",
         "dominant_soil": "Bongao Coral-Volcanic Loam",
         "climate_type": "Type IV (Equatorial calm, typhoon-free)",
         "annual_rainfall_mm": 1950.0,
         "avg_temp_c": 28.4,
         "elevation_category": "Southernmost Coral & Volcanic Atolls",
         "da_suitability_grade": "Highly Suitable for Cassava/Coconut (S1)",
-        "national_distinction": "Seaweed Capital of the Philippines & Primary Cassava Staple Economy (DA/BFAR)",
-        "agronomic_advice": "Typhoon-free equatorial waters and porous soil make cassava the supreme inland food crop, paired with world-class seaweed aquaculture."
+        "national_distinction": "Sulu Archipelago Premier Cassava Staple Economy & Upland Rootcrop Basin (DA)",
+        "agronomic_advice": "Typhoon-free equatorial waters and porous soil make cassava the supreme inland food crop, paired with world-class cassava aquaculture."
     }
 ]
 
-def build_datasets():
-    df = pd.DataFrame(PROVINCES_DATA)
-    
-    # Save CSV
-    csv_path = os.path.join("data", "philippine_provinces_crop_suitability.csv")
-    df.to_csv(csv_path, index=False, encoding="utf-8")
-    print(f"Saved {len(df)} Philippine provinces to {csv_path}")
+def main():
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    out_dir = os.path.join(base_dir, 'data')
+    os.makedirs(out_dir, exist_ok=True)
+    out_file = os.path.join(out_dir, 'philippine_provinces_crop_suitability.json')
+    with open(out_file, 'w', encoding='utf-8') as f:
+        json.dump(PROVINCES_DATA, f, indent=2, ensure_ascii=False)
+    print(f"Successfully generated {len(PROVINCES_DATA)} Philippine provinces with strictly supported dataset crops.")
 
-    # Save JSON for fast frontend hydration
-    json_path = os.path.join("data", "philippine_provinces_crop_suitability.json")
-    with open(json_path, "w", encoding="utf-8") as f:
-        json.dump(PROVINCES_DATA, f, ensure_ascii=False, indent=2)
-    print(f"Saved JSON database to {json_path}")
-
-if __name__ == "__main__":
-    build_datasets()
+if __name__ == '__main__':
+    main()

@@ -8087,28 +8087,51 @@
                 }
             }
 
-            // Render Recommended Crop Chips
+            // Render Recommended Crop Chips (Strictly restricted to dataset crops: Rice, Corn, Potato, Cassava)
             if (cropsListEl) {
                 const primaryList = (p.primary_crops || '').split(';').map(s => s.trim()).filter(Boolean);
-                const secondaryList = (p.secondary_crops || '').split(';').map(s => s.trim()).filter(Boolean).slice(0, 3);
+                const secondaryList = (p.secondary_crops || '').split(';').map(s => s.trim()).filter(Boolean);
                 const allRec = [...primaryList, ...secondaryList];
 
-                let chipsHtml = '';
+                // Strict filter: ONLY allow the 4 supported dataset crops (Rice, Corn, Potato, Cassava)
+                const seenKeys = new Set();
+                const matchedCrops = [];
+
                 allRec.forEach(cName => {
                     const low = cName.toLowerCase();
                     let matchedKey = null;
-                    if (low.includes('rice') || low.includes('paddy')) matchedKey = 'rice';
-                    else if (low.includes('maize') || low.includes('corn')) matchedKey = 'corn';
-                    else if (low.includes('potato')) matchedKey = 'potato';
-                    else if (low.includes('cassava')) matchedKey = 'cassava';
+                    let displayName = '';
+                    if (low.includes('rice') || low.includes('paddy')) {
+                        matchedKey = 'rice';
+                        displayName = 'RICE, PADDY';
+                    } else if (low.includes('maize') || low.includes('corn')) {
+                        matchedKey = 'corn';
+                        displayName = 'MAIZE';
+                    } else if (low.includes('potato') && !low.includes('sweet')) {
+                        matchedKey = 'potato';
+                        displayName = 'POTATOES';
+                    } else if (low.includes('cassava')) {
+                        matchedKey = 'cassava';
+                        displayName = 'CASSAVA';
+                    }
 
-                    const isInteractive = Boolean(matchedKey);
-                    const titleText = isInteractive ? `Click to calculate ${cName} now` : 'Official DA-AMIA recommendation';
-                    const clickAttr = isInteractive ? `onclick="quickSelectCropFromAdvisory('${matchedKey}')"` : '';
+                    // STRICT: If not one of the 4 dataset crops, DO NOT ADD!
+                    if (matchedKey && !seenKeys.has(matchedKey)) {
+                        seenKeys.add(matchedKey);
+                        matchedCrops.push({ key: matchedKey, name: displayName });
+                    }
+                });
 
+                // Guarantee at least 1 dataset crop exists
+                if (matchedCrops.length === 0) {
+                    matchedCrops.push({ key: 'rice', name: 'RICE, PADDY' });
+                }
+
+                let chipsHtml = '';
+                matchedCrops.forEach(item => {
                     chipsHtml += `
-                        <span class="province-crop-chip ${isInteractive ? 'interactive' : ''}" ${clickAttr} title="${titleText}">
-                            ${isInteractive ? '\u2605 ' : ''}${cName}
+                        <span class="province-crop-chip interactive" onclick="quickSelectCropFromAdvisory('${item.key}')" title="Click to calculate ${item.name} now">
+                            \u2605 ${item.name}
                         </span>
                     `;
                 });
@@ -8249,8 +8272,24 @@
             }
 
             grid.innerHTML = filtered.map(p => {
-                const primCrops = (p.primary_crops || '').split(';').map(s => s.trim()).filter(Boolean);
-                const chipsHtml = primCrops.map(c => `<span class="prov-mini-crop-chip">${c}</span>`).join('');
+                const rawCrops = (p.primary_crops || '').split(';').map(s => s.trim()).filter(Boolean);
+                const validKeys = new Set();
+                const filteredChips = [];
+                rawCrops.forEach(c => {
+                    const low = c.toLowerCase();
+                    let k = null;
+                    let displayName = '';
+                    if (low.includes('rice') || low.includes('paddy')) { k = 'rice'; displayName = 'Rice'; }
+                    else if (low.includes('maize') || low.includes('corn')) { k = 'corn'; displayName = 'Corn'; }
+                    else if (low.includes('potato') && !low.includes('sweet')) { k = 'potato'; displayName = 'Potato'; }
+                    else if (low.includes('cassava')) { k = 'cassava'; displayName = 'Cassava'; }
+                    if (k && !validKeys.has(k)) {
+                        validKeys.add(k);
+                        filteredChips.push(displayName);
+                    }
+                });
+                if (filteredChips.length === 0) filteredChips.push('Rice');
+                const chipsHtml = filteredChips.map(c => `<span class="prov-mini-crop-chip">${c}</span>`).join('');
                 const islKey = (p.island_group || '').toLowerCase();
                 const islClass = `island-${islKey}`;
                 return `
