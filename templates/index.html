@@ -1693,24 +1693,22 @@
         .farmer-grid-layout {
             display: grid;
             grid-template-columns: 1.08fr 1fr;
-            gap: 22px;
-            align-items: stretch;
+            gap: 20px;
+            align-items: start;
         }
 
         .farmer-inputs-col {
             display: flex;
             flex-direction: column;
-            gap: 18px;
+            gap: 16px;
             width: 100%;
-            height: 100%;
         }
 
         .farmer-results-col {
             display: flex;
             flex-direction: column;
-            gap: 18px;
+            gap: 16px;
             width: 100%;
-            height: 100%;
         }
 
         /* 4 Crop Tiles in a Row */
@@ -1724,17 +1722,17 @@
             background: var(--bg-ink);
             border: 1px solid var(--border-hairline);
             border-radius: var(--radius-tile);
-            padding: 18px 12px 18px;
+            padding: 15px 10px 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            min-height: 220px;
+            min-height: 195px;
             text-align: center;
             cursor: pointer;
             transition: all 0.15s ease;
             position: relative;
-            gap: 10px;
+            gap: 8px;
         }
 
         .crop-tile:hover {
@@ -2137,11 +2135,10 @@
         .calc-action-row {
             display: grid;
             grid-template-columns: 1fr auto;
-            gap: 14px;
+            gap: 12px;
             align-items: stretch;
             width: 100%;
-            margin-top: auto;
-            padding-top: 6px;
+            margin-top: 4px;
         }
 
         .btn-reset-action {
@@ -2149,13 +2146,13 @@
             color: var(--text-offwhite);
             border: 1px solid var(--border-hairline-strong);
             border-radius: var(--radius-pill);
-            padding: 0 26px;
-            min-height: 58px;
+            padding: 0 24px;
+            min-height: 52px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            font-size: 12px;
+            font-size: 11.5px;
             font-weight: 800;
             letter-spacing: 0.1em;
             cursor: pointer;
@@ -2196,13 +2193,13 @@
         /* Calculate Action Button */
         .btn-calculate-action {
             width: 100%;
-            min-height: 58px;
+            min-height: 52px;
             background: var(--accent-olive);
             color: #12150e;
             border: 1px solid #c9db57;
             border-radius: var(--radius-pill);
-            padding: 16px 28px;
-            font-size: 13px;
+            padding: 14px 26px;
+            font-size: 12.5px;
             font-weight: 900;
             letter-spacing: 0.12em;
             display: flex;
