@@ -47,28 +47,28 @@
         }
 
         [data-theme="light"] {
-            --bg-page: #f3f4ee;
+            --bg-page: #f2f5ec;
             --bg-shell: #ffffff;
-            --bg-ink: #f4f6ee; /* Light warm card background inside shell */
-            --bg-card: #f4f6ee;
-            --bg-card-hover: #eaeee2;
-            --bg-selected: #1d2a14;
-            --text-offwhite: #141d0e; /* Deep crisp dark green ink with high contrast */
-            --text-muted: #4d5e3c; /* Readable, crisp forest sage */
+            --bg-ink: #f5f8ef; /* Crisp light card background inside shell */
+            --bg-card: #f5f8ef;
+            --bg-card-hover: #eaf0e0;
+            --bg-selected: #233b18;
+            --text-offwhite: #14220f; /* Deep crisp dark forest ink with high contrast (13:1) */
+            --text-muted: #4e643f; /* Crisp readable forest sage */
             --text-dark: #ffffff;
-            --accent-olive: #6b8020; /* Deep high-contrast olive */
-            --accent-olive-dim: rgba(107, 128, 32, 0.14);
-            --accent-olive-hover: #586b17;
+            --accent-olive: #2e591c; /* Deep rich agricultural forest green */
+            --accent-olive-dim: rgba(46, 89, 28, 0.12);
+            --accent-olive-hover: #224314;
             --border-hairline: rgba(29, 42, 20, 0.12);
-            --border-hairline-strong: rgba(29, 42, 20, 0.24);
+            --border-hairline-strong: rgba(29, 42, 20, 0.22);
             --pill-inactive: rgba(29, 42, 20, 0.08);
-            --stat-card-bg: #f5f7ee;
+            --stat-card-bg: linear-gradient(145deg, #e4f2b4 0%, #d4e897 100%);
             --stat-subcard-bg: #ffffff;
             --chart-card-bg: #ffffff;
-            --chart-ink: #141d0e;
-            --chart-subtle: #4d5e3c;
-            --chart-line: #b0bfa3;
-            --theme-icon: #141d0e;
+            --chart-ink: #14220f;
+            --chart-subtle: #4e643f;
+            --chart-line: #a8bfa0;
+            --theme-icon: #14220f;
             --shadow-subtle: 0 4px 20px rgba(0,0,0,0.06);
         }
 
@@ -372,10 +372,10 @@
         }
 
         [data-theme="light"] .rail-btn.active {
-            background: #1d2a14;
-            color: #ffffff;
-            border-color: #1d2a14;
-            box-shadow: 0 2px 10px rgba(29, 42, 20, 0.2);
+            background: #233b18;
+            color: #bef264;
+            border-color: #233b18;
+            box-shadow: 0 2px 10px rgba(35, 59, 24, 0.22);
         }
 
         .rail-btn svg {
@@ -504,9 +504,9 @@
         }
 
         [data-theme="light"] .btn-model-lab.active {
-            background: #1d2a14;
-            color: #ffffff;
-            border-color: #1d2a14;
+            background: #233b18;
+            color: #bef264;
+            border-color: #233b18;
         }
 
         /* Preset History Launcher in Header */
@@ -573,8 +573,9 @@
         }
 
         [data-theme="light"] .lang-btn.active {
-            background: #1d2a14;
-            color: #ffffff;
+            background: #233b18;
+            color: #bef264;
+            font-weight: 900;
         }
 
         .rail-badge-dot {
@@ -1094,6 +1095,11 @@
             letter-spacing: 0.04em;
         }
 
+        [data-theme="light"] .current-badge-pill {
+            background: #233b18;
+            color: #bef264;
+        }
+
         /* ── WHAT-IF SENSITIVITY & DISASTER SHOCK SIMULATOR CARD ── */
         .shock-sim-card {
             border-radius: var(--radius-card);
@@ -1451,8 +1457,14 @@
         }
 
         [data-theme="light"] .seasonal-advisor-bar {
-            background: #f0f3e8;
+            background: #eff3e6;
             border-color: rgba(29, 42, 20, 0.16);
+        }
+
+        [data-theme="light"] .seasonal-adv-badge {
+            background: #233b18;
+            color: #bef264;
+            border: 1px solid #233b18;
         }
 
         .seasonal-adv-left {
@@ -1567,9 +1579,10 @@
         }
 
         [data-theme="light"] .crop-tile[aria-pressed="true"] .crop-tile-season-tag.best {
-            background: #ffffff;
-            color: #1d2a14;
-            border-color: #ffffff;
+            background: #bef264;
+            color: #16260f;
+            border-color: #bef264;
+            font-weight: 900;
         }
 
         .crop-tile-season-tag.mod {
@@ -1734,15 +1747,15 @@
             font-weight: 800;
         }
 
-        /* Selected Crop Tile in Light Mode: crisp solid dark green with white text */
+        /* Selected Crop Tile in Light Mode: rich forest green with vibrant lime accents */
         [data-theme="light"] .crop-tile[aria-pressed="true"] {
-            background: #1d2a14;
-            border-color: #1d2a14;
-            box-shadow: 0 4px 16px rgba(29, 42, 20, 0.18);
+            background: #233b18;
+            border-color: #3b5f25;
+            box-shadow: 0 6px 20px rgba(35, 59, 24, 0.22);
         }
         [data-theme="light"] .crop-tile[aria-pressed="true"] .crop-tile-letter {
-            background: rgba(255, 255, 255, 0.2);
-            color: #ffffff;
+            background: rgba(190, 242, 100, 0.22);
+            color: #bef264;
             font-weight: 900;
         }
         [data-theme="light"] .crop-tile[aria-pressed="true"] .crop-tile-name {
@@ -1819,9 +1832,9 @@
         }
 
         [data-theme="light"] .stepper-btn:hover {
-            background: #1d2a14;
-            color: #ffffff;
-            border-color: #1d2a14;
+            background: #233b18;
+            color: #bef264;
+            border-color: #233b18;
         }
 
         .stepper-val-box {
@@ -1870,10 +1883,10 @@
         }
 
         [data-theme="light"] .season-pill-btn.active {
-            background: #1d2a14;
-            color: #ffffff;
-            font-weight: 800;
-            box-shadow: 0 2px 8px rgba(29, 42, 20, 0.15);
+            background: #233b18;
+            color: #bef264;
+            font-weight: 900;
+            box-shadow: 0 2px 8px rgba(35, 59, 24, 0.2);
         }
 
         /* Region Select */
@@ -2034,17 +2047,19 @@
         }
 
         [data-theme="light"] .btn-calculate-action {
-            background: #1d2a14;
-            color: #ffffff;
-            border: 1px solid #1d2a14;
-            box-shadow: 0 4px 16px rgba(29, 42, 20, 0.2);
+            background: linear-gradient(135deg, #2d5a1e 0%, #1e3f14 100%);
+            color: #bef264;
+            border: 1px solid #1e3f14;
+            box-shadow: 0 4px 18px rgba(35, 59, 24, 0.25);
+            font-weight: 900;
         }
 
         [data-theme="light"] .btn-calculate-action:hover {
-            background: #586b17;
-            border-color: #586b17;
+            background: linear-gradient(135deg, #386f26 0%, #28541a 100%);
             color: #ffffff;
-            box-shadow: 0 6px 22px rgba(88, 107, 23, 0.35);
+            border-color: #28541a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 22px rgba(35, 59, 24, 0.35);
         }
 
         /* ── RESULTS CARD (RIGHT COLUMN - ESTIMATE AREA) ── */
@@ -2069,9 +2084,31 @@
         }
 
         [data-theme="light"] .results-card {
-            background: #f5f7ee;
-            color: #141d0e;
-            border: 1px solid rgba(29, 42, 20, 0.14);
+            background: linear-gradient(145deg, #e4f2b4 0%, #d4e897 100%);
+            color: #14220f;
+            border: 1px solid #b8d46a;
+            box-shadow: 0 8px 26px rgba(115, 148, 30, 0.18);
+        }
+
+        [data-theme="light"] .profit-dark-box {
+            background: #16260f;
+            border: 1px solid rgba(22, 38, 15, 0.65);
+            box-shadow: 0 4px 18px rgba(22, 38, 15, 0.25);
+        }
+
+        [data-theme="light"] .profit-dark-box .profit-label {
+            color: #9cb288;
+        }
+
+        [data-theme="light"] .profit-dark-box .profit-large-val {
+            color: #bef264;
+            text-shadow: 0 0 12px rgba(190, 242, 100, 0.25);
+        }
+
+        [data-theme="light"] .profit-dark-box .roi-chip {
+            background: rgba(190, 242, 100, 0.18);
+            color: #bef264;
+            border: 1px solid rgba(190, 242, 100, 0.55);
         }
 
         .results-header-tag {
@@ -2090,7 +2127,8 @@
         }
 
         [data-theme="light"] .results-header-tag {
-            color: #141d0e;
+            color: #1a3510;
+            font-weight: 900;
         }
 
         /* Dark Profit Box inside Results Card */
@@ -2185,16 +2223,19 @@
         }
 
         [data-theme="light"] .stat-subcard {
-            background: #ffffff;
-            border: 1px solid rgba(29, 42, 20, 0.12);
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         }
 
         [data-theme="light"] .stat-subcard-val {
-            color: #141d0e;
+            color: #14220f;
+            font-weight: 900;
         }
 
         [data-theme="light"] .stat-subcard-lbl {
-            color: #4d5e3c;
+            color: #4e643f;
+            font-weight: 800;
         }
 
         /* 3 Scenario Buttons Row (BAD / NORMAL / GOOD) */
@@ -2276,26 +2317,40 @@
         }
 
         [data-theme="light"] .scenario-pill-btn {
-            background: #ffffff;
-            border: 1px solid rgba(29, 42, 20, 0.15);
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
         }
 
         [data-theme="light"] .scenario-pill-btn:hover {
-            border-color: #141d0e;
+            background: #ffffff;
+            border-color: #2e541b;
         }
 
         [data-theme="light"] .scenario-pill-btn.active {
-            border: 2px solid #141d0e;
-            background: #ffffff;
-            box-shadow: 0 0 0 1px #141d0e;
+            background: #16260f;
+            border: 2px solid #16260f;
+            box-shadow: 0 4px 14px rgba(22, 38, 15, 0.3);
         }
 
-        [data-theme="light"] .scenario-tag {
-            color: #4d5e3c;
+        [data-theme="light"] .scenario-pill-btn .scenario-tag {
+            color: #4e643f;
+            font-weight: 800;
         }
 
-        [data-theme="light"] .scenario-val {
-            color: #141d0e;
+        [data-theme="light"] .scenario-pill-btn .scenario-val {
+            color: #14220f;
+            font-weight: 900;
+        }
+
+        [data-theme="light"] .scenario-pill-btn.active .scenario-tag {
+            color: #bef264;
+            font-weight: 900;
+        }
+
+        [data-theme="light"] .scenario-pill-btn.active .scenario-val {
+            color: #ffffff;
+            font-weight: 900;
         }
 
         .results-guarantee-note {
@@ -2318,7 +2373,13 @@
         }
 
         [data-theme="light"] .results-guarantee-note {
-            color: #4d5e3c;
+            color: #465b38;
+            font-weight: 800;
+        }
+
+        [data-theme="light"] #resBreakEvenTag {
+            color: #14220f;
+            font-weight: 900;
         }
 
         /* ── 2. ADVISOR VIEW ── */
@@ -4069,35 +4130,46 @@
 
         /* ── LIGHT MODE OVERRIDES FOR SYSTEM GUIDE COMPONENTS ── */
         [data-theme="light"] .btn-system-guide {
-            background: rgba(107, 128, 32, 0.12);
-            border-color: rgba(107, 128, 32, 0.38);
-            color: #435914;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            background: #233b18;
+            border: 1px solid #233b18;
+            color: #bef264;
+            box-shadow: 0 2px 8px rgba(35, 59, 24, 0.18);
         }
         [data-theme="light"] .btn-system-guide:hover {
-            background: #6b8020;
+            background: #315220;
             color: #ffffff;
-            border-color: #6b8020;
+            border-color: #315220;
+            box-shadow: 0 4px 14px rgba(35, 59, 24, 0.28);
         }
         [data-theme="light"] .category-info-badge {
-            background: rgba(107, 128, 32, 0.12);
-            border-color: rgba(107, 128, 32, 0.3);
-            color: #435914;
+            background: rgba(45, 90, 30, 0.12);
+            border-color: rgba(45, 90, 30, 0.32);
+            color: #2d5a1e;
         }
         [data-theme="light"] .category-info-badge:hover {
-            background: #6b8020;
-            color: #ffffff;
-            border-color: #6b8020;
+            background: #2d5a1e;
+            color: #bef264;
+            border-color: #2d5a1e;
         }
         [data-theme="light"] .category-info-pill {
-            background: rgba(29, 42, 20, 0.06);
-            border-color: rgba(29, 42, 20, 0.18);
-            color: #4d5e3c;
+            background: rgba(29, 42, 20, 0.08);
+            border-color: rgba(29, 42, 20, 0.2);
+            color: #2d5a1e;
         }
         [data-theme="light"] .category-info-pill:hover {
-            background: #6b8020;
-            color: #ffffff;
-            border-color: #6b8020;
+            background: #2d5a1e;
+            color: #bef264;
+            border-color: #2d5a1e;
+        }
+        [data-theme="light"] .category-info-pill.results-pill {
+            background: rgba(24, 40, 17, 0.15);
+            border-color: rgba(24, 40, 17, 0.3);
+            color: #14220f;
+        }
+        [data-theme="light"] .category-info-pill.results-pill:hover {
+            background: #16260f;
+            color: #bef264;
+            border-color: #16260f;
         }
         [data-theme="light"] .guide-modal-overlay {
             background: rgba(15, 20, 10, 0.55);
@@ -4127,9 +4199,13 @@
             color: #4d5e3c;
         }
         [data-theme="light"] .guide-tab-btn.active {
-            background: #6b8020;
-            color: #ffffff;
-            border-color: #6b8020;
+            background: #233b18;
+            color: #bef264;
+            border-color: #233b18;
+        }
+        [data-theme="light"] .guide-step-num {
+            background: #233b18;
+            color: #bef264;
         }
         [data-theme="light"] .guide-section-box,
         [data-theme="light"] .guide-step-card,
@@ -4156,9 +4232,14 @@
             border-top-color: rgba(29, 42, 20, 0.08);
         }
         [data-theme="light"] .btn-guide-gotit {
-            background: #6b8020;
+            background: #233b18;
+            color: #bef264;
+            border-color: #233b18;
+        }
+        [data-theme="light"] .btn-guide-gotit:hover {
+            background: #315220;
             color: #ffffff;
-            border-color: #6b8020;
+            border-color: #315220;
         }
 
         [data-theme="light"] .province-advisory-card {
@@ -4209,31 +4290,33 @@
         }
 
         [data-theme="light"] .prov-meta-pill {
-            background: #f5f8ef;
-            border-color: rgba(29, 42, 20, 0.12);
-            color: #4d5e3c;
+            background: #ffffff;
+            border-color: rgba(29, 42, 20, 0.14);
+            color: #141d0e;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
         }
 
         [data-theme="light"] .prov-meta-pill svg {
-            color: #556b2f;
+            color: #2d5a1e;
         }
 
         [data-theme="light"] .province-crop-chip {
-            background: rgba(107, 128, 32, 0.12);
-            border-color: rgba(107, 128, 32, 0.28);
-            color: #2e5c12;
+            background: rgba(45, 90, 30, 0.12);
+            border-color: rgba(45, 90, 30, 0.28);
+            color: #204015;
         }
 
         [data-theme="light"] .province-crop-chip.interactive {
-            background: rgba(107, 128, 32, 0.18);
-            border-color: #6b8020;
-            color: #1a380a;
+            background: #ffffff;
+            border-color: rgba(45, 90, 30, 0.35);
+            color: #204015;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
         }
 
         [data-theme="light"] .province-crop-chip.interactive:hover {
-            background: #6b8020;
-            color: #ffffff;
-            border-color: #6b8020;
+            background: #233b18;
+            color: #bef264;
+            border-color: #233b18;
         }
 
         [data-theme="light"] .province-crop-match-banner.recommended {
@@ -4300,10 +4383,10 @@
         }
 
         [data-theme="light"] .prov-filter-pill.active {
-            background: #6b8020;
-            color: #ffffff;
-            border-color: #6b8020;
-            box-shadow: 0 2px 10px rgba(107, 128, 32, 0.3);
+            background: #233b18;
+            color: #bef264;
+            border-color: #233b18;
+            box-shadow: 0 2px 10px rgba(35, 59, 24, 0.25);
         }
 
         [data-theme="light"] .province-item-card {
@@ -4372,9 +4455,9 @@
         }
 
         [data-theme="light"] .btn-use-province:hover {
-            background: #6b8020;
-            color: #ffffff;
-            border-color: #6b8020;
+            background: #233b18;
+            color: #bef264;
+            border-color: #233b18;
         }
 
         /* ═════════════════════════════════════════════════════════════ */
