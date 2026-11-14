@@ -6829,7 +6829,7 @@
         }
 
         /* ═══════════════════════════════════════════════════════════════════ */
-        /* OPEN FLOATING HOMEPAGE (#openHomeStage) & EXPANDABLE WORKSPACE      */
+        /* OPEN FLOATING HOMEPAGE (#openHomeStage) & DRAMATIC ASSEMBLY         */
         /* ═══════════════════════════════════════════════════════════════════ */
         @keyframes workspaceExpandFromLeft {
             0% {
@@ -6840,6 +6840,194 @@
             100% {
                 opacity: 1;
                 transform: translateX(0) scale(1);
+            }
+        }
+
+        /* Dramatic Multi-Vector Assembly Keyframes (Top ↓, Bottom ↑, Right ←, Left →) */
+        @keyframes assembleDropFromTop {
+            0% {
+                opacity: 0;
+                transform: translateY(-150px) scale(0.88) rotate(-1.2deg);
+                filter: blur(6px);
+            }
+            66% {
+                opacity: 1;
+                transform: translateY(9px) scale(1.015) rotate(0.2deg);
+                filter: blur(0);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1) rotate(0deg);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes assembleSlideFromLeft {
+            0% {
+                opacity: 0;
+                transform: translateX(-180px) scale(0.90) rotate(-1.6deg);
+                filter: blur(6px);
+            }
+            66% {
+                opacity: 1;
+                transform: translateX(10px) scale(1.015) rotate(0.25deg);
+                filter: blur(0);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0) scale(1) rotate(0deg);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes assembleFlyFromRight {
+            0% {
+                opacity: 0;
+                transform: translateX(220px) scale(0.90) rotate(2deg);
+                filter: blur(6px);
+            }
+            66% {
+                opacity: 1;
+                transform: translateX(-11px) scale(1.018) rotate(-0.3deg);
+                filter: blur(0);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0) scale(1) rotate(0deg);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes assembleRiseFromBottom {
+            0% {
+                opacity: 0;
+                transform: translateY(180px) scale(0.90) rotate(1.1deg);
+                filter: blur(6px);
+            }
+            66% {
+                opacity: 1;
+                transform: translateY(-10px) scale(1.015) rotate(-0.2deg);
+                filter: blur(0);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1) rotate(0deg);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes assembleRiseFromBottomRight {
+            0% {
+                opacity: 0;
+                transform: translate(150px, 145px) scale(0.89) rotate(1.5deg);
+                filter: blur(6px);
+            }
+            68% {
+                opacity: 1;
+                transform: translate(-7px, -7px) scale(1.015) rotate(-0.2deg);
+                filter: blur(0);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1) rotate(0deg);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes assembleShellLock {
+            0% {
+                background-color: transparent;
+                border-color: transparent;
+                box-shadow: none;
+            }
+            38% {
+                background-color: transparent;
+                border-color: rgba(182, 198, 79, 0.08);
+                box-shadow: none;
+            }
+            74% {
+                background-color: var(--bg-shell);
+                border-color: rgba(182, 198, 79, 0.65);
+                box-shadow: 0 0 56px rgba(182, 198, 79, 0.28), inset 0 0 28px rgba(182, 198, 79, 0.08);
+            }
+            100% {
+                background-color: var(--bg-shell);
+                border-color: var(--border-hairline);
+                box-shadow: var(--shadow-subtle);
+            }
+        }
+
+        body.workspace-assembling #appShell {
+            overflow: visible !important;
+            animation: assembleShellLock 1.05s cubic-bezier(0.22, 1, 0.36, 1) both !important;
+        }
+
+        body.workspace-assembling .outer-brand-group {
+            animation: assembleDropFromTop 0.72s cubic-bezier(0.22, 1.15, 0.36, 1) 0.04s both;
+        }
+
+        body.workspace-assembling .header-bar {
+            animation: assembleDropFromTop 0.70s cubic-bezier(0.22, 1.15, 0.36, 1) 0.10s both;
+        }
+
+        body.workspace-assembling #view-farmer.active .calc-topbar-strip {
+            animation: assembleSlideFromLeft 0.68s cubic-bezier(0.22, 1.15, 0.36, 1) 0.14s both;
+        }
+
+        body.workspace-assembling #view-farmer.active .farmer-inputs-col > .farm-plan-panel:nth-of-type(1) {
+            animation: assembleSlideFromLeft 0.76s cubic-bezier(0.22, 1.15, 0.36, 1) 0.20s both;
+        }
+
+        body.workspace-assembling #view-farmer.active .farmer-inputs-col > .farm-plan-panel:nth-of-type(2) {
+            animation: assembleRiseFromBottom 0.78s cubic-bezier(0.22, 1.15, 0.36, 1) 0.28s both;
+        }
+
+        body.workspace-assembling #view-farmer.active .farmer-inputs-col > .calc-action-row {
+            animation: assembleRiseFromBottom 0.72s cubic-bezier(0.22, 1.18, 0.36, 1) 0.38s both;
+        }
+
+        body.workspace-assembling #view-farmer.active #mainResultsCard {
+            animation: assembleFlyFromRight 0.80s cubic-bezier(0.22, 1.15, 0.36, 1) 0.22s both;
+        }
+
+        body.workspace-assembling #view-farmer.active #provinceAdvisoryCard {
+            animation: assembleRiseFromBottomRight 0.82s cubic-bezier(0.22, 1.15, 0.36, 1) 0.32s both;
+        }
+
+        body.workspace-assembling #view-farmer.active #resultsModalTriggersRow {
+            animation: assembleRiseFromBottom 0.72s cubic-bezier(0.22, 1.18, 0.36, 1) 0.44s both;
+        }
+
+        /* Non-Farmer Tabs (Advisor / Weather / Model Lab) Modular Assembly when expanded from Home */
+        body.workspace-assembling #view-advisor.active .advisor-heading-group,
+        body.workspace-assembling #view-weather.active .weather-heading-group,
+        body.workspace-assembling #view-modellab.active .ml-lab-header {
+            animation: assembleDropFromTop 0.70s cubic-bezier(0.22, 1.15, 0.36, 1) 0.12s both;
+        }
+
+        body.workspace-assembling #view-advisor.active .advisor-container > :nth-child(2),
+        body.workspace-assembling #view-weather.active .weather-container > :nth-child(2),
+        body.workspace-assembling #view-modellab.active .ml-lab-container > :nth-child(2) {
+            animation: assembleSlideFromLeft 0.76s cubic-bezier(0.22, 1.15, 0.36, 1) 0.20s both;
+        }
+
+        body.workspace-assembling #view-advisor.active .advisor-container > :nth-child(3),
+        body.workspace-assembling #view-weather.active .weather-container > :nth-child(3),
+        body.workspace-assembling #view-modellab.active .ml-lab-container > :nth-child(3) {
+            animation: assembleFlyFromRight 0.78s cubic-bezier(0.22, 1.15, 0.36, 1) 0.28s both;
+        }
+
+        body.workspace-assembling #view-advisor.active .advisor-container > :nth-child(n+4),
+        body.workspace-assembling #view-weather.active .weather-container > :nth-child(n+4),
+        body.workspace-assembling #view-modellab.active .ml-lab-container > :nth-child(n+4) {
+            animation: assembleRiseFromBottom 0.76s cubic-bezier(0.22, 1.15, 0.36, 1) 0.36s both;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            body.workspace-assembling #appShell,
+            body.workspace-assembling * {
+                animation-duration: 0.01ms !important;
+                animation-delay: 0ms !important;
             }
         }
 
@@ -10145,11 +10333,19 @@
         }
 
         // ── Navigation & View Switching ──
+        let workspaceAssembleTimer = null;
+
         function switchView(viewName) {
             const isHome = (viewName === 'home');
+            const wasClosed = document.body.classList.contains('workspace-closed');
 
             if (isHome) {
                 // Close workspace panel & minimize menu bar back to Open Homepage
+                if (workspaceAssembleTimer) {
+                    clearTimeout(workspaceAssembleTimer);
+                    workspaceAssembleTimer = null;
+                }
+                document.body.classList.remove('workspace-assembling');
                 document.body.classList.add('workspace-closed');
                 document.body.classList.remove('workspace-open');
                 document.body.classList.remove('menu-expanded');
@@ -10159,6 +10355,17 @@
                 // Open expandable workspace panel over background
                 document.body.classList.remove('workspace-closed');
                 document.body.classList.add('workspace-open');
+
+                if (wasClosed) {
+                    if (workspaceAssembleTimer) clearTimeout(workspaceAssembleTimer);
+                    document.body.classList.remove('workspace-assembling');
+                    void document.body.offsetWidth;
+                    document.body.classList.add('workspace-assembling');
+                    workspaceAssembleTimer = setTimeout(() => {
+                        document.body.classList.remove('workspace-assembling');
+                        workspaceAssembleTimer = null;
+                    }, 1250);
+                }
             }
 
             // Update workspace view panels
