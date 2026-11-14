@@ -885,6 +885,44 @@
             border-color: #f87171;
         }
 
+        .btn-action-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: var(--bg-card);
+            color: var(--text-offwhite);
+            border: 1px solid var(--border-hairline-strong);
+            padding: 5px 12px;
+            border-radius: var(--radius-pill);
+            font-size: 9.5px;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .btn-action-pill:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--accent-olive);
+            color: var(--accent-olive);
+            transform: translateY(-1px);
+        }
+
+        [data-theme="light"] .btn-action-pill {
+            background: #ffffff;
+            color: #14220f;
+            border: 1px solid #c5ccb5;
+        }
+
+        [data-theme="light"] .btn-action-pill:hover {
+            background: #f2f5ec;
+            border-color: #2e591c;
+            color: #2e591c;
+        }
+
         /* ── RISK & WEATHER VIEW (AGRO-CLIMATE & WHAT-IF SIMULATOR) ── */
         .weather-container {
             display: flex;
@@ -5577,48 +5615,79 @@
         }
 
         /* ── Modal Trigger Buttons on Results Card ── */
+        /* ── Modal Trigger Buttons on Results Card (High Visibility) ── */
         .results-modal-triggers-row {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             flex-wrap: wrap;
-            margin-top: 14px;
-            padding-top: 14px;
-            border-top: 1px solid rgba(18, 21, 14, 0.18);
-        }
-        [data-theme="light"] .results-modal-triggers-row {
-            border-top-color: rgba(20, 34, 15, 0.15);
+            margin-top: 18px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-hairline);
         }
         .btn-modal-trigger {
             flex: 1;
-            min-width: 170px;
+            min-width: 200px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            background: rgba(18, 21, 14, 0.14);
-            border: 1px solid rgba(18, 21, 14, 0.25);
-            color: #12150e;
-            font-size: 11px;
-            font-weight: 800;
-            padding: 12px 14px;
-            border-radius: 10px;
+            gap: 10px;
+            padding: 13px 18px;
+            border-radius: 12px;
+            font-size: 11.5px;
+            font-weight: 900;
+            letter-spacing: 0.06em;
             cursor: pointer;
-            transition: all 0.15s ease;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
             text-align: center;
-            letter-spacing: 0.04em;
+            text-decoration: none;
+            user-select: none;
         }
-        .btn-modal-trigger:hover {
-            background: rgba(18, 21, 14, 0.24);
-            transform: translateY(-1px);
+        [data-theme="dark"] .btn-modal-trigger.primary {
+            background: var(--accent-olive);
+            border: 1px solid #c9db57;
+            color: #12150e;
+            box-shadow: 0 4px 18px rgba(182, 198, 79, 0.35);
         }
-        [data-theme="light"] .btn-modal-trigger {
-            background: rgba(255, 255, 255, 0.85);
-            border-color: rgba(46, 89, 28, 0.25);
-            color: #14220f;
+        [data-theme="dark"] .btn-modal-trigger.primary:hover {
+            background: var(--accent-olive-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(182, 198, 79, 0.5);
         }
-        [data-theme="light"] .btn-modal-trigger:hover {
+        [data-theme="dark"] .btn-modal-trigger:not(.primary) {
+            background: var(--bg-card);
+            border: 1px solid var(--border-hairline-strong);
+            color: var(--text-offwhite);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+        }
+        [data-theme="dark"] .btn-modal-trigger:not(.primary):hover {
+            background: var(--bg-card-hover);
+            border-color: var(--accent-olive);
+            color: var(--accent-olive);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+        }
+        [data-theme="light"] .btn-modal-trigger.primary {
+            background: #233b18;
+            border: 1px solid #233b18;
+            color: #bef264;
+            box-shadow: 0 4px 16px rgba(35, 59, 24, 0.22);
+        }
+        [data-theme="light"] .btn-modal-trigger.primary:hover {
+            background: #2e591c;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(35, 59, 24, 0.32);
+        }
+        [data-theme="light"] .btn-modal-trigger:not(.primary) {
             background: #ffffff;
+            border: 1px solid rgba(46, 89, 28, 0.25);
+            color: #14220f;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+        }
+        [data-theme="light"] .btn-modal-trigger:not(.primary):hover {
+            background: #f5f8ef;
             border-color: #2e591c;
+            color: #2e591c;
+            transform: translateY(-2px);
         }
 
         /* ── Modal Dialog System ── */
@@ -5639,9 +5708,14 @@
             pointer-events: none;
             transition: opacity 0.25s ease;
         }
-        .crop-modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
+        .crop-modal-overlay.active,
+        .crop-modal-overlay.open {
+            opacity: 1 !important;
+            pointer-events: auto !important;
+        }
+        .crop-modal-overlay.active .crop-modal-card,
+        .crop-modal-overlay.open .crop-modal-card {
+            transform: scale(1) translateY(0) !important;
         }
         .crop-modal-card {
             background: var(--bg-shell);
@@ -5721,11 +5795,76 @@
             flex-direction: column;
             gap: 14px;
         }
+        .crop-result-header,
         .crop-item-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            border-bottom: 1px solid var(--border-hairline);
+            padding-bottom: 10px;
+        }
+        .crop-result-header h4 {
+            font-size: 15px;
+            font-weight: 900;
+            color: var(--text-offwhite);
+            margin: 0;
+            letter-spacing: 0.04em;
+        }
+        .crop-stat-line {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 10px;
+            gap: 12px;
+            font-size: 11.5px;
+            color: var(--text-offwhite);
+        }
+        .crop-stat-line span {
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        .crop-stat-line strong {
+            font-weight: 800;
+            color: var(--text-offwhite);
+        }
+        .itemized-cost-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-top: 4px;
+        }
+        .cost-item {
+            background: var(--bg-ink);
+            border: 1px solid var(--border-hairline);
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-size: 10px;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .cost-item span {
+            font-weight: 800;
+            font-size: 11.5px;
+            color: var(--text-offwhite);
+        }
+        [data-theme="light"] .crop-result-header h4 {
+            color: #14220f;
+        }
+        [data-theme="light"] .crop-stat-line span {
+            color: #4e643f;
+        }
+        [data-theme="light"] .crop-stat-line strong {
+            color: #14220f;
+        }
+        [data-theme="light"] .cost-item {
+            background: #ffffff;
+            border-color: #d8decb;
+            color: #4e643f;
+        }
+        [data-theme="light"] .cost-item span {
+            color: #14220f;
         }
         .crop-source-badge {
             background: var(--accent-olive-dim);
@@ -8748,9 +8887,7 @@
             showToast(isFil ? "Nalinis at na-reset ang plano ng sakahan." : "Farm plan cleared and reset to empty state.");
         }
 
-        function requestCalculatorReset() {
-            resetFarmPlan();
-        }
+
 
         // ── Mathematical Engine (Specification Guaranteed) ──
         function calculateCropData(cropKey, ha, season, price = customPrice) {
@@ -9056,33 +9193,6 @@
             syncWithBackend(data);
         }
 
-        function runCountUpCalc() {
-            // Read from input fields in case user typed and immediately clicked Calculate
-            const aDisp = document.getElementById('areaDisplay');
-            if (aDisp && aDisp.value !== undefined && aDisp.value !== '') {
-                const parsedArea = parseFloat(aDisp.value);
-                if (!isNaN(parsedArea) && parsedArea >= 0) farmArea = parsedArea;
-            }
-            const pDisp = document.getElementById('customPriceDisplay');
-            if (pDisp && pDisp.value !== undefined && pDisp.value !== '') {
-                const parsedPrice = parseFloat(pDisp.value);
-                if (!isNaN(parsedPrice) && parsedPrice >= 0) customPrice = parsedPrice;
-            }
-
-            if (!activeCrop || farmArea <= 0) {
-                const isFil = (currentLang === 'fil');
-                showToast(isFil ? 'Pumili po ng pananim at maglagay ng laki ng sakahan (kahit 1 ektarya).' : 'Please select a crop and enter a farm size (at least 1 hectare).');
-                return;
-            }
-
-            updateCalcLive(true);
-            if (lastCalculatedData) {
-                autoRecordHistory(lastCalculatedData);
-            }
-            const isFil = (currentLang === 'fil');
-            showToast(isFil ? 'Kinalkula ang ani at netong kita.' : 'Harvest & net income recalculated.');
-        }
-
         // 600ms count-up with prefers-reduced-motion check
         function animateCountUp(start, end, duration) {
             const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -9329,240 +9439,9 @@
             }
         }
 
-        // ── Preset History Controller (Local Storage + Pre-seeded Scenarios) ──
-        function getHistoryKey() {
-            return 'anitaya_farm_presets';
-        }
 
-        function loadHistory() {
-            let presets = [];
-            try {
-                const raw = localStorage.getItem(getHistoryKey());
-                if (raw) presets = JSON.parse(raw);
-            } catch(e) {}
 
-            // Clean out any legacy mock presets if present
-            if (Array.isArray(presets)) {
-                presets = presets.filter(p => p && !['preset-laguna-rice', 'preset-batangas-corn', 'preset-quezon-cassava'].includes(p.id));
-            } else {
-                presets = [];
-            }
-            return presets;
-        }
 
-        function renderHistoryList() {
-            const listEl = document.getElementById('historyItemsList');
-            if (!listEl) return;
-            const presets = loadHistory();
-
-            // Update badge counts
-            const count = presets.length;
-            const countBadge = document.getElementById('historyCountBadge');
-            if (countBadge) countBadge.textContent = count;
-            const railDot = document.getElementById('railHistoryDot');
-            if (railDot) railDot.classList.toggle('visible', count > 0);
-
-            if (presets.length === 0) {
-                listEl.innerHTML = `
-                    <div style="text-align: center; color: var(--text-muted); padding: 32px 16px; font-size: 11px;">
-                        NO SAVED PRESETS YET.<br>CALCULATE A HARVEST OR CLICK "+ SAVE CURRENT" ABOVE.
-                    </div>
-                `;
-                return;
-            }
-
-            const isFil = (currentLang === 'fil');
-
-            listEl.innerHTML = presets.map((p, idx) => `
-                <div class="history-item-card">
-                    <div class="history-item-top">
-                        <div class="history-item-crop">
-                            <div class="history-crop-badge">${p.letter || 'P'}</div>
-                            <div>
-                                <div class="history-crop-name">${p.cropName}</div>
-                                <div class="history-time">${p.date || 'Recent Run'}</div>
-                            </div>
-                        </div>
-                        <div class="history-profit-pill readable-num">${formatCurrency(p.netProfit)}</div>
-                    </div>
-                    <div class="history-item-details">
-                        <span>${p.area} HA</span>
-                        <span>&bull;</span>
-                        <span>${p.season.toUpperCase()} ${isFil ? 'SEASON' : 'SEASON'}</span>
-                        <span>&bull;</span>
-                        <span>&#8369;${Number(p.price).toFixed(2)} / KG</span>
-                    </div>
-                    <div class="history-item-footer">
-                        <span style="font-size: 9px; color: var(--text-muted);">${p.region}</span>
-                        <div class="history-btns-group">
-                            <button class="btn-history-load" onclick="loadPreset('${p.id}')">${isFil ? 'GAMITIN' : 'LOAD'}</button>
-                            <button class="btn-history-del" onclick="deletePreset('${p.id}')" title="Delete Preset">&times;</button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function loadPreset(id) {
-            const presets = loadHistory();
-            const p = presets.find(item => item.id === id);
-            if (!p) return;
-
-            selectCrop(p.crop);
-            farmArea = p.area;
-            setAreaDisplay(farmArea);
-
-            customPrice = Number(p.price) || CROP_MODELS[p.crop].price;
-            setPriceDisplay(customPrice);
-
-            setSeason(p.season);
-
-            const regEl = document.getElementById('regionSelect');
-            if (regEl) regEl.value = p.region;
-
-            closeHistoryDrawer();
-            switchView('farmer');
-            runCountUpCalc();
-            showToast((currentLang === 'fil' ? 'Nai-load ang preset: ' : 'Loaded preset: ') + p.cropName + ` (${p.area} HA)`);
-        }
-
-        function saveCurrentToHistory() {
-            if (!activeCrop || farmArea <= 0) {
-                const isFil = (currentLang === 'fil');
-                showToast(isFil ? 'Pumili muna ng pananim at laki bago mag-save.' : 'Please select a crop and farm size before saving.');
-                return;
-            }
-            const presets = loadHistory();
-            const dateStr = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-            const c = CROP_MODELS[activeCrop];
-            const data = calculateCropData(activeCrop, farmArea, activeSeason, customPrice);
-
-            const newPreset = {
-                id: 'preset-' + Date.now(),
-                crop: activeCrop,
-                cropName: c.name,
-                letter: c.letter,
-                area: farmArea,
-                season: activeSeason,
-                region: document.getElementById('regionSelect').value,
-                price: customPrice,
-                netProfit: data.netNorm,
-                date: dateStr
-            };
-
-            presets.unshift(newPreset);
-            if (presets.length > 20) presets.pop();
-
-            try {
-                localStorage.setItem(getHistoryKey(), JSON.stringify(presets));
-            } catch(e) {}
-
-            renderHistoryList();
-            renderSelectedCropsUI();
-            updateHistoryCountBadge();
-            showToast(currentLang === 'fil' ? 'Nai-save ang kasalukuyang sakahan!' : 'Current farm configuration saved to History!');
-        }
-
-        function deletePreset(id) {
-            const presets = loadHistory();
-            const p = presets.find(item => item.id === id);
-            const cropName = p ? p.cropName : 'preset';
-            const isFil = (currentLang === 'fil');
-
-            showConfirmDialog({
-                title: isFil ? 'BURAHIN ANG PRESET?' : 'DELETE PRESET RECORD?',
-                message: isFil 
-                    ? `Sigurado ka bang nais mong tanggalin ang preset na "${cropName}" mula sa iyong kasaysayan?`
-                    : `Are you sure you want to remove the "${cropName}" scenario from your saved history?`,
-                confirmText: isFil ? 'BURAHIN' : 'DELETE',
-                cancelText: isFil ? 'KANSELAHIN' : 'CANCEL',
-                isWarning: true,
-                onConfirm: () => {
-                    let updated = loadHistory().filter(item => item.id !== id);
-                    try {
-                        localStorage.setItem(getHistoryKey(), JSON.stringify(updated));
-                    } catch(e) {}
-                    renderHistoryList();
-                    showToast(isFil ? 'Tinanggal ang preset.' : 'Preset removed.');
-                }
-            });
-        }
-
-        function clearAllPresets() {
-            const presets = loadHistory();
-            const isFil = (currentLang === 'fil');
-
-            // Validation: Check if there's anything to clear
-            if (!presets || presets.length === 0) {
-                showToast(isFil ? 'Walang naka-save na preset upang i-clear.' : 'No saved presets to clear.');
-                return;
-            }
-
-            showConfirmDialog({
-                title: isFil ? 'BURAHIN LAHAT NG PRESET?' : 'CLEAR ALL PRESET HISTORY?',
-                message: isFil 
-                    ? `Sigurado ka bang nais mong burahin ang lahat ng ${presets.length} na-save na talaan? Hindi na ito maibabalik.`
-                    : `Are you sure you want to permanently clear all ${presets.length} saved scenario presets? This action cannot be undone.`,
-                confirmText: isFil ? 'OO, BURAHIN LAHAT' : 'CLEAR ALL',
-                cancelText: isFil ? 'KANSELAHIN' : 'CANCEL',
-                isWarning: false,
-                onConfirm: () => {
-                    try {
-                        localStorage.removeItem(getHistoryKey());
-                    } catch(e) {}
-                    renderHistoryList();
-                    showToast(isFil ? 'Na-clear ang lahat ng preset sa kasaysayan.' : 'History cleared and reset.');
-                }
-            });
-        }
-
-        function autoRecordHistory(data) {
-            try {
-                const presets = loadHistory();
-                const c = CROP_MODELS[activeCrop];
-                const dateStr = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-
-                if (presets.length > 0) {
-                    const top = presets[0];
-                    if (top.crop === activeCrop && top.area === farmArea && top.season === activeSeason && top.price === customPrice) {
-                        return;
-                    }
-                }
-
-                const newPreset = {
-                    id: 'preset-' + Date.now(),
-                    crop: activeCrop,
-                    cropName: c.name,
-                    letter: c.letter,
-                    area: farmArea,
-                    season: activeSeason,
-                    region: document.getElementById('regionSelect').value,
-                    price: customPrice,
-                    netProfit: data.netNorm,
-                    date: dateStr
-                };
-
-                presets.unshift(newPreset);
-                if (presets.length > 20) presets.pop();
-                localStorage.setItem(getHistoryKey(), JSON.stringify(presets));
-
-                const countBadge = document.getElementById('historyCountBadge');
-                if (countBadge) countBadge.textContent = presets.length;
-                const railDot = document.getElementById('railHistoryDot');
-                if (railDot) railDot.classList.add('visible');
-            } catch(e) {}
-        }
-
-        function openHistoryDrawer() {
-            renderHistoryList();
-            const overlay = document.getElementById('historyDrawerOverlay');
-            if (overlay) overlay.classList.add('active');
-        }
-
-        function closeHistoryDrawer() {
-            const overlay = document.getElementById('historyDrawerOverlay');
-            if (overlay) overlay.classList.remove('active');
-        }
 
         // ── Advisor Ranking View Generator ──
         function renderAdvisorView() {
@@ -9624,29 +9503,7 @@
             return found || PHILIPPINE_PROVINCES[0];
         }
 
-        function onProvinceChanged() {
-            const p = getSelectedProvinceData();
-            if (!p) return;
 
-            updateProvinceAdvisoryUI(p);
-
-            // Update Advisor subtitle if active
-            const advSub = document.getElementById('advisorSubtitle');
-            if (advSub) {
-                advSub.textContent = `${farmArea} HA \u2022 ${activeSeason.toUpperCase()} SEASON \u2022 ${p.province.toUpperCase()} (${p.region.toUpperCase()})`;
-            }
-
-            // Update Weather risk title
-            const wTitle = document.getElementById('txtWeatherTitle');
-            if (wTitle) {
-                wTitle.textContent = `${p.province.toUpperCase()} & ${p.region.toUpperCase()} AGRO-CLIMATIC RISK ASSESSMENT`;
-            }
-
-            // If calculation active, refresh live
-            if (activeCrop && farmArea > 0) {
-                updateCalcLive(false);
-            }
-        }
 
         function updateProvinceAdvisoryUI(provinceObj) {
             const p = provinceObj || getSelectedProvinceData();
@@ -10683,34 +10540,54 @@
         let currentSuitabilityData = [];
 
         // ── Modal Handlers for Itemized Forecast & Crop Comparison ──
-        function openItemizedModal() {
-            if (!currentCalculatedResult) {
-                showToast(currentLang === 'fil' ? 'Paki-kalkula muna ang ani at kita ng sakahan.' : 'Please calculate harvest income first.');
-                runCountUpCalc();
+        async function openItemizedModal() {
+            if (!selectedCrops || selectedCrops.length === 0) {
+                showToast(currentLang === 'fil' ? 'Magdagdag muna ng kahit isang pananim bago mag-breakdown.' : 'Please add at least one crop to your farm plan first.');
+                openCropSelectorModal();
                 return;
             }
+            if (!currentCalculatedResult) {
+                showToast(currentLang === 'fil' ? 'Kinakalkula ang ani bago buksan...' : 'Calculating harvest forecast first...');
+                await runCountUpCalc();
+            }
             const modal = document.getElementById("itemizedForecastModal");
-            if (modal) modal.classList.add("open");
+            if (modal) {
+                modal.classList.add("active");
+                modal.classList.add("open");
+            }
         }
 
         function closeItemizedModal() {
             const modal = document.getElementById("itemizedForecastModal");
-            if (modal) modal.classList.remove("open");
+            if (modal) {
+                modal.classList.remove("active");
+                modal.classList.remove("open");
+            }
         }
 
-        function openComparisonModal() {
-            if (!currentCalculatedResult) {
-                showToast(currentLang === 'fil' ? 'Paki-kalkula muna ang ani at kita ng sakahan.' : 'Please calculate harvest income first.');
-                runCountUpCalc();
+        async function openComparisonModal() {
+            if (!selectedCrops || selectedCrops.length === 0) {
+                showToast(currentLang === 'fil' ? 'Magdagdag muna ng kahit isang pananim bago mag-kumpara.' : 'Please add at least one crop to your farm plan first.');
+                openCropSelectorModal();
                 return;
             }
+            if (!currentCalculatedResult) {
+                showToast(currentLang === 'fil' ? 'Kinakalkula ang ani bago buksan...' : 'Calculating harvest forecast first...');
+                await runCountUpCalc();
+            }
             const modal = document.getElementById("cropComparisonModal");
-            if (modal) modal.classList.add("open");
+            if (modal) {
+                modal.classList.add("active");
+                modal.classList.add("open");
+            }
         }
 
         function closeComparisonModal() {
             const modal = document.getElementById("cropComparisonModal");
-            if (modal) modal.classList.remove("open");
+            if (modal) {
+                modal.classList.remove("active");
+                modal.classList.remove("open");
+            }
         }
 
         function stepCropArea(idx, delta) {
@@ -10858,6 +10735,7 @@
         function openCropSelectorModal() {
             const modal = document.getElementById("cropSelectorModal");
             if (!modal) return;
+            modal.classList.add("active");
             modal.classList.add("open");
             renderCropCatalogGrid();
             const input = document.getElementById("cropSearchInput");
@@ -10866,7 +10744,10 @@
 
         function closeCropSelectorModal() {
             const modal = document.getElementById("cropSelectorModal");
-            if (modal) modal.classList.remove("open");
+            if (modal) {
+                modal.classList.remove("active");
+                modal.classList.remove("open");
+            }
         }
 
         function onCropSearchInput(query) {
@@ -11006,6 +10887,8 @@
                 // Scroll smoothly to results card
                 const resCard = document.getElementById("mainResultsCard");
                 if (resCard) resCard.scrollIntoView({ behavior: "smooth", block: "start" });
+
+                return data;
 
             } catch (err) {
                 console.error("Calculation Error:", err);
@@ -11248,42 +11131,24 @@
             `;
         }
 
-        // 5. Prediction History Integration (Phase 8 - SQLite)
-        async function autoSavePredictionSilent(data) {
-            try {
-                await fetch("/api/history/save", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data)
-                });
-                updateHistoryCountBadge();
-            } catch (e) {}
+        // ═══════════════════════════════════════════════════════════════════
+        // UNIFIED PREDICTION HISTORY ENGINE (SQLite Database & Presets)
+        // ═══════════════════════════════════════════════════════════════════
+
+        function openHistoryDrawer() {
+            const overlay = document.getElementById('historyDrawerOverlay');
+            if (overlay) {
+                overlay.classList.add('active');
+                overlay.classList.add('open');
+            }
+            loadHistory();
         }
 
-        async function saveCurrentPrediction() {
-            if (!currentCalculatedResult) {
-                await runCountUpCalc();
-                return;
-            }
-
-            try {
-                const res = await fetch("/api/history/save", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(currentCalculatedResult)
-                });
-
-                if (res.ok) {
-                    showToast("Prediction saved to database history!");
-                    updateHistoryCountBadge();
-                    if (document.getElementById("historyDrawerOverlay").classList.contains("open")) {
-                        loadHistory();
-                    }
-                } else {
-                    showToast("Failed to save prediction.");
-                }
-            } catch (err) {
-                showToast("Error saving prediction: " + err.message);
+        function closeHistoryDrawer() {
+            const overlay = document.getElementById('historyDrawerOverlay');
+            if (overlay) {
+                overlay.classList.remove('active');
+                overlay.classList.remove('open');
             }
         }
 
@@ -11303,9 +11168,66 @@
             } catch (e) {}
         }
 
+        async function autoSavePredictionSilent(data) {
+            try {
+                await fetch("/api/history/save", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                });
+                updateHistoryCountBadge();
+            } catch (e) {}
+        }
+
+        async function saveCurrentPrediction() {
+            const isFil = (currentLang === 'fil');
+            if (!selectedCrops || selectedCrops.length === 0) {
+                showToast(isFil ? 'Magdagdag muna ng pananim sa iyong sakahan bago mag-save.' : 'Please add crops to your farm plan before saving.');
+                openCropSelectorModal();
+                return;
+            }
+
+            if (!currentCalculatedResult) {
+                showToast(isFil ? 'Kinakalkula ang ani bago i-save...' : 'Calculating harvest forecast first...');
+                await runCountUpCalc();
+            }
+
+            if (!currentCalculatedResult) {
+                showToast(isFil ? 'Hindi mai-save: Walang nakalkulang datos.' : 'Cannot save: No calculation data available.');
+                return;
+            }
+
+            try {
+                const res = await fetch("/api/history/save", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(currentCalculatedResult)
+                });
+
+                if (res.ok) {
+                    showToast(isFil ? 'Nai-save ang kasalukuyang sakahan sa history!' : 'Current farm configuration saved to History!');
+                    await updateHistoryCountBadge();
+                    const drawer = document.getElementById("historyDrawerOverlay");
+                    if (drawer && (drawer.classList.contains("active") || drawer.classList.contains("open"))) {
+                        await loadHistory();
+                    }
+                } else {
+                    showToast(isFil ? 'Bigo sa pag-save ng prediksyon.' : 'Failed to save prediction.');
+                }
+            } catch (err) {
+                showToast('Error saving: ' + err.message);
+            }
+        }
+
+        async function saveCurrentToHistory() {
+            await saveCurrentPrediction();
+        }
+
         async function loadHistory() {
             const listEl = document.getElementById("historyItemsList");
             if (!listEl) return;
+
+            const isFil = (currentLang === 'fil');
 
             try {
                 const res = await fetch("/api/history");
@@ -11317,41 +11239,119 @@
 
                 if (historyList.length === 0) {
                     listEl.innerHTML = `
-                        <div style="text-align: center; color: var(--text-muted); padding: 32px 16px; font-size: 11px;">
-                            NO SAVED PREDICTIONS YET.<br>CALCULATE A CROP HARVEST OR CLICK "💾 SAVE" ABOVE.
+                        <div style="text-align: center; color: var(--text-muted); padding: 36px 16px; font-size: 11px; line-height: 1.6;">
+                            ${isFil 
+                                ? 'WALANG NAKA-SAVE NA PRESET.<br>MAG-KALKULA NG ANI O I-CLICK ANG "+ SAVE CURRENT" SA ITAAS.' 
+                                : 'NO SAVED PREDICTIONS YET.<br>CALCULATE A CROP HARVEST OR CLICK "+ SAVE CURRENT" ABOVE.'}
                         </div>
                     `;
                     return;
                 }
 
-                listEl.innerHTML = historyList.map(item => `
-                    <div class="history-item-card" style="cursor:default;">
-                        <div class="history-item-top">
-                            <div class="history-item-crop">
-                                <div class="history-crop-badge">${item.best_crop_name ? item.best_crop_name.charAt(0) : 'P'}</div>
-                                <div>
-                                    <div class="history-crop-name">${item.province} &bull; ${item.crop_count} Crops</div>
-                                    <div class="history-time">${item.created_at} &bull; ${item.season}</div>
+                listEl.innerHTML = historyList.map(item => {
+                    const badgeLetter = (item.best_crop_name && item.best_crop_name.length > 0) ? item.best_crop_name.charAt(0).toUpperCase() : 'P';
+                    const titleText = item.crop_count > 1 
+                        ? `${item.province} • ${item.crop_count} Crops` 
+                        : `${item.best_crop_name || item.province} • ${item.province}`;
+                    return `
+                        <div class="history-item-card">
+                            <div class="history-item-top">
+                                <div class="history-item-crop">
+                                    <div class="history-crop-badge">${badgeLetter}</div>
+                                    <div>
+                                        <div class="history-crop-name">${titleText}</div>
+                                        <div class="history-time">${item.created_at || 'Recent'} &bull; ${item.season || 'Wet Season'}</div>
+                                    </div>
+                                </div>
+                                <div class="history-profit-pill readable-num">${formatCurrency(item.total_net_income)}</div>
+                            </div>
+                            <div class="history-item-details">
+                                <span>${item.total_area_ha ? item.total_area_ha + ' HA' : ''}</span>
+                                <span>&bull;</span>
+                                <span>${item.crop_count} ${isFil ? 'Pananim' : 'Crops'}</span>
+                                <span>&bull;</span>
+                                <span>Top: <strong>${item.best_crop_name || 'Crop'}</strong></span>
+                            </div>
+                            <div class="history-item-footer">
+                                <span style="font-size: 9px; color: var(--text-muted);">${item.province}</span>
+                                <div class="history-btns-group">
+                                    <button type="button" class="btn-history-load" onclick="loadHistoryPrediction(${item.id})">${isFil ? 'GAMITIN' : 'LOAD'}</button>
+                                    <button type="button" class="btn-action-pill" onclick="viewHistoryDetail(${item.id})" style="padding:4px 8px; font-size:9.5px;">VIEW</button>
+                                    <button type="button" class="btn-history-del" onclick="deleteHistoryItem(${item.id})" title="Delete record">&times;</button>
                                 </div>
                             </div>
-                            <div style="display:flex; align-items:center; gap:6px;">
-                                <button type="button" class="btn-action-pill" onclick="viewHistoryDetail(${item.id})" style="padding:3px 8px; font-size:9.5px;">VIEW</button>
-                                <button type="button" class="btn-remove-crop" onclick="deleteHistoryItem(${item.id})" title="Delete record">&times;</button>
-                            </div>
                         </div>
-                        <div class="history-item-bottom" style="margin-top:6px;">
-                            <span>Top: <strong>${item.best_crop_name || 'Multi-crop'}</strong></span>
-                            <span class="history-profit-pill readable-num">${formatCurrency(item.total_net_income)}</span>
-                        </div>
-                    </div>
-                `).join("");
+                    `;
+                }).join("");
 
             } catch (err) {
                 listEl.innerHTML = `<div style="padding:16px; color:#e76f51;">Error loading history: ${err.message}</div>`;
             }
         }
 
+        async function loadHistoryPrediction(recordId) {
+            const isFil = (currentLang === 'fil');
+            try {
+                const res = await fetch(`/api/history/${recordId}`);
+                if (!res.ok) throw new Error("Could not find prediction record.");
+                const json = await res.json();
+                const data = json.data;
+
+                if (!data) throw new Error("No data found in record.");
+
+                // 1. Restore province
+                const provName = (data.parameters && data.parameters.province) ? data.parameters.province : data.province;
+                const provEl = document.getElementById("regionSelect");
+                if (provEl && provName) {
+                    provEl.value = provName;
+                    onProvinceChanged();
+                }
+
+                // 2. Restore season
+                const seasonStr = (data.parameters && data.parameters.season) ? data.parameters.season : data.season;
+                if (seasonStr) {
+                    setSeason(seasonStr.toLowerCase().includes('dry') ? 'Dry' : 'Wet');
+                }
+
+                // 3. Restore crops
+                if (data.crop_results && data.crop_results.length > 0) {
+                    selectedCrops = data.crop_results.map(c => ({
+                        crop_name: c.crop_name,
+                        land_area_ha: parseFloat(c.land_area_ha) || 1.0,
+                        farmgate_price: c.farmgate_price_php_kg,
+                        cost_per_ha: c.cost_per_ha_php
+                    }));
+                } else if (data.crops && data.crops.length > 0) {
+                    selectedCrops = data.crops.map(c => ({
+                        crop_name: c.crop_name,
+                        land_area_ha: parseFloat(c.land_area_ha) || 1.0
+                    }));
+                }
+                renderSelectedCropsUI();
+
+                // 4. Render cached results
+                currentCalculatedResult = data;
+                renderCalculatedResults(data);
+
+                // 5. Close drawer & switch to farmer view
+                closeHistoryDrawer();
+                switchView('farmer');
+
+                showToast(isFil ? `Nai-load ang talaan #${recordId} (${provName})!` : `Loaded prediction #${recordId} (${provName})!`);
+                const resCard = document.getElementById("mainResultsCard");
+                if (resCard) resCard.scrollIntoView({ behavior: "smooth", block: "start" });
+
+            } catch (err) {
+                showToast("Error loading record: " + err.message);
+            }
+        }
+
+        function loadPreset(id) {
+            loadHistoryPrediction(id);
+        }
+
         async function viewHistoryDetail(recordId) {
+            const isFil = (currentLang === 'fil');
             try {
                 const res = await fetch(`/api/history/${recordId}`);
                 if (!res.ok) throw new Error("Could not find prediction record.");
@@ -11362,7 +11362,6 @@
                 renderCalculatedResults(data);
                 closeHistoryDrawer();
 
-                // If crops in record, restore to plan
                 if (data.crop_results && data.crop_results.length > 0) {
                     selectedCrops = data.crop_results.map(c => ({
                         crop_name: c.crop_name,
@@ -11373,9 +11372,9 @@
                     renderSelectedCropsUI();
                 }
 
-                showToast(`Restored calculation #${recordId} (${data.parameters ? data.parameters.province : 'Saved Run'})`);
-                const resCard = document.getElementById("mainResultsCard");
-                if (resCard) resCard.scrollIntoView({ behavior: "smooth", block: "start" });
+                switchView('farmer');
+                openItemizedModal();
+                showToast(isFil ? `Binubuksan ang detalye ng #${recordId}...` : `Viewing itemized forecast #${recordId}...`);
 
             } catch (err) {
                 showToast("Error loading record: " + err.message);
@@ -11383,30 +11382,68 @@
         }
 
         async function deleteHistoryItem(recordId) {
-            try {
-                const res = await fetch(`/api/history/${recordId}`, { method: "DELETE" });
-                if (res.ok) {
-                    showToast(`Deleted prediction #${recordId}`);
-                    loadHistory();
+            const isFil = (currentLang === 'fil');
+            showConfirmDialog({
+                title: isFil ? 'BURAHIN ANG TALAAN?' : 'DELETE PREDICTION RECORD?',
+                message: isFil 
+                    ? `Sigurado ka bang nais mong tanggalin ang talaang ito (#${recordId}) mula sa kasaysayan?`
+                    : `Are you sure you want to permanently delete prediction #${recordId} from history?`,
+                confirmText: isFil ? 'BURAHIN' : 'DELETE',
+                cancelText: isFil ? 'KANSELAHIN' : 'CANCEL',
+                isWarning: true,
+                onConfirm: async () => {
+                    try {
+                        const res = await fetch(`/api/history/${recordId}`, { method: "DELETE" });
+                        if (res.ok) {
+                            showToast(isFil ? `Tinanggal ang talaan #${recordId}.` : `Deleted prediction #${recordId}.`);
+                            await loadHistory();
+                            await updateHistoryCountBadge();
+                        } else {
+                            showToast(isFil ? 'Bigo sa pagtanggal ng talaan.' : 'Failed to delete record.');
+                        }
+                    } catch (err) {
+                        showToast("Error: " + err.message);
+                    }
                 }
-            } catch (err) {
-                showToast("Failed to delete record.");
-            }
+            });
+        }
+
+        function deletePreset(id) {
+            deleteHistoryItem(id);
         }
 
         async function clearAllHistory() {
-            try {
-                const res = await fetch("/api/history/clear", { method: "POST" });
-                if (res.ok) {
-                    showToast("All prediction history cleared.");
-                    loadHistory();
+            const isFil = (currentLang === 'fil');
+            showConfirmDialog({
+                title: isFil ? 'BURAHIN LAHAT NG TALAAN?' : 'CLEAR ALL PREDICTION HISTORY?',
+                message: isFil 
+                    ? 'Sigurado ka bang nais mong burahin ang lahat ng na-save na talaan ng ani? Hindi na ito maibabalik.'
+                    : 'Are you sure you want to permanently clear all saved farm prediction history? This action cannot be undone.',
+                confirmText: isFil ? 'OO, BURAHIN LAHAT' : 'CLEAR ALL',
+                cancelText: isFil ? 'KANSELAHIN' : 'CANCEL',
+                isWarning: false,
+                onConfirm: async () => {
+                    try {
+                        const res = await fetch("/api/history/clear", { method: "POST" });
+                        if (res.ok) {
+                            showToast(isFil ? 'Na-clear ang lahat ng talaan sa kasaysayan.' : 'All prediction history cleared.');
+                            await loadHistory();
+                            await updateHistoryCountBadge();
+                        } else {
+                            showToast(isFil ? 'Bigo sa pag-clear ng kasaysayan.' : 'Failed to clear history.');
+                        }
+                    } catch (err) {
+                        showToast("Error: " + err.message);
+                    }
                 }
-            } catch (err) {
-                showToast("Failed to clear history.");
-            }
+            });
         }
 
-        // 6. Downloadable PDF Report Generation (Phase 9)
+        function clearAllPresets() {
+            clearAllHistory();
+        }
+
+
         function downloadPdfReport() {
             if (!currentCalculatedResult) {
                 showToast("Please calculate harvest income before generating a PDF report.");
@@ -11424,6 +11461,19 @@
         function onProvinceChanged(provName) {
             const select = document.getElementById("regionSelect");
             const province = provName || (select ? select.value : "Laguna");
+
+            const pSync = getSelectedProvinceData();
+            if (pSync) {
+                updateProvinceAdvisoryUI(pSync);
+                const advSub = document.getElementById('advisorSubtitle');
+                if (advSub) {
+                    advSub.textContent = `${farmArea} HA \u2022 ${activeSeason.toUpperCase()} SEASON \u2022 ${pSync.province.toUpperCase()} (${pSync.region.toUpperCase()})`;
+                }
+                const wTitle = document.getElementById('txtWeatherTitle');
+                if (wTitle) {
+                    wTitle.textContent = `${pSync.province.toUpperCase()} & ${pSync.region.toUpperCase()} AGRO-CLIMATIC RISK ASSESSMENT`;
+                }
+            }
 
             // Fetch province details and update advisory card
             fetch(`/api/province/${encodeURIComponent(province)}`)
