@@ -5113,6 +5113,830 @@
                 transition-duration: 0.01ms !important;
             }
         }
+    
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* TAYA SYSTEM - MULTI-CROP EXTENSIONS & RESPONSIVE STYLES       */
+        /* ═══════════════════════════════════════════════════════════════ */
+
+        /* Welcome Hero Banner (Phase 4) */
+        .taya-welcome-hero {
+            background: linear-gradient(135deg, rgba(20, 34, 15, 0.85) 0%, rgba(30, 48, 22, 0.70) 100%);
+            border: 1px solid var(--border-subtle);
+            border-radius: 14px;
+            padding: 22px 24px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        }
+        [data-theme="light"] .taya-welcome-hero {
+            background: linear-gradient(135deg, rgba(245, 248, 238, 0.95) 0%, rgba(235, 242, 225, 0.90) 100%);
+            border-color: rgba(90, 115, 60, 0.25);
+        }
+        .taya-hero-header-row {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .taya-hero-title-group h1 {
+            font-size: 20px;
+            font-weight: 900;
+            letter-spacing: 0.05em;
+            color: var(--text-offwhite);
+            margin: 0 0 6px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .taya-badge-live {
+            background: #2a9d8f;
+            color: #ffffff;
+            font-size: 9px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 12px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+        .taya-hero-lead {
+            font-size: 12px;
+            line-height: 1.5;
+            color: var(--text-muted);
+            max-width: 680px;
+            margin: 0 0 14px 0;
+        }
+        .taya-quick-actions-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+        .taya-quick-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(143, 166, 58, 0.15);
+            border: 1px solid rgba(143, 166, 58, 0.35);
+            color: var(--text-offwhite);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+        .taya-quick-btn:hover {
+            background: rgba(143, 166, 58, 0.30);
+            border-color: #8fa63a;
+            transform: translateY(-1px);
+        }
+        .taya-quick-btn.primary {
+            background: #8fa63a;
+            border-color: #8fa63a;
+            color: #12150e;
+        }
+        .taya-quick-btn.primary:hover {
+            background: #a3bd42;
+            color: #0b0e08;
+        }
+        .taya-counters-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding-top: 12px;
+            border-top: 1px solid var(--border-subtle);
+        }
+        .taya-counter-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0, 0, 0, 0.20);
+            border: 1px solid var(--border-subtle);
+            border-radius: 6px;
+            padding: 4px 10px;
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+        [data-theme="light"] .taya-counter-pill {
+            background: rgba(255, 255, 255, 0.65);
+        }
+        .taya-counter-pill strong {
+            color: var(--text-offwhite);
+            font-weight: 800;
+        }
+        .taya-onboarding-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 10px;
+            margin-top: 14px;
+        }
+        .onboarding-step-card {
+            background: rgba(0, 0, 0, 0.18);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        [data-theme="light"] .onboarding-step-card {
+            background: rgba(255, 255, 255, 0.50);
+        }
+        .onboarding-step-num {
+            background: #8fa63a;
+            color: #12150e;
+            font-size: 10px;
+            font-weight: 900;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .onboarding-step-text {
+            font-size: 10.5px;
+            line-height: 1.4;
+            color: var(--text-muted);
+        }
+        .onboarding-step-text strong {
+            color: var(--text-offwhite);
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        /* Farm Plan & Multi-Crop Management (Phase 5) */
+        .farm-plan-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .farm-plan-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .farm-plan-title {
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            color: var(--text-offwhite);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .plan-summary-tag {
+            background: rgba(143, 166, 58, 0.18);
+            color: #8fa63a;
+            border: 1px solid rgba(143, 166, 58, 0.35);
+            font-size: 10px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+        .quick-crops-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+        .quick-crop-chip {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-offwhite);
+            font-size: 10.5px;
+            font-weight: 700;
+            padding: 5px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .quick-crop-chip:hover {
+            border-color: #8fa63a;
+            background: rgba(143, 166, 58, 0.12);
+        }
+        .btn-open-catalog {
+            background: #8fa63a;
+            color: #12150e;
+            border: none;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(143, 166, 58, 0.35);
+        }
+        .btn-open-catalog:hover {
+            background: #a3bd42;
+            transform: translateY(-1px);
+        }
+        .selected-crops-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .selected-crop-card {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            transition: all 0.2s ease;
+        }
+        [data-theme="light"] .selected-crop-card {
+            background: rgba(255, 255, 255, 0.65);
+        }
+        .selected-crop-card:hover {
+            border-color: rgba(143, 166, 58, 0.5);
+        }
+        .selected-crop-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 180px;
+        }
+        .selected-crop-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            background: rgba(143, 166, 58, 0.2);
+            color: #8fa63a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 14px;
+        }
+        .selected-crop-details h4 {
+            font-size: 12px;
+            font-weight: 800;
+            margin: 0;
+            color: var(--text-offwhite);
+        }
+        .selected-crop-details span {
+            font-size: 9.5px;
+            color: var(--text-muted);
+        }
+        .selected-crop-middle {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+        .crop-area-stepper {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-subtle);
+            border-radius: 6px;
+            padding: 2px 6px;
+        }
+        [data-theme="light"] .crop-area-stepper {
+            background: rgba(255, 255, 255, 0.8);
+        }
+        .crop-area-stepper input {
+            width: 55px;
+            background: transparent;
+            border: none;
+            color: var(--text-offwhite);
+            font-size: 12px;
+            font-weight: 800;
+            text-align: right;
+            outline: none;
+        }
+        .crop-area-unit {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+        .crop-suit-badge {
+            font-size: 9px;
+            font-weight: 800;
+            padding: 3px 6px;
+            border-radius: 4px;
+            background: rgba(42, 157, 143, 0.15);
+            color: #2a9d8f;
+            border: 1px solid rgba(42, 157, 143, 0.3);
+        }
+        .crop-suit-badge.secondary {
+            background: rgba(231, 111, 81, 0.15);
+            color: #e76f51;
+            border-color: rgba(231, 111, 81, 0.3);
+        }
+        .btn-remove-crop {
+            background: transparent;
+            border: none;
+            color: #e76f51;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.75;
+            transition: opacity 0.2s ease;
+        }
+        .btn-remove-crop:hover {
+            opacity: 1;
+            background: rgba(231, 111, 81, 0.12);
+        }
+        .empty-plan-notice {
+            text-align: center;
+            padding: 24px 16px;
+            color: var(--text-muted);
+            font-size: 11px;
+            border: 1px dashed var(--border-subtle);
+            border-radius: 8px;
+        }
+
+        /* Crop Selector Modal (Phase 5) */
+        .crop-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.25s ease;
+        }
+        .crop-modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .crop-modal-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 14px;
+            width: 100%;
+            max-width: 820px;
+            max-height: 88vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+        .crop-modal-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .crop-modal-header h3 {
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            color: var(--text-offwhite);
+            margin: 0;
+        }
+        .crop-modal-close-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 22px;
+            cursor: pointer;
+            line-height: 1;
+        }
+        .crop-modal-close-btn:hover {
+            color: var(--text-offwhite);
+        }
+        .crop-modal-toolbar {
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .crop-search-box {
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 8px 12px;
+            gap: 8px;
+        }
+        [data-theme="light"] .crop-search-box {
+            background: rgba(255, 255, 255, 0.8);
+        }
+        .crop-search-box input {
+            background: transparent;
+            border: none;
+            color: var(--text-offwhite);
+            font-size: 12px;
+            width: 100%;
+            outline: none;
+        }
+        .crop-cat-pills-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+        .cat-pill-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-muted);
+            font-size: 10px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 14px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.15s ease;
+        }
+        .cat-pill-btn.active, .cat-pill-btn:hover {
+            background: #8fa63a;
+            color: #12150e;
+            border-color: #8fa63a;
+        }
+        .crop-modal-grid {
+            padding: 16px 20px;
+            overflow-y: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 12px;
+        }
+        .catalog-crop-card {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.2s ease;
+        }
+        [data-theme="light"] .catalog-crop-card {
+            background: rgba(255, 255, 255, 0.7);
+        }
+        .catalog-crop-card:hover {
+            border-color: #8fa63a;
+            transform: translateY(-2px);
+        }
+        .catalog-crop-title {
+            font-size: 12.5px;
+            font-weight: 800;
+            color: var(--text-offwhite);
+            margin: 0 0 2px 0;
+        }
+        .catalog-crop-sciname {
+            font-size: 9.5px;
+            font-style: italic;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+        .catalog-crop-origin {
+            display: inline-block;
+            font-size: 8.5px;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: rgba(143, 166, 58, 0.15);
+            color: #8fa63a;
+            margin-bottom: 8px;
+        }
+        .catalog-crop-desc {
+            font-size: 10px;
+            line-height: 1.4;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            flex-grow: 1;
+        }
+        .btn-add-crop-action {
+            background: #8fa63a;
+            color: #12150e;
+            border: none;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 6px 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: background 0.2s ease;
+        }
+        .btn-add-crop-action:hover {
+            background: #a3bd42;
+        }
+
+        /* Multi-Crop Results & Comparison Layout (Phase 6 & 7) */
+        .multi-results-container {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .totals-banner-card {
+            background: linear-gradient(135deg, rgba(20, 34, 15, 0.9) 0%, rgba(35, 55, 25, 0.75) 100%);
+            border: 1px solid var(--border-subtle);
+            border-radius: 14px;
+            padding: 20px 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        [data-theme="light"] .totals-banner-card {
+            background: linear-gradient(135deg, rgba(245, 248, 238, 0.95) 0%, rgba(230, 240, 220, 0.9) 100%);
+        }
+        .totals-top-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .totals-title-group h2 {
+            font-size: 16px;
+            font-weight: 900;
+            letter-spacing: 0.05em;
+            color: var(--text-offwhite);
+            margin: 0;
+        }
+        .totals-actions-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .btn-action-pill {
+            background: rgba(143, 166, 58, 0.18);
+            border: 1px solid rgba(143, 166, 58, 0.4);
+            color: var(--text-offwhite);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+        .btn-action-pill:hover {
+            background: #8fa63a;
+            color: #12150e;
+        }
+        .totals-kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+        }
+        .kpi-card {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 12px;
+        }
+        [data-theme="light"] .kpi-card {
+            background: rgba(255, 255, 255, 0.65);
+        }
+        .kpi-label {
+            font-size: 9.5px;
+            font-weight: 800;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        .kpi-value {
+            font-size: 16px;
+            font-weight: 900;
+            color: var(--text-offwhite);
+        }
+        .kpi-value.net-profit {
+            color: #8fa63a;
+            font-size: 18px;
+        }
+        [data-theme="light"] .kpi-value.net-profit {
+            color: #3b6b11;
+        }
+
+        /* Per-Crop Breakdown Cards */
+        .crop-breakdown-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 14px;
+        }
+        .crop-item-result-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .crop-result-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-subtle);
+            padding-bottom: 10px;
+        }
+        .crop-result-header h4 {
+            font-size: 14px;
+            font-weight: 900;
+            color: var(--text-offwhite);
+            margin: 0;
+        }
+        .crop-source-badge {
+            font-size: 8.5px;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: rgba(143, 166, 58, 0.15);
+            color: #8fa63a;
+        }
+        .crop-stat-line {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+        .crop-stat-line strong {
+            color: var(--text-offwhite);
+            font-weight: 800;
+        }
+        .itemized-cost-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-subtle);
+            border-radius: 6px;
+            padding: 8px;
+        }
+        [data-theme="light"] .itemized-cost-grid {
+            background: rgba(255, 255, 255, 0.5);
+        }
+        .cost-item {
+            font-size: 9.5px;
+            color: var(--text-muted);
+        }
+        .cost-item span {
+            display: block;
+            font-weight: 800;
+            color: var(--text-offwhite);
+            font-size: 10.5px;
+        }
+
+        /* Crop Comparison Section (Phase 7) */
+        .crop-comparison-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 14px;
+            padding: 20px;
+        }
+        .comparison-panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .comparison-panel-header h3 {
+            font-size: 15px;
+            font-weight: 900;
+            letter-spacing: 0.05em;
+            color: var(--text-offwhite);
+            margin: 0;
+        }
+        .highest-income-chip {
+            background: rgba(42, 157, 143, 0.2);
+            border: 1px solid #2a9d8f;
+            color: #2a9d8f;
+            font-size: 10.5px;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .comparison-table-wrapper {
+            overflow-x: auto;
+            margin-bottom: 16px;
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+            text-align: left;
+        }
+        .comparison-table th {
+            background: rgba(0, 0, 0, 0.25);
+            padding: 8px 12px;
+            font-weight: 800;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-subtle);
+            letter-spacing: 0.04em;
+        }
+        [data-theme="light"] .comparison-table th {
+            background: rgba(0, 0, 0, 0.05);
+        }
+        .comparison-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border-subtle);
+            color: var(--text-offwhite);
+        }
+        .comparison-table tr:hover td {
+            background: rgba(143, 166, 58, 0.05);
+        }
+        .comparison-chart-container {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 16px;
+        }
+        [data-theme="light"] .comparison-chart-container {
+            background: rgba(255, 255, 255, 0.65);
+        }
+        .agronomic-alert-callout {
+            background: rgba(231, 111, 81, 0.12);
+            border-left: 4px solid #e76f51;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            font-size: 11px;
+            line-height: 1.5;
+            color: var(--text-offwhite);
+        }
+        .agronomic-alert-callout strong {
+            color: #e76f51;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        /* Printable PDF Report Stylesheet (Phase 9) */
+        @media print {
+            body {
+                background: #ffffff !important;
+                color: #111111 !important;
+            }
+            .rail-nav, .outer-top-bar, .bg-field-canvas, .taya-quick-actions-bar,
+            .quick-crops-row, .btn-open-catalog, .calc-action-row,
+            .crop-modal-overlay, #toastBox, .header-bar, .btn-action-pill {
+                display: none !important;
+            }
+            .content-area, .view-panel {
+                margin: 0 !important;
+                padding: 0 !important;
+                max-width: 100% !important;
+            }
+            .totals-banner-card, .crop-comparison-panel, .crop-item-result-card {
+                border: 1px solid #cccccc !important;
+                background: #ffffff !important;
+                box-shadow: none !important;
+                color: #111111 !important;
+                page-break-inside: avoid;
+            }
+            .comparison-table th {
+                background: #f0f0f0 !important;
+                color: #000000 !important;
+            }
+            .comparison-table td {
+                color: #111111 !important;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -5517,342 +6341,468 @@
             <!-- 1. FARMER VIEW (DEFAULT)                                 -->
             <!-- ════════════════════════════════════════════════════════ -->
             <section class="view-panel active" id="view-farmer" aria-label="Farmer Calculator">
-                <div class="view-title-row">
-                    <div class="view-title-with-guide">
-                        <span id="txtPlantingTitle">WHAT ARE YOU PLANTING?</span>
-                        <button type="button" class="category-info-badge" onclick="openSystemGuideModal('categories', 'crop')" title="Learn how crop selection affects yield and season" aria-label="Crop Category Guide">
-                            <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                            <span class="category-info-label" id="lblCropInfoBadge">INFO</span>
-                        </button>
-                    </div>
-                    <div class="season-live-badge" id="liveCalendarBadge" title="Based on Philippine Agricultural Seasons (PAGASA / DA)">
-                        <span class="live-dot-pulse"></span>
-                        <span id="txtLiveSeasonReadout">REALITY TIME: NOVEMBER 2026 &bull; LATE WET / TRANSITION</span>
-                    </div>
-                </div>
 
-                <!-- Real-Time Seasonal Planting Advisor Bar -->
-                <div class="seasonal-advisor-bar" id="seasonalAdvisorBar">
-                    <div class="seasonal-adv-left">
-                        <div class="seasonal-adv-badge" id="badgeAdvisorMonth">
-                            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.3">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                                <line x1="16" y1="2" x2="16" y2="6"></line>
-                                <line x1="8" y1="2" x2="8" y2="6"></line>
-                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                <!-- ── 1. WELCOME HERO & QUICK ACTIONS (Phase 4) ── -->
+                <div class="taya-welcome-hero">
+                    <div class="taya-hero-header-row">
+                        <div class="taya-hero-title-group">
+                            <h1>
+                                <span>TAYA SYSTEM</span>
+                                <span class="taya-badge-live">PHILIPPINE CROP INCOME PREDICTION</span>
+                            </h1>
+                            <p class="taya-hero-lead">
+                                An intelligent agricultural planning platform designed for Filipino farmers and agricultural extension officers.
+                                Estimate harvest yields, production expenses, farmgate gross returns, and projected net profit across 82 Philippine provinces.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Quick Action Shortcuts -->
+                    <div class="taya-quick-actions-bar">
+                        <button type="button" class="taya-quick-btn primary" onclick="openCropSelectorModal()">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
                             </svg>
-                            <span id="lblLiveAdvisorMonth">NOV RECOM:</span>
-                        </div>
-                        <div class="seasonal-adv-text" id="seasonalAdvText">
-                            <strong>BEST: CORN &amp; POTATO</strong> &bull; Dry season cycle begins. High solar grain filling, zero typhoon threat at harvest.
-                        </div>
-                    </div>
-                    <div class="seasonal-adv-right">
-                        <label for="advisorMonthSelect" style="display:none;">Month</label>
-                        <select class="month-select-pill" id="advisorMonthSelect" onchange="onAdvisorMonthChange(this.value)" title="Check planting suitability for other months">
-                            <option value="current">TODAY: NOV (REALITY TIME)</option>
-                            <option value="0">JANUARY (COOL DRY)</option>
-                            <option value="1">FEBRUARY (COOL DRY)</option>
-                            <option value="2">MARCH (HOT DRY)</option>
-                            <option value="3">APRIL (HOT DRY)</option>
-                            <option value="4">MAY (EARLY WET / HABAGAT)</option>
-                            <option value="5">JUNE (WET SEASON)</option>
-                            <option value="6">JULY (PEAK HABAGAT)</option>
-                            <option value="7">AUGUST (TYPHOON PEAK)</option>
-                            <option value="8">SEPTEMBER (MONSOON)</option>
-                            <option value="9">OCTOBER (LATE MONSOON)</option>
-                            <option value="10">NOVEMBER (TRANSITION)</option>
-                            <option value="11">DECEMBER (COOL DRY)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="farmer-grid-layout">
-
-                    <!-- Left Inputs Column -->
-                    <div class="farmer-inputs-col">
-
-                        <!-- 4 Crop Tiles in a Row -->
-                        <div class="crop-tiles-row" role="radiogroup" aria-label="Select Crop">
-                            <!-- Crop 1: Rice -->
-                            <button class="crop-tile" id="tileRice" role="radio" aria-pressed="false" onclick="selectCrop('rice')">
-                                <div class="crop-tile-season-tag mod" id="tagSeasonRice">MODERATE</div>
-                                <div class="crop-tile-letter">R</div>
-                                <div class="crop-tile-name">RICE</div>
-                                <div class="crop-tile-price">&#8369;22 / KG</div>
-                            </button>
-
-                            <!-- Crop 2: Corn -->
-                            <button class="crop-tile" id="tileCorn" role="radio" aria-pressed="false" onclick="selectCrop('corn')">
-                                <div class="crop-tile-season-tag best" id="tagSeasonCorn">&starf; BEST NOW</div>
-                                <div class="crop-tile-letter">C</div>
-                                <div class="crop-tile-name">CORN</div>
-                                <div class="crop-tile-price">&#8369;20.50 / KG</div>
-                            </button>
-
-                            <!-- Crop 3: Potato -->
-                            <button class="crop-tile" id="tilePotato" role="radio" aria-pressed="false" onclick="selectCrop('potato')">
-                                <div class="crop-tile-season-tag best" id="tagSeasonPotato">&starf; BEST NOW</div>
-                                <div class="crop-tile-letter">P</div>
-                                <div class="crop-tile-name">POTATO</div>
-                                <div class="crop-tile-price">&#8369;45 / KG</div>
-                            </button>
-
-                            <!-- Crop 4: Cassava (K) -->
-                            <button class="crop-tile" id="tileCassava" role="radio" aria-pressed="false" onclick="selectCrop('cassava')">
-                                <div class="crop-tile-season-tag risk" id="tagSeasonCassava">&warning; HIGH RISK</div>
-                                <div class="crop-tile-letter">K</div>
-                                <div class="crop-tile-name">CASSAVA</div>
-                                <div class="crop-tile-price">&#8369;14 / KG</div>
-                            </button>
-                        </div>
-
-                        <!-- Contextual Agro-Climatic Tip for Selected Crop & Month -->
-                        <div class="crop-seasonal-tip-box" id="cropSeasonalTipBox" style="display:none;">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0; margin-top:2px; color:var(--accent-olive);">
+                            <span>+ ADD CROP TO FARM PLAN</span>
+                        </button>
+                        <button type="button" class="taya-quick-btn" onclick="runCountUpCalc()">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                            <span>CALCULATE INCOME</span>
+                        </button>
+                        <button type="button" class="taya-quick-btn" onclick="openHistoryDrawer()">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                            <span>RECENT PREDICTIONS (<span id="txtHistoryHeroCount">{{ system_stats.total_saved_predictions or 0 }}</span>)</span>
+                        </button>
+                        <button type="button" class="taya-quick-btn" onclick="openSystemGuideModal()">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
                                 <circle cx="12" cy="12" r="10"></circle>
                                 <line x1="12" y1="16" x2="12" y2="12"></line>
                                 <line x1="12" y1="8" x2="12.01" y2="8"></line>
                             </svg>
-                            <div id="txtCropSeasonalTip">
-                                <!-- Populated dynamically based on activeCrop and selected month -->
+                            <span>HOW IT WORKS</span>
+                        </button>
+                    </div>
+
+                    <!-- Dynamic Live System Counters (PSA & DA Verified) -->
+                    <div class="taya-counters-bar">
+                        <div class="taya-counter-pill">
+                            <span>Available Crops:</span>
+                            <strong id="statCropsCount">{{ system_stats.total_crops or 35 }}+ Species</strong>
+                        </div>
+                        <div class="taya-counter-pill">
+                            <span>Coverage:</span>
+                            <strong>82 DA-AMIA Provinces</strong>
+                        </div>
+                        <div class="taya-counter-pill">
+                            <span>Machine Learning:</span>
+                            <strong>Random Forest (96.6% R²)</strong>
+                        </div>
+                        <div class="taya-counter-pill">
+                            <span>Data Sources:</span>
+                            <strong>PSA OpenSTAT &bull; DA-AMIA &bull; BPI</strong>
+                        </div>
+                    </div>
+
+                    <!-- 4-Step Instructions for First-Time Users -->
+                    <div class="taya-onboarding-steps">
+                        <div class="onboarding-step-card">
+                            <div class="onboarding-step-num">1</div>
+                            <div class="onboarding-step-text">
+                                <strong>Select Province &amp; Season</strong>
+                                Choose your farm location to load official soil &amp; climate norms.
                             </div>
                         </div>
-
-                        <!-- Sub-inputs Grid: Size + Custom Price + Season/Region -->
-                        <div class="inputs-subgrid">
-                            <!-- Farm Size Stepper & Manual Typing -->
-                            <div class="input-tile-card" id="cardFarmSize">
-                                <div class="input-tile-label-row">
-                                    <span class="input-tile-label" id="lblFarmSize">FARM SIZE</span>
-                                    <span class="input-mode-tag" id="tagFarmSizeMode">TYPE OR + / &minus;</span>
-                                    <button type="button" class="category-info-pill" onclick="openSystemGuideModal('categories', 'size')" title="Land area in hectares (1 ha = 10,000 sqm)" aria-label="Farm Size Info">
-                                        <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                                    </button>
-                                </div>
-                                <div class="stepper-row">
-                                    <button type="button" class="stepper-btn" aria-label="Decrease Farm Size" onclick="adjustArea(-1)">&minus;</button>
-                                    <div class="stepper-val-box">
-                                        <input type="number" 
-                                               class="stepper-num-input" 
-                                               id="areaDisplay" 
-                                               value="0" 
-                                               min="0" 
-                                               max="500" 
-                                               step="any" 
-                                               oninput="onAreaInput(this.value)" 
-                                               onblur="onAreaBlur()" 
-                                               onkeydown="if(event.key==='Enter'){this.blur(); runCountUpCalc();}" 
-                                               aria-label="Farm size in hectares" 
-                                               placeholder="0" 
-                                               title="Click and type your farm size in hectares, or use - / + buttons">
-                                        <span class="stepper-val-unit">HA</span>
-                                    </div>
-                                    <button type="button" class="stepper-btn" aria-label="Increase Farm Size" onclick="adjustArea(1)">&plus;</button>
-                                </div>
+                        <div class="onboarding-step-card">
+                            <div class="onboarding-step-num">2</div>
+                            <div class="onboarding-step-text">
+                                <strong>Add One or More Crops</strong>
+                                Search 35+ Philippine crops and allocate your land area (ha).
                             </div>
-
-                            <!-- Custom Selling Price Stepper & Manual Typing -->
-                            <div class="input-tile-card" id="cardSellingPrice">
-                                <div class="input-tile-label-row">
-                                    <span class="input-tile-label" id="lblSellingPrice">SELLING PRICE</span>
-                                    <span class="input-mode-tag" id="tagPriceMode">TYPE OR + / &minus;</span>
-                                    <button type="button" class="category-info-pill" onclick="openSystemGuideModal('categories', 'price')" title="PSA benchmark farmgate price per kg vs custom buyer rates" aria-label="Selling Price Info">
-                                        <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                                    </button>
-                                </div>
-                                <div class="stepper-row">
-                                    <button type="button" class="stepper-btn" aria-label="Decrease Selling Price" onclick="adjustCustomPrice(-0.50)">&minus;</button>
-                                    <div class="stepper-val-box">
-                                        <input type="number" 
-                                               class="stepper-num-input price-input" 
-                                               id="customPriceDisplay" 
-                                               value="0.00" 
-                                               min="0" 
-                                               max="1000" 
-                                               step="any" 
-                                               oninput="onPriceInput(this.value)" 
-                                               onblur="onPriceBlur()" 
-                                               onkeydown="if(event.key==='Enter'){this.blur(); runCountUpCalc();}" 
-                                               aria-label="Selling price in pesos per kilogram" 
-                                               placeholder="0.00" 
-                                               title="Click and type your selling price per kg, or use - / + buttons">
-                                        <span class="stepper-val-unit">&#8369;/KG</span>
-                                    </div>
-                                    <button type="button" class="stepper-btn" aria-label="Increase Selling Price" onclick="adjustCustomPrice(0.50)">&plus;</button>
-                                </div>
+                        </div>
+                        <div class="onboarding-step-card">
+                            <div class="onboarding-step-num">3</div>
+                            <div class="onboarding-step-text">
+                                <strong>Calculate Harvest &amp; Income</strong>
+                                View production volumes, cost breakdowns, and net income.
                             </div>
+                        </div>
+                        <div class="onboarding-step-card">
+                            <div class="onboarding-step-num">4</div>
+                            <div class="onboarding-step-text">
+                                <strong>Compare &amp; Download PDF</strong>
+                                Evaluate crop ROI, scenario shocks, and export your report.
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                            <!-- Season Toggle & Region Select (Spans Full Width of Subgrid) -->
-                            <div class="input-tile-card card-season-region" id="cardSeasonRegion">
-                                <div class="input-tile-label-row">
-                                    <span class="input-tile-label" id="lblSeasonRegion">SEASON &amp; REGION</span>
-                                    <button type="button" class="category-info-pill" onclick="openSystemGuideModal('categories', 'region')" title="Wet (Habagat) vs Dry (Amihan) and official DA-AMIA province ratings" aria-label="Season &amp; Region Info">
-                                        <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                                    </button>
-                                </div>
-                                <div class="season-region-dual-row">
-                                    <div class="season-pill-toggle">
-                                        <button type="button" class="season-pill-btn active" id="chipWet" onclick="setSeason('Wet')">WET</button>
-                                        <button type="button" class="season-pill-btn" id="chipDry" onclick="setSeason('Dry')">DRY</button>
-                                    </div>
-                                    <div class="region-select-box">
-                                        <select class="region-select-el" id="regionSelect" onchange="onProvinceChanged()">
-                                        {% if provinces_by_region %}
-                                            {% for reg_name, provs in provinces_by_region.items() %}
-                                            <optgroup label="{{ reg_name }}">
-                                                {% for p in provs %}
-                                                <option value="{{ p.province }}" {% if p.province == 'Laguna' %}selected{% endif %}>{{ p.province | upper }} ({{ p.island_group }})</option>
-                                                {% endfor %}
-                                            </optgroup>
-                                            {% endfor %}
-                                        {% else %}
-                                            <option value="Laguna" selected>LAGUNA</option>
-                                            <option value="Batangas">BATANGAS</option>
-                                            <option value="Quezon">QUEZON</option>
-                                        {% endif %}
-                                    </select>
-                                    <svg class="region-select-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                        <polyline points="6 9 12 15 18 9"></polyline>
+                <!-- ── 2. FARM LOCATION & CLIMATE SETTINGS ── -->
+                <div class="farmer-grid-layout">
+
+                    <!-- Left Column: Inputs & Farm Plan -->
+                    <div class="farmer-inputs-col">
+
+                        <!-- Season & Region Controls Card -->
+                        <div class="farm-plan-panel" style="margin-bottom:14px;">
+                            <div class="farm-plan-header">
+                                <span class="farm-plan-title">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
                                     </svg>
+                                    FARM LOCATION &amp; CLIMATE PROFILE
+                                </span>
+                                <span class="plan-summary-tag" id="tagProvSuitability">DA-AMIA Verified</span>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+                                <!-- Province Dropdown -->
+                                <div>
+                                    <label for="regionSelect" style="display:block; font-size:10px; font-weight:800; color:var(--text-muted); margin-bottom:4px; letter-spacing:0.04em;">PROVINCE</label>
+                                    <div class="region-select-box" style="width:100%;">
+                                        <select class="region-select-el" id="regionSelect" onchange="onProvinceChanged(this.value)">
+                                            {% if provinces_by_region %}
+                                                {% for reg_name, provs in provinces_by_region.items() %}
+                                                <optgroup label="{{ reg_name }}">
+                                                    {% for p in provs %}
+                                                    <option value="{{ p.province }}" {% if p.province == 'Laguna' %}selected{% endif %}>{{ p.province }}</option>
+                                                    {% endfor %}
+                                                </optgroup>
+                                                {% endfor %}
+                                            {% else %}
+                                                <option value="Laguna" selected>Laguna</option>
+                                                <option value="Nueva Ecija">Nueva Ecija</option>
+                                                <option value="Pangasinan">Pangasinan</option>
+                                            {% endif %}
+                                        </select>
+                                        <svg class="region-select-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="6 9 12 15 18 9"></polyline>
+                                        </svg>
+                                    </div>
+                                </div>
+
+                                <!-- Season Toggle -->
+                                <div>
+                                    <label style="display:block; font-size:10px; font-weight:800; color:var(--text-muted); margin-bottom:4px; letter-spacing:0.04em;">PLANTING SEASON</label>
+                                    <div class="season-pill-toggle" style="width:100%;">
+                                        <button type="button" class="season-pill-btn active" id="chipWet" onclick="selectSeason('Wet')">WET SEASON</button>
+                                        <button type="button" class="season-pill-btn" id="chipDry" onclick="selectSeason('Dry')">DRY SEASON</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Soil & Agro-climatic Live Meta Line -->
+                            <div style="background:rgba(0,0,0,0.18); border-radius:6px; padding:8px 12px; font-size:10.5px; color:var(--text-muted); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+                                <div>
+                                    <strong style="color:var(--text-offwhite);" id="txtProvinceSoilName">Soil: San Manuel Silt Loam / Clay</strong>
+                                </div>
+                                <div id="txtProvinceClimateMeta">
+                                    Annual Rain: 2,400 mm &bull; Mean Temp: 28.2&deg;C
                                 </div>
                             </div>
                         </div>
 
-                    </div>
-
-                    <!-- Action Row: Calculate & Refresh (Left Column Action) -->
-                    <div class="calc-action-row">
-                        <button class="btn-calculate-action" id="calculateBtn" onclick="runCountUpCalc()">
-                            <span id="txtCalcBtn">CALCULATE HARVEST &amp; INCOME &rarr;</span>
-                        </button>
-                        <button class="btn-reset-action" id="resetBtn" onclick="requestCalculatorReset()" title="Clear all inputs and reset calculator" aria-label="Refresh and reset inputs">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" class="refresh-icon">
-                                <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-1.19"/>
-                            </svg>
-                            <span id="txtResetBtn">REFRESH</span>
-                        </button>
-                    </div>
-
-                </div> <!-- End Left Column (farmer-inputs-col) -->
-
-                <!-- Right Column: Results & Province Advisory (Matches Guide Layout) -->
-                <div class="farmer-results-col">
-
-                    <!-- Top-Right Box: Results Card -->
-                    <div class="results-card" aria-live="polite">
-                        <!-- Header -->
-                        <div class="results-header-tag">
-                            <svg class="mascot-icon"><use href="#farmer-mascot"/></svg>
-                            <span id="resHeaderTitle">SELECT CROP &amp; INPUT FARM SIZE</span>
-                            <button type="button" class="category-info-pill results-pill" onclick="openSystemGuideModal('categories', 'results')" title="How Net Profit, Sacks, and Break-Even are calculated" aria-label="Results Calculation Info">
-                                <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                            </button>
-                        </div>
-
-                        <!-- Dark Profit Box -->
-                        <div class="profit-dark-box">
-                            <div class="profit-dark-top">
-                                <span class="profit-label">EST. NET PROFIT</span>
-                                <span class="roi-chip" id="resRoiBadge">0%</span>
-                            </div>
-                            <div class="profit-large-val readable-num" id="resNetProfit">&#8369;0</div>
-                        </div>
-
-                        <!-- 3 Stat Boxes Row -->
-                        <div class="stats-tri-row">
-                            <div class="stat-subcard">
-                                <div class="stat-subcard-val readable-num" id="resSacks">0</div>
-                                <div class="stat-subcard-lbl">SACKS</div>
-                            </div>
-                            <div class="stat-subcard">
-                                <div class="stat-subcard-val readable-num" id="resDays">0</div>
-                                <div class="stat-subcard-lbl">DAYS</div>
-                            </div>
-                            <div class="stat-subcard">
-                                <div class="stat-subcard-val readable-num">96.6%</div>
-                                <div class="stat-subcard-lbl">ACCURACY</div>
-                            </div>
-                        </div>
-
-                        <!-- 3 Scenario Buttons Row -->
-                        <div class="scenarios-tri-row" id="scenariosRow">
-                            <button class="scenario-pill-btn" id="scenBadBtn" onclick="selectScenario('bad')">
-                                <span class="scenario-tag">BAD</span>
-                                <span class="scenario-val readable-num" id="scenBadVal">&#8369;0</span>
-                            </button>
-                            <button class="scenario-pill-btn active" id="scenNormBtn" onclick="selectScenario('normal')">
-                                <span class="scenario-tag">NORMAL</span>
-                                <span class="scenario-val readable-num" id="scenNormVal">&#8369;0</span>
-                            </button>
-                            <button class="scenario-pill-btn" id="scenGoodBtn" onclick="selectScenario('good')">
-                                <span class="scenario-tag">GOOD</span>
-                                <span class="scenario-val readable-num" id="scenGoodVal">&#8369;0</span>
-                            </button>
-                        </div>
-
-                        <!-- Footnote with Break-Even Price Insight -->
-                        <div class="results-guarantee-note" id="resGuaranteeNote">
-                            ESTIMATE ONLY. NOT A GUARANTEE. &bull; BREAK-EVEN: <span id="resBreakEvenTag" class="readable-num">&#8369;0.00 / KG</span>
-                        </div>
-                    </div>
-
-                    <!-- Bottom-Right Box: Official Philippine Provincial Crop Advisory Card (DA-AMIA & PSA) -->
-                    <div class="province-advisory-card" id="provinceAdvisoryCard">
-                        <div class="province-advisory-header">
-                            <div class="province-advisory-badge-group">
-                                <div class="province-advisory-badge">
-                                    <span class="badge-pulse-dot"></span>
-                                    <span id="provAdvisoryBadgeText">PROVINCE CROP GUIDE &amp; ADVISORY</span>
-                                    <button type="button" class="category-info-pill" onclick="openSystemGuideModal('categories', 'da-amia')" title="About Provincial Crop Suitability Guide" aria-label="Provincial Guide Info">
-                                        <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <!-- ── 3. MULTI-CROP FARM PLAN (Phase 5) ── -->
+                        <div class="farm-plan-panel">
+                            <div class="farm-plan-header">
+                                <span class="farm-plan-title">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="3" width="7" height="7"></rect>
+                                        <rect x="14" y="3" width="7" height="7"></rect>
+                                        <rect x="14" y="14" width="7" height="7"></rect>
+                                        <rect x="3" y="14" width="7" height="7"></rect>
+                                    </svg>
+                                    SELECTED CROPS IN FARM PLAN (<span id="txtPlanCropCount">1</span>)
+                                </span>
+                                <div style="display:flex; align-items:center; gap:8px;">
+                                    <span class="plan-summary-tag">Total Area: <strong id="txtPlanTotalArea">1.0</strong> HA</span>
+                                    <button type="button" class="btn-open-catalog" onclick="openCropSelectorModal()">
+                                        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5">
+                                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        </svg>
+                                        <span>+ ADD CROP (35+)</span>
                                     </button>
                                 </div>
-                                <div class="prov-name-badge-group">
-                                    <span class="province-name-highlight" id="provAdvisoryName">LAGUNA</span>
-                                    <span class="prov-island-pill island-luzon" id="provAdvisoryIslandPill">CALABARZON (REGION IV-A) &bull; LUZON</span>
-                                </div>
                             </div>
-                            <div class="prov-distinction-badge" id="provAdvisoryDistinction" style="display:none;">
-                                <!-- Populated dynamically if distinction exists -->
+
+                            <!-- Quick Select Chips for Major Philippine Staples -->
+                            <div style="font-size:9.5px; font-weight:800; color:var(--text-muted); letter-spacing:0.05em; margin-bottom:6px; text-transform:uppercase;">
+                                Quick-Add Major Philippine Crops:
+                            </div>
+                            <div class="quick-crops-row">
+                                <button type="button" class="quick-crop-chip" onclick="quickAddCrop('Rice, paddy', 1.0)">+ Palay / Rice</button>
+                                <button type="button" class="quick-crop-chip" onclick="quickAddCrop('Maize', 1.0)">+ Mais / Corn</button>
+                                <button type="button" class="quick-crop-chip" onclick="quickAddCrop('Potatoes', 1.0)">+ Patatas / Potato</button>
+                                <button type="button" class="quick-crop-chip" onclick="quickAddCrop('Cassava', 1.0)">+ Kamoteng Kahoy</button>
+                                <button type="button" class="quick-crop-chip" onclick="quickAddCrop('Red Onion', 1.0)">+ Sibuyas / Onion</button>
+                                <button type="button" class="quick-crop-chip" onclick="quickAddCrop('Tomato', 0.5)">+ Kamatis / Tomato</button>
+                                <button type="button" class="quick-crop-chip" onclick="quickAddCrop('Plantains and others', 1.0)">+ Saging / Banana</button>
+                                <button type="button" class="quick-crop-chip" onclick="quickAddCrop('Sweet potatoes', 1.0)">+ Kamote</button>
+                            </div>
+
+                            <!-- Dynamic List of Selected Crops -->
+                            <div class="selected-crops-list" id="selectedCropsListContainer">
+                                <!-- Populated dynamically by renderSelectedCropsUI() -->
                             </div>
                         </div>
-                        <div class="province-advisory-content">
-                            <div class="province-advisory-landscape-grid">
-                                <div class="prov-agro-specs-col">
-                                    <div class="prov-meta-pill" title="Dominant Soil Series (DA-BSWM)">
-                                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2">
-                                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                                        </svg>
-                                        <span id="provAdvisorySoil">Soil: Clay &amp; Loam (Rich farm soil)</span>
-                                    </div>
-                                    <div class="prov-meta-pill" title="PAGASA Climate Type & Mean Precipitation">
-                                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2">
-                                            <path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"/>
-                                            <path d="M8 19v2M12 18v3M16 19v2"/>
-                                        </svg>
-                                        <span id="provAdvisoryClimate">Wet &amp; Dry Seasons &bull; 2,400 mm/yr &bull; 28.2&deg;C</span>
-                                    </div>
-                                </div>
-                                <div class="prov-crops-col">
-                                    <span class="province-crops-title" id="provAdvisoryCropsTitle">BEST CROPS TO PLANT IN THIS PROVINCE:</span>
-                                    <div class="province-crops-list" id="provAdvisoryCropsList">
-                                        <!-- Dynamically rendered -->
-                                    </div>
+
+                        <!-- ── 4. CALCULATE ACTION ROW (Phase 6) ── -->
+                        <div class="calc-action-row">
+                            <button class="btn-calculate-action" id="calculateBtn" onclick="runCountUpCalc()">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align:middle; margin-right:6px;">
+                                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                                </svg>
+                                <span id="txtCalcBtn">CALCULATE HARVEST &amp; INCOME &rarr;</span>
+                            </button>
+                            <button class="btn-reset-action" id="resetBtn" onclick="requestCalculatorReset()" title="Reset farm plan to default">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-1.19"/>
+                                </svg>
+                                <span id="txtResetBtn">RESET</span>
+                            </button>
+                        </div>
+
+                    </div> <!-- End Left Column -->
+
+                    <!-- Right Column: Results & Province Advisory -->
+                    <div class="farmer-results-col">
+
+                        <!-- Multi-Crop Results Card (Overview Totals) -->
+                        <div class="results-card" id="mainResultsCard" aria-live="polite">
+                            <!-- Header -->
+                            <div class="results-header-tag">
+                                <svg class="mascot-icon"><use href="#farmer-mascot"/></svg>
+                                <span id="resHeaderTitle">FARM INCOME PROJECTION</span>
+                                <div style="display:flex; align-items:center; gap:6px;">
+                                    <button type="button" class="btn-action-pill" id="btnSaveCurrent" onclick="saveCurrentPrediction()" title="Save completed forecast to SQLite history">
+                                        <span>💾 SAVE</span>
+                                    </button>
+                                    <button type="button" class="btn-action-pill" id="btnDownloadPdf" onclick="downloadPdfReport()" title="Generate printable PDF report">
+                                        <span>📄 PDF</span>
+                                    </button>
                                 </div>
                             </div>
-                            <div class="province-crop-match-banner recommended" id="provCropMatchBanner">
-                                <!-- Dynamically rendered -->
+
+                            <!-- Highlight Net Profit Box -->
+                            <div class="profit-dark-box">
+                                <div class="profit-dark-top">
+                                    <span class="profit-label">TOTAL ESTIMATED NET PROFIT</span>
+                                    <span class="roi-chip" id="resRoiBadge">0% ROI</span>
+                                </div>
+                                <div class="profit-large-val readable-num" id="resNetProfit">&#8369;0</div>
                             </div>
+
+                            <!-- 3 Stat KPI Boxes Row -->
+                            <div class="stats-tri-row">
+                                <div class="stat-subcard">
+                                    <div class="stat-subcard-val readable-num" id="resTotalProduction">0.0 MT</div>
+                                    <div class="stat-subcard-lbl">HARVEST VOLUME</div>
+                                </div>
+                                <div class="stat-subcard">
+                                    <div class="stat-subcard-val readable-num" id="resGrossIncome">&#8369;0</div>
+                                    <div class="stat-subcard-lbl">GROSS REVENUE</div>
+                                </div>
+                                <div class="stat-subcard">
+                                    <div class="stat-subcard-val readable-num" id="resTotalCost">&#8369;0</div>
+                                    <div class="stat-subcard-lbl">TOTAL EXPENSES</div>
+                                </div>
+                            </div>
+
+                            <!-- Scenario Sensitivity Row -->
+                            <div class="scenarios-tri-row" id="scenariosRow">
+                                <button class="scenario-pill-btn" id="scenBadBtn" onclick="selectScenario('bad')">
+                                    <span class="scenario-tag">ADVERSE (-20%)</span>
+                                    <span class="scenario-val readable-num" id="scenBadVal">&#8369;0</span>
+                                </button>
+                                <button class="scenario-pill-btn active" id="scenNormBtn" onclick="selectScenario('expected')">
+                                    <span class="scenario-tag">BASELINE (NORMAL)</span>
+                                    <span class="scenario-val readable-num" id="scenNormVal">&#8369;0</span>
+                                </button>
+                                <button class="scenario-pill-btn" id="scenGoodBtn" onclick="selectScenario('good')">
+                                    <span class="scenario-tag">FAVORABLE (+15%)</span>
+                                    <span class="scenario-val readable-num" id="scenGoodVal">&#8369;0</span>
+                                </button>
+                            </div>
+
+                            <!-- Footnote -->
+                            <div class="results-guarantee-note" id="resGuaranteeNote">
+                                ESTIMATES BASED ON PSA HISTORICAL FARMGATE RECORDS &bull; RANDOM FOREST PIPELINE (R² = 0.966)
+                            </div>
+                        </div>
+
+                        <!-- Official Philippine Provincial Crop Advisory Card (DA-AMIA & PSA) -->
+                        <div class="province-advisory-card" id="provinceAdvisoryCard">
+                            <div class="province-advisory-header">
+                                <div class="province-advisory-badge-group">
+                                    <div class="province-advisory-badge">
+                                        <span class="badge-pulse-dot"></span>
+                                        <span id="provAdvisoryBadgeText">PROVINCIAL AGRO-CLIMATIC GUIDE</span>
+                                    </div>
+                                    <div class="prov-name-badge-group">
+                                        <span class="province-name-highlight" id="provAdvisoryName">LAGUNA</span>
+                                        <span class="prov-island-pill island-luzon" id="provAdvisoryIsland">LUZON</span>
+                                    </div>
+                                </div>
+                                <div class="prov-distinction-badge" id="provAdvisoryDistinction">
+                                    Major Agricultural Basin (DA-AMIA)
+                                </div>
+                            </div>
+                            <div class="province-advisory-content">
+                                <div class="province-advisory-landscape-grid">
+                                    <div class="prov-agro-specs-col">
+                                        <div class="prov-meta-pill" title="Dominant Soil Series">
+                                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                                            </svg>
+                                            <span id="provAdvisorySoil">Soil: Clay &amp; Silt Loam</span>
+                                        </div>
+                                        <div class="prov-meta-pill" title="PAGASA Climate Type">
+                                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.2"/>
+                                                <path d="M8 19v2M12 18v3M16 19v2"/>
+                                            </svg>
+                                            <span id="provAdvisoryClimate">Wet &amp; Dry Seasons &bull; 2,400 mm/yr</span>
+                                        </div>
+                                    </div>
+                                    <div class="prov-crops-col">
+                                        <span class="province-crops-title" id="provAdvisoryCropsTitle">SUITABLE CROPS:</span>
+                                        <div class="province-crops-list" id="provAdvisoryCropsList">
+                                            <span class="prov-crop-tag">Rice</span>
+                                            <span class="prov-crop-tag">Corn</span>
+                                            <span class="prov-crop-tag">Cassava</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="province-crop-match-banner recommended" id="provCropMatchBanner">
+                                    Selected crops match agro-climatic conditions for this province.
+                                </div>
+                            </div>
+                        </div>
+
+                    </div> <!-- End Right Column -->
+
+                </div> <!-- End farmer-grid-layout -->
+
+                <!-- ── 5. DETAILED CROP RESULTS & COMPARISON SECTION (Phase 6 & 7) ── -->
+                <div class="multi-results-container" id="multiCropDetailContainer">
+
+                    <!-- Per-Crop Breakdown Cards Grid -->
+                    <div style="font-size:12px; font-weight:800; letter-spacing:0.05em; color:var(--text-offwhite); margin-top:10px;">
+                        ITEMIZED HARVEST, REVENUE &amp; EXPENSE FORECAST PER CROP
+                    </div>
+                    <div class="crop-breakdown-cards-grid" id="cropBreakdownCardsGrid">
+                        <!-- Populated dynamically by renderMultiCropResults() -->
+                    </div>
+
+                    <!-- ── 6. CROP COMPARISON TABLE & CHART (Phase 7) ── -->
+                    <div class="crop-comparison-panel" id="cropComparisonPanel">
+                        <div class="comparison-panel-header">
+                            <div>
+                                <h3>CROP PROFITABILITY COMPARISON</h3>
+                                <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">
+                                    Side-by-side evaluation of estimated harvest, revenue, costs, and net returns.
+                                </div>
+                            </div>
+                            <div class="highest-income-chip" id="highestIncomeBadge">
+                                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <circle cx="12" cy="8" r="7"></circle>
+                                    <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                                </svg>
+                                <span id="txtHighestCropWinner">Top Crop: Calculating...</span>
+                            </div>
+                        </div>
+
+                        <!-- Side-by-side Comparison Table -->
+                        <div class="comparison-table-wrapper">
+                            <table class="comparison-table">
+                                <thead>
+                                    <tr>
+                                        <th>CROP NAME</th>
+                                        <th>CATEGORY</th>
+                                        <th>AREA (HA)</th>
+                                        <th>HARVEST (MT)</th>
+                                        <th>FARMGATE PRICE</th>
+                                        <th>GROSS REVENUE</th>
+                                        <th>PRODUCTION COSTS</th>
+                                        <th>NET PROFIT</th>
+                                        <th>ROI (%)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="comparisonTableBody">
+                                    <!-- Populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Comparison SVG Chart Box -->
+                        <div class="comparison-chart-container">
+                            <div style="font-size:10px; font-weight:800; color:var(--text-muted); letter-spacing:0.04em; margin-bottom:8px; text-transform:uppercase;">
+                                FINANCIAL COMPARISON (GROSS REVENUE vs. PRODUCTION COSTS vs. NET PROFIT)
+                            </div>
+                            <div id="cropComparisonChartBox" style="width:100%; min-height:180px;">
+                                <!-- SVG Chart rendered by drawCropComparisonChart() -->
+                            </div>
+                        </div>
+
+                        <!-- Agronomic Risk Advisory Notice (Required in Phase 7) -->
+                        <div class="agronomic-alert-callout">
+                            <strong>⚠️ AGRONOMIC RISK &amp; SUITABILITY NOTICE:</strong>
+                            <span id="txtAgronomicAdvisoryNotice">
+                                The crop with the highest estimated net profit is not automatically the optimal choice. Filipino smallholders must also account for seasonal typhoons, soil drainage, input capital outlays, local farmgate buyer access, and pest pressure when planning crop rotations.
+                            </span>
                         </div>
                     </div>
 
-                </div> <!-- End Right Column (farmer-results-col) -->
+                </div> <!-- End multi-results-container -->
 
-            </div> <!-- End farmer-grid-layout -->
             </section>
 
             <!-- ════════════════════════════════════════════════════════ -->
+            <!-- ADD CROP SELECTION MODAL (Phase 5)                       -->
+            <!-- ════════════════════════════════════════════════════════ -->
+            <div id="cropSelectorModal" class="crop-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="cropModalTitle">
+                <div class="crop-modal-card">
+                    <div class="crop-modal-header">
+                        <h3 id="cropModalTitle">PHILIPPINE CROP DATABASE (35+ SPECIES)</h3>
+                        <button type="button" class="crop-modal-close-btn" onclick="closeCropSelectorModal()" aria-label="Close Crop Modal">&times;</button>
+                    </div>
+
+                    <div class="crop-modal-toolbar">
+                        <div class="crop-search-box">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                            <input type="text" id="cropSearchInput" placeholder="Search crops by English or Filipino name, category, or province..." oninput="onCropSearchInput(this.value)">
+                        </div>
+
+                        <!-- Category Filters -->
+                        <div class="crop-cat-pills-row">
+                            <button type="button" class="cat-pill-btn active" onclick="setCropCategoryFilter('all', this)">All Crops (35)</button>
+                            <button type="button" class="cat-pill-btn" onclick="setCropCategoryFilter('Cereals & Grains', this)">Cereals &amp; Grains</button>
+                            <button type="button" class="cat-pill-btn" onclick="setCropCategoryFilter('Root & Tuber Crops', this)">Root &amp; Tubers</button>
+                            <button type="button" class="cat-pill-btn" onclick="setCropCategoryFilter('Vegetables', this)">Vegetables</button>
+                            <button type="button" class="cat-pill-btn" onclick="setCropCategoryFilter('Legumes', this)">Legumes</button>
+                            <button type="button" class="cat-pill-btn" onclick="setCropCategoryFilter('Fruits', this)">Fruits</button>
+                            <button type="button" class="cat-pill-btn" onclick="setCropCategoryFilter('Commercial & Plantation', this)">Commercial Crops</button>
+                        </div>
+                    </div>
+
+                    <!-- Crop Catalog Grid -->
+                    <div class="crop-modal-grid" id="cropCatalogGrid">
+                        <!-- Populated dynamically from PH_CROP_CATALOG -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- ════════════════════════════════════════════════════════ -->
+<!-- ════════════════════════════════════════════════════════ -->
             <!-- 2. ADVISOR VIEW                                          -->
             <!-- ════════════════════════════════════════════════════════ -->
             <section class="view-panel" id="view-advisor" aria-label="Advisor Crop Ranking">
@@ -8423,6 +9373,8 @@
             } catch(e) {}
 
             renderHistoryList();
+            renderSelectedCropsUI();
+            updateHistoryCountBadge();
             showToast(currentLang === 'fil' ? 'Nai-save ang kasalukuyang sakahan!' : 'Current farm configuration saved to History!');
         }
 
@@ -9630,6 +10582,745 @@
         let ambientField = null;
 
         // ── Lifecycle Initialization ──
+        
+        // ═══════════════════════════════════════════════════════════════
+        // TAYA SYSTEM: MULTI-CROP PREDICTION & FINANCIAL ENGINE (JS)
+        // ═══════════════════════════════════════════════════════════════
+
+        // Global State
+        const PH_CROP_CATALOG = {{ crops_catalog|tojson|safe if crops_catalog else "[]" }};
+        let selectedCrops = [
+            { crop_name: "Rice, paddy", land_area_ha: 1.0, farmgate_price: null, cost_per_ha: null }
+        ];
+        let currentCalculatedResult = null;
+        let activeFilterCategory = "all";
+        let activeSearchQuery = "";
+        let currentSuitabilityData = [];
+
+        // 1. Multi-Crop Farm Plan Management
+        function renderSelectedCropsUI() {
+            const container = document.getElementById("selectedCropsListContainer");
+            if (!container) return;
+
+            const countEl = document.getElementById("txtPlanCropCount");
+            const totalAreaEl = document.getElementById("txtPlanTotalArea");
+
+            if (selectedCrops.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-plan-notice">
+                        NO CROPS IN FARM PLAN YET.<br>
+                        Click <strong>"+ Add Crop (35+)"</strong> or select from the quick-add buttons above.
+                    </div>
+                `;
+                if (countEl) countEl.textContent = "0";
+                if (totalAreaEl) totalAreaEl.textContent = "0.0";
+                return;
+            }
+
+            const totalArea = selectedCrops.reduce((sum, c) => sum + (parseFloat(c.land_area_ha) || 0), 0);
+            if (countEl) countEl.textContent = selectedCrops.length;
+            if (totalAreaEl) totalAreaEl.textContent = totalArea.toFixed(1);
+
+            const curProv = (document.getElementById("regionSelect") ? document.getElementById("regionSelect").value : "").toLowerCase();
+
+            container.innerHTML = selectedCrops.map((c, idx) => {
+                const catalogInfo = PH_CROP_CATALOG.find(item => item.Crop_Name.toLowerCase() === c.crop_name.toLowerCase()) || {};
+                const letter = c.crop_name.charAt(0).toUpperCase();
+                const category = catalogInfo.Crop_Category || "Crops";
+                const sciname = catalogInfo.Scientific_Name || "";
+                const origin = catalogInfo.Origin_Status || "Cultivated";
+
+                // Check suitability
+                const suitableProvs = (catalogInfo.Suitable_Provinces || "").toLowerCase();
+                const isSuit = suitableProvs.includes(curProv) || curProv === "" || !catalogInfo.Suitable_Provinces;
+
+                return `
+                    <div class="selected-crop-card">
+                        <div class="selected-crop-left">
+                            <div class="selected-crop-avatar">${letter}</div>
+                            <div class="selected-crop-details">
+                                <h4>${c.crop_name}</h4>
+                                <span>${category} &bull; <em>${sciname}</em></span>
+                            </div>
+                        </div>
+
+                        <div class="selected-crop-middle">
+                            <span class="crop-suit-badge ${isSuit ? '' : 'secondary'}">
+                                ${isSuit ? '✓ Suitable in Province' : '• Secondary Option'}
+                            </span>
+                            <div class="crop-area-stepper" title="Land area in hectares">
+                                <span class="crop-area-unit">AREA:</span>
+                                <input type="number" min="0.1" max="500" step="0.1" value="${c.land_area_ha}"
+                                       onchange="updateCropArea(${idx}, this.value)"
+                                       onblur="updateCropArea(${idx}, this.value)"
+                                       aria-label="Area in hectares for ${c.crop_name}">
+                                <span class="crop-area-unit">HA</span>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn-remove-crop" onclick="removeCropFromPlan(${idx})" title="Remove ${c.crop_name}">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            </svg>
+                        </button>
+                    </div>
+                `;
+            }).join("");
+        }
+
+        function quickAddCrop(cropName, defaultHa = 1.0) {
+            const existing = selectedCrops.find(c => c.crop_name.toLowerCase() === cropName.toLowerCase());
+            if (existing) {
+                existing.land_area_ha = (parseFloat(existing.land_area_ha) + defaultHa).toFixed(1);
+                showToast(`Increased ${cropName} land area by ${defaultHa} ha.`);
+            } else {
+                selectedCrops.push({
+                    crop_name: cropName,
+                    land_area_ha: defaultHa,
+                    farmgate_price: null,
+                    cost_per_ha: null
+                });
+                showToast(`Added ${cropName} (${defaultHa} ha) to farm plan.`);
+            }
+            renderSelectedCropsUI();
+        }
+
+        function addCropToPlan(cropName, defaultHa = 1.0) {
+            quickAddCrop(cropName, defaultHa);
+            closeCropSelectorModal();
+        }
+
+        function removeCropFromPlan(index) {
+            if (index >= 0 && index < selectedCrops.length) {
+                const name = selectedCrops[index].crop_name;
+                selectedCrops.splice(index, 1);
+                showToast(`Removed ${name} from farm plan.`);
+                renderSelectedCropsUI();
+            }
+        }
+
+        function updateCropArea(index, val) {
+            const num = parseFloat(val);
+            if (!isNaN(num) && num > 0 && num <= 500) {
+                selectedCrops[index].land_area_ha = num;
+            } else {
+                showToast("Please enter a valid land area between 0.1 and 500 hectares.");
+            }
+            renderSelectedCropsUI();
+        }
+
+        // 2. Crop Selector Modal
+        function openCropSelectorModal() {
+            const modal = document.getElementById("cropSelectorModal");
+            if (!modal) return;
+            modal.classList.add("open");
+            renderCropCatalogGrid();
+            const input = document.getElementById("cropSearchInput");
+            if (input) setTimeout(() => input.focus(), 100);
+        }
+
+        function closeCropSelectorModal() {
+            const modal = document.getElementById("cropSelectorModal");
+            if (modal) modal.classList.remove("open");
+        }
+
+        function onCropSearchInput(query) {
+            activeSearchQuery = (query || "").trim().toLowerCase();
+            renderCropCatalogGrid();
+        }
+
+        function setCropCategoryFilter(category, btnEl) {
+            activeFilterCategory = category;
+            const pills = document.querySelectorAll(".crop-cat-pills-row .cat-pill-btn");
+            pills.forEach(p => p.classList.remove("active"));
+            if (btnEl) btnEl.classList.add("active");
+            renderCropCatalogGrid();
+        }
+
+        function renderCropCatalogGrid() {
+            const grid = document.getElementById("cropCatalogGrid");
+            if (!grid) return;
+
+            const curProv = (document.getElementById("regionSelect") ? document.getElementById("regionSelect").value : "").toLowerCase();
+
+            const filtered = PH_CROP_CATALOG.filter(c => {
+                // Category filter
+                if (activeFilterCategory !== "all" && c.Crop_Category !== activeFilterCategory) {
+                    return false;
+                }
+                // Search query
+                if (activeSearchQuery) {
+                    const matchName = c.Crop_Name.toLowerCase().includes(activeSearchQuery);
+                    const matchSci = (c.Scientific_Name || "").toLowerCase().includes(activeSearchQuery);
+                    const matchCat = (c.Crop_Category || "").toLowerCase().includes(activeSearchQuery);
+                    const matchProv = (c.Suitable_Provinces || "").toLowerCase().includes(activeSearchQuery);
+                    const matchDesc = (c.Description || "").toLowerCase().includes(activeSearchQuery);
+                    return matchName || matchSci || matchCat || matchProv || matchDesc;
+                }
+                return true;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 32px 16px;">
+                        NO MATCHING CROPS FOUND FOR "${activeSearchQuery}".<br>
+                        Try searching for Rice, Corn, Potato, Onion, Mango, or choosing a different category.
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(c => {
+                const suitableProvs = (c.Suitable_Provinces || "").toLowerCase();
+                const isSuit = suitableProvs.includes(curProv) || curProv === "" || !c.Suitable_Provinces;
+                const isSelected = selectedCrops.some(sc => sc.crop_name.toLowerCase() === c.Crop_Name.toLowerCase());
+
+                return `
+                    <div class="catalog-crop-card">
+                        <div>
+                            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;">
+                                <span class="catalog-crop-origin">${c.Origin_Status || 'Cultivated'}</span>
+                                ${isSuit ? '<span style="font-size:9px; font-weight:800; color:#2a9d8f;">✓ Recommended in ' + (document.getElementById("regionSelect") ? document.getElementById("regionSelect").value : "Province") + '</span>' : ''}
+                            </div>
+                            <h4 class="catalog-crop-title">${c.Crop_Name}</h4>
+                            <div class="catalog-crop-sciname">${c.Scientific_Name || ''} &bull; ${c.Crop_Category}</div>
+                            <p class="catalog-crop-desc">${c.Description || 'Cultivated Philippine crop with high agricultural market value.'}</p>
+                        </div>
+                        <button type="button" class="btn-add-crop-action" onclick="addCropToPlan('${c.Crop_Name}', 1.0)">
+                            ${isSelected ? '✓ IN PLAN (+1 HA)' : '+ ADD TO FARM PLAN'}
+                        </button>
+                    </div>
+                `;
+            }).join("");
+        }
+
+        // 3. Multi-Crop Calculate Engine (Phase 6)
+        async function runCountUpCalc() {
+            if (selectedCrops.length === 0) {
+                showToast("Please add at least one crop to your farm plan before calculating.");
+                openCropSelectorModal();
+                return;
+            }
+
+            // Validate all land areas
+            for (let i = 0; i < selectedCrops.length; i++) {
+                const ha = parseFloat(selectedCrops[i].land_area_ha);
+                if (isNaN(ha) || ha <= 0 || ha > 500) {
+                    showToast(`Please enter a valid land area (0.1 to 500 ha) for ${selectedCrops[i].crop_name}.`);
+                    return;
+                }
+            }
+
+            const calcBtn = document.getElementById("calculateBtn");
+            const originalBtnText = calcBtn ? calcBtn.innerHTML : "";
+            if (calcBtn) {
+                calcBtn.disabled = true;
+                calcBtn.innerHTML = `<span>CALCULATING HARVEST & INCOME...</span>`;
+            }
+
+            const provSelect = document.getElementById("regionSelect");
+            const provinceName = provSelect ? provSelect.value : "Laguna";
+            const seasonStr = (activeSeason === "Wet") ? "Wet Season" : "Dry Season";
+
+            const payload = {
+                province: provinceName,
+                season: seasonStr,
+                soil_type: document.getElementById("txtProvinceSoilName") ? document.getElementById("txtProvinceSoilName").textContent.replace("Soil:", "").trim() : "Clay Loam",
+                crops: selectedCrops.map(c => ({
+                    crop_name: c.crop_name,
+                    land_area_ha: parseFloat(c.land_area_ha) || 1.0,
+                    farmgate_price: c.farmgate_price,
+                    cost_per_ha: c.cost_per_ha,
+                    pesticides_tonnes: 120.0
+                }))
+            };
+
+            try {
+                const res = await fetch("/api/calculate", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!res.ok) {
+                    const errData = await res.json();
+                    throw new Error(errData.message || "Failed to calculate harvest estimates.");
+                }
+
+                const data = await res.json();
+                currentCalculatedResult = data;
+
+                // Render Results
+                renderCalculatedResults(data);
+
+                // Auto-save to SQLite history in background
+                autoSavePredictionSilent(data);
+
+                showToast("Harvest yield & net income calculated successfully!");
+
+                // Scroll smoothly to results card
+                const resCard = document.getElementById("mainResultsCard");
+                if (resCard) resCard.scrollIntoView({ behavior: "smooth", block: "start" });
+
+            } catch (err) {
+                console.error("Calculation Error:", err);
+                showToast("Error during calculation: " + err.message);
+            } finally {
+                if (calcBtn) {
+                    calcBtn.disabled = false;
+                    calcBtn.innerHTML = originalBtnText;
+                }
+            }
+        }
+
+        // Render calculated multi-crop results
+        function renderCalculatedResults(data) {
+            if (!data || !data.totals) return;
+
+            const totals = data.totals;
+            const cropResults = data.crop_results || [];
+
+            // Update Overview Header
+            const provName = data.parameters ? data.parameters.province : "Province";
+            const seasonName = data.parameters ? data.parameters.season : "Wet Season";
+            const headerEl = document.getElementById("resHeaderTitle");
+            if (headerEl) {
+                headerEl.textContent = `${provName.toUpperCase()} • ${totals.crop_count} CROPS • ${totals.total_land_area_ha} HA • ${seasonName.toUpperCase()}`;
+            }
+
+            // Animate Net Profit
+            const prevNet = currentNetProfit || 0;
+            animateCountUp(prevNet, totals.total_net_income_php, 600);
+
+            // Update ROI Badge
+            const roiBadge = document.getElementById("resRoiBadge");
+            if (roiBadge) {
+                const roi = totals.overall_roi_percent || 0;
+                roiBadge.textContent = (roi >= 0 ? "+" : "") + roi.toFixed(1) + "% ROI";
+            }
+
+            // Update 3 Stat KPI Boxes
+            const prodEl = document.getElementById("resTotalProduction");
+            if (prodEl) prodEl.textContent = `${totals.total_production_mt.toFixed(1)} MT`;
+
+            const grossEl = document.getElementById("resGrossIncome");
+            if (grossEl) grossEl.textContent = formatCurrency(totals.total_gross_income_php);
+
+            const costEl = document.getElementById("resTotalCost");
+            if (costEl) costEl.textContent = formatCurrency(totals.total_production_cost_php);
+
+            // Scenarios
+            const scenNorm = totals.total_net_income_php;
+            const scenBad = Math.round(totals.total_gross_income_php * 0.80 - totals.total_production_cost_php);
+            const scenGood = Math.round(totals.total_gross_income_php * 1.15 - totals.total_production_cost_php);
+
+            const sBadVal = document.getElementById("scenBadVal");
+            if (sBadVal) sBadVal.textContent = formatK(scenBad);
+            const sNormVal = document.getElementById("scenNormVal");
+            if (sNormVal) sNormVal.textContent = formatK(scenNorm);
+            const sGoodVal = document.getElementById("scenGoodVal");
+            if (sGoodVal) sGoodVal.textContent = formatK(scenGood);
+
+            // Render Per-Crop Breakdown Cards Grid
+            renderCropBreakdownCards(cropResults);
+
+            // Render Crop Comparison Table & SVG Chart (Phase 7)
+            renderCropComparisonSection(data);
+        }
+
+        function renderCropBreakdownCards(cropResults) {
+            const container = document.getElementById("cropBreakdownCardsGrid");
+            if (!container) return;
+
+            container.innerHTML = cropResults.map(c => {
+                const costs = c.itemized_costs || {};
+                return `
+                    <div class="crop-item-result-card">
+                        <div class="crop-result-header">
+                            <div>
+                                <h4>${c.crop_name}</h4>
+                                <span style="font-size:10px; color:var(--text-muted);">${c.category} &bull; ${c.land_area_ha} Hectares</span>
+                            </div>
+                            <span class="crop-source-badge">${c.is_ml_predicted ? 'ML Model (R² 0.966)' : 'PSA Baseline Stats'}</span>
+                        </div>
+
+                        <div class="crop-stat-line">
+                            <span>Harvest Production:</span>
+                            <strong>${c.total_yield_mt} MT (${c.total_cavans_sacks} cavans)</strong>
+                        </div>
+                        <div class="crop-stat-line">
+                            <span>Farmgate Price:</span>
+                            <strong>${formatCurrency(c.farmgate_price_php_kg)} / kg</strong>
+                        </div>
+                        <div class="crop-stat-line">
+                            <span>Gross Farm Revenue:</span>
+                            <strong>${formatCurrency(c.gross_income_php)}</strong>
+                        </div>
+                        <div class="crop-stat-line">
+                            <span>Total Production Cost:</span>
+                            <strong>${formatCurrency(c.production_cost_php)}</strong>
+                        </div>
+                        <div class="crop-stat-line" style="border-top: 1px dashed var(--border-subtle); padding-top: 6px;">
+                            <span style="font-weight:800; color:var(--text-offwhite);">Net Farm Profit:</span>
+                            <strong style="color: #8fa63a; font-size: 13px;">${formatCurrency(c.net_income_php)} (${c.roi_percent}% ROI)</strong>
+                        </div>
+
+                        <!-- Itemized Costs Breakdown -->
+                        <div style="font-size:9.5px; font-weight:800; color:var(--text-muted); letter-spacing:0.04em; margin-top:4px;">
+                            ITEMIZED PRODUCTION EXPENSES:
+                        </div>
+                        <div class="itemized-cost-grid">
+                            <div class="cost-item">
+                                Labor &amp; Prep:
+                                <span>${formatCurrency(costs.labor_cost_php || 0)}</span>
+                            </div>
+                            <div class="cost-item">
+                                Fertilizers:
+                                <span>${formatCurrency(costs.fertilizer_cost_php || 0)}</span>
+                            </div>
+                            <div class="cost-item">
+                                Agrochemicals:
+                                <span>${formatCurrency(costs.pesticide_cost_php || 0)}</span>
+                            </div>
+                            <div class="cost-item">
+                                Seeds &amp; Planting:
+                                <span>${formatCurrency(costs.seeds_cost_php || 0)}</span>
+                            </div>
+                        </div>
+
+                        <div style="font-size:10px; color:var(--text-muted); font-style:italic;">
+                            ${c.suitability_notes || 'Cultivated across Philippine agricultural zones.'}
+                        </div>
+                    </div>
+                `;
+            }).join("");
+        }
+
+        // 4. Crop Comparison Table & SVG Chart (Phase 7)
+        function renderCropComparisonSection(data) {
+            const tableBody = document.getElementById("comparisonTableBody");
+            const winnerBadge = document.getElementById("highestIncomeBadge");
+            const winnerText = document.getElementById("txtHighestCropWinner");
+            const advisoryNotice = document.getElementById("txtAgronomicAdvisoryNotice");
+
+            const cropResults = data.crop_results || [];
+            if (cropResults.length === 0) return;
+
+            // Sort by Net Profit descending
+            const sorted = [...cropResults].sort((a, b) => b.net_income_php - a.net_income_php);
+            const winner = sorted[0];
+
+            if (winnerText) {
+                winnerText.textContent = `Top Crop: ${winner.crop_name} (${formatCurrency(winner.net_income_php)})`;
+            }
+
+            if (advisoryNotice && data.comparison_summary && data.comparison_summary.advisory) {
+                advisoryNotice.textContent = data.comparison_summary.advisory;
+            }
+
+            if (tableBody) {
+                tableBody.innerHTML = sorted.map((c, idx) => `
+                    <tr style="${idx === 0 ? 'background: rgba(143,166,58,0.1); font-weight: 700;' : ''}">
+                        <td>
+                            ${idx === 0 ? '🏆 ' : ''}<strong>${c.crop_name}</strong>
+                        </td>
+                        <td>${c.category}</td>
+                        <td>${c.land_area_ha} HA</td>
+                        <td>${c.total_yield_mt} MT</td>
+                        <td>${formatCurrency(c.farmgate_price_php_kg)}/kg</td>
+                        <td>${formatCurrency(c.gross_income_php)}</td>
+                        <td>${formatCurrency(c.production_cost_php)}</td>
+                        <td style="color: ${c.net_income_php >= 0 ? '#8fa63a' : '#e76f51'}; font-weight: 800;">
+                            ${formatCurrency(c.net_income_php)}
+                        </td>
+                        <td>${c.roi_percent}%</td>
+                    </tr>
+                `).join("");
+            }
+
+            // Draw SVG Comparison Chart
+            drawCropComparisonChart(sorted);
+        }
+
+        function drawCropComparisonChart(cropResults) {
+            const container = document.getElementById("cropComparisonChartBox");
+            if (!container) return;
+
+            if (!cropResults || cropResults.length === 0) {
+                container.innerHTML = "";
+                return;
+            }
+
+            const maxVal = Math.max(...cropResults.map(c => Math.max(c.gross_income_php, c.production_cost_php, Math.abs(c.net_income_php))), 10000);
+
+            const rowHeight = 44;
+            const chartHeight = Math.max(160, cropResults.length * rowHeight + 40);
+            const chartWidth = 580;
+            const barMaxWidth = 240;
+            const startX = 140;
+
+            let barsSvg = "";
+            cropResults.forEach((c, idx) => {
+                const y = 30 + idx * rowHeight;
+                const grossW = Math.max(2, Math.round((c.gross_income_php / maxVal) * barMaxWidth));
+                const costW = Math.max(2, Math.round((c.production_cost_php / maxVal) * barMaxWidth));
+                const netW = Math.max(2, Math.round((Math.max(0, c.net_income_php) / maxVal) * barMaxWidth));
+
+                barsSvg += `
+                    <!-- Crop Name -->
+                    <text x="${startX - 10}" y="${y + 16}" fill="var(--text-offwhite)" font-size="10" font-weight="800" text-anchor="end">${c.crop_name}</text>
+
+                    <!-- Gross Revenue Bar (Gold) -->
+                    <rect x="${startX}" y="${y}" width="${grossW}" height="7" rx="3" fill="#d4a373"/>
+
+                    <!-- Cost Bar (Coral) -->
+                    <rect x="${startX}" y="${y + 9}" width="${costW}" height="7" rx="3" fill="#e76f51"/>
+
+                    <!-- Net Profit Bar (Green) -->
+                    <rect x="${startX}" y="${y + 18}" width="${netW}" height="7" rx="3" fill="#8fa63a"/>
+
+                    <!-- Net Value Text -->
+                    <text x="${startX + Math.max(grossW, costW, netW) + 8}" y="${y + 16}" fill="var(--text-muted)" font-size="9" font-weight="700">
+                        Net: ₱${Math.round(c.net_income_php).toLocaleString()}
+                    </text>
+                `;
+            });
+
+            container.innerHTML = `
+                <svg viewBox="0 0 ${chartWidth} ${chartHeight}" style="width:100%; height:auto; display:block;" aria-label="Crop Profitability Comparison Chart">
+                    <!-- Legend -->
+                    <rect x="${startX}" y="10" width="8" height="8" rx="2" fill="#d4a373"/>
+                    <text x="${startX + 12}" y="17" fill="var(--text-muted)" font-size="8.5" font-weight="700">Gross Revenue</text>
+
+                    <rect x="${startX + 100}" y="10" width="8" height="8" rx="2" fill="#e76f51"/>
+                    <text x="${startX + 112}" y="17" fill="var(--text-muted)" font-size="8.5" font-weight="700">Production Costs</text>
+
+                    <rect x="${startX + 210}" y="10" width="8" height="8" rx="2" fill="#8fa63a"/>
+                    <text x="${startX + 222}" y="17" fill="var(--text-muted)" font-size="8.5" font-weight="700">Net Profit</text>
+
+                    ${barsSvg}
+                </svg>
+            `;
+        }
+
+        // 5. Prediction History Integration (Phase 8 - SQLite)
+        async function autoSavePredictionSilent(data) {
+            try {
+                await fetch("/api/history/save", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                });
+                updateHistoryCountBadge();
+            } catch (e) {}
+        }
+
+        async function saveCurrentPrediction() {
+            if (!currentCalculatedResult) {
+                await runCountUpCalc();
+                return;
+            }
+
+            try {
+                const res = await fetch("/api/history/save", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(currentCalculatedResult)
+                });
+
+                if (res.ok) {
+                    showToast("Prediction saved to database history!");
+                    updateHistoryCountBadge();
+                    if (document.getElementById("historyDrawerOverlay").classList.contains("open")) {
+                        loadHistory();
+                    }
+                } else {
+                    showToast("Failed to save prediction.");
+                }
+            } catch (err) {
+                showToast("Error saving prediction: " + err.message);
+            }
+        }
+
+        async function updateHistoryCountBadge() {
+            try {
+                const res = await fetch("/api/stats");
+                if (res.ok) {
+                    const data = await res.json();
+                    const cnt = data.stats ? data.stats.total_saved_predictions : 0;
+                    const heroCount = document.getElementById("txtHistoryHeroCount");
+                    if (heroCount) heroCount.textContent = cnt;
+                    const countBadge = document.getElementById("historyCountBadge");
+                    if (countBadge) countBadge.textContent = cnt;
+                    const railDot = document.getElementById("railHistoryDot");
+                    if (railDot) railDot.classList.toggle("visible", cnt > 0);
+                }
+            } catch (e) {}
+        }
+
+        async function loadHistory() {
+            const listEl = document.getElementById("historyItemsList");
+            if (!listEl) return;
+
+            try {
+                const res = await fetch("/api/history");
+                if (!res.ok) throw new Error("Failed to load history.");
+                const data = await res.json();
+                const historyList = data.history || [];
+
+                updateHistoryCountBadge();
+
+                if (historyList.length === 0) {
+                    listEl.innerHTML = `
+                        <div style="text-align: center; color: var(--text-muted); padding: 32px 16px; font-size: 11px;">
+                            NO SAVED PREDICTIONS YET.<br>CALCULATE A CROP HARVEST OR CLICK "💾 SAVE" ABOVE.
+                        </div>
+                    `;
+                    return;
+                }
+
+                listEl.innerHTML = historyList.map(item => `
+                    <div class="history-item-card" style="cursor:default;">
+                        <div class="history-item-top">
+                            <div class="history-item-crop">
+                                <div class="history-crop-badge">${item.best_crop_name ? item.best_crop_name.charAt(0) : 'P'}</div>
+                                <div>
+                                    <div class="history-crop-name">${item.province} &bull; ${item.crop_count} Crops</div>
+                                    <div class="history-time">${item.created_at} &bull; ${item.season}</div>
+                                </div>
+                            </div>
+                            <div style="display:flex; align-items:center; gap:6px;">
+                                <button type="button" class="btn-action-pill" onclick="viewHistoryDetail(${item.id})" style="padding:3px 8px; font-size:9.5px;">VIEW</button>
+                                <button type="button" class="btn-remove-crop" onclick="deleteHistoryItem(${item.id})" title="Delete record">&times;</button>
+                            </div>
+                        </div>
+                        <div class="history-item-bottom" style="margin-top:6px;">
+                            <span>Top: <strong>${item.best_crop_name || 'Multi-crop'}</strong></span>
+                            <span class="history-net" style="color:#8fa63a; font-weight:800;">${formatCurrency(item.total_net_income)}</span>
+                        </div>
+                    </div>
+                `).join("");
+
+            } catch (err) {
+                listEl.innerHTML = `<div style="padding:16px; color:#e76f51;">Error loading history: ${err.message}</div>`;
+            }
+        }
+
+        async function viewHistoryDetail(recordId) {
+            try {
+                const res = await fetch(`/api/history/${recordId}`);
+                if (!res.ok) throw new Error("Could not find prediction record.");
+                const json = await res.json();
+                const data = json.data;
+
+                currentCalculatedResult = data;
+                renderCalculatedResults(data);
+                closeHistoryDrawer();
+
+                // If crops in record, restore to plan
+                if (data.crop_results && data.crop_results.length > 0) {
+                    selectedCrops = data.crop_results.map(c => ({
+                        crop_name: c.crop_name,
+                        land_area_ha: c.land_area_ha,
+                        farmgate_price: c.farmgate_price_php_kg,
+                        cost_per_ha: c.cost_per_ha_php
+                    }));
+                    renderSelectedCropsUI();
+                }
+
+                showToast(`Restored calculation #${recordId} (${data.parameters ? data.parameters.province : 'Saved Run'})`);
+                const resCard = document.getElementById("mainResultsCard");
+                if (resCard) resCard.scrollIntoView({ behavior: "smooth", block: "start" });
+
+            } catch (err) {
+                showToast("Error loading record: " + err.message);
+            }
+        }
+
+        async function deleteHistoryItem(recordId) {
+            try {
+                const res = await fetch(`/api/history/${recordId}`, { method: "DELETE" });
+                if (res.ok) {
+                    showToast(`Deleted prediction #${recordId}`);
+                    loadHistory();
+                }
+            } catch (err) {
+                showToast("Failed to delete record.");
+            }
+        }
+
+        async function clearAllHistory() {
+            try {
+                const res = await fetch("/api/history/clear", { method: "POST" });
+                if (res.ok) {
+                    showToast("All prediction history cleared.");
+                    loadHistory();
+                }
+            } catch (err) {
+                showToast("Failed to clear history.");
+            }
+        }
+
+        // 6. Downloadable PDF Report Generation (Phase 9)
+        function downloadPdfReport() {
+            if (!currentCalculatedResult) {
+                showToast("Please calculate harvest income before generating a PDF report.");
+                runCountUpCalc();
+                return;
+            }
+
+            showToast("Opening print dialogue for PDF report export...");
+            setTimeout(() => {
+                window.print();
+            }, 300);
+        }
+
+        // 7. Province Selection & Suitability Integration (Phase 10)
+        function onProvinceChanged(provName) {
+            const select = document.getElementById("regionSelect");
+            const province = provName || (select ? select.value : "Laguna");
+
+            // Fetch province details and update advisory card
+            fetch(`/api/province/${encodeURIComponent(province)}`)
+                .then(r => r.json())
+                .then(data => {
+                    if (data.status === "success" && data.data) {
+                        const p = data.data;
+                        const nameEl = document.getElementById("provAdvisoryName");
+                        if (nameEl) nameEl.textContent = p.province.toUpperCase();
+
+                        const islandEl = document.getElementById("provAdvisoryIsland");
+                        if (islandEl) islandEl.textContent = (p.island_group || "LUZON").toUpperCase();
+
+                        const distEl = document.getElementById("provAdvisoryDistinction");
+                        if (distEl) distEl.textContent = p.national_distinction || "Agricultural Basin (DA-AMIA)";
+
+                        const soilEl = document.getElementById("provAdvisorySoil");
+                        if (soilEl) soilEl.textContent = `Soil: ${p.dominant_soil || 'Clay Loam'}`;
+
+                        const soilMeta = document.getElementById("txtProvinceSoilName");
+                        if (soilMeta) soilMeta.textContent = `Soil: ${p.dominant_soil || 'Clay Loam'}`;
+
+                        const climEl = document.getElementById("provAdvisoryClimate");
+                        if (climEl) climEl.textContent = `${p.climate_type || 'Type I'} • ${p.annual_rainfall_mm} mm/yr`;
+
+                        const climMeta = document.getElementById("txtProvinceClimateMeta");
+                        if (climMeta) climMeta.textContent = `Annual Rain: ${p.annual_rainfall_mm} mm • Mean Temp: ${p.avg_temp_c}°C`;
+
+                        const cropsListEl = document.getElementById("provAdvisoryCropsList");
+                        if (cropsListEl && p.primary_crops) {
+                            const tags = p.primary_crops.split(";").map(s => s.trim()).filter(Boolean);
+                            cropsListEl.innerHTML = tags.map(t => `<span class="prov-crop-tag">${t}</span>`).join("");
+                        }
+                    }
+                })
+                .catch(() => {});
+
+            // Refresh selected crops UI to update suitability indicators
+            renderSelectedCropsUI();
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
             initTheme();
             renderHistoryList();

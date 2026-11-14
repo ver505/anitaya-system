@@ -5,6 +5,9 @@ import pandas as pd
 from flask import Flask, render_template, request, jsonify
 import joblib
 
+import history_db
+import crop_engine
+
 app = Flask(__name__)
 
 # Disable all caching in Flask and Jinja2 so edits show immediately
@@ -24,6 +27,13 @@ MODEL_PATH = os.path.join(BASE_DIR, "models", "anitaya_best_pipeline.joblib")
 METRICS_PATH = os.path.join(BASE_DIR, "models", "model_metrics.json")
 PROVINCES_PATH = os.path.join(BASE_DIR, "data", "philippine_provinces_crop_suitability.json")
 
+# Initialize SQLite Prediction History Database
+try:
+    history_db.init_db()
+    print("Taya: SQLite Prediction History database initialized.")
+except Exception as e:
+    print(f"Taya Warning: Could not initialize database: {e}")
+
 # Load model pipeline and metrics
 pipeline = None
 metrics_data = {}
@@ -33,16 +43,16 @@ provinces_by_region = {}
 
 try:
     pipeline = joblib.load(MODEL_PATH)
-    print("AniTaya: Machine Learning pipeline loaded successfully.")
+    print("Taya: Machine Learning pipeline loaded successfully.")
 except Exception as e:
-    print(f"AniTaya Warning: Could not load pipeline: {e}")
+    print(f"Taya Warning: Could not load pipeline: {e}")
 
 try:
     with open(METRICS_PATH, "r", encoding="utf-8") as f:
         metrics_data = json.load(f)
-    print("AniTaya: Metrics and Philippine benchmarks loaded successfully.")
+    print("Taya: Metrics and Philippine benchmarks loaded successfully.")
 except Exception as e:
-    print(f"AniTaya Warning: Could not load metrics: {e}")
+    print(f"Taya Warning: Could not load metrics: {e}")
 
 # Load Official Philippine Provincial Crop Suitability & Recommendation Dataset (DA-AMIA & PSA)
 try:
@@ -55,9 +65,9 @@ try:
             if reg not in provinces_by_region:
                 provinces_by_region[reg] = []
             provinces_by_region[reg].append(p)
-        print(f"AniTaya: Loaded {len(provinces_data)} Philippine provinces with official DA-AMIA & PSA crop recommendations.")
+        print(f"Taya: Loaded {len(provinces_data)} Philippine provinces with official DA-AMIA & PSA crop recommendations.")
 except Exception as e:
-    print(f"AniTaya Warning: Could not load provincial suitability data: {e}")
+    print(f"Taya Warning: Could not load provincial suitability data: {e}")
 
 # Philippine Regional Climate Presets
 REGIONAL_PRESETS = {
@@ -79,6 +89,9 @@ def index():
     best_model = metrics_data.get("best_model", {})
     feature_importances = metrics_data.get("feature_importances", [])
     dataset_info = metrics_data.get("dataset_info", {})
+    system_stats = history_db.get_stats()
+    system_stats["total_crops"] = len(crop_engine.crop_catalog)
+    system_stats["total_provinces"] = len(provinces_data)
 
     return render_template(
         "index.html",
@@ -89,7 +102,9 @@ def index():
         model_comparison=model_comparison,
         best_model=best_model,
         feature_importances=feature_importances,
-        dataset_info=dataset_info
+        dataset_info=dataset_info,
+        crops_catalog=crop_engine.crop_catalog,
+        system_stats=system_stats
     )
 
 @app.route("/api/benchmarks", methods=["GET"])
@@ -124,8 +139,139 @@ def get_province(province_name):
 def get_metrics():
     return jsonify(metrics_data)
 
+@app.route("/api/crops", methods=["GET"])
+def get_crops():
+    """Returns the comprehensive Philippine Crop Database (35+ official crops)."""
+    return jsonify({
+        "status": "success",
+        "count": len(crop_engine.crop_catalog),
+        "source": "Philippine Statistics Authority (PSA) & Bureau of Plant Industry (DA-BPI)",
+        "data": crop_engine.crop_catalog
+    })
+
+@app.route("/api/crops/suitability/<province_name>", methods=["GET"])
+def get_crops_by_suitability(province_name):
+    """Returns crops annotated with suitability status for the specified Philippine province."""
+    query = province_name.strip().lower()
+    p = provinces_by_name.get(query)
+    if not p:
+        for k, v in provinces_by_name.items():
+            if query in k or k in query:
+                p = v
+                break
+
+    if not p:
+        return jsonify({"status": "error", "message": f"Province '{province_name}' not found."}), 404
+
+    rec_str = (p.get("primary_crops", "") + "; " + p.get("secondary_crops", "")).lower()
+    annotated = []
+    for crop in crop_engine.crop_catalog:
+        c_name = crop["Crop_Name"].lower()
+        is_rec = (c_name in rec_str) or (crop.get("Crop_ID", "").lower() in rec_str) or (crop_engine.normalize_crop_name(c_name).lower() in rec_str)
+        suitable_provs = str(crop.get("Suitable_Provinces", "")).lower()
+        is_prov_suitable = p["province"].lower() in suitable_provs
+
+        annotated.append({
+            **crop,
+            "is_recommended": is_rec,
+            "is_suitable": is_rec or is_prov_suitable,
+            "suitability_grade": p.get("da_suitability_grade", "Suitable") if is_rec else "Secondary Option"
+        })
+
+    return jsonify({
+        "status": "success",
+        "province": p["province"],
+        "region": p["region"],
+        "count": len(annotated),
+        "data": annotated
+    })
+
+@app.route("/api/calculate", methods=["POST"])
+def calculate_multi_crop():
+    """
+    Primary Multi-Crop Agricultural Prediction & Financial Engine.
+    Accepts multiple crops with individual land areas and farming conditions.
+    Calculates estimated Production, Farmgate Prices, Gross Income, Costs, and Net Income.
+    """
+    try:
+        data = request.get_json(force=True)
+        if not data:
+            return jsonify({"status": "error", "message": "No input payload provided."}), 400
+
+        result, code = crop_engine.process_multi_crop_calculation(data, provinces_by_name)
+        return jsonify(result), code
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+@app.route("/api/history", methods=["GET"])
+def list_history():
+    """Retrieves recent saved predictions from SQLite database."""
+    try:
+        records = history_db.get_history(limit=50)
+        return jsonify({"status": "success", "count": len(records), "history": records})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+@app.route("/api/history/<int:record_id>", methods=["GET"])
+def get_history_detail(record_id):
+    """Retrieves detailed record of a saved prediction."""
+    try:
+        rec = history_db.get_prediction_detail(record_id)
+        if rec:
+            return jsonify({"status": "success", "data": rec})
+        return jsonify({"status": "error", "message": f"Prediction record #{record_id} not found."}), 404
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+@app.route("/api/history/save", methods=["POST"])
+def save_prediction_route():
+    """Saves a completed multi-crop calculation to SQLite."""
+    try:
+        data = request.get_json(force=True)
+        if not data:
+            return jsonify({"status": "error", "message": "No data to save."}), 400
+        rec_id = history_db.save_prediction(data)
+        return jsonify({"status": "success", "id": rec_id, "message": "Prediction saved successfully."})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+@app.route("/api/history/<int:record_id>", methods=["DELETE"])
+def delete_history_route(record_id):
+    """Deletes a specific prediction from SQLite."""
+    try:
+        deleted = history_db.delete_prediction(record_id)
+        if deleted:
+            return jsonify({"status": "success", "message": f"Prediction #{record_id} deleted."})
+        return jsonify({"status": "error", "message": "Record not found or already deleted."}), 404
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+@app.route("/api/history/clear", methods=["POST"])
+def clear_all_history_route():
+    """Clears all prediction history from SQLite."""
+    try:
+        history_db.clear_all_history()
+        return jsonify({"status": "success", "message": "All prediction history cleared."})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+@app.route("/api/stats", methods=["GET"])
+def get_stats_route():
+    """Returns dynamic system counters."""
+    stats = history_db.get_stats()
+    stats["total_crops"] = len(crop_engine.crop_catalog)
+    stats["total_provinces"] = len(provinces_data)
+    stats["model_name"] = metrics_data.get("best_model", {}).get("name", "Random Forest Regressor")
+    stats["model_r2"] = metrics_data.get("best_model", {}).get("test_r2", 0.966)
+    return jsonify({"status": "success", "stats": stats})
+
 @app.route("/api/predict", methods=["POST"])
 def predict():
+    """
+    Legacy Single-Crop Prediction Route (Preserved 100% Backwards-Compatible).
+    """
     try:
         data = request.get_json(force=True)
         if not data:
@@ -192,7 +338,7 @@ def predict():
 
         benchmarks = metrics_data.get("ph_benchmarks", {}).get(crop)
         if not benchmarks:
-            errors.append(f"Selected crop '{crop}' is not supported.")
+            errors.append(f"Selected crop '{crop}' is not supported in legacy benchmarks.")
 
         if errors:
             return jsonify({"status": "error", "message": "Validation failed", "errors": errors}), 422
@@ -210,15 +356,12 @@ def predict():
             "average_rain_fall_mm_per_year": effective_rainfall,
             "pesticides_tonnes": pesticides_tonnes,
             "avg_temp": avg_temp,
-            "area": "Indonesia" # Top representative tropical Southeast Asian climate in FAO dataset
+            "area": "Indonesia"
         }])
 
         predicted_hg_ha = float(pipeline.predict(input_df)[0])
         predicted_hg_ha = max(predicted_hg_ha, 5000.0)
 
-        # Yield Conversions
-        # 1 hg = 0.1 kg
-        # 10,000 hg = 1 Metric Ton (MT)
         yield_rate_mt_ha = predicted_hg_ha / 10000.0
         yield_rate_kg_ha = predicted_hg_ha / 10.0
 
@@ -237,7 +380,6 @@ def predict():
         profit_margin = (net_profit / gross_revenue * 100.0) if gross_revenue > 0 else 0.0
         roi = (net_profit / total_production_cost * 100.0) if total_production_cost > 0 else 0.0
 
-        # Cost Breakdown (Philippine Department of Agriculture standard budget shares)
         cost_shares = {
             "Seeds & Planting Materials": 15.0,
             "Fertilizers & Agrochemicals": 30.0,
@@ -248,7 +390,6 @@ def predict():
         for category, share in cost_shares.items():
             cost_breakdown[category] = round((share / 100.0) * total_production_cost, 2)
 
-        # Weather Sensitivity Scenarios
         scenarios = {
             "favorable": {
                 "label": "Favorable Season (+15%)",
@@ -279,7 +420,6 @@ def predict():
             }
         }
 
-        # Clear, professional agronomic advice
         insights = []
         if crop == "Rice, paddy":
             if season == "Wet Season":
@@ -367,5 +507,5 @@ def predict():
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
-    print(f"Starting AniTaya Web Server at http://127.0.0.1:{port}")
+    print(f"Starting Taya Web Server at http://127.0.0.1:{port}")
     app.run(host="0.0.0.0", port=port, debug=False)
