@@ -5937,6 +5937,58 @@
             }
         }
 
+    
+        /* Interactive Season Pills & Clean Contrast */
+        .season-pill-btn {
+            cursor: pointer !important;
+            border: 1px solid var(--border-subtle) !important;
+            background: rgba(0, 0, 0, 0.25) !important;
+            transition: all 0.2s ease !important;
+        }
+        .season-pill-btn:hover {
+            border-color: #8fa63a !important;
+            background: rgba(143, 166, 58, 0.15) !important;
+        }
+        .season-pill-btn.active {
+            background: #8fa63a !important;
+            color: #12150e !important;
+            border-color: #8fa63a !important;
+            box-shadow: 0 4px 14px rgba(143, 166, 58, 0.45) !important;
+            font-weight: 900 !important;
+        }
+        [data-theme="light"] .season-pill-btn {
+            background: rgba(255, 255, 255, 0.7) !important;
+        }
+        [data-theme="light"] .season-pill-btn.active {
+            background: #233b18 !important;
+            color: #bef264 !important;
+            box-shadow: 0 4px 14px rgba(35, 59, 24, 0.3) !important;
+        }
+
+        /* Clean quick crop chips */
+        .quick-crop-chip {
+            cursor: pointer !important;
+            user-select: none;
+        }
+        .quick-crop-chip:active {
+            transform: scale(0.96);
+        }
+
+        /* Calculate Action Button */
+        .btn-calculate-action {
+            cursor: pointer !important;
+            transition: all 0.2s ease !important;
+        }
+        .btn-calculate-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(143, 166, 58, 0.45) !important;
+        }
+
+        /* Reset Button */
+        .btn-reset-action {
+            cursor: pointer !important;
+        }
+
     </style>
 </head>
 <body>
@@ -8614,26 +8666,91 @@
             if (activeCrop && farmArea > 0) updateCalcLive(false);
         }
 
+        function selectSeason(season) {
+            setSeason(season);
+        }
+
         function setSeason(season) {
             activeSeason = season;
-            document.getElementById('chipWet').classList.toggle('active', season === 'Wet');
-            document.getElementById('chipDry').classList.toggle('active', season === 'Dry');
+            const cw = document.getElementById('chipWet');
+            const cd = document.getElementById('chipDry');
+            if (cw) cw.classList.toggle('active', season === 'Wet');
+            if (cd) cd.classList.toggle('active', season === 'Dry');
+
+            const cww = document.getElementById('chipWeatherWet');
+            const cwd = document.getElementById('chipWeatherDry');
+            if (cww) cww.classList.toggle('active', season === 'Wet');
+            if (cwd) cwd.classList.toggle('active', season === 'Dry');
+
+            // If already calculated, update calculation automatically
+            if (currentCalculatedResult) {
+                runCountUpCalc();
+            }
         }
 
         function selectScenario(scen) {
+            if (scen === 'expected') scen = 'normal';
             activeScenario = scen;
-            document.getElementById('scenBadBtn').classList.toggle('active', scen === 'bad');
-            document.getElementById('scenNormBtn').classList.toggle('active', scen === 'normal');
-            document.getElementById('scenGoodBtn').classList.toggle('active', scen === 'good');
+            const badBtn = document.getElementById('scenBadBtn');
+            const normBtn = document.getElementById('scenNormBtn');
+            const goodBtn = document.getElementById('scenGoodBtn');
+            if (badBtn) badBtn.classList.toggle('active', scen === 'bad');
+            if (normBtn) normBtn.classList.toggle('active', scen === 'normal');
+            if (goodBtn) goodBtn.classList.toggle('active', scen === 'good');
 
-            // Switch scenario value on the currently calculated results
-            if (lastCalculatedData && activeCrop && farmArea > 0) {
+            if (currentCalculatedResult && currentCalculatedResult.totals) {
+                const gross = currentCalculatedResult.totals.total_gross_income_php || 0;
+                const cost = currentCalculatedResult.totals.total_production_cost_php || 0;
+                let chosenVal = gross - cost; // baseline normal
+                if (scen === 'bad') chosenVal = Math.round(gross * 0.80 - cost);
+                if (scen === 'good') chosenVal = Math.round(gross * 1.15 - cost);
+
+                animateCountUp(currentNetProfit || 0, chosenVal, 300);
+                currentNetProfit = chosenVal;
+            } else if (lastCalculatedData) {
                 let chosenVal = lastCalculatedData.netNorm;
-                if (activeScenario === 'bad') chosenVal = lastCalculatedData.netBad;
-                if (activeScenario === 'good') chosenVal = lastCalculatedData.netGood;
-                document.getElementById('resNetProfit').textContent = formatCurrency(chosenVal);
+                if (scen === 'bad') chosenVal = lastCalculatedData.netBad;
+                if (scen === 'good') chosenVal = lastCalculatedData.netGood;
+                animateCountUp(currentNetProfit || 0, chosenVal, 300);
                 currentNetProfit = chosenVal;
             }
+        }
+
+        function resetFarmPlan() {
+            selectedCrops = [
+                { crop_name: "Rice, paddy", land_area_ha: 1.0, farmgate_price: null, cost_per_ha: null }
+            ];
+            currentCalculatedResult = null;
+            renderSelectedCropsUI();
+
+            const netEl = document.getElementById("resNetProfit");
+            if (netEl) netEl.textContent = "₱0";
+            const roiBadge = document.getElementById("resRoiBadge");
+            if (roiBadge) roiBadge.textContent = "0% ROI";
+            const prodEl = document.getElementById("resTotalProduction");
+            if (prodEl) prodEl.textContent = "0.0 MT";
+            const grossEl = document.getElementById("resGrossIncome");
+            if (grossEl) grossEl.textContent = "₱0";
+            const costEl = document.getElementById("resTotalCost");
+            if (costEl) costEl.textContent = "₱0";
+
+            const cardsGrid = document.getElementById("cropBreakdownCardsGrid");
+            if (cardsGrid) cardsGrid.innerHTML = "";
+            const tblBody = document.getElementById("comparisonTableBody");
+            if (tblBody) tblBody.innerHTML = "";
+            const chartBox = document.getElementById("cropComparisonChartBox");
+            if (chartBox) chartBox.innerHTML = "";
+            const winnerBadge = document.getElementById("highestIncomeBadge");
+            if (winnerBadge) winnerBadge.style.display = "none";
+
+            const headerEl = document.getElementById("resHeaderTitle");
+            if (headerEl) headerEl.textContent = "FARM INCOME PROJECTION";
+
+            showToast("Farm plan reset to default 1.0 ha Rice.");
+        }
+
+        function requestCalculatorReset() {
+            resetFarmPlan();
         }
 
         // ── Mathematical Engine (Specification Guaranteed) ──
