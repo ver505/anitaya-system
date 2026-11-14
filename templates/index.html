@@ -3156,6 +3156,43 @@
             box-shadow: 0 6px 20px rgba(217, 119, 6, 0.55);
         }
 
+        .confirm-modal-icon-wrap.info {
+            background: radial-gradient(circle, rgba(182, 198, 79, 0.25) 0%, rgba(182, 198, 79, 0.08) 100%);
+            color: var(--accent-olive);
+            border-color: rgba(182, 198, 79, 0.45);
+            box-shadow: 0 0 16px rgba(182, 198, 79, 0.22);
+        }
+
+        .btn-confirm-danger.info {
+            background: var(--accent-olive);
+            border-color: #d6e865;
+            color: #12150e;
+            box-shadow: 0 4px 16px rgba(182, 198, 79, 0.32);
+        }
+
+        .btn-confirm-danger.info:hover {
+            background: var(--accent-olive-hover);
+            box-shadow: 0 6px 20px rgba(182, 198, 79, 0.48);
+        }
+
+        [data-theme="light"] .confirm-modal-icon-wrap.info {
+            background: rgba(46, 89, 28, 0.12);
+            color: #233b18;
+            border-color: rgba(46, 89, 28, 0.35);
+            box-shadow: none;
+        }
+
+        [data-theme="light"] .btn-confirm-danger.info {
+            background: #233b18;
+            border-color: #14220f;
+            color: #bef264;
+            box-shadow: 0 4px 14px rgba(35, 59, 24, 0.25);
+        }
+
+        [data-theme="light"] .btn-confirm-danger.info:hover {
+            background: #2e591c;
+        }
+
         /* ── SYSTEM GUIDE BUTTON & TITLE ROW (TOP MASTHEAD) ── */
         .outer-title-row {
             display: flex;
@@ -5742,6 +5779,14 @@
             padding: 18px 24px;
             border-bottom: 1px solid var(--border-hairline);
             background: var(--bg-ink);
+            flex-shrink: 0;
+        }
+        .crop-modal-header h3 {
+            font-size: 14px;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            color: var(--text-offwhite);
+            margin: 0;
         }
         .crop-modal-title-group h2 {
             font-size: 15px;
@@ -5756,23 +5801,182 @@
             margin: 3px 0 0;
         }
         .crop-modal-close-btn {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            border: 1px solid var(--border-hairline);
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-muted);
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            border: 1px solid var(--border-hairline-strong);
+            background: var(--pill-inactive);
+            color: var(--text-offwhite);
             font-size: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: all 0.15s ease;
+            flex-shrink: 0;
         }
         .crop-modal-close-btn:hover {
             background: var(--accent-olive);
             color: #12150e;
             border-color: var(--accent-olive);
+        }
+        .crop-modal-toolbar {
+            padding: 14px 24px;
+            border-bottom: 1px solid var(--border-hairline);
+            background: var(--bg-shell);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+        .crop-search-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-hairline-strong);
+            color: var(--text-muted);
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+        .crop-search-box:focus-within {
+            border-color: var(--accent-olive);
+            box-shadow: 0 0 0 3px var(--accent-olive-dim);
+            color: var(--accent-olive);
+        }
+        .crop-search-box input {
+            flex: 1;
+            min-width: 0;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-offwhite);
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: none;
+            letter-spacing: 0.01em;
+        }
+        .crop-search-box input::placeholder {
+            color: var(--text-muted);
+            opacity: 0.78;
+        }
+        .crop-cat-pills-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 7px;
+        }
+        .cat-pill-btn {
+            padding: 6px 12px;
+            border-radius: 9999px;
+            border: 1px solid var(--border-hairline);
+            background: var(--bg-card);
+            color: var(--text-muted);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .cat-pill-btn:hover {
+            border-color: var(--accent-olive);
+            color: var(--text-offwhite);
+        }
+        .cat-pill-btn.active {
+            background: var(--accent-olive);
+            color: #12150e;
+            border-color: #c9db57;
+        }
+        [data-theme="light"] .cat-pill-btn.active {
+            background: #233b18;
+            color: #bef264;
+            border-color: #14220f;
+        }
+        .crop-modal-grid {
+            padding: 18px 24px 24px;
+            overflow-y: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 14px;
+            flex: 1;
+        }
+        .catalog-crop-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-hairline);
+            border-radius: 14px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 12px;
+            transition: border-color 0.16s ease, transform 0.16s ease, background-color 0.16s ease;
+        }
+        .catalog-crop-card:hover {
+            border-color: var(--accent-olive);
+            background: var(--bg-card-hover);
+            transform: translateY(-2px);
+        }
+        .catalog-crop-origin {
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            padding: 3px 8px;
+            border-radius: 9999px;
+            background: var(--pill-inactive);
+            color: var(--text-muted);
+        }
+        .catalog-crop-title {
+            font-size: 14px;
+            font-weight: 900;
+            color: var(--text-offwhite);
+            margin: 6px 0 3px;
+            letter-spacing: 0.04em;
+        }
+        .catalog-crop-sciname {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--accent-olive);
+            text-transform: none;
+            letter-spacing: 0.01em;
+            margin-bottom: 8px;
+        }
+        .catalog-crop-desc {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: none;
+            letter-spacing: 0.01em;
+            line-height: 1.45;
+            margin: 0;
+        }
+        .btn-add-crop-action {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(182, 198, 79, 0.35);
+            background: var(--accent-olive-dim);
+            color: var(--accent-olive);
+            font-size: 10.5px;
+            font-weight: 900;
+            letter-spacing: 0.07em;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .btn-add-crop-action:hover {
+            background: var(--accent-olive);
+            color: #12150e;
+            border-color: #d6e865;
+        }
+        [data-theme="light"] .btn-add-crop-action {
+            background: rgba(46, 89, 28, 0.1);
+            border-color: rgba(46, 89, 28, 0.28);
+            color: #233b18;
+        }
+        [data-theme="light"] .btn-add-crop-action:hover {
+            background: #233b18;
+            color: #bef264;
+            border-color: #14220f;
         }
         .crop-modal-body {
             padding: 22px 24px;
@@ -7599,7 +7803,7 @@
             <!-- ════════════════════════════════════════════════════════ -->
             <!-- ADD CROP SELECTION MODAL (Phase 5)                       -->
             <!-- ════════════════════════════════════════════════════════ -->
-            <div id="cropSelectorModal" class="crop-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="cropModalTitle">
+            <div id="cropSelectorModal" class="crop-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="cropModalTitle" onclick="if(event.target === this) closeCropSelectorModal()">
                 <div class="crop-modal-card">
                     <div class="crop-modal-header">
                         <h3 id="cropModalTitle">PHILIPPINE CROP DATABASE (35+ SPECIES)</h3>
@@ -9324,14 +9528,11 @@
         }
 
         function calculateFromHome() {
-            switchView('farmer');
             if (selectedCrops && selectedCrops.length > 0) {
+                switchView('farmer');
                 runCountUpCalc();
             } else {
-                const isFil = (currentLang === 'fil');
-                showToast(isFil
-                    ? 'Pumili o magdagdag muna ng pananim sa Kalkulador.'
-                    : 'Select or add at least one crop in your farm plan to calculate.');
+                showCalculateFirstModal({ isFromHome: true });
             }
         }
 
@@ -9892,8 +10093,8 @@
             if (beTag) beTag.textContent = '\u20B10.00 / KG';
         }
 
-        // ── Custom Confirmation Dialog Modal Controller ──
-        function showConfirmDialog({ title, message, confirmText = 'CONFIRM', cancelText = 'CANCEL', isWarning = false, onConfirm }) {
+        // ── Custom Confirmation & Validation Notice Dialog Controller ──
+        function showConfirmDialog({ title, message, confirmText = 'CONFIRM', cancelText = 'CANCEL', isWarning = false, isInfo = false, onConfirm }) {
             const overlay = document.getElementById('confirmDialogOverlay');
             const titleEl = document.getElementById('confirmModalTitle');
             const msgEl = document.getElementById('confirmModalMsg');
@@ -9909,15 +10110,67 @@
             if (msgEl) msgEl.textContent = message;
             if (confirmBtn) {
                 confirmBtn.textContent = confirmText;
-                confirmBtn.className = isWarning ? 'btn-confirm-danger warning' : 'btn-confirm-danger';
+                confirmBtn.className = isInfo
+                    ? 'btn-confirm-danger info'
+                    : (isWarning ? 'btn-confirm-danger warning' : 'btn-confirm-danger');
             }
-            if (cancelBtn) cancelBtn.textContent = cancelText;
+            if (cancelBtn) {
+                cancelBtn.textContent = cancelText;
+                cancelBtn.style.display = cancelText ? '' : 'none';
+            }
             if (iconWrap) {
-                iconWrap.className = isWarning ? 'confirm-modal-icon-wrap warning' : 'confirm-modal-icon-wrap';
+                iconWrap.className = isInfo
+                    ? 'confirm-modal-icon-wrap info'
+                    : (isWarning ? 'confirm-modal-icon-wrap warning' : 'confirm-modal-icon-wrap');
             }
 
             overlay.classList.add('active');
             if (confirmBtn) confirmBtn.focus();
+        }
+
+        function showCalculateFirstModal({ isFromHome = false, needsCropOnly = false } = {}) {
+            const isFil = (currentLang === 'fil');
+            const hasCrops = (selectedCrops && selectedCrops.length > 0);
+
+            if (!hasCrops) {
+                showConfirmDialog({
+                    title: isFil ? 'MAGKALKULA MUNA' : 'CALCULATE SOMETHING FIRST',
+                    message: isFil
+                        ? 'Kailangan mo munang magdagdag ng kahit isang pananim at magkalkula ng ani at kita.'
+                        : 'You need to add at least one crop and calculate your harvest & income first.',
+                    confirmText: isFromHome
+                        ? (isFil ? 'BUKSAN ANG KALKULADOR' : 'GO TO CALCULATOR')
+                        : (isFil ? '+ MAGDAGDAG NG PANANIM' : '+ ADD A CROP'),
+                    cancelText: isFil ? 'ISARA' : 'CLOSE',
+                    isInfo: true,
+                    onConfirm: () => {
+                        if (isFromHome || needsCropOnly === false) {
+                            switchView('farmer');
+                            if (!isFromHome) {
+                                const quickPanel = document.querySelector('.farm-plan-panel');
+                                if (quickPanel) quickPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }
+                        } else {
+                            openCropSelectorModal();
+                        }
+                    }
+                });
+                return;
+            }
+
+            showConfirmDialog({
+                title: isFil ? 'MAGKALKULA MUNA' : 'CALCULATE SOMETHING FIRST',
+                message: isFil
+                    ? 'May nakapili ka nang pananim. I-click muna ang "Calculate" upang makita ang taya ng ani at kita.'
+                    : 'You already have crops selected, but no calculated forecast yet. Calculate harvest & income first?',
+                confirmText: isFil ? 'KALKULAHIN NGAYON' : 'CALCULATE NOW',
+                cancelText: isFil ? 'ISARA' : 'CLOSE',
+                isInfo: true,
+                onConfirm: () => {
+                    switchView('farmer');
+                    runCountUpCalc();
+                }
+            });
         }
 
         function closeConfirmDialog(confirmed = false) {
@@ -11469,15 +11722,10 @@
         let currentSuitabilityData = [];
 
         // ── Modal Handlers for Itemized Forecast & Crop Comparison ──
-        async function openItemizedModal() {
-            if (!selectedCrops || selectedCrops.length === 0) {
-                showToast(currentLang === 'fil' ? 'Magdagdag muna ng kahit isang pananim bago mag-breakdown.' : 'Please add at least one crop to your farm plan first.');
-                openCropSelectorModal();
+        function openItemizedModal() {
+            if (!selectedCrops || selectedCrops.length === 0 || !currentCalculatedResult) {
+                showCalculateFirstModal();
                 return;
-            }
-            if (!currentCalculatedResult) {
-                showToast(currentLang === 'fil' ? 'Kinakalkula ang ani bago buksan...' : 'Calculating harvest forecast first...');
-                await runCountUpCalc();
             }
             const modal = document.getElementById("itemizedForecastModal");
             if (modal) {
@@ -11494,15 +11742,10 @@
             }
         }
 
-        async function openComparisonModal() {
-            if (!selectedCrops || selectedCrops.length === 0) {
-                showToast(currentLang === 'fil' ? 'Magdagdag muna ng kahit isang pananim bago mag-kumpara.' : 'Please add at least one crop to your farm plan first.');
-                openCropSelectorModal();
+        function openComparisonModal() {
+            if (!selectedCrops || selectedCrops.length === 0 || !currentCalculatedResult) {
+                showCalculateFirstModal();
                 return;
-            }
-            if (!currentCalculatedResult) {
-                showToast(currentLang === 'fil' ? 'Kinakalkula ang ani bago buksan...' : 'Calculating harvest forecast first...');
-                await runCountUpCalc();
             }
             const modal = document.getElementById("cropComparisonModal");
             if (modal) {
@@ -11756,8 +11999,7 @@
         // 3. Multi-Crop Calculate Engine (Phase 6)
         async function runCountUpCalc() {
             if (selectedCrops.length === 0) {
-                showToast("Please add at least one crop to your farm plan before calculating.");
-                openCropSelectorModal();
+                showCalculateFirstModal({ needsCropOnly: true });
                 return;
             }
 
@@ -12119,19 +12361,8 @@
 
         async function saveCurrentPrediction() {
             const isFil = (currentLang === 'fil');
-            if (!selectedCrops || selectedCrops.length === 0) {
-                showToast(isFil ? 'Magdagdag muna ng pananim sa iyong sakahan bago mag-save.' : 'Please add crops to your farm plan before saving.');
-                openCropSelectorModal();
-                return;
-            }
-
-            if (!currentCalculatedResult) {
-                showToast(isFil ? 'Kinakalkula ang ani bago i-save...' : 'Calculating harvest forecast first...');
-                await runCountUpCalc();
-            }
-
-            if (!currentCalculatedResult) {
-                showToast(isFil ? 'Hindi mai-save: Walang nakalkulang datos.' : 'Cannot save: No calculation data available.');
+            if (!selectedCrops || selectedCrops.length === 0 || !currentCalculatedResult) {
+                showCalculateFirstModal();
                 return;
             }
 
@@ -12434,8 +12665,7 @@
 
         function downloadPdfReport() {
             if (!currentCalculatedResult) {
-                showToast("Please calculate harvest income before generating a PDF report.");
-                runCountUpCalc();
+                showCalculateFirstModal();
                 return;
             }
 
