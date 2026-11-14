@@ -6384,192 +6384,287 @@
         }
 
         /* ═══════════════════════════════════════════════════════════════════ */
-        /* DEDICATED CLEAN HOMEPAGE (#view-home)                              */
+        /* OPEN FLOATING HOMEPAGE (#openHomeStage) & EXPANDABLE WORKSPACE      */
         /* ═══════════════════════════════════════════════════════════════════ */
-        .home-view-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-        }
-
-        .home-hero-card {
-            background: linear-gradient(135deg, rgba(22, 34, 15, 0.92) 0%, rgba(30, 46, 21, 0.78) 100%);
-            border: 1px solid var(--border-hairline-strong);
-            border-radius: 18px;
-            padding: 26px 28px;
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
-        }
-
-        [data-theme="light"] .home-hero-card {
-            background: linear-gradient(135deg, #f8fbf2 0%, #ecf4dd 100%);
-            border-color: rgba(46, 89, 28, 0.22);
-            box-shadow: 0 8px 24px rgba(20, 34, 15, 0.06);
-        }
-
-        .home-hero-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .home-hero-heading {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .home-title-line {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .home-title-line h1 {
-            font-size: clamp(20px, 2.4vw, 26px);
-            font-weight: 900;
-            color: var(--text-offwhite);
-            letter-spacing: 0.04em;
-            margin: 0;
-        }
-
-        .home-short-tagline {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: none;
-            letter-spacing: 0.01em;
-            margin: 0;
-        }
-
-        .home-cta-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .home-stats-strip {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 14px;
-        }
-
-        @media (max-width: 780px) {
-            .home-stats-strip {
-                grid-template-columns: 1fr;
+        @keyframes workspaceExpandFromLeft {
+            0% {
+                opacity: 0;
+                transform: translateX(-28px) scale(0.985);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0) scale(1);
             }
         }
 
-        .home-stat-tile {
-            background: var(--bg-card);
-            border: 1px solid var(--border-hairline);
-            border-radius: 14px;
-            padding: 16px 18px;
+        @keyframes homeFloatIn {
+            0% {
+                opacity: 0;
+                transform: translateY(10px) scale(0.99);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        body.workspace-closed .outer-brand-group {
+            display: none;
+        }
+
+        body.workspace-closed .outer-top-bar {
+            margin-bottom: 0;
+            min-height: 0;
+            padding: 0;
+        }
+
+        @media (min-width: 861px) {
+            body.workspace-closed .outer-top-bar {
+                height: 0;
+                overflow: visible;
+            }
+        }
+
+        @media (max-width: 860px) {
+            body.workspace-closed .outer-top-bar {
+                padding: 4px 6px;
+            }
+        }
+
+        body.workspace-closed #appShell {
+            display: none !important;
+        }
+
+        body.workspace-open #appShell {
             display: flex;
+            animation: workspaceExpandFromLeft 0.34s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        body.workspace-open #openHomeStage {
+            display: none !important;
+        }
+
+        .open-home-stage {
+            display: none;
+            flex-direction: column;
             align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            cursor: pointer;
-            transition: all 0.16s ease;
-            text-align: left;
+            justify-content: center;
+            text-align: center;
+            min-height: calc(100vh - 104px);
+            padding: 36px 20px 116px;
+            position: relative;
+            z-index: 2;
+            width: 100%;
         }
 
-        .home-stat-tile:hover {
-            border-color: var(--accent-olive);
-            background: var(--bg-card-hover);
-            transform: translateY(-2px);
+        body.workspace-closed .open-home-stage {
+            display: flex;
+            animation: homeFloatIn 0.32s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .home-stat-meta {
+        .open-home-inner {
+            max-width: 640px;
+            width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            align-items: center;
+            gap: 16px;
+            padding: 28px 20px;
+            border-radius: 32px;
+            background: radial-gradient(ellipse at center, rgba(11, 13, 8, 0.56) 0%, rgba(11, 13, 8, 0.22) 60%, transparent 100%);
         }
 
-        .home-stat-label {
-            font-size: 9.5px;
-            font-weight: 800;
-            letter-spacing: 0.08em;
-            color: var(--text-muted);
+        [data-theme="light"] .open-home-inner {
+            background: radial-gradient(ellipse at center, rgba(242, 245, 236, 0.78) 0%, rgba(242, 245, 236, 0.35) 60%, transparent 100%);
         }
 
-        .home-stat-num {
-            font-size: 24px;
-            font-weight: 900;
-            color: var(--text-offwhite);
-            line-height: 1.1;
-        }
-
-        .home-stat-sub {
-            font-size: 10px;
-            color: var(--accent-olive);
-            font-weight: 700;
-            text-transform: none;
-            letter-spacing: 0.01em;
-        }
-
-        .home-stat-icon {
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
-            background: var(--accent-olive-dim);
-            color: var(--accent-olive);
+        .open-home-mascot-wrap {
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
         }
 
-        [data-theme="light"] .home-stat-icon {
-            background: rgba(46, 89, 28, 0.1);
-            color: #233b18;
+        .mascot-icon.open-home-mascot {
+            width: 88px;
+            height: 88px;
+            filter: drop-shadow(0 8px 22px rgba(182, 198, 79, 0.28));
+            transition: transform 0.25s ease;
         }
 
-        .home-two-col {
-            display: grid;
-            grid-template-columns: 1.15fr 0.85fr;
-            gap: 16px;
+        .mascot-icon.open-home-mascot:hover {
+            transform: rotate(-5deg) scale(1.06);
         }
 
-        @media (max-width: 960px) {
-            .home-two-col {
-                grid-template-columns: 1fr;
-            }
+        [data-theme="light"] .mascot-icon.open-home-mascot {
+            filter: drop-shadow(0 8px 18px rgba(35, 59, 24, 0.18));
         }
 
-        .home-panel-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-hairline);
-            border-radius: 16px;
-            padding: 20px 22px;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
-
-        .home-panel-header {
+        .open-home-kicker {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--border-hairline);
-        }
-
-        .home-panel-title {
-            font-size: 12px;
-            font-weight: 900;
-            letter-spacing: 0.08em;
-            color: var(--text-offwhite);
-            display: flex;
-            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
             gap: 8px;
+        }
+
+        .open-home-subbadge {
+            font-size: 9.5px;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            color: var(--text-muted);
+            padding: 4px 10px;
+            border-radius: 9999px;
+            background: rgba(238, 240, 228, 0.06);
+            border: 1px solid var(--border-hairline);
+            backdrop-filter: blur(8px);
+        }
+
+        [data-theme="light"] .open-home-subbadge {
+            background: rgba(255, 255, 255, 0.72);
+            color: #2e4a1f;
+            border-color: rgba(46, 89, 28, 0.22);
+        }
+
+        .open-home-title {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 900;
+            letter-spacing: 0.14em;
+            color: var(--text-offwhite);
+            line-height: 1.02;
+            margin: 0;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
+        }
+
+        [data-theme="light"] .open-home-title {
+            color: #14220f;
+            text-shadow: 0 2px 14px rgba(255, 255, 255, 0.85);
+        }
+
+        .open-home-tagline {
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #c8d3b4;
+            max-width: 500px;
+            line-height: 1.55;
+            text-transform: none;
+            letter-spacing: 0.01em;
+            margin: 0;
+        }
+
+        [data-theme="light"] .open-home-tagline {
+            color: #2f4620;
+        }
+
+        .open-home-cta-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 6px;
+        }
+
+        .open-home-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 13px 22px;
+            border-radius: 9999px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.09em;
+            cursor: pointer;
+            border: 1px solid var(--border-hairline-strong);
+            background: rgba(22, 32, 15, 0.82);
+            color: var(--text-offwhite);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.28);
+            transition: transform 0.16s ease, background-color 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+        }
+
+        .open-home-btn:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-olive);
+            background: rgba(30, 44, 22, 0.94);
+        }
+
+        .open-home-btn.primary {
+            background: var(--accent-olive);
+            color: #12150e;
+            border-color: #d6e865;
+            box-shadow: 0 6px 22px rgba(182, 198, 79, 0.34);
+        }
+
+        .open-home-btn.primary:hover {
+            background: var(--accent-olive-hover);
+            box-shadow: 0 8px 26px rgba(182, 198, 79, 0.45);
+        }
+
+        [data-theme="light"] .open-home-btn {
+            background: rgba(255, 255, 255, 0.92);
+            color: #14220f;
+            border-color: rgba(46, 89, 28, 0.28);
+            box-shadow: 0 6px 18px rgba(20, 34, 15, 0.08);
+        }
+
+        [data-theme="light"] .open-home-btn:hover {
+            background: #ffffff;
+            border-color: #2e591c;
+            color: #2e591c;
+        }
+
+        [data-theme="light"] .open-home-btn.primary {
+            background: #233b18;
+            color: #bef264;
+            border-color: #14220f;
+            box-shadow: 0 6px 20px rgba(35, 59, 24, 0.24);
+        }
+
+        [data-theme="light"] .open-home-btn.primary:hover {
+            background: #2e591c;
+        }
+
+        .open-home-util-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 4px;
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+
+        .open-home-link {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 9999px;
+            transition: color 0.15s ease, background-color 0.15s ease;
+        }
+
+        .open-home-link:hover {
+            color: var(--accent-olive);
+            background: var(--accent-olive-dim);
+        }
+
+        [data-theme="light"] .open-home-link {
+            color: #364b29;
+        }
+
+        [data-theme="light"] .open-home-link:hover {
+            color: #14220f;
+            background: rgba(46, 89, 28, 0.12);
+        }
+
+        .open-home-sep {
+            opacity: 0.45;
         }
 
         .home-link-btn {
@@ -6585,100 +6680,6 @@
 
         .home-link-btn:hover {
             background: var(--accent-olive-dim);
-        }
-
-        .home-recent-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .home-recent-row {
-            background: var(--bg-ink);
-            border: 1px solid var(--border-hairline);
-            border-radius: 12px;
-            padding: 12px 14px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        [data-theme="light"] .home-recent-row {
-            background: #ffffff;
-        }
-
-        .home-recent-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            min-width: 0;
-            flex: 1;
-        }
-
-        .home-recent-title {
-            font-size: 11.5px;
-            font-weight: 900;
-            color: var(--text-offwhite);
-        }
-
-        .home-recent-meta {
-            font-size: 10px;
-            color: var(--text-muted);
-            text-transform: none;
-            letter-spacing: 0.01em;
-        }
-
-        .home-recent-right {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .home-recent-net {
-            font-size: 13px;
-            font-weight: 900;
-            color: var(--accent-olive);
-        }
-
-        [data-theme="light"] .home-recent-net {
-            color: #2e591c;
-        }
-
-        .home-steps-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .home-step-row {
-            background: var(--bg-ink);
-            border: 1px solid var(--border-hairline);
-            border-radius: 12px;
-            padding: 12px 14px;
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-        }
-
-        [data-theme="light"] .home-step-row {
-            background: #ffffff;
-        }
-
-        .home-step-title {
-            font-size: 11px;
-            font-weight: 800;
-            color: var(--text-offwhite);
-            margin-bottom: 2px;
-        }
-
-        .home-step-desc {
-            font-size: 10.5px;
-            color: var(--text-muted);
-            text-transform: none;
-            letter-spacing: 0.01em;
-            line-height: 1.4;
         }
 
         /* Compact Calculator Top Bar */
@@ -6741,7 +6742,7 @@
         }
 </style>
 </head>
-<body>
+<body class="workspace-closed">
 
     <!-- ── ANIMATED AGRICULTURAL FIELD BACKGROUND CANVAS ── -->
     <canvas id="bgFieldCanvas" class="bg-field-canvas" aria-hidden="true"></canvas>
@@ -6964,6 +6965,16 @@
                 </svg>
                 <span class="side-nav-label" id="txtSideTheme">DAY / NIGHT</span>
             </button>
+
+            <button type="button" class="side-nav-item" id="railBtnLang" title="Switch Language (English / Filipino)" onclick="setLanguage(currentLang === 'en' ? 'fil' : 'en')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="2" y1="12" x2="22" y2="12"></line>
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                </svg>
+                <span class="side-nav-label" id="txtSideLang">EN / FIL</span>
+                <span class="side-nav-badge" id="sideLangBadge">EN</span>
+            </button>
         </div>
     </aside>
 
@@ -7182,6 +7193,67 @@
             </button>
         </header>
 
+        <!-- ════════════════════════════════════════════════════════════════ -->
+        <!-- 0. OPEN FLOATING HOMEPAGE (WHEN WORKSPACE CLOSED OVER FIELD BG)  -->
+        <!-- ════════════════════════════════════════════════════════════════ -->
+        <section class="open-home-stage" id="openHomeStage" aria-label="AniTaya Open Homepage">
+            <div class="open-home-inner">
+                <div class="open-home-mascot-wrap">
+                    <svg class="mascot-icon open-home-mascot"><use href="#farmer-mascot"/></svg>
+                </div>
+
+                <div class="open-home-kicker">
+                    <span class="taya-badge-live">TAYA SYSTEM</span>
+                    <span class="open-home-subbadge" id="txtHomeSubBadge">PHILIPPINE CROP INCOME PREDICTION</span>
+                </div>
+
+                <h1 class="open-home-title">ANITAYA</h1>
+
+                <p class="open-home-tagline" id="txtHomeShortTagline">
+                    Plan multi-crop harvests, costs, and estimated net profit across 82 Philippine provinces.
+                </p>
+
+                <div class="open-home-cta-row">
+                    <button type="button" class="open-home-btn primary" onclick="startAddCropFromHome()" id="btnHomeAddCrop">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        <span id="txtHomeBtnAddCrop">+ ADD CROP</span>
+                    </button>
+
+                    <button type="button" class="open-home-btn" onclick="calculateFromHome()" id="btnHomeCalc">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                        <span id="txtHomeBtnCalc">CALCULATE INCOME</span>
+                    </button>
+
+                    <button type="button" class="open-home-btn" onclick="openHistoryDrawer()" id="btnHomeHistory">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        <span><span id="txtHomeHistoryLabel">HISTORY</span> (<span id="txtHistoryHeroCount">{{ system_stats.total_saved_predictions or 0 }}</span>)</span>
+                    </button>
+                </div>
+
+                <div class="open-home-util-row">
+                    <button type="button" class="open-home-link" onclick="toggleSideMenu()" id="btnHomeExpandWorkspace">
+                        <span id="txtHomeExpandHint">EXPAND WORKSPACE &rarr;</span>
+                    </button>
+                    <span class="open-home-sep">&bull;</span>
+                    <button type="button" class="open-home-link" onclick="openSystemGuideModal('how')" id="btnHomeGuide">
+                        <span id="txtHomeBtnGuide">GUIDE &amp; AIM</span>
+                    </button>
+                    <span class="open-home-sep">&bull;</span>
+                    <button type="button" class="open-home-link" onclick="setLanguage(currentLang === 'en' ? 'fil' : 'en')" id="btnHomeLangToggle">
+                        <span id="txtHomeLangSwitch">EN / FIL</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
         <div class="app-shell" id="appShell">
 
         <!-- ── FARMER STEPPED SHAPE SVG (Farmer view only, desktop only) ── -->
@@ -7203,10 +7275,10 @@
 
             <!-- ── TOP HEADER NAVBAR (INSIDE SHELL) ── -->
             <header class="header-bar">
-                <!-- Home / Calculator / Advisor / Risk & Weather Capsule Toggle -->
+                <!-- Home (Close Workspace) / Calculator / Advisor / Risk & Weather Capsule Toggle -->
                 <div class="capsule-toggle" role="tablist" aria-label="View Mode">
-                    <button class="capsule-btn active" id="modeBtnHome" role="tab" aria-selected="true" onclick="switchView('home')">HOME</button>
-                    <button class="capsule-btn" id="modeBtnFarmer" role="tab" aria-selected="false" onclick="switchView('farmer')">CALCULATOR</button>
+                    <button class="capsule-btn" id="modeBtnHome" role="tab" aria-selected="false" onclick="switchView('home')" title="Close Workspace and Return to Homepage">&larr; HOME</button>
+                    <button class="capsule-btn active" id="modeBtnFarmer" role="tab" aria-selected="true" onclick="switchView('farmer')">CALCULATOR</button>
                     <button class="capsule-btn" id="modeBtnAdvisor" role="tab" aria-selected="false" onclick="switchView('advisor')">ADVISOR</button>
                     <button class="capsule-btn" id="modeBtnWeather" role="tab" aria-selected="false" onclick="switchView('weather')">RISK &amp; WEATHER</button>
                 </div>
@@ -7241,176 +7313,9 @@
             </header>
 
             <!-- ════════════════════════════════════════════════════════ -->
-            <!-- 0. DEDICATED HOMEPAGE VIEW (DEFAULT LANDING PAGE)        -->
-            <!-- ════════════════════════════════════════════════════════ -->
-            <section class="view-panel active" id="view-home" aria-label="Taya System Homepage">
-                <div class="home-view-wrapper">
-
-                    <!-- Minimal Priority Welcome Banner (No dense text wall) -->
-                    <div class="home-hero-card">
-                        <div class="home-hero-top">
-                            <div class="home-hero-heading">
-                                <div class="home-title-line">
-                                    <h1>TAYA SYSTEM</h1>
-                                    <span class="taya-badge-live">PHILIPPINE CROP INCOME PREDICTION</span>
-                                </div>
-                                <p class="home-short-tagline" id="txtHomeShortTagline">
-                                    Plan multi-crop harvests, costs, and estimated net profit across 82 Philippine provinces.
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- Primary Priority Buttons -->
-                        <div class="home-cta-row">
-                            <button type="button" class="taya-quick-btn primary" onclick="startAddCropFromHome()">
-                                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5">
-                                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                </svg>
-                                <span id="txtHomeBtnAddCrop">+ ADD CROP TO FARM PLAN</span>
-                            </button>
-                            <button type="button" class="taya-quick-btn" onclick="calculateFromHome()">
-                                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5">
-                                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                                </svg>
-                                <span id="txtHomeBtnCalc">CALCULATE INCOME</span>
-                            </button>
-                            <button type="button" class="taya-quick-btn" onclick="openHistoryDrawer()">
-                                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                    <polyline points="12 6 12 12 16 14"></polyline>
-                                </svg>
-                                <span id="txtHomeBtnHistory">RECENT PREDICTIONS (<span id="txtHistoryHeroCount">{{ system_stats.total_saved_predictions or 0 }}</span>)</span>
-                            </button>
-                            <button type="button" class="taya-quick-btn" onclick="openSystemGuideModal('how')">
-                                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                    <line x1="12" y1="16" x2="12" y2="12"></line>
-                                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                                </svg>
-                                <span id="txtHomeBtnGuide">HOW IT WORKS</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Real Verified System Counters (Zero fake data) -->
-                    <div class="home-stats-strip">
-                        <button type="button" class="home-stat-tile" onclick="startAddCropFromHome()" title="Browse Philippine Crop Catalog">
-                            <div class="home-stat-meta">
-                                <span class="home-stat-label" id="lblHomeStatCrops">AVAILABLE CROPS</span>
-                                <span class="home-stat-num readable-num" id="statCropsCount">{{ system_stats.total_crops or 35 }}+</span>
-                                <span class="home-stat-sub" id="subHomeStatCrops">Philippine Crop Catalog</span>
-                            </div>
-                            <div class="home-stat-icon">
-                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2">
-                                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                                </svg>
-                            </div>
-                        </button>
-
-                        <button type="button" class="home-stat-tile" onclick="openHistoryDrawer()" title="View Saved Prediction History">
-                            <div class="home-stat-meta">
-                                <span class="home-stat-label" id="lblHomeStatSaved">SAVED PREDICTIONS</span>
-                                <span class="home-stat-num readable-num" id="txtHomeSavedCount">{{ system_stats.total_saved_predictions or 0 }}</span>
-                                <span class="home-stat-sub" id="subHomeStatSaved">SQLite Farm Records</span>
-                            </div>
-                            <div class="home-stat-icon">
-                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2">
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                    <polyline points="12 6 12 12 16 14"></polyline>
-                                </svg>
-                            </div>
-                        </button>
-
-                        <button type="button" class="home-stat-tile" onclick="switchView('advisor')" title="Open Provincial Suitability Directory">
-                            <div class="home-stat-meta">
-                                <span class="home-stat-label" id="lblHomeStatProv">PROVINCES COVERED</span>
-                                <span class="home-stat-num readable-num">{{ system_stats.total_provinces or 82 }}</span>
-                                <span class="home-stat-sub" id="subHomeStatProv">DA-AMIA &bull; Random Forest R² 0.966</span>
-                            </div>
-                            <div class="home-stat-icon">
-                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2">
-                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                                    <circle cx="12" cy="10" r="3"></circle>
-                                </svg>
-                            </div>
-                        </button>
-                    </div>
-
-                    <!-- Prioritized 2-Column Home Area: Recent History + First-Time Quick Steps -->
-                    <div class="home-two-col">
-
-                        <!-- Left Card: Recent Prediction History -->
-                        <div class="home-panel-card">
-                            <div class="home-panel-header">
-                                <span class="home-panel-title">
-                                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2">
-                                        <circle cx="12" cy="12" r="10"></circle>
-                                        <polyline points="12 6 12 12 16 14"></polyline>
-                                    </svg>
-                                    <span id="txtHomeRecentTitle">RECENT PREDICTION HISTORY</span>
-                                </span>
-                                <button type="button" class="home-link-btn" onclick="openHistoryDrawer()" id="btnHomeViewAllHistory">VIEW ALL &rarr;</button>
-                            </div>
-
-                            <div class="home-recent-list" id="homeRecentHistoryList">
-                                <!-- Dynamically populated by loadHistory() -->
-                            </div>
-                        </div>
-
-                        <!-- Right Card: Quick Start Guide -->
-                        <div class="home-panel-card">
-                            <div class="home-panel-header">
-                                <span class="home-panel-title">
-                                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2">
-                                        <polyline points="9 11 12 14 22 4"></polyline>
-                                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
-                                    </svg>
-                                    <span id="txtHomeStepsTitle">HOW TO GET STARTED</span>
-                                </span>
-                                <button type="button" class="home-link-btn" onclick="switchView('farmer')" id="btnHomeGoCalc">OPEN CALCULATOR &rarr;</button>
-                            </div>
-
-                            <div class="home-steps-list">
-                                <div class="home-step-row">
-                                    <div class="onboarding-step-num">1</div>
-                                    <div>
-                                        <div class="home-step-title" id="txtHomeStep1Title">Select Province &amp; Season</div>
-                                        <div class="home-step-desc" id="txtHomeStep1Desc">Load official DA-AMIA soil type and Wet/Dry season climate benchmarks.</div>
-                                    </div>
-                                </div>
-                                <div class="home-step-row">
-                                    <div class="onboarding-step-num">2</div>
-                                    <div>
-                                        <div class="home-step-title" id="txtHomeStep2Title">Add One or More Crops</div>
-                                        <div class="home-step-desc" id="txtHomeStep2Desc">Pick from 35+ Philippine crops and set farm hectares for each crop.</div>
-                                    </div>
-                                </div>
-                                <div class="home-step-row">
-                                    <div class="onboarding-step-num">3</div>
-                                    <div>
-                                        <div class="home-step-title" id="txtHomeStep3Title">Calculate Harvest &amp; Net Income</div>
-                                        <div class="home-step-desc" id="txtHomeStep3Desc">Get ML production forecasts, itemized expenses, and estimated net profit (₱).</div>
-                                    </div>
-                                </div>
-                                <div class="home-step-row">
-                                    <div class="onboarding-step-num">4</div>
-                                    <div>
-                                        <div class="home-step-title" id="txtHomeStep4Title">Compare &amp; Save History</div>
-                                        <div class="home-step-desc" id="txtHomeStep4Desc">Compare ROI across crops or save and export a printable PDF report.</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </section>
-
-            <!-- ════════════════════════════════════════════════════════ -->
             <!-- 1. FARMER CALCULATOR VIEW                                -->
             <!-- ════════════════════════════════════════════════════════ -->
-            <section class="view-panel" id="view-farmer" aria-label="Farmer Calculator">
+            <section class="view-panel active" id="view-farmer" aria-label="Farmer Calculator">
 
                 <!-- Slim Focused Calculator Header Strip -->
                 <div class="calc-topbar-strip">
@@ -9207,7 +9112,7 @@
             const gGot = document.getElementById('txtGuideGotIt');
             if (gGot) gGot.textContent = t.guideGotIt || 'GOT IT, LET\'S CALCULATE →';
             const mHome = document.getElementById('modeBtnHome');
-            if (mHome) mHome.textContent = (lang === 'fil') ? 'BAHAY' : 'HOME';
+            if (mHome) mHome.textContent = (lang === 'fil') ? '← BAHAY' : '← HOME';
             const mf = document.getElementById('modeBtnFarmer');
             if (mf) mf.textContent = (lang === 'fil') ? 'KALKULADOR' : 'CALCULATOR';
             const ma = document.getElementById('modeBtnAdvisor');
@@ -9223,7 +9128,7 @@
             const hr = document.getElementById('txtHeaderRefresh');
             if (hr) hr.textContent = t.headerRefresh;
 
-            // Sidebar & Homepage translations
+            // Sidebar & Open Homepage translations
             const isFil = (lang === 'fil');
             const setTxt = (id, enVal, filVal) => {
                 const el = document.getElementById(id);
@@ -9241,25 +9146,16 @@
             setTxt('txtSideLab', 'MODEL LAB', 'MODEL LAB');
             setTxt('txtSideGuide', 'GUIDE & AIM', 'GABAY');
             setTxt('txtSideTheme', 'DAY / NIGHT', 'ARAW / GABI');
+            setTxt('txtSideLang', 'LANGUAGE', 'WIKA');
+            setTxt('sideLangBadge', 'EN', 'FIL');
+            setTxt('txtHomeSubBadge', 'PHILIPPINE CROP INCOME PREDICTION', 'PAGTAYA NG ANI AT KITA SA PILIPINAS');
             setTxt('txtHomeShortTagline', 'Plan multi-crop harvests, costs, and estimated net profit across 82 Philippine provinces.', 'Planuhin ang ani, gastos, at tinatayang kita sa 82 lalawigan ng Pilipinas.');
-            setTxt('txtHomeBtnAddCrop', '+ ADD CROP TO FARM PLAN', '+ MAGDAGDAG NG PANANIM');
+            setTxt('txtHomeBtnAddCrop', '+ ADD CROP', '+ MAGDAGDAG NG PANANIM');
             setTxt('txtHomeBtnCalc', 'CALCULATE INCOME', 'KWENTAHIN ANG KITA');
-            setTxt('txtHomeBtnGuide', 'HOW IT WORKS', 'PAANO GAMITIN');
-            setTxt('lblHomeStatCrops', 'AVAILABLE CROPS', 'MGA PANANIM');
-            setTxt('subHomeStatCrops', 'Philippine Crop Catalog', 'Katalogo ng Pananim');
-            setTxt('lblHomeStatSaved', 'SAVED PREDICTIONS', 'NA-SAVE NA TAYA');
-            setTxt('subHomeStatSaved', 'SQLite Farm Records', 'Mga Rekord sa Sakahan');
-            setTxt('lblHomeStatProv', 'PROVINCES COVERED', 'MGA LALAWIGAN');
-            setTxt('txtHomeRecentTitle', 'RECENT PREDICTION HISTORY', 'MGA KAMAKAILANG TAYA');
-            setTxt('txtHomeStepsTitle', 'HOW TO GET STARTED', 'PAANO MAGSIMULA');
-            setTxt('txtHomeStep1Title', 'Select Province & Season', 'Piliin ang Lalawigan at Panahon');
-            setTxt('txtHomeStep1Desc', 'Load official DA-AMIA soil type and Wet/Dry season climate benchmarks.', 'I-load ang lupa at klima batay sa opisyal na datos ng DA-AMIA.');
-            setTxt('txtHomeStep2Title', 'Add One or More Crops', 'Magdagdag ng Isa o Higit Pang Pananim');
-            setTxt('txtHomeStep2Desc', 'Pick from 35+ Philippine crops and set farm hectares for each crop.', 'Pumili sa 35+ pananim at ilagay ang ektarya ng iyong sakahan.');
-            setTxt('txtHomeStep3Title', 'Calculate Harvest & Net Income', 'Kwentahin ang Ani at Netong Kita');
-            setTxt('txtHomeStep3Desc', 'Get ML production forecasts, itemized expenses, and estimated net profit (₱).', 'Makita ang inaasahang ani, gastos, at malinis na kita (₱).');
-            setTxt('txtHomeStep4Title', 'Compare & Save History', 'Ikumpara at I-save sa Kasaysayan');
-            setTxt('txtHomeStep4Desc', 'Compare ROI across crops or save and export a printable PDF report.', 'Paghambingin ang tubo o mag-save at mag-print ng PDF report.');
+            setTxt('txtHomeHistoryLabel', 'HISTORY', 'KASAYSAYAN');
+            setTxt('txtHomeExpandHint', 'EXPAND WORKSPACE →', 'BUKSAN ANG WORKSPACE →');
+            setTxt('txtHomeBtnGuide', 'GUIDE & AIM', 'GABAY AT LAYUNIN');
+            setTxt('txtHomeLangSwitch', 'EN / FIL', 'FIL / EN');
             setTxt('txtCalcWorkspaceTitle', 'CROP INCOME CALCULATOR', 'KALKULADOR NG KITA');
             setTxt('btnBackToHome', '← HOMEPAGE', '← BALIK SA HOME');
 
@@ -9359,22 +9255,25 @@
             }
         }
 
-        // ── Collapsible / Expandable Left Menu Bar Controller ──
-        function initSideMenu() {
-            let expanded = false;
-            try {
-                expanded = (localStorage.getItem('anitaya_menu_expanded') === 'true');
-            } catch (e) {}
-            if (window.innerWidth > 860 && expanded) {
-                document.body.classList.add('menu-expanded');
-            } else {
-                document.body.classList.remove('menu-expanded');
-            }
+        // ── Collapsible / Expandable Left Menu Bar & Workspace Controller ──
+        function syncToggleButtonState() {
             const toggleBtn = document.getElementById('btnToggleSideMenu');
-            if (toggleBtn) {
-                toggleBtn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
-                toggleBtn.setAttribute('title', expanded ? 'Minimize Menu Bar' : 'Expand Menu Bar');
-            }
+            if (!toggleBtn) return;
+            const isExpanded = document.body.classList.contains('menu-expanded');
+            toggleBtn.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+            toggleBtn.setAttribute(
+                'title',
+                isExpanded
+                    ? 'Close Workspace & Minimize to Homepage'
+                    : 'Expand Menu & Open Workspace'
+            );
+        }
+
+        function initSideMenu() {
+            // Always start cleanly minimized on the open Homepage on first load/refresh
+            document.body.classList.remove('menu-expanded');
+            document.body.classList.remove('menu-mobile-open');
+            syncToggleButtonState();
         }
 
         function toggleSideMenu(forceState) {
@@ -9387,30 +9286,40 @@
                 return;
             }
 
-            const next = (typeof forceState === 'boolean')
-                ? forceState
-                : !document.body.classList.contains('menu-expanded');
-            document.body.classList.toggle('menu-expanded', next);
+            if (typeof forceState === 'boolean') {
+                document.body.classList.toggle('menu-expanded', forceState);
+                syncToggleButtonState();
+                return;
+            }
 
-            try {
-                localStorage.setItem('anitaya_menu_expanded', next ? 'true' : 'false');
-            } catch (e) {}
+            const isClosedHome = document.body.classList.contains('workspace-closed');
+            const isMenuExpanded = document.body.classList.contains('menu-expanded');
 
-            const toggleBtn = document.getElementById('btnToggleSideMenu');
-            if (toggleBtn) {
-                toggleBtn.setAttribute('aria-expanded', next ? 'true' : 'false');
-                toggleBtn.setAttribute('title', next ? 'Minimize Menu Bar' : 'Expand Menu Bar');
+            if (isClosedHome) {
+                // "When expand ->": expand menu bar AND reveal workspace
+                document.body.classList.add('menu-expanded');
+                switchView('farmer');
+                syncToggleButtonState();
+            } else if (!isMenuExpanded) {
+                // Workspace already open with compact bar -> expand labels
+                document.body.classList.add('menu-expanded');
+                syncToggleButtonState();
+            } else {
+                // "<- When closed": minimize menu bar AND close workspace back to open Homepage
+                document.body.classList.remove('menu-expanded');
+                switchView('home');
+                syncToggleButtonState();
             }
 
             setTimeout(() => {
                 const isFarmer = document.getElementById('view-farmer') && document.getElementById('view-farmer').classList.contains('active');
                 updateFarmerShellShape(isFarmer ? 'farmer' : 'other');
-            }, 300);
+            }, 340);
         }
 
         // ── Homepage Quick Actions Helpers ──
         function startAddCropFromHome() {
-            if (window.innerWidth <= 860) toggleSideMenu(false);
+            switchView('farmer');
             openCropSelectorModal();
         }
 
@@ -9458,16 +9367,32 @@
 
         // ── Navigation & View Switching ──
         function switchView(viewName) {
-            // Update panels
+            const isHome = (viewName === 'home');
+
+            if (isHome) {
+                // Close workspace panel & minimize menu bar back to Open Homepage
+                document.body.classList.add('workspace-closed');
+                document.body.classList.remove('workspace-open');
+                document.body.classList.remove('menu-expanded');
+                document.body.classList.remove('menu-mobile-open');
+                syncToggleButtonState();
+            } else {
+                // Open expandable workspace panel over background
+                document.body.classList.remove('workspace-closed');
+                document.body.classList.add('workspace-open');
+            }
+
+            // Update workspace view panels
             document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
-            const target = document.getElementById('view-' + viewName);
+            const activeWorkspaceView = isHome ? 'farmer' : viewName;
+            const target = document.getElementById('view-' + activeWorkspaceView);
             if (target) target.classList.add('active');
 
             // Update header capsule buttons
             const btnHome = document.getElementById('modeBtnHome');
             if (btnHome) {
-                btnHome.classList.toggle('active', viewName === 'home');
-                btnHome.setAttribute('aria-selected', viewName === 'home' ? 'true' : 'false');
+                btnHome.classList.toggle('active', isHome);
+                btnHome.setAttribute('aria-selected', isHome ? 'true' : 'false');
             }
             const btnFarmer = document.getElementById('modeBtnFarmer');
             if (btnFarmer) {
@@ -9489,7 +9414,7 @@
 
             // Update Left Sidebar navigation active indicators
             const railHome = document.getElementById('railBtnHome');
-            if (railHome) railHome.classList.toggle('active', viewName === 'home');
+            if (railHome) railHome.classList.toggle('active', isHome);
             const railCalc = document.getElementById('railBtnCalc');
             if (railCalc) railCalc.classList.toggle('active', viewName === 'farmer');
             const railAdv = document.getElementById('railBtnAdvisor');
@@ -9505,16 +9430,23 @@
             }
 
             // ── Farmer stepped shell ──
-            updateFarmerShellShape(viewName);
-
-            if (viewName === 'home') {
+            if (isHome) {
+                updateFarmerShellShape('home');
                 loadHistory();
-            } else if (viewName === 'advisor') {
-                renderAdvisorView();
-            } else if (viewName === 'weather') {
-                renderWeatherRiskView();
-            } else if (viewName === 'modellab') {
-                renderCharts();
+            } else {
+                updateFarmerShellShape(viewName);
+                if (viewName === 'farmer') {
+                    requestAnimationFrame(() => {
+                        updateFarmerShellShape('farmer');
+                        setTimeout(() => updateFarmerShellShape('farmer'), 120);
+                    });
+                } else if (viewName === 'advisor') {
+                    renderAdvisorView();
+                } else if (viewName === 'weather') {
+                    renderWeatherRiskView();
+                } else if (viewName === 'modellab') {
+                    renderCharts();
+                }
             }
         }
 
