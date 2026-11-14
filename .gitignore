@@ -4,6 +4,7 @@ __pycache__/
 *.pyd
 .ipynb_checkpoints/
 *.log
+*.db
 .env
 .venv/
 venv/

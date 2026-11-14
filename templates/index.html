@@ -6308,6 +6308,297 @@
             }
         }
 
+    
+        /* ═══════════════════════════════════════════════════════════════════ */
+        /* EXECUTIVE AGRICULTURAL PALETTE & SPACIOUS DESIGN SYSTEM             */
+        /* ═══════════════════════════════════════════════════════════════════ */
+
+        :root, [data-theme="dark"] {
+            --bg-page: #0b0f0a;
+            --bg-shell: #121810;
+            --bg-ink: #162014;
+            --bg-card: #182215;
+            --bg-card-hover: #202d1d;
+            --bg-selected: #22c55e;
+            --text-offwhite: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-dark: #0b1008;
+            --accent-olive: #22c55e;
+            --accent-emerald: #22c55e;
+            --accent-gold: #f59e0b;
+            --accent-coral: #ef4444;
+            --border-hairline: rgba(255, 255, 255, 0.10);
+            --border-hairline-strong: rgba(34, 197, 94, 0.35);
+            --border-subtle: rgba(255, 255, 255, 0.12);
+            --pill-inactive: rgba(255, 255, 255, 0.08);
+            --stat-card-bg: #162014;
+            --stat-card-text: #f8fafc;
+            --profit-box-bg: #0d2112;
+            --profit-box-text: #4ade80;
+            --profit-box-border: rgba(74, 222, 128, 0.35);
+            --shadow-subtle: 0 10px 30px rgba(0, 0, 0, 0.45);
+        }
+
+        [data-theme="light"] {
+            --bg-page: #f4f6f0;
+            --bg-shell: #ffffff;
+            --bg-ink: #f8faf5;
+            --bg-card: #ffffff;
+            --bg-card-hover: #f1f6eb;
+            --bg-selected: #15803d;
+            --text-offwhite: #0f172a;
+            --text-muted: #475569;
+            --text-dark: #ffffff;
+            --accent-olive: #16a34a;
+            --accent-emerald: #16a34a;
+            --accent-gold: #d97706;
+            --accent-coral: #dc2626;
+            --border-hairline: rgba(15, 23, 42, 0.10);
+            --border-hairline-strong: rgba(22, 163, 74, 0.35);
+            --border-subtle: rgba(15, 23, 42, 0.12);
+            --pill-inactive: rgba(15, 23, 42, 0.05);
+            --stat-card-bg: #ffffff;
+            --stat-card-text: #0f172a;
+            --profit-box-bg: #ecfdf5;
+            --profit-box-text: #065f46;
+            --profit-box-border: #86efac;
+            --shadow-subtle: 0 10px 30px rgba(0, 0, 0, 0.06);
+        }
+
+        /* Results Card Overrides: Clean, Executive Styling (Eliminates Glaring Olive) */
+        .results-card {
+            background: var(--stat-card-bg) !important;
+            color: var(--stat-card-text) !important;
+            border: 2px solid var(--border-hairline-strong) !important;
+            border-radius: 18px !important;
+            box-shadow: var(--shadow-subtle) !important;
+            padding: 24px 26px !important;
+        }
+
+        [data-theme="dark"] .results-card {
+            background: #152016 !important;
+            color: #f8fafc !important;
+            border-color: rgba(34, 197, 94, 0.35) !important;
+            box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5) !important;
+        }
+
+        [data-theme="light"] .results-card {
+            background: #ffffff !important;
+            color: #0f172a !important;
+            border-color: rgba(22, 163, 74, 0.3) !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06) !important;
+        }
+
+        /* Net Profit Box Styling */
+        .profit-dark-box {
+            background: var(--profit-box-bg) !important;
+            border: 1.5px solid var(--profit-box-border) !important;
+            border-radius: 14px !important;
+            padding: 18px 22px !important;
+        }
+        .profit-large-val {
+            color: var(--profit-box-text) !important;
+            font-size: 32px !important;
+            font-weight: 900 !important;
+        }
+        .profit-label {
+            color: var(--text-muted) !important;
+            font-size: 11px !important;
+            font-weight: 800 !important;
+            letter-spacing: 0.06em !important;
+        }
+
+        /* ── Season Buttons (Wet / Dry) ── */
+        .season-pill-btn {
+            cursor: pointer !important;
+            padding: 12px 18px !important;
+            border-radius: 10px !important;
+            font-size: 11.5px !important;
+            font-weight: 900 !important;
+            letter-spacing: 0.08em !important;
+            transition: all 0.2s ease !important;
+        }
+        [data-theme="dark"] .season-pill-btn {
+            background: rgba(255, 255, 255, 0.06) !important;
+            border: 1.5px solid rgba(255, 255, 255, 0.12) !important;
+            color: #94a3b8 !important;
+        }
+        [data-theme="dark"] .season-pill-btn:hover {
+            border-color: #22c55e !important;
+            color: #f8fafc !important;
+        }
+        [data-theme="dark"] .season-pill-btn.active {
+            background: #22c55e !important;
+            color: #0b1008 !important;
+            border-color: #22c55e !important;
+            font-weight: 900 !important;
+            box-shadow: 0 4px 14px rgba(34, 197, 94, 0.4) !important;
+        }
+
+        [data-theme="light"] .season-pill-btn {
+            background: #f1f5f9 !important;
+            border: 1.5px solid #cbd5e1 !important;
+            color: #475569 !important;
+        }
+        [data-theme="light"] .season-pill-btn:hover {
+            border-color: #16a34a !important;
+            color: #0f172a !important;
+        }
+        [data-theme="light"] .season-pill-btn.active {
+            background: #16a34a !important;
+            color: #ffffff !important;
+            border-color: #16a34a !important;
+            font-weight: 900 !important;
+            box-shadow: 0 4px 14px rgba(22, 163, 74, 0.3) !important;
+        }
+
+        /* ── PROMINENT HIGH-VISIBILITY HECTARE ADJUSTER ── */
+        .crop-area-control-box {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            align-items: flex-end;
+        }
+        .crop-area-label {
+            font-size: 10px;
+            font-weight: 900;
+            color: var(--text-muted);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        .crop-area-stepper-large {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid #22c55e;
+            border-radius: 12px;
+            padding: 4px 8px;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.22);
+        }
+        [data-theme="light"] .crop-area-stepper-large {
+            background: #ffffff;
+            border-color: #16a34a;
+            box-shadow: 0 3px 12px rgba(22, 163, 74, 0.18);
+        }
+        .stepper-step-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1.5px solid var(--border-subtle);
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-offwhite);
+            font-size: 18px;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            user-select: none;
+            line-height: 1;
+        }
+        [data-theme="light"] .stepper-step-btn {
+            background: #f1f5f9;
+            color: #0f172a;
+            border-color: #cbd5e1;
+        }
+        .stepper-step-btn:hover {
+            background: #22c55e;
+            color: #0b1008;
+            border-color: #22c55e;
+            transform: scale(1.1);
+        }
+        [data-theme="light"] .stepper-step-btn:hover {
+            background: #16a34a;
+            color: #ffffff;
+            border-color: #16a34a;
+        }
+        .crop-ha-input-large {
+            width: 64px;
+            background: transparent;
+            border: none;
+            color: var(--text-offwhite);
+            font-size: 17px;
+            font-weight: 900;
+            text-align: right;
+            outline: none;
+        }
+        [data-theme="light"] .crop-ha-input-large {
+            color: #0f172a;
+        }
+        .crop-ha-unit-large {
+            font-size: 11px;
+            font-weight: 900;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+            margin-right: 2px;
+        }
+
+        /* ── MODAL POPUP TRIGGER BUTTONS ROW ── */
+        .results-modal-triggers-row {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-top: 18px;
+            padding-top: 16px;
+            border-top: 1px dashed var(--border-subtle);
+        }
+        .btn-modal-trigger {
+            flex: 1;
+            min-width: 220px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: rgba(34, 197, 94, 0.12);
+            border: 1.5px solid rgba(34, 197, 94, 0.4);
+            color: var(--text-offwhite);
+            font-size: 12px;
+            font-weight: 800;
+            padding: 13px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            letter-spacing: 0.03em;
+        }
+        [data-theme="light"] .btn-modal-trigger {
+            background: rgba(22, 163, 74, 0.08);
+            border-color: rgba(22, 163, 74, 0.35);
+            color: #15803d;
+        }
+        .btn-modal-trigger:hover {
+            background: #22c55e;
+            border-color: #22c55e;
+            color: #0b1008;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(34, 197, 94, 0.32);
+        }
+        [data-theme="light"] .btn-modal-trigger:hover {
+            background: #16a34a;
+            color: #ffffff;
+        }
+        .btn-modal-trigger.primary {
+            background: rgba(245, 158, 11, 0.12);
+            border-color: rgba(245, 158, 11, 0.45);
+        }
+        [data-theme="light"] .btn-modal-trigger.primary {
+            background: rgba(217, 119, 6, 0.08);
+            border-color: rgba(217, 119, 6, 0.35);
+            color: #b45309;
+        }
+        .btn-modal-trigger.primary:hover {
+            background: #f59e0b;
+            border-color: #f59e0b;
+            color: #0b1008;
+            box-shadow: 0 6px 18px rgba(245, 158, 11, 0.35);
+        }
+        [data-theme="light"] .btn-modal-trigger.primary:hover {
+            background: #d97706;
+            color: #ffffff;
+        }
+
     </style>
 </head>
 <body>
@@ -7060,78 +7351,24 @@
 
                 </div> <!-- End farmer-grid-layout -->
 
-                <!-- ── 5. DETAILED CROP RESULTS & COMPARISON SECTION (Phase 6 & 7) ── -->
-                <div class="multi-results-container" id="multiCropDetailContainer">
-
-                    <!-- Per-Crop Breakdown Cards Grid -->
-                    <div style="font-size:12px; font-weight:800; letter-spacing:0.05em; color:var(--text-offwhite); margin-top:10px;">
-                        ITEMIZED HARVEST, REVENUE &amp; EXPENSE FORECAST PER CROP
-                    </div>
-                    <div class="crop-breakdown-cards-grid" id="cropBreakdownCardsGrid">
-                        <!-- Populated dynamically by renderMultiCropResults() -->
-                    </div>
-
-                    <!-- ── 6. CROP COMPARISON TABLE & CHART (Phase 7) ── -->
-                    <div class="crop-comparison-panel" id="cropComparisonPanel">
-                        <div class="comparison-panel-header">
-                            <div>
-                                <h3>CROP PROFITABILITY COMPARISON</h3>
-                                <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">
-                                    Side-by-side evaluation of estimated harvest, revenue, costs, and net returns.
-                                </div>
-                            </div>
-                            <div class="highest-income-chip" id="highestIncomeBadge">
-                                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5">
-                                    <circle cx="12" cy="8" r="7"></circle>
-                                    <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
-                                </svg>
-                                <span id="txtHighestCropWinner">Top Crop: Calculating...</span>
-                            </div>
-                        </div>
-
-                        <!-- Side-by-side Comparison Table -->
-                        <div class="comparison-table-wrapper">
-                            <table class="comparison-table">
-                                <thead>
-                                    <tr>
-                                        <th>CROP NAME</th>
-                                        <th>CATEGORY</th>
-                                        <th>AREA (HA)</th>
-                                        <th>HARVEST (MT)</th>
-                                        <th>FARMGATE PRICE</th>
-                                        <th>GROSS REVENUE</th>
-                                        <th>PRODUCTION COSTS</th>
-                                        <th>NET PROFIT</th>
-                                        <th>ROI (%)</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="comparisonTableBody">
-                                    <!-- Populated dynamically -->
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <!-- Comparison SVG Chart Box -->
-                        <div class="comparison-chart-container">
-                            <div style="font-size:10px; font-weight:800; color:var(--text-muted); letter-spacing:0.04em; margin-bottom:8px; text-transform:uppercase;">
-                                FINANCIAL COMPARISON (GROSS REVENUE vs. PRODUCTION COSTS vs. NET PROFIT)
-                            </div>
-                            <div id="cropComparisonChartBox" style="width:100%; min-height:180px;">
-                                <!-- SVG Chart rendered by drawCropComparisonChart() -->
-                            </div>
-                        </div>
-
-                        <!-- Agronomic Risk Advisory Notice (Required in Phase 7) -->
-                        <div class="agronomic-alert-callout">
-                            <strong>⚠️ AGRONOMIC RISK &amp; SUITABILITY NOTICE:</strong>
-                            <span id="txtAgronomicAdvisoryNotice">
-                                The crop with the highest estimated net profit is not automatically the optimal choice. Filipino smallholders must also account for seasonal typhoons, soil drainage, input capital outlays, local farmgate buyer access, and pest pressure when planning crop rotations.
-                            </span>
-                        </div>
-                    </div>
-
-                </div> <!-- End multi-results-container -->
-
+                <!-- ── 5. MODAL POPUP TRIGGER BUTTONS (Clean & Spacious Layout) ── -->
+                <div class="results-modal-triggers-row" id="resultsModalTriggersRow" style="margin-top: 18px;">
+                    <button type="button" class="btn-modal-trigger primary" id="btnOpenItemizedModal" onclick="openItemizedModal()">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="20" x2="18" y2="10"></line>
+                            <line x1="12" y1="20" x2="12" y2="4"></line>
+                            <line x1="6" y1="20" x2="6" y2="14"></line>
+                        </svg>
+                        <span>📊 VIEW ITEMIZED CROP BREAKDOWN</span>
+                    </button>
+                    <button type="button" class="btn-modal-trigger" id="btnOpenComparisonModal" onclick="openComparisonModal()">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="8" r="7"></circle>
+                            <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                        </svg>
+                        <span>⚖️ COMPARE CROP PROFITABILITY</span>
+                    </button>
+                </div>
             </section>
 
             <!-- ════════════════════════════════════════════════════════ -->
@@ -7465,6 +7702,104 @@
                     </footer>
                 </div>
             </section>
+
+        
+            <!-- ════════════════════════════════════════════════════════ -->
+            <!-- POPUP MODAL 1: ITEMIZED HARVEST & EXPENSE FORECAST       -->
+            <!-- ════════════════════════════════════════════════════════ -->
+            <div id="itemizedForecastModal" class="crop-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="itemizedModalTitle" onclick="if(event.target === this) closeItemizedModal()">
+                <div class="crop-modal-card" style="max-width: 940px; width: 92%;">
+                    <div class="crop-modal-header" style="padding: 16px 22px; border-bottom: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display:flex; align-items:center; gap:12px;">
+                            <span style="font-size:22px;">📊</span>
+                            <div>
+                                <h3 id="itemizedModalTitle" style="font-size: 15px; font-weight: 900; margin: 0; color: var(--text-offwhite); letter-spacing: 0.04em;">ITEMIZED HARVEST, REVENUE &amp; EXPENSE FORECAST</h3>
+                                <span style="font-size:11px; color:var(--text-muted);">Detailed production and financial breakdown per crop</span>
+                            </div>
+                        </div>
+                        <button type="button" class="crop-modal-close-btn" onclick="closeItemizedModal()" aria-label="Close Modal" style="background: none; border: none; font-size: 26px; color: var(--text-muted); cursor: pointer; line-height: 1;">&times;</button>
+                    </div>
+                    <div style="padding: 22px 24px; overflow-y: auto; max-height: 75vh;">
+                        <div class="crop-breakdown-cards-grid" id="cropBreakdownCardsGrid">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ════════════════════════════════════════════════════════ -->
+            <!-- POPUP MODAL 2: CROP PROFITABILITY & RISK COMPARISON      -->
+            <!-- ════════════════════════════════════════════════════════ -->
+            <div id="cropComparisonModal" class="crop-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="comparisonModalTitle" onclick="if(event.target === this) closeComparisonModal()">
+                <div class="crop-modal-card" style="max-width: 980px; width: 92%;">
+                    <div class="crop-modal-header" style="padding: 16px 22px; border-bottom: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display:flex; align-items:center; gap:12px;">
+                            <span style="font-size:22px;">⚖️</span>
+                            <div>
+                                <h3 id="comparisonModalTitle" style="font-size: 15px; font-weight: 900; margin: 0; color: var(--text-offwhite); letter-spacing: 0.04em;">CROP PROFITABILITY COMPARISON</h3>
+                                <span style="font-size:11px; color:var(--text-muted);">Side-by-side financial evaluation &amp; agronomic advisory</span>
+                            </div>
+                        </div>
+                        <button type="button" class="crop-modal-close-btn" onclick="closeComparisonModal()" aria-label="Close Modal" style="background: none; border: none; font-size: 26px; color: var(--text-muted); cursor: pointer; line-height: 1;">&times;</button>
+                    </div>
+                    <div style="padding: 22px 26px; overflow-y: auto; max-height: 78vh;">
+                        <!-- Winner Badge Header -->
+                        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; flex-wrap:wrap; gap:12px;">
+                            <div>
+                                <strong style="font-size:13px; color:var(--text-offwhite);">EVALUATED CROPS:</strong>
+                                <span id="txtComparisonSubtitle" style="font-size:11px; color:var(--text-muted); margin-left:6px;">Comparing all crops in your current farm plan</span>
+                            </div>
+                            <div class="highest-income-chip" id="highestIncomeBadge" style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 20px; font-size: 11px; font-weight: 900; background: rgba(34, 197, 94, 0.15); color: #22c55e; border: 1.5px solid rgba(34, 197, 94, 0.4);">
+                                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <circle cx="12" cy="8" r="7"></circle>
+                                    <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                                </svg>
+                                <span id="txtHighestCropWinner">Top Crop: Calculating...</span>
+                            </div>
+                        </div>
+
+                        <!-- Side-by-side Comparison Table -->
+                        <div class="comparison-table-wrapper" style="margin-bottom:20px; overflow-x: auto;">
+                            <table class="comparison-table" style="width: 100%; border-collapse: collapse;">
+                                <thead>
+                                    <tr>
+                                        <th style="padding: 10px; text-align: left; font-size: 10.5px; border-bottom: 2px solid var(--border-subtle);">CROP NAME</th>
+                                        <th style="padding: 10px; text-align: left; font-size: 10.5px; border-bottom: 2px solid var(--border-subtle);">CATEGORY</th>
+                                        <th style="padding: 10px; text-align: right; font-size: 10.5px; border-bottom: 2px solid var(--border-subtle);">AREA (HA)</th>
+                                        <th style="padding: 10px; text-align: right; font-size: 10.5px; border-bottom: 2px solid var(--border-subtle);">HARVEST (MT)</th>
+                                        <th style="padding: 10px; text-align: right; font-size: 10.5px; border-bottom: 2px solid var(--border-subtle);">FARMGATE PRICE</th>
+                                        <th style="padding: 10px; text-align: right; font-size: 10.5px; border-bottom: 2px solid var(--border-subtle);">GROSS REVENUE</th>
+                                        <th style="padding: 10px; text-align: right; font-size: 10.5px; border-bottom: 2px solid var(--border-subtle);">PRODUCTION COSTS</th>
+                                        <th style="padding: 10px; text-align: right; font-size: 10.5px; border-bottom: 2px solid var(--border-subtle);">NET PROFIT</th>
+                                        <th style="padding: 10px; text-align: right; font-size: 10.5px; border-bottom: 2px solid var(--border-subtle);">ROI (%)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="comparisonTableBody">
+                                    <!-- Populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Comparison SVG Chart Box -->
+                        <div class="comparison-chart-container" style="margin-bottom:20px;">
+                            <div style="font-size:10.5px; font-weight:800; color:var(--text-muted); letter-spacing:0.04em; margin-bottom:8px; text-transform:uppercase;">
+                                FINANCIAL COMPARISON (GROSS REVENUE vs. PRODUCTION COSTS vs. NET PROFIT)
+                            </div>
+                            <div id="cropComparisonChartBox" style="width:100%; min-height:180px;">
+                                <!-- SVG Chart rendered by drawCropComparisonChart() -->
+                            </div>
+                        </div>
+
+                        <!-- Agronomic Risk Advisory Notice -->
+                        <div class="agronomic-alert-callout" style="padding: 14px 18px; border-radius: 10px; background: rgba(245, 158, 11, 0.1); border: 1.5px solid rgba(245, 158, 11, 0.35); color: #f59e0b; font-size: 11.5px; line-height: 1.5;">
+                            <strong>⚠️ IMPORTANT AGRONOMIC RISK NOTICE:</strong>
+                            <span id="txtAgronomicAdvisoryNotice" style="color: var(--text-offwhite); margin-left: 4px;">
+                                While the highlighted crop indicates the highest projected net income, the highest calculated profit does not automatically make it the optimal choice. Filipino farmers must also account for local soil drainage, seasonal typhoon exposure, upfront capital outlays, and farmgate price volatility.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </main>
     </div><!-- /app-shell -->
@@ -9040,8 +9375,22 @@
                 { crop_name: "Rice, paddy", land_area_ha: 1.0, farmgate_price: null, cost_per_ha: null }
             ];
             currentCalculatedResult = null;
+            lastCalculatedData = null;
+            currentNetProfit = 0;
+            activeCrop = null;
+            farmArea = 0;
+            customPrice = 0.0;
+
             renderSelectedCropsUI();
 
+            // Reset scenario
+            selectScenario('normal');
+
+            // Reset input stepper displays
+            setAreaDisplay(0);
+            setPriceDisplay('0.00');
+
+            // Reset overview results card
             const netEl = document.getElementById("resNetProfit");
             if (netEl) netEl.textContent = "₱0";
             const roiBadge = document.getElementById("resRoiBadge");
@@ -9053,6 +9402,17 @@
             const costEl = document.getElementById("resTotalCost");
             if (costEl) costEl.textContent = "₱0";
 
+            const sBad = document.getElementById('scenBadVal');
+            if (sBad) sBad.textContent = '₱0';
+            const sNorm = document.getElementById('scenNormVal');
+            if (sNorm) sNorm.textContent = '₱0';
+            const sGood = document.getElementById('scenGoodVal');
+            if (sGood) sGood.textContent = '₱0';
+
+            const headerEl = document.getElementById("resHeaderTitle");
+            if (headerEl) headerEl.textContent = "FARM INCOME PROJECTION";
+
+            // Clear modal content containers
             const cardsGrid = document.getElementById("cropBreakdownCardsGrid");
             if (cardsGrid) cardsGrid.innerHTML = "";
             const tblBody = document.getElementById("comparisonTableBody");
@@ -9062,10 +9422,12 @@
             const winnerBadge = document.getElementById("highestIncomeBadge");
             if (winnerBadge) winnerBadge.style.display = "none";
 
-            const headerEl = document.getElementById("resHeaderTitle");
-            if (headerEl) headerEl.textContent = "FARM INCOME PROJECTION";
+            // Close any open modals
+            closeItemizedModal();
+            closeComparisonModal();
 
-            showToast("Farm plan reset to default 1.0 ha Rice.");
+            const isFil = (currentLang === 'fil');
+            showToast(isFil ? "Na-reset ang plano ng sakahan pabalik sa default na 1.0 ha Palay." : "Farm plan reset to default 1.0 ha Rice.");
         }
 
         function requestCalculatorReset() {
@@ -9283,69 +9645,40 @@
 
         // ── Validation Guard for Calculator Reset ──
         function requestCalculatorReset() {
-            const isAlreadyClean = (!activeCrop && farmArea === 0 && (!customPrice || customPrice === 0));
-            if (isAlreadyClean) {
-                const isFil = (currentLang === 'fil');
-                showToast(isFil ? 'Nasa default na kalagayan na ang kalkulador.' : 'Calculator is already in default clean state.');
+            const isFil = (currentLang === 'fil');
+
+            // Check if already in clean default state
+            const isDefaultPlan = (
+                Array.isArray(selectedCrops) &&
+                selectedCrops.length === 1 &&
+                selectedCrops[0].crop_name === "Rice, paddy" &&
+                parseFloat(selectedCrops[0].land_area_ha) === 1.0 &&
+                !currentCalculatedResult
+            );
+
+            if (isDefaultPlan) {
+                showToast(isFil ? 'Nasa default na kalagayan na ang plano ng sakahan (1.0 ha Palay).' : 'Farm plan is already in default state (1.0 ha Rice).');
                 return;
             }
 
-            const isFil = (currentLang === 'fil');
+            // Prompt user with confirmation modal
             showConfirmDialog({
-                title: isFil ? 'I-RESET ANG KALKULADOR?' : 'RESET CALCULATOR INPUTS?',
+                title: isFil ? 'I-RESET ANG PLANO NG SAKAHAN?' : 'RESET FARM PLAN & CALCULATOR?',
                 message: isFil 
-                    ? 'I-re-reset nito ang napiling pananim, sukat ng sakahan, at custom na presyo pabalik sa default (0). Nais mo bang magpatuloy?'
-                    : 'This will clear your selected crop, land area, custom price, and calculated harvest yield back to default. Continue?',
-                confirmText: isFil ? 'I-RESET' : 'RESET INPUTS',
+                    ? 'I-re-reset nito ang lahat ng napiling pananim pabalik sa default (1.0 ha Palay) at lilinisin ang mga resulta ng ani at kita. Nais mo bang magpatuloy?'
+                    : 'This will reset your selected crops back to default (1.0 ha Rice, paddy) and clear all calculated harvest and income projections. Continue?',
+                confirmText: isFil ? 'I-RESET' : 'RESET PLAN',
                 cancelText: isFil ? 'KANSELAHIN' : 'CANCEL',
                 isWarning: true,
                 onConfirm: () => {
-                    resetCalculator(true);
+                    resetFarmPlan();
                 }
             });
         }
 
         // ── Full Calculator Refresh & Clear Action ──
         function resetCalculator(showToast = true) {
-            activeCrop = null;
-            farmArea = 0;
-            customPrice = 0.0;
-            lastCalculatedData = null;
-            currentNetProfit = 0;
-
-            // Deselect all crop tiles
-            ['Rice', 'Corn', 'Potato', 'Cassava'].forEach(c => {
-                const tile = document.getElementById('tile' + c);
-                if (tile) tile.setAttribute('aria-pressed', 'false');
-            });
-
-            // Reset input stepper displays
-            setAreaDisplay(0);
-            setPriceDisplay('0.00');
-
-            // Reset scenario
-            selectScenario('normal');
-
-            // Reset results card
-            resetResultsCard();
-
-            // Reset weather sensitivity shock sliders
-            const sy = document.getElementById('sliderYieldShock');
-            if (sy) sy.value = 0;
-            const sp = document.getElementById('sliderPriceShock');
-            if (sp) sp.value = 0;
-
-            // Hide seasonal tip box
-            const tipBox = document.getElementById('cropSeasonalTipBox');
-            if (tipBox) tipBox.style.display = 'none';
-
-            // Reset provincial advisory banner
-            updateProvinceAdvisoryUI();
-
-            if (showToast) {
-                const isFil = (currentLang === 'fil');
-                showToast(isFil ? 'Nalinis at na-refresh ang kalkulador.' : 'Calculator cleared & refreshed.');
-            }
+            resetFarmPlan();
         }
 
         // ── Live Calculation & UI Update ──
@@ -11033,6 +11366,57 @@
         let activeSearchQuery = "";
         let currentSuitabilityData = [];
 
+        // ── Modal Handlers for Itemized Forecast & Crop Comparison ──
+        function openItemizedModal() {
+            if (!currentCalculatedResult) {
+                showToast(currentLang === 'fil' ? 'Paki-kalkula muna ang ani at kita ng sakahan.' : 'Please calculate harvest income first.');
+                runCountUpCalc();
+                return;
+            }
+            const modal = document.getElementById("itemizedForecastModal");
+            if (modal) modal.classList.add("open");
+        }
+
+        function closeItemizedModal() {
+            const modal = document.getElementById("itemizedForecastModal");
+            if (modal) modal.classList.remove("open");
+        }
+
+        function openComparisonModal() {
+            if (!currentCalculatedResult) {
+                showToast(currentLang === 'fil' ? 'Paki-kalkula muna ang ani at kita ng sakahan.' : 'Please calculate harvest income first.');
+                runCountUpCalc();
+                return;
+            }
+            const modal = document.getElementById("cropComparisonModal");
+            if (modal) modal.classList.add("open");
+        }
+
+        function closeComparisonModal() {
+            const modal = document.getElementById("cropComparisonModal");
+            if (modal) modal.classList.remove("open");
+        }
+
+        function stepCropArea(idx, delta) {
+            if (idx >= 0 && idx < selectedCrops.length) {
+                const current = parseFloat(selectedCrops[idx].land_area_ha) || 1.0;
+                const next = Math.max(0.1, Math.min(500, Math.round((current + delta) * 10) / 10));
+                selectedCrops[idx].land_area_ha = next;
+                renderSelectedCropsUI();
+                if (currentCalculatedResult) {
+                    runCountUpCalc();
+                }
+            }
+        }
+
+        // Close open modals on Escape key
+        document.addEventListener("keydown", function(e) {
+            if (e.key === "Escape") {
+                closeItemizedModal();
+                closeComparisonModal();
+            }
+        });
+
         // 1. Multi-Crop Farm Plan Management
         function renderSelectedCropsUI() {
             const container = document.getElementById("selectedCropsListContainer");
@@ -11043,9 +11427,9 @@
 
             if (selectedCrops.length === 0) {
                 container.innerHTML = `
-                    <div class="empty-plan-notice">
+                    <div class="empty-plan-notice" style="padding: 24px; text-align: center; border: 2px dashed var(--border-subtle); border-radius: 12px; color: var(--text-muted); font-size: 12px;">
                         NO CROPS IN FARM PLAN YET.<br>
-                        Click <strong>"+ Add Crop (35+)"</strong> or select from the quick-add buttons above.
+                        Click <strong>"+ Add Crop (35+)"</strong> or choose from the quick-add buttons above.
                     </div>
                 `;
                 if (countEl) countEl.textContent = "0";
@@ -11064,7 +11448,6 @@
                 const letter = c.crop_name.charAt(0).toUpperCase();
                 const category = catalogInfo.Crop_Category || "Crops";
                 const sciname = catalogInfo.Scientific_Name || "";
-                const origin = catalogInfo.Origin_Status || "Cultivated";
 
                 // Check suitability
                 const suitableProvs = (catalogInfo.Suitable_Provinces || "").toLowerCase();
@@ -11082,20 +11465,26 @@
 
                         <div class="selected-crop-middle">
                             <span class="crop-suit-badge ${isSuit ? '' : 'secondary'}">
-                                ${isSuit ? '✓ Suitable in Province' : '• Secondary Option'}
+                                ${isSuit ? '✓ Suitable' : '• Secondary'}
                             </span>
-                            <div class="crop-area-stepper" title="Land area in hectares">
-                                <span class="crop-area-unit">AREA:</span>
-                                <input type="number" min="0.1" max="500" step="0.1" value="${c.land_area_ha}"
-                                       onchange="updateCropArea(${idx}, this.value)"
-                                       onblur="updateCropArea(${idx}, this.value)"
-                                       aria-label="Area in hectares for ${c.crop_name}">
-                                <span class="crop-area-unit">HA</span>
+
+                            <!-- Prominent High-Visibility Hectare Stepper -->
+                            <div class="crop-area-control-box">
+                                <span class="crop-area-label">FARM SIZE</span>
+                                <div class="crop-area-stepper-large">
+                                    <button type="button" class="stepper-step-btn" onclick="stepCropArea(${idx}, -0.5)" title="Decrease 0.5 ha">−</button>
+                                    <input type="number" class="crop-ha-input-large" min="0.1" max="500" step="0.5" value="${c.land_area_ha}"
+                                           onchange="updateCropArea(${idx}, this.value)"
+                                           onblur="updateCropArea(${idx}, this.value)"
+                                           aria-label="Area in hectares for ${c.crop_name}">
+                                    <span class="crop-ha-unit-large">HA</span>
+                                    <button type="button" class="stepper-step-btn" onclick="stepCropArea(${idx}, 0.5)" title="Increase 0.5 ha">+</button>
+                                </div>
                             </div>
                         </div>
 
                         <button type="button" class="btn-remove-crop" onclick="removeCropFromPlan(${idx})" title="Remove ${c.crop_name}">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
                                 <polyline points="3 6 5 6 21 6"></polyline>
                                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
                             </svg>
@@ -11140,6 +11529,9 @@
             const num = parseFloat(val);
             if (!isNaN(num) && num > 0 && num <= 500) {
                 selectedCrops[index].land_area_ha = num;
+                if (currentCalculatedResult) {
+                    runCountUpCalc();
+                }
             } else {
                 showToast("Please enter a valid land area between 0.1 and 500 hectares.");
             }
