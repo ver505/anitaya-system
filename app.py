@@ -163,19 +163,19 @@ def get_crops_by_suitability(province_name):
     if not p:
         return jsonify({"status": "error", "message": f"Province '{province_name}' not found."}), 404
 
-    rec_str = (p.get("primary_crops", "") + "; " + p.get("secondary_crops", "")).lower()
     annotated = []
     for crop in crop_engine.crop_catalog:
-        c_name = crop["Crop_Name"].lower()
-        is_rec = (c_name in rec_str) or (crop.get("Crop_ID", "").lower() in rec_str) or (crop_engine.normalize_crop_name(c_name).lower() in rec_str)
-        suitable_provs = str(crop.get("Suitable_Provinces", "")).lower()
-        is_prov_suitable = p["province"].lower() in suitable_provs
+        is_suitable, is_da_rec, suitability_notes = crop_engine.assess_crop_province_suitability(
+            crop["Crop_Name"], p, crop
+        )
 
         annotated.append({
             **crop,
-            "is_recommended": is_rec,
-            "is_suitable": is_rec or is_prov_suitable,
-            "suitability_grade": p.get("da_suitability_grade", "Suitable") if is_rec else "Secondary Option"
+            "is_recommended": is_suitable,
+            "is_da_recommended": is_da_rec,
+            "is_suitable": is_suitable,
+            "suitability_notes": suitability_notes,
+            "suitability_grade": p.get("da_suitability_grade", "Suitable") if is_suitable else "Secondary Option"
         })
 
     return jsonify({
@@ -481,7 +481,7 @@ def predict():
         }
 
         if matched_province:
-            is_rec = crop.lower() in matched_province["primary_crops"].lower()
+            is_rec, _da_rec, _notes = crop_engine.assess_crop_province_suitability(crop, matched_province)
             response_payload["province_suitability"] = {
                 "province": matched_province["province"],
                 "region": matched_province["region"],

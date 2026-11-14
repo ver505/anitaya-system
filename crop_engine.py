@@ -122,6 +122,52 @@ CROP_NAME_MAP = {
     "goma": "Rubber"
 }
 
+# Canonical catalog names grouped with Dataset 1 (DA-AMIA) short labels
+CROP_SUITABILITY_ALIASES = {
+    "rice, paddy": ("rice, paddy", "rice", "palay", "bigas"),
+    "maize": ("maize", "corn", "mais", "yellow corn", "white corn"),
+    "potatoes": ("potatoes", "potato", "patatas", "irish potato"),
+    "cassava": ("cassava", "kamoteng kahoy", "balanghoy"),
+}
+
+
+def assess_crop_province_suitability(crop_name, province_info, crop_meta=None):
+    """
+    Unified suitability check combining:
+      1) DA-AMIA provincial primary_crops / secondary_crops
+      2) PSA crop catalog Suitable_Provinces (exact comma-token match)
+    Returns (is_suitable: bool, is_da_recommended: bool, notes: str).
+    """
+    if not province_info:
+        return True, False, "Provincial suitability requires province selection."
+
+    prov_name = province_info.get("province", "").strip()
+    prov_low = prov_name.lower()
+
+    norm_crop = CROP_NAME_MAP.get(str(crop_name).strip().lower(), str(crop_name).strip())
+    norm_low = norm_crop.lower()
+    aliases = set(CROP_SUITABILITY_ALIASES.get(norm_low, (norm_low, str(crop_name).strip().lower())))
+
+    primary_tokens = {c.strip().lower() for c in str(province_info.get("primary_crops", "")).split(";") if c.strip()}
+    secondary_tokens = {c.strip().lower() for c in str(province_info.get("secondary_crops", "")).split(";") if c.strip()}
+    in_primary = bool(aliases & primary_tokens)
+    in_secondary = bool(aliases & secondary_tokens)
+    is_da_recommended = in_primary or in_secondary
+
+    if crop_meta is None:
+        crop_meta = crop_by_name.get(norm_low, {})
+    suitable_tokens = {p.strip().lower() for p in str(crop_meta.get("Suitable_Provinces", "")).split(",") if p.strip()}
+    is_catalog_suitable = bool(prov_low and prov_low in suitable_tokens)
+
+    if in_primary:
+        return True, True, f"Officially designated as a primary crop for {prov_name} by DA-AMIA."
+    if in_secondary:
+        return True, True, f"Officially designated as a suitable rotational crop for {prov_name} by DA-AMIA."
+    if is_catalog_suitable:
+        return True, False, f"Cultivated across {prov_name} according to PSA crop statistics."
+    return False, False, f"Secondary or non-traditional crop for {prov_name}; verify local water and soil conditions."
+
+
 # 10 FAO crops directly supported by the trained ML pipeline
 ML_SUPPORTED_CROPS = {
     "Rice, paddy",
@@ -457,25 +503,8 @@ def calculate_single_crop(crop_input, province_info, season="Wet Season", soil_t
         }
     }
 
-    # Agronomic recommendation and suitability
-    is_suitable = False
-    suitability_notes = ""
-    if province_info:
-        rec_crops = (province_info.get("primary_crops", "") + "; " + province_info.get("secondary_crops", "")).lower()
-        if norm_crop.lower() in rec_crops:
-            is_suitable = True
-            suitability_notes = f"Officially designated as a recommended crop for {prov_name} by DA-AMIA."
-        else:
-            # Check crop database suitable provinces
-            suitable_provs = str(crop_meta.get("Suitable_Provinces", "")).lower()
-            if prov_name.lower() in suitable_provs:
-                is_suitable = True
-                suitability_notes = f"Cultivated across {prov_name} according to PSA crop statistics."
-            else:
-                suitability_notes = f"Secondary or non-traditional crop for {prov_name}; verify local water and soil conditions."
-    else:
-        is_suitable = True
-        suitability_notes = "Provincial suitability requires province selection."
+    # Unified DA-AMIA + PSA crop suitability assessment
+    is_suitable, _is_da_rec, suitability_notes = assess_crop_province_suitability(norm_crop, province_info, crop_meta)
 
     return {
         "crop_name": norm_crop,

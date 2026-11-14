@@ -5656,6 +5656,97 @@
             border-color: rgba(239, 68, 68, 0.35);
         }
 
+        .crop-suit-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 9px;
+            border-radius: 9999px;
+            font-size: 9.5px;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            background: rgba(34, 197, 94, 0.14);
+            color: #4ade80;
+            border: 1px solid rgba(34, 197, 94, 0.36);
+            white-space: nowrap;
+        }
+
+        .crop-suit-badge.secondary {
+            background: rgba(245, 158, 11, 0.12);
+            color: #fbbf24;
+            border-color: rgba(245, 158, 11, 0.34);
+        }
+
+        [data-theme="light"] .crop-suit-badge {
+            background: rgba(22, 163, 74, 0.12);
+            color: #15803d;
+            border-color: rgba(22, 163, 74, 0.32);
+        }
+
+        [data-theme="light"] .crop-suit-badge.secondary {
+            background: rgba(217, 119, 6, 0.12);
+            color: #b45309;
+            border-color: rgba(217, 119, 6, 0.3);
+        }
+
+        .province-crop-chip.psa-suitable {
+            background: rgba(182, 198, 79, 0.11);
+            border-color: rgba(182, 198, 79, 0.32);
+            color: #e2ebc0;
+        }
+
+        [data-theme="light"] .province-crop-chip.psa-suitable {
+            background: rgba(45, 90, 30, 0.08);
+            border-color: rgba(45, 90, 30, 0.28);
+            color: #204015;
+        }
+
+        .btn-toggle-more-crops {
+            width: 100%;
+            margin-top: 2px;
+            padding: 9px 14px;
+            border-radius: 10px;
+            border: 1px dashed rgba(182, 198, 79, 0.42);
+            background: rgba(182, 198, 79, 0.08);
+            color: var(--accent-olive);
+            font-size: 10.5px;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: background-color 0.16s ease, border-color 0.16s ease, color 0.16s ease;
+        }
+
+        .btn-toggle-more-crops:hover {
+            background: rgba(182, 198, 79, 0.16);
+            border-color: var(--accent-olive);
+            color: var(--text-offwhite);
+        }
+
+        .btn-toggle-more-crops svg {
+            transition: transform 0.2s ease;
+        }
+
+        .btn-toggle-more-crops.expanded svg {
+            transform: rotate(180deg);
+        }
+
+        [data-theme="light"] .btn-toggle-more-crops {
+            background: rgba(45, 90, 30, 0.07);
+            border-color: rgba(45, 90, 30, 0.35);
+            color: #234916;
+        }
+
+        [data-theme="light"] .btn-toggle-more-crops:hover {
+            background: rgba(45, 90, 30, 0.15);
+            border-color: #234916;
+            color: #14220f;
+        }
+
         .empty-crops-placeholder {
             padding: 24px 18px;
             text-align: center;
@@ -6903,13 +6994,17 @@
 
         body.workspace-assembling #appShell {
             overflow: visible !important;
+            animation: none !important;
+            transition: none !important;
+        }
+
+        body.workspace-assembling #appShell:not(.shell-farmer-mode) {
             background: transparent !important;
             border-color: transparent !important;
             box-shadow: none !important;
-            animation: none !important;
         }
 
-        body.workspace-assembling #appShell::before {
+        body.workspace-assembling #appShell:not(.shell-farmer-mode)::before {
             content: "";
             position: absolute;
             inset: 0;
@@ -6919,6 +7014,11 @@
             box-shadow: var(--shadow-subtle);
             pointer-events: none;
             z-index: 0;
+            will-change: transform, opacity;
+            animation: assembleShellSurfaceIn 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.16s both;
+        }
+
+        body.workspace-assembling #appShell.shell-farmer-mode #shellFarmerBg {
             will-change: transform, opacity;
             animation: assembleShellSurfaceIn 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.16s both;
         }
@@ -7005,7 +7105,8 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
-            body.workspace-assembling #appShell::before,
+            body.workspace-assembling #appShell:not(.shell-farmer-mode)::before,
+            body.workspace-assembling #appShell.shell-farmer-mode #shellFarmerBg,
             body.workspace-assembling * {
                 animation-duration: 0.01ms !important;
                 animation-delay: 0ms !important;
@@ -7053,7 +7154,6 @@
 
         body.workspace-open #appShell {
             display: flex;
-            animation: workspaceExpandFromLeft 0.34s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         body.workspace-open #openHomeStage {
@@ -10199,7 +10299,8 @@
             updateCalcLive(false);
             updateSeasonalAdvisorUI();
             renderCalendarMatrix();
-            updateProvinceAdvisoryUI();
+            if (typeof renderSelectedCropsUI === 'function') renderSelectedCropsUI();
+            else updateProvinceAdvisoryUI();
             renderProvinceDirectory();
             loadHistory();
             if (document.getElementById('view-weather').classList.contains('active')) {
@@ -10319,6 +10420,23 @@
         function switchView(viewName) {
             const isHome = (viewName === 'home');
             const wasClosed = document.body.classList.contains('workspace-closed');
+            const appShellEl = document.getElementById('appShell');
+
+            // Update workspace view panels and pre-populate target content before geometry measurement
+            document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+            const activeWorkspaceView = isHome ? 'farmer' : viewName;
+            const target = document.getElementById('view-' + activeWorkspaceView);
+            if (target) target.classList.add('active');
+
+            if (!isHome) {
+                if (viewName === 'advisor') {
+                    renderAdvisorView();
+                } else if (viewName === 'weather') {
+                    renderWeatherRiskView();
+                } else if (viewName === 'modellab') {
+                    renderCharts();
+                }
+            }
 
             if (isHome) {
                 // Close workspace panel & minimize menu bar back to Open Homepage
@@ -10343,21 +10461,30 @@
                     // Pause full-screen grass/firefly canvas loop briefly so GPU gives 100% frames to assembly
                     if (ambientField) ambientField.stop();
                     document.body.classList.remove('workspace-assembling');
-                    void document.body.offsetWidth;
+                    // Lock resting L-shell SVG geometry before transforms start (prevents mid-flight snap/blink)
+                    updateFarmerShellShape(viewName);
+                    if (appShellEl) void appShellEl.offsetWidth;
                     document.body.classList.add('workspace-assembling');
                     workspaceAssembleTimer = setTimeout(() => {
+                        if (appShellEl) appShellEl.style.transition = 'none';
                         document.body.classList.remove('workspace-assembling');
+                        if (appShellEl) {
+                            void appShellEl.offsetWidth;
+                            appShellEl.style.transition = '';
+                        }
+                        if (viewName === 'farmer') {
+                            updateFarmerShellShape('farmer');
+                        }
                         workspaceAssembleTimer = null;
                         if (ambientField && !document.hidden) ambientField.start();
-                    }, 700);
+                    }, 740);
+                } else {
+                    updateFarmerShellShape(viewName);
+                    if (viewName === 'farmer') {
+                        requestAnimationFrame(() => updateFarmerShellShape('farmer'));
+                    }
                 }
             }
-
-            // Update workspace view panels
-            document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
-            const activeWorkspaceView = isHome ? 'farmer' : viewName;
-            const target = document.getElementById('view-' + activeWorkspaceView);
-            if (target) target.classList.add('active');
 
             // Update header capsule buttons
             const btnHome = document.getElementById('modeBtnHome');
@@ -10400,24 +10527,9 @@
                 document.body.classList.remove('menu-mobile-open');
             }
 
-            // ── Farmer stepped shell ──
             if (isHome) {
                 updateFarmerShellShape('home');
                 loadHistory();
-            } else {
-                updateFarmerShellShape(viewName);
-                if (viewName === 'farmer') {
-                    requestAnimationFrame(() => {
-                        updateFarmerShellShape('farmer');
-                        setTimeout(() => updateFarmerShellShape('farmer'), 120);
-                    });
-                } else if (viewName === 'advisor') {
-                    renderAdvisorView();
-                } else if (viewName === 'weather') {
-                    renderWeatherRiskView();
-                } else if (viewName === 'modellab') {
-                    renderCharts();
-                }
             }
         }
 
@@ -10427,6 +10539,7 @@
         //   - Right column: from top all the way to the bottom of the Province Advisory card
         // On mobile (<= 960px) the shape is disabled and the standard box is restored.
         function updateFarmerShellShape(viewName) {
+            if (document.body.classList.contains('workspace-assembling')) return;
             const appShell = document.getElementById('appShell');
             const svgEl = document.getElementById('shellFarmerBg');
             const pathEl = document.getElementById('shellFarmerPath');
@@ -11457,6 +11570,141 @@
 
 
 
+        const CROP_NAME_ALIAS_TO_CATALOG = {
+            'rice': 'Rice, paddy',
+            'rice, paddy': 'Rice, paddy',
+            'palay': 'Rice, paddy',
+            'bigas': 'Rice, paddy',
+            'corn': 'Maize',
+            'maize': 'Maize',
+            'mais': 'Maize',
+            'yellow corn': 'Maize',
+            'white corn': 'Maize',
+            'potato': 'Potatoes',
+            'potatoes': 'Potatoes',
+            'patatas': 'Potatoes',
+            'irish potato': 'Potatoes',
+            'sweet potato': 'Sweet potatoes',
+            'sweet potatoes': 'Sweet potatoes',
+            'kamote': 'Sweet potatoes',
+            'cassava': 'Cassava',
+            'kamoteng kahoy': 'Cassava',
+            'balanghoy': 'Cassava',
+            'yam': 'Yams',
+            'yams': 'Yams',
+            'ube': 'Yams',
+            'taro': 'Taro',
+            'gabi': 'Taro',
+            'tomato': 'Tomato',
+            'kamatis': 'Tomato',
+            'eggplant': 'Eggplant',
+            'talong': 'Eggplant',
+            'onion': 'Red Onion',
+            'red onion': 'Red Onion',
+            'sibuyas': 'Red Onion',
+            'yellow onion': 'Yellow Onion',
+            'plantains': 'Plantains and others',
+            'plantains and others': 'Plantains and others',
+            'banana': 'Plantains and others',
+            'saba': 'Plantains and others'
+        };
+
+        const CROP_SHORT_DISPLAY_MAP = {
+            'Rice, paddy': 'Rice (Palay)',
+            'Maize': 'Corn (Maize)',
+            'Potatoes': 'Potato',
+            'Plantains and others': 'Banana (Saba)'
+        };
+
+        function canonicalizeCropName(name) {
+            const raw = String(name || '').trim();
+            if (!raw) return '';
+            const low = raw.toLowerCase();
+            if (CROP_NAME_ALIAS_TO_CATALOG[low]) return CROP_NAME_ALIAS_TO_CATALOG[low];
+            if (typeof PH_CROP_CATALOG !== 'undefined' && Array.isArray(PH_CROP_CATALOG)) {
+                const hit = PH_CROP_CATALOG.find(item => (item.Crop_Name || '').toLowerCase() === low);
+                if (hit) return hit.Crop_Name;
+            }
+            return raw;
+        }
+
+        function formatCropAdvisoryLabel(canonicalName) {
+            return CROP_SHORT_DISPLAY_MAP[canonicalName] || canonicalName;
+        }
+
+        function parseSuitableProvincesTokens(provStr) {
+            return String(provStr || '')
+                .split(',')
+                .map(s => s.trim().toLowerCase())
+                .filter(Boolean);
+        }
+
+        function resolveProvinceObj(provinceObjOrName) {
+            if (provinceObjOrName && typeof provinceObjOrName === 'object' && provinceObjOrName.province) {
+                return provinceObjOrName;
+            }
+            const query = String(provinceObjOrName || '').trim().toLowerCase();
+            if (!query || !PHILIPPINE_PROVINCES || PHILIPPINE_PROVINCES.length === 0) {
+                return getSelectedProvinceData();
+            }
+            return PHILIPPINE_PROVINCES.find(p => p.province.toLowerCase() === query)
+                || PHILIPPINE_PROVINCES.find(p => query.includes(p.province.toLowerCase()) || p.province.toLowerCase().includes(query))
+                || getSelectedProvinceData();
+        }
+
+        // Single source of truth merging Dataset 1 (DA-AMIA provincial primary/secondary) & Dataset 2 (PSA Suitable_Provinces)
+        function getProvinceUnifiedSuitability(provinceObjOrName) {
+            const p = resolveProvinceObj(provinceObjOrName);
+            const suitableMap = new Map();
+            const crops = [];
+            if (!p) return { provinceObj: null, crops, suitableMap };
+
+            const provLow = p.province.trim().toLowerCase();
+            const addCrop = (rawName, tier) => {
+                const canonical = canonicalizeCropName(rawName);
+                const key = canonical.toLowerCase();
+                if (!canonical || suitableMap.has(key)) return;
+                const entry = {
+                    cropName: canonical,
+                    displayName: formatCropAdvisoryLabel(canonical),
+                    tier
+                };
+                suitableMap.set(key, entry);
+                crops.push(entry);
+            };
+
+            // 1. Dataset 1: DA-AMIA Primary & Secondary Crops
+            String(p.primary_crops || '').split(';').map(s => s.trim()).filter(Boolean).forEach(c => addCrop(c, 'primary'));
+            String(p.secondary_crops || '').split(';').map(s => s.trim()).filter(Boolean).forEach(c => addCrop(c, 'rotational'));
+
+            // 2. Dataset 2: PSA Crop Catalog Suitable_Provinces (exact province token match)
+            if (typeof PH_CROP_CATALOG !== 'undefined' && Array.isArray(PH_CROP_CATALOG)) {
+                PH_CROP_CATALOG.forEach(item => {
+                    const tokens = parseSuitableProvincesTokens(item.Suitable_Provinces);
+                    if (tokens.includes(provLow)) {
+                        addCrop(item.Crop_Name, 'psa_suitable');
+                    }
+                });
+            }
+
+            return { provinceObj: p, crops, suitableMap };
+        }
+
+        function isCropSuitableForProvince(cropName, provinceObjOrName) {
+            const provArg = String(provinceObjOrName || '').trim();
+            if (!provArg && document.getElementById('regionSelect') && !document.getElementById('regionSelect').value) {
+                return { isSuitable: true, tier: 'suitable' };
+            }
+            const unified = getProvinceUnifiedSuitability(provinceObjOrName);
+            if (!unified.provinceObj) return { isSuitable: true, tier: 'suitable' };
+            const canonical = canonicalizeCropName(cropName).toLowerCase();
+            const match = unified.suitableMap.get(canonical);
+            if (match) {
+                return { isSuitable: true, tier: match.tier, cropName: match.cropName };
+            }
+            return { isSuitable: false, tier: 'secondary', cropName: canonicalizeCropName(cropName) };
+        }
+
         function updateProvinceAdvisoryUI(provinceObj) {
             const p = provinceObj || getSelectedProvinceData();
             if (!p) return;
@@ -11508,62 +11756,33 @@
                 }
             }
 
-            // Render Recommended Crop Chips (Strictly restricted to dataset crops: Rice, Corn, Potato, Cassava)
+            const unified = getProvinceUnifiedSuitability(p);
+
+            // Render Unified Suitable Crop Chips (100% synced with ✓ Suitable / • Secondary badges)
             if (cropsListEl) {
-                const primaryList = (p.primary_crops || '').split(';').map(s => s.trim()).filter(Boolean);
-                const secondaryList = (p.secondary_crops || '').split(';').map(s => s.trim()).filter(Boolean);
-                const allRec = [...primaryList, ...secondaryList];
+                const items = unified.crops.length > 0
+                    ? unified.crops
+                    : [{ cropName: 'Rice, paddy', displayName: 'Rice (Palay)', tier: 'primary' }];
 
-                // Strict filter: ONLY allow the 4 supported dataset crops (Rice, Corn, Potato, Cassava)
-                const seenKeys = new Set();
-                const matchedCrops = [];
-
-                allRec.forEach(cName => {
-                    const low = cName.toLowerCase();
-                    let matchedKey = null;
-                    let displayName = '';
-                    if (low.includes('rice') || low.includes('paddy')) {
-                        matchedKey = 'rice';
-                        displayName = 'RICE';
-                    } else if (low.includes('maize') || low.includes('corn')) {
-                        matchedKey = 'corn';
-                        displayName = 'CORN';
-                    } else if (low.includes('potato') && !low.includes('sweet')) {
-                        matchedKey = 'potato';
-                        displayName = 'POTATO';
-                    } else if (low.includes('cassava')) {
-                        matchedKey = 'cassava';
-                        displayName = 'CASSAVA';
-                    }
-
-                    // STRICT: If not one of the 4 dataset crops, DO NOT ADD!
-                    if (matchedKey && !seenKeys.has(matchedKey)) {
-                        seenKeys.add(matchedKey);
-                        matchedCrops.push({ key: matchedKey, name: displayName });
-                    }
-                });
-
-                // Guarantee at least 1 dataset crop exists
-                if (matchedCrops.length === 0) {
-                    matchedCrops.push({ key: 'rice', name: 'RICE' });
-                }
-
-                let chipsHtml = '';
-                matchedCrops.forEach(item => {
-                    chipsHtml += `
-                        <span class="province-crop-chip interactive" onclick="quickSelectCropFromAdvisory('${item.key}')" title="Click to calculate ${item.name} now">
-                            \u2605 ${item.name}
+                cropsListEl.innerHTML = items.map(item => {
+                    const escapedCrop = item.cropName.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+                    const prefix = item.tier === 'primary' ? '\u2605' : '\u2713';
+                    const tierClass = item.tier === 'primary' ? '' : 'psa-suitable';
+                    const tierNote = item.tier === 'primary' ? 'DA-AMIA Primary Crop' : 'Verified Suitable Crop';
+                    return `
+                        <span class="province-crop-chip interactive ${tierClass}" onclick="quickAddCropFromAdvisory('${escapedCrop}')" title="Click to add ${item.cropName} (1.0 ha) \u2022 ${tierNote}">
+                            ${prefix} ${item.displayName.toUpperCase()}
                         </span>
                     `;
-                });
-                cropsListEl.innerHTML = chipsHtml;
+                }).join('');
             }
 
-            // Render Crop Match Suitability Banner
+            // Render Crop Match Suitability Banner synced with multi-crop selectedCrops
             if (matchBannerEl) {
                 const isFil = (currentLang === 'fil');
+                const planList = (typeof selectedCrops !== 'undefined' && Array.isArray(selectedCrops)) ? selectedCrops : [];
 
-                if (!activeCrop) {
+                if (planList.length === 0) {
                     matchBannerEl.className = 'province-crop-match-banner';
                     matchBannerEl.style.borderColor = 'var(--border-hairline-strong)';
                     matchBannerEl.style.background = 'rgba(255, 255, 255, 0.03)';
@@ -11576,35 +11795,23 @@
                             </svg>
                             <span>${isFil ? 'PAYO SA MGA MAGSASAKA DITO' : 'FARMER ADVICE FOR THIS PROVINCE'}:</span>
                         </div>
-                        <div style="font-size: 9.5px; line-height: 1.45; color: var(--text-muted);">${p.agronomic_advice || 'Select a crop above to see your predicted harvest and profit.'}</div>
+                        <div style="font-size: 9.5px; line-height: 1.45; color: var(--text-muted);">${p.agronomic_advice || 'Select or click a suitable crop above to add it to your farm plan.'}</div>
                     `;
                     return;
                 }
 
-                const currentKey = activeCrop.toLowerCase();
-                const primaryStr = (p.primary_crops || '').toLowerCase();
-                const secStr = (p.secondary_crops || '').toLowerCase();
+                const suitableSelected = [];
+                const secondarySelected = [];
+                planList.forEach(item => {
+                    const check = isCropSuitableForProvince(item.crop_name, p);
+                    const label = formatCropAdvisoryLabel(canonicalizeCropName(item.crop_name));
+                    if (check.isSuitable) suitableSelected.push(label);
+                    else secondarySelected.push(label);
+                });
 
-                let isPrimary = false;
-                let isSecondary = false;
+                const topRecommendedLabels = unified.crops.slice(0, 4).map(c => c.displayName).join(', ');
 
-                if (currentKey === 'rice') {
-                    isPrimary = primaryStr.includes('rice') || primaryStr.includes('paddy');
-                    isSecondary = secStr.includes('rice') || secStr.includes('paddy');
-                } else if (currentKey === 'corn') {
-                    isPrimary = primaryStr.includes('maize') || primaryStr.includes('corn');
-                    isSecondary = secStr.includes('maize') || secStr.includes('corn');
-                } else if (currentKey === 'potato') {
-                    isPrimary = primaryStr.includes('potato');
-                    isSecondary = secStr.includes('potato');
-                } else if (currentKey === 'cassava') {
-                    isPrimary = primaryStr.includes('cassava');
-                    isSecondary = secStr.includes('cassava');
-                }
-
-                const cropDisplayName = CROP_MODELS[activeCrop].name;
-
-                if (isPrimary || isSecondary) {
+                if (secondarySelected.length === 0 && suitableSelected.length > 0) {
                     matchBannerEl.className = 'province-crop-match-banner recommended';
                     matchBannerEl.style.borderColor = '';
                     matchBannerEl.style.background = '';
@@ -11614,10 +11821,29 @@
                                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                                 <polyline points="22 4 12 14.01 9 11.01"></polyline>
                             </svg>
-                            <span>${isFil ? '★ MAGANDANG ITANIM DITO' : '★ BEST CROP CHOICE FOR ' + p.province.toUpperCase()}</span>
+                            <span>${isFil ? '★ AKMA AT REKOMENDADO SA ' + p.province.toUpperCase() : '★ SUITABLE CROP PLAN FOR ' + p.province.toUpperCase()}</span>
                         </div>
                         <div style="font-size: 10px; line-height: 1.45;">
-                            <strong>${cropDisplayName}</strong> ${isFil ? 'ay natural na hiyang at may mataas na ani sa lupang ito' : 'grows naturally well with high yields and good income in this province'}. ${p.national_distinction ? ' \u2014 ' + p.national_distinction : ''}
+                            <strong>${suitableSelected.join(', ')}</strong> ${isFil ? 'ay natural na akma sa klima at lupa ng probinsyang ito' : 'are verified suitable with reliable yields in ' + p.province}.${p.national_distinction ? ' \u2014 ' + p.national_distinction : ''}
+                        </div>
+                    `;
+                } else if (suitableSelected.length > 0 && secondarySelected.length > 0) {
+                    matchBannerEl.className = 'province-crop-match-banner recommended';
+                    matchBannerEl.style.borderColor = '';
+                    matchBannerEl.style.background = '';
+                    matchBannerEl.innerHTML = `
+                        <div style="font-weight: 800; display: flex; align-items: center; gap: 6px;">
+                            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                            <span>${isFil ? 'PINAGHALONG AKMA AT ALTERNATIBONG PANANIM' : 'MIXED SUITABLE & SECONDARY PLAN'}</span>
+                        </div>
+                        <div style="font-size: 10px; line-height: 1.45;">
+                            ${isFil
+                            ? `<strong>${suitableSelected.join(', ')}</strong> (✓ Akma) ay hiyang sa <strong>${p.province}</strong>; ang <strong>${secondarySelected.join(', ')}</strong> (• Secondary) ay nangangailangan ng dagdag na pag-aalaga sa lupa at patubig.`
+                            : `<strong>${suitableSelected.join(', ')}</strong> (✓ Suitable) match <strong>${p.province}</strong> well; <strong>${secondarySelected.join(', ')}</strong> (&bull; Secondary) may require extra irrigation or soil preparation.`
+                        }
                         </div>
                     `;
                 } else {
@@ -11629,12 +11855,12 @@
                             <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.3">
                                 <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                             </svg>
-                            <span>${isFil ? 'PAALALA SA PAGTATANIM' : 'FARMER TIP FOR THIS CROP'}</span>
+                            <span>${isFil ? 'ALTERNATIBONG PANANIM (• SECONDARY)' : 'SECONDARY OPTION FOR ' + p.province.toUpperCase()}</span>
                         </div>
                         <div style="font-size: 10px; line-height: 1.45;">
                             ${isFil
-                            ? `Ang <strong>${cropDisplayName}</strong> ay maaari pa ring itanim kung may sapat na patubig at alaga. Sa <strong>${p.province}</strong>, ang <strong>${p.primary_crops}</strong> ang pinakamadaling palakihin sa lupang <em>${p.dominant_soil}</em>.`
-                            : `<strong>${cropDisplayName}</strong> can still be planted with steady water and care. For <strong>${p.province}</strong>, <strong>${p.primary_crops}</strong> are the easiest to grow with reliable yields on <em>${p.dominant_soil}</em>.`
+                            ? `Ang <strong>${secondarySelected.join(', ')}</strong> ay wala sa pangunahing listahan ng <strong>${p.province}</strong> ngunit maaaring itanim kung may sapat na patubig. Pinakamainam dito ang <strong>${topRecommendedLabels || p.primary_crops}</strong>.`
+                            : `<strong>${secondarySelected.join(', ')}</strong> can still be grown with proper irrigation and soil care. Top suitable crops for <strong>${p.province}</strong>: <strong>${topRecommendedLabels || p.primary_crops}</strong>.`
                         }
                         </div>
                     `;
@@ -11642,11 +11868,14 @@
             }
         }
 
+        function quickAddCropFromAdvisory(cropName) {
+            const canonical = canonicalizeCropName(cropName);
+            if (!canonical) return;
+            quickAddCrop(canonical, 1.0);
+        }
+
         function quickSelectCropFromAdvisory(cropKey) {
-            if (!cropKey || !CROP_MODELS[cropKey]) return;
-            selectCrop(cropKey);
-            runCountUpCalc();
-            showToast((currentLang === 'fil' ? 'Napili ang: ' : 'Selected recommended crop: ') + CROP_MODELS[cropKey].name);
+            quickAddCropFromAdvisory(cropKey);
         }
 
         // ── 82 Philippine Provinces Directory Grid ──
@@ -11678,7 +11907,10 @@
                     const sec = (p.secondary_crops || '').toLowerCase();
                     const soil = (p.dominant_soil || '').toLowerCase();
                     const dist = (p.national_distinction || '').toLowerCase();
-                    return prov.includes(query) || reg.includes(query) || prim.includes(query) || sec.includes(query) || soil.includes(query) || dist.includes(query);
+                    const unifiedMatch = getProvinceUnifiedSuitability(p).crops.some(c =>
+                        c.cropName.toLowerCase().includes(query) || c.displayName.toLowerCase().includes(query)
+                    );
+                    return prov.includes(query) || reg.includes(query) || prim.includes(query) || sec.includes(query) || soil.includes(query) || dist.includes(query) || unifiedMatch;
                 });
             }
 
@@ -11692,24 +11924,9 @@
             }
 
             grid.innerHTML = filtered.map(p => {
-                const rawCrops = (p.primary_crops || '').split(';').map(s => s.trim()).filter(Boolean);
-                const validKeys = new Set();
-                const filteredChips = [];
-                rawCrops.forEach(c => {
-                    const low = c.toLowerCase();
-                    let k = null;
-                    let displayName = '';
-                    if (low.includes('rice') || low.includes('paddy')) { k = 'rice'; displayName = 'Rice'; }
-                    else if (low.includes('maize') || low.includes('corn')) { k = 'corn'; displayName = 'Corn'; }
-                    else if (low.includes('potato') && !low.includes('sweet')) { k = 'potato'; displayName = 'Potato'; }
-                    else if (low.includes('cassava')) { k = 'cassava'; displayName = 'Cassava'; }
-                    if (k && !validKeys.has(k)) {
-                        validKeys.add(k);
-                        filteredChips.push(displayName);
-                    }
-                });
-                if (filteredChips.length === 0) filteredChips.push('Rice');
-                const chipsHtml = filteredChips.map(c => `<span class="prov-mini-crop-chip">${c}</span>`).join('');
+                const unifiedList = getProvinceUnifiedSuitability(p).crops;
+                const chipNames = unifiedList.length > 0 ? unifiedList.map(c => c.displayName) : ['Rice (Palay)'];
+                const chipsHtml = chipNames.map(c => `<span class="prov-mini-crop-chip">${c}</span>`).join('');
                 const islKey = (p.island_group || '').toLowerCase();
                 const islClass = `island-${islKey}`;
                 return `
@@ -12486,10 +12703,16 @@
         // Global State
         const PH_CROP_CATALOG = {{ crops_catalog| tojson | safe if crops_catalog else "[]" }};
         let selectedCrops = [];
+        let isFarmPlanExpanded = false;
         let currentCalculatedResult = null;
         let activeFilterCategory = "all";
         let activeSearchQuery = "";
         let currentSuitabilityData = [];
+
+        function toggleFarmPlanExpand() {
+            isFarmPlanExpanded = !isFarmPlanExpanded;
+            renderSelectedCropsUI();
+        }
 
         // ── Modal Handlers for Itemized Forecast & Crop Comparison ──
         function openItemizedModal() {
@@ -12569,6 +12792,7 @@
                 `;
                 if (countEl) countEl.textContent = "0";
                 if (totalAreaEl) totalAreaEl.textContent = "0.0";
+                updateProvinceAdvisoryUI();
                 return;
             }
 
@@ -12578,15 +12802,25 @@
 
             const curProv = (document.getElementById("regionSelect") ? document.getElementById("regionSelect").value : "").toLowerCase();
 
-            container.innerHTML = selectedCrops.map((c, idx) => {
+            const MAX_VISIBLE_CROPS = 3;
+            if (selectedCrops.length <= MAX_VISIBLE_CROPS) {
+                isFarmPlanExpanded = false;
+            }
+            const hasMoreCrops = selectedCrops.length >= 4;
+            const visibleEntries = selectedCrops
+                .map((crop, idx) => ({ crop, idx }))
+                .slice(0, (hasMoreCrops && !isFarmPlanExpanded) ? MAX_VISIBLE_CROPS : selectedCrops.length);
+            const hiddenCount = selectedCrops.length - MAX_VISIBLE_CROPS;
+
+            const cardsHtml = visibleEntries.map(({ crop: c, idx }) => {
                 const catalogInfo = PH_CROP_CATALOG.find(item => item.Crop_Name.toLowerCase() === c.crop_name.toLowerCase()) || {};
                 const letter = c.crop_name.charAt(0).toUpperCase();
                 const category = catalogInfo.Crop_Category || "Crops";
                 const sciname = catalogInfo.Scientific_Name || "";
 
-                // Check suitability
-                const suitableProvs = (catalogInfo.Suitable_Provinces || "").toLowerCase();
-                const isSuit = suitableProvs.includes(curProv) || curProv === "" || !catalogInfo.Suitable_Provinces;
+                // Unified suitability check synced with BEST CROPS TO PLANT IN THIS PROVINCE
+                const suitInfo = isCropSuitableForProvince(c.crop_name, curProv);
+                const isSuit = suitInfo.isSuitable;
 
                 return `
                     <div class="selected-crop-card">
@@ -12627,6 +12861,26 @@
                     </div>
                 `;
             }).join("");
+
+            const isFil = (typeof currentLang !== 'undefined' && currentLang === 'fil');
+            const toggleBtnHtml = hasMoreCrops ? `
+                <button type="button" id="btnToggleMoreCrops" class="btn-toggle-more-crops ${isFarmPlanExpanded ? 'expanded' : ''}" onclick="toggleFarmPlanExpand()" aria-expanded="${isFarmPlanExpanded ? 'true' : 'false'}">
+                    <span>${isFarmPlanExpanded
+                        ? (isFil ? 'ITAGO ANG IBA (3 LANG)' : 'SEE LESS (SHOW 3 ONLY)')
+                        : (isFil ? `SEE MORE (+${hiddenCount} PANG PANANIM)` : `SEE MORE (+${hiddenCount} MORE ${hiddenCount === 1 ? 'CROP' : 'CROPS'})`)}</span>
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+            ` : '';
+
+            container.innerHTML = cardsHtml + toggleBtnHtml;
+            updateProvinceAdvisoryUI();
+
+            const farmerPanel = document.getElementById('view-farmer');
+            if (document.body.classList.contains('workspace-open') && farmerPanel && farmerPanel.classList.contains('active') && typeof requestAnimationFrame === 'function') {
+                requestAnimationFrame(() => updateFarmerShellShape('farmer'));
+            }
         }
 
         function quickAddCrop(cropName, defaultHa = 1.0) {
@@ -12743,8 +12997,7 @@
             }
 
             grid.innerHTML = filtered.map(c => {
-                const suitableProvs = (c.Suitable_Provinces || "").toLowerCase();
-                const isSuit = suitableProvs.includes(curProv) || curProv === "" || !c.Suitable_Provinces;
+                const isSuit = isCropSuitableForProvince(c.Crop_Name, curProv).isSuitable;
                 const isSelected = selectedCrops.some(sc => sc.crop_name.toLowerCase() === c.Crop_Name.toLowerCase());
 
                 return `
@@ -13303,6 +13556,7 @@
                 }
 
                 // 3. Restore crops
+                isFarmPlanExpanded = false;
                 if (data.crop_results && data.crop_results.length > 0) {
                     selectedCrops = data.crop_results.map(c => ({
                         crop_name: c.crop_name,
@@ -13352,6 +13606,7 @@
                 closeHistoryDrawer();
 
                 if (data.crop_results && data.crop_results.length > 0) {
+                    isFarmPlanExpanded = false;
                     selectedCrops = data.crop_results.map(c => ({
                         crop_name: c.crop_name,
                         land_area_ha: c.land_area_ha,
@@ -13452,6 +13707,11 @@
 
             const pSync = getSelectedProvinceData();
             if (pSync) {
+                const soilMeta = document.getElementById("txtProvinceSoilName");
+                if (soilMeta) soilMeta.textContent = `Soil: ${pSync.dominant_soil || 'Clay Loam'}`;
+                const climMeta = document.getElementById("txtProvinceClimateMeta");
+                if (climMeta) climMeta.textContent = `Annual Rain: ${pSync.annual_rainfall_mm} mm • Mean Temp: ${pSync.avg_temp_c}°C`;
+
                 updateProvinceAdvisoryUI(pSync);
                 const advSub = document.getElementById('advisorSubtitle');
                 if (advSub) {
@@ -13463,44 +13723,28 @@
                 }
             }
 
-            // Fetch province details and update advisory card
+            // Refresh selected crops UI & open catalog modal immediately
+            renderSelectedCropsUI();
+            if (document.getElementById("cropSelectorModal") && document.getElementById("cropSelectorModal").classList.contains("open")) {
+                renderCropCatalogGrid();
+            }
+
+            // Sync from server province endpoint without clobbering unified crop chips
             fetch(`/api/province/${encodeURIComponent(province)}`)
                 .then(r => r.json())
                 .then(data => {
                     if (data.status === "success" && data.data) {
                         const p = data.data;
-                        const nameEl = document.getElementById("provAdvisoryName");
-                        if (nameEl) nameEl.textContent = p.province.toUpperCase();
-
-                        const islandEl = document.getElementById("provAdvisoryIsland");
-                        if (islandEl) islandEl.textContent = (p.island_group || "LUZON").toUpperCase();
-
-                        const distEl = document.getElementById("provAdvisoryDistinction");
-                        if (distEl) distEl.textContent = p.national_distinction || "Agricultural Basin (DA-AMIA)";
-
-                        const soilEl = document.getElementById("provAdvisorySoil");
-                        if (soilEl) soilEl.textContent = `Soil: ${p.dominant_soil || 'Clay Loam'}`;
-
                         const soilMeta = document.getElementById("txtProvinceSoilName");
                         if (soilMeta) soilMeta.textContent = `Soil: ${p.dominant_soil || 'Clay Loam'}`;
-
-                        const climEl = document.getElementById("provAdvisoryClimate");
-                        if (climEl) climEl.textContent = `${p.climate_type || 'Type I'} • ${p.annual_rainfall_mm} mm/yr`;
 
                         const climMeta = document.getElementById("txtProvinceClimateMeta");
                         if (climMeta) climMeta.textContent = `Annual Rain: ${p.annual_rainfall_mm} mm • Mean Temp: ${p.avg_temp_c}°C`;
 
-                        const cropsListEl = document.getElementById("provAdvisoryCropsList");
-                        if (cropsListEl && p.primary_crops) {
-                            const tags = p.primary_crops.split(";").map(s => s.trim()).filter(Boolean);
-                            cropsListEl.innerHTML = tags.map(t => `<span class="prov-crop-tag">${t}</span>`).join("");
-                        }
+                        updateProvinceAdvisoryUI(p);
                     }
                 })
                 .catch(() => { });
-
-            // Refresh selected crops UI to update suitability indicators
-            renderSelectedCropsUI();
         }
 
         window.addEventListener('DOMContentLoaded', () => {
