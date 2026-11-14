@@ -6637,6 +6637,190 @@
             color: var(--text-muted) !important;
         }
 
+    
+
+        /* ── CELESTIAL SUN & MOON CORNER TOGGLE (HIGH VISIBILITY) ── */
+        .celestial-toggle-btn {
+            position: fixed !important;
+            top: 0 !important;
+            right: 0 !important;
+            width: 240px !important;
+            height: 240px !important;
+            background: transparent !important;
+            border: none !important;
+            cursor: pointer !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            z-index: 99999 !important;
+            outline: none !important;
+            padding: 0 !important;
+            overflow: visible !important;
+            clip-path: circle(150px at 100% 0%) !important;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease !important;
+        }
+        .celestial-toggle-btn:hover {
+            transform: scale(1.06) !important;
+            transform-origin: top right !important;
+        }
+        .celestial-moon,
+        .celestial-sun {
+            width: 240px !important;
+            height: 240px !important;
+            position: absolute !important;
+            top: 0 !important;
+            right: 0 !important;
+            transform-origin: 234px 6px !important;
+            transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease !important;
+        }
+        [data-theme="dark"] .celestial-moon {
+            opacity: 1 !important;
+            transform: rotate(0deg) scale(1) !important;
+            pointer-events: auto !important;
+            filter: drop-shadow(0 0 30px rgba(16, 185, 129, 0.5)) drop-shadow(0 0 60px rgba(16, 185, 129, 0.25)) !important;
+        }
+        [data-theme="dark"] .celestial-sun {
+            opacity: 0 !important;
+            transform: rotate(45deg) scale(0.6) !important;
+            pointer-events: none !important;
+        }
+        [data-theme="light"] .celestial-moon {
+            opacity: 0 !important;
+            transform: rotate(-45deg) scale(0.6) !important;
+            pointer-events: none !important;
+        }
+        [data-theme="light"] .celestial-sun {
+            opacity: 1 !important;
+            transform: rotate(0deg) scale(1) !important;
+            pointer-events: auto !important;
+            filter: drop-shadow(0 0 36px rgba(245, 185, 30, 0.8)) drop-shadow(0 0 80px rgba(240, 150, 20, 0.45)) !important;
+        }
+
+
+        /* ═══════════════════════════════════════════════════════════════════ */
+        /* HIGH-CONTRAST TYPOGRAPHY FIXES (ELIMINATES INVISIBLE TEXT)           */
+        /* ═══════════════════════════════════════════════════════════════════ */
+
+        /* Dark Mode: Ensure all card values, tags, and titles are bright white/emerald */
+        [data-theme="dark"] .stat-subcard-val {
+            color: #f8fafc !important;
+        }
+        [data-theme="dark"] .stat-subcard-lbl {
+            color: #94a3b8 !important;
+        }
+        [data-theme="dark"] .scenario-pill-btn .scenario-val {
+            color: #f8fafc !important;
+        }
+        [data-theme="dark"] .scenario-pill-btn .scenario-tag {
+            color: #94a3b8 !important;
+        }
+        [data-theme="dark"] #resBreakEvenTag {
+            color: #10b981 !important;
+        }
+        [data-theme="dark"] .shock-card-title {
+            color: #f8fafc !important;
+        }
+        [data-theme="dark"] .shock-slider-lbl {
+            color: #94a3b8 !important;
+        }
+        [data-theme="dark"] .shock-slider-val {
+            color: #10b981 !important;
+        }
+        [data-theme="dark"] .shock-result-val {
+            color: #f8fafc !important;
+        }
+        [data-theme="dark"] .shock-profit-highlight {
+            color: #10b981 !important;
+        }
+        [data-theme="dark"] .shock-resilience-badge {
+            color: #f8fafc !important;
+            background: rgba(255, 255, 255, 0.08) !important;
+            border-color: rgba(255, 255, 255, 0.15) !important;
+        }
+        [data-theme="dark"] .results-header-tag {
+            color: #94a3b8 !important;
+        }
+        [data-theme="dark"] .results-main-title {
+            color: #f8fafc !important;
+        }
+        [data-theme="dark"] .crop-tile[aria-pressed="true"] .crop-tile-letter {
+            color: #f8fafc !important;
+        }
+        [data-theme="dark"] .crop-tile[aria-pressed="true"] .crop-tile-name {
+            color: #f8fafc !important;
+        }
+        [data-theme="dark"] .crop-tile[aria-pressed="true"] .crop-tile-price {
+            color: #f8fafc !important;
+        }
+
+        /* Light Mode: Ensure all titles, tables, and chips are deep legible charcoal */
+        [data-theme="light"] .ml-benchmark-table tr.winner-row td {
+            color: #0f172a !important;
+        }
+        [data-theme="light"] .province-crop-chip.interactive {
+            color: #0f172a !important;
+            background: #f1f5f9 !important;
+            border-color: #cbd5e1 !important;
+        }
+        [data-theme="light"] .province-crop-match-banner.advisory strong {
+            color: #0f172a !important;
+        }
+        [data-theme="light"] .stat-subcard-val {
+            color: #0f172a !important;
+        }
+        [data-theme="light"] .stat-subcard-lbl {
+            color: #64748b !important;
+        }
+        [data-theme="light"] .scenario-pill-btn .scenario-val {
+            color: #0f172a !important;
+        }
+        [data-theme="light"] .scenario-pill-btn.active .scenario-val {
+            color: #ffffff !important;
+        }
+        [data-theme="light"] .scenario-pill-btn .scenario-tag {
+            color: #64748b !important;
+        }
+        [data-theme="light"] .results-header-tag {
+            color: #64748b !important;
+        }
+        [data-theme="light"] .shock-card-title {
+            color: #0f172a !important;
+        }
+        [data-theme="light"] .shock-slider-lbl {
+            color: #64748b !important;
+        }
+        [data-theme="light"] .shock-result-val {
+            color: #0f172a !important;
+        }
+
+
+        /* ── ANIMATED GRASS CANVAS & HORIZON VISIBILITY ── */
+        .bg-field-canvas {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            pointer-events: none !important;
+            z-index: 0 !important;
+            opacity: 1 !important;
+        }
+
+        /* Generous bottom breathing room so moving grass horizon is fully visible */
+        body {
+            padding: 20px 24px 110px !important;
+            min-height: 100vh !important;
+            position: relative !important;
+        }
+
+        .outer-page-layout {
+            max-width: 1280px !important;
+            width: 96% !important;
+            margin: 0 auto !important;
+            position: relative !important;
+            z-index: 1 !important;
+        }
+
     </style>
 </head>
 <body>
@@ -9409,9 +9593,7 @@
         }
 
         function resetFarmPlan() {
-            selectedCrops = [
-                { crop_name: "Rice, paddy", land_area_ha: 1.0, farmgate_price: null, cost_per_ha: null }
-            ];
+            selectedCrops = [];
             currentCalculatedResult = null;
             lastCalculatedData = null;
             currentNetProfit = 0;
@@ -9465,7 +9647,7 @@
             closeComparisonModal();
 
             const isFil = (currentLang === 'fil');
-            showToast(isFil ? "Na-reset ang plano ng sakahan pabalik sa default na 1.0 ha Palay." : "Farm plan reset to default 1.0 ha Rice.");
+            showToast(isFil ? "Nalinis at na-reset ang plano ng sakahan." : "Farm plan cleared and reset to empty state.");
         }
 
         function requestCalculatorReset() {
@@ -9688,14 +9870,12 @@
             // Check if already in clean default state
             const isDefaultPlan = (
                 Array.isArray(selectedCrops) &&
-                selectedCrops.length === 1 &&
-                selectedCrops[0].crop_name === "Rice, paddy" &&
-                parseFloat(selectedCrops[0].land_area_ha) === 1.0 &&
+                selectedCrops.length === 0 &&
                 !currentCalculatedResult
             );
 
             if (isDefaultPlan) {
-                showToast(isFil ? 'Nasa default na kalagayan na ang plano ng sakahan (1.0 ha Palay).' : 'Farm plan is already in default state (1.0 ha Rice).');
+                showToast(isFil ? 'Nasa default na kalagayan na ang plano ng sakahan (walang pananim).' : 'Farm plan is already in clean default state (no crops added).');
                 return;
             }
 
@@ -10905,8 +11085,8 @@
                     const layer = Math.random() < 0.42 ? 0 : 1; // 0 = back layer, 1 = front layer
                     // Taller, natural variance in blade heights (45px to 115px)
                     const baseHeight = (layer === 0) 
-                        ? (Math.random() * 38 + 45) 
-                        : (Math.random() * 50 + 65);
+                        ? (Math.random() * 45 + 60) 
+                        : (Math.random() * 60 + 85);
                     const maxLean = (Math.random() * 22 + 14) * (layer === 0 ? 0.75 : 1.0);
                     const phase = (x * 0.038) + Math.random() * 0.8;
                     const swaySpeed = Math.random() * 0.0014 + 0.0011;
@@ -11145,9 +11325,10 @@
                 this.ctx.clearRect(0, 0, this.width, this.height);
 
                 const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
-                const baseR = isDark ? 182 : 143;
-                const baseG = isDark ? 198 : 166;
-                const baseB = isDark ? 79 : 58;
+                // Vibrant, lush emerald tones matching our minimalist theme
+                const baseR = isDark ? 16 : 5;
+                const baseG = isDark ? 185 : 150;
+                const baseB = isDark ? 129 : 105;
 
                 // 1. Draw subtle agricultural terrace contour lines across the bottom
                 this.drawTerraceContours(baseR, baseG, baseB, isDark);
@@ -11308,8 +11489,8 @@
                 
                 // Opacity adapted to theme and depth layer
                 const alpha = isBack 
-                    ? (isDark ? 0.22 : 0.16)
-                    : (isDark ? 0.44 : 0.32);
+                    ? (isDark ? 0.35 : 0.28)
+                    : (isDark ? 0.65 : 0.52);
                 
                 this.ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
                 this.ctx.beginPath();
@@ -11396,9 +11577,7 @@
 
         // Global State
         const PH_CROP_CATALOG = {{ crops_catalog|tojson|safe if crops_catalog else "[]" }};
-        let selectedCrops = [
-            { crop_name: "Rice, paddy", land_area_ha: 1.0, farmgate_price: null, cost_per_ha: null }
-        ];
+        let selectedCrops = [];
         let currentCalculatedResult = null;
         let activeFilterCategory = "all";
         let activeSearchQuery = "";
