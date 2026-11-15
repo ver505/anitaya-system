@@ -220,6 +220,68 @@
             transition: opacity 0.3s ease;
         }
 
+        /* ── AMBIENT RAIN EFFECT LAYER (theme-aware, toggled from side menu) ── */
+        .bg-rain-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0;
+            transition: opacity 0.9s ease;
+        }
+
+        body.rain-enabled .bg-rain-canvas {
+            opacity: 1;
+        }
+
+        .side-nav-item.rain-active {
+            color: var(--accent-olive);
+            border-color: var(--border-hairline-strong);
+            background: var(--accent-olive-dim);
+        }
+
+        .side-nav-item.rain-active .side-nav-badge {
+            background: var(--accent-olive);
+            color: var(--text-dark);
+        }
+
+        .side-nav-item.rain-active svg .rain-icon-drop {
+            animation: railRainDrip 1.1s ease-in infinite;
+        }
+
+        .side-nav-item.rain-active svg .rain-icon-drop:nth-of-type(2) {
+            animation-delay: 0.35s;
+        }
+
+        .side-nav-item.rain-active svg .rain-icon-drop:nth-of-type(3) {
+            animation-delay: 0.7s;
+        }
+
+        @keyframes railRainDrip {
+            0% {
+                transform: translateY(-1.5px);
+                opacity: 0.2;
+            }
+
+            45% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(2.5px);
+                opacity: 0;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .side-nav-item.rain-active svg .rain-icon-drop {
+                animation: none;
+            }
+        }
+
         /* ── OUTER PAGE LAYOUT WRAPPER ── */
         .outer-page-layout {
             width: 100%;
@@ -7730,6 +7792,8 @@
 
     <!-- ── ANIMATED AGRICULTURAL FIELD BACKGROUND CANVAS ── -->
     <canvas id="bgFieldCanvas" class="bg-field-canvas" aria-hidden="true"></canvas>
+    <!-- ── AMBIENT RAIN EFFECT CANVAS (toggled via side menu RAIN EFFECT button) ── -->
+    <canvas id="bgRainCanvas" class="bg-rain-canvas" aria-hidden="true"></canvas>
 
     <!-- ── REUSABLE SVG SYMBOLS ── -->
     <svg class="svg-defs" aria-hidden="true">
@@ -7949,6 +8013,19 @@
         </nav>
 
         <div class="side-menu-footer">
+            <button type="button" class="side-nav-item rain-active" id="railBtnRain" title="Toggle Rain Effect"
+                aria-pressed="true" onclick="toggleRainEffect()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"></path>
+                    <line class="rain-icon-drop" x1="8" y1="17" x2="7" y2="20"></line>
+                    <line class="rain-icon-drop" x1="12" y1="18" x2="11" y2="21"></line>
+                    <line class="rain-icon-drop" x1="16" y1="17" x2="15" y2="20"></line>
+                </svg>
+                <span class="side-nav-label" id="txtSideRain">RAIN EFFECT</span>
+                <span class="side-nav-badge" id="sideRainBadge">ON</span>
+            </button>
+
             <button type="button" class="side-nav-item" id="railBtnGuide" title="System Guide &amp; How It Works"
                 onclick="openSystemGuideModal('aim')">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
@@ -10562,6 +10639,7 @@
             if (pct) pct.textContent = t.provAdvisoryCropsTitle || 'BEST CROPS TO PLANT IN THIS PROVINCE:';
 
             // Refresh current results text
+            if (typeof updateRainToggleUI === 'function') updateRainToggleUI();
             updateCalcLive(false);
             updateSeasonalAdvisorUI();
             renderCalendarMatrix();
@@ -10668,6 +10746,7 @@
                 localStorage.setItem('anitaya_theme', next);
             } catch (e) { }
             updateThemeIcons(next);
+            if (typeof rainLayer !== 'undefined' && rainLayer) rainLayer.refreshTheme();
             renderCharts();
         }
 
@@ -12596,6 +12675,303 @@
         }
 
         // ── Animated Agricultural Field Ambient Background with Moving Grass ──
+        // ── Ambient Rain Effect Layer (theme-aware, frame-rate independent, toggleable) ──
+        const RAIN_THEME_PALETTES = {
+            dark: {
+                far: [176, 192, 138],    // muted olive-silver streaks
+                near: [214, 228, 186],   // pale lime-silver streaks
+                farAlpha: 0.20,
+                nearAlpha: 0.36,
+                splash: [201, 219, 87],  // signature olive accent ripple
+                splashAlpha: 0.42,
+                mistTop: 'rgba(120, 140, 100, 0.07)',
+                mistBottom: 'rgba(11, 13, 8, 0)'
+            },
+            light: {
+                far: [96, 124, 104],     // soft sage-slate streaks
+                near: [52, 84, 62],      // deep forest-slate streaks
+                farAlpha: 0.18,
+                nearAlpha: 0.30,
+                splash: [46, 89, 28],    // forest green ripple
+                splashAlpha: 0.34,
+                mistTop: 'rgba(110, 130, 120, 0.09)',
+                mistBottom: 'rgba(242, 245, 236, 0)'
+            }
+        };
+
+        class RainEffectLayer {
+            constructor(canvasId) {
+                this.canvas = document.getElementById(canvasId);
+                if (!this.canvas || !this.canvas.getContext) return;
+                this.ctx = this.canvas.getContext('2d');
+                this.width = window.innerWidth;
+                this.height = window.innerHeight;
+                this.drops = [];
+                this.splashes = [];
+                this.enabled = false;
+                this.intensity = 0;          // 0..1 eased fade in/out
+                this.animFrameId = null;
+                this.lastTs = 0;
+                this.time = 0;
+                this.reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+                this.refreshTheme();
+                this.resize();
+
+                window.addEventListener('resize', () => this.resize());
+                document.addEventListener('visibilitychange', () => {
+                    if (document.hidden) this.pause();
+                    else if (this.enabled || this.intensity > 0) this.resume();
+                });
+            }
+
+            refreshTheme() {
+                const theme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+                this.palette = RAIN_THEME_PALETTES[theme];
+                if (this.canvas && this.reduceMotion && this.enabled) this.renderStill();
+            }
+
+            resize() {
+                if (!this.canvas) return;
+                this.width = window.innerWidth;
+                this.height = window.innerHeight;
+                const dpr = Math.min(window.devicePixelRatio || 1, 2);
+                this.canvas.width = Math.round(this.width * dpr);
+                this.canvas.height = Math.round(this.height * dpr);
+                if (typeof this.ctx.setTransform === 'function') {
+                    this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                } else if (typeof this.ctx.scale === 'function') {
+                    this.ctx.scale(dpr, dpr);
+                }
+                const target = Math.round(Math.max(70, Math.min(190, this.width / 8)));
+                this.drops = [];
+                for (let i = 0; i < target; i++) this.drops.push(this.createDrop(true));
+                if (this.reduceMotion && this.enabled) this.renderStill();
+            }
+
+            createDrop(randomY = false) {
+                const near = Math.random() < 0.38;
+                const len = near ? (Math.random() * 14 + 16) : (Math.random() * 9 + 9);
+                return {
+                    x: Math.random() * (this.width + 160) - 80,
+                    y: randomY ? Math.random() * this.height : -len - Math.random() * this.height * 0.4,
+                    len,
+                    near,
+                    speed: near ? (Math.random() * 260 + 820) : (Math.random() * 180 + 520), // px per second
+                    width: near ? 1.15 : 0.75,
+                    // Land among the grass blades (bottom 8px-80px) for near drops
+                    groundOffset: Math.random() * 72 + 8
+                };
+            }
+
+            spawnSplash(x, y) {
+                if (this.splashes.length > 90) return;
+                this.splashes.push({
+                    x,
+                    y,
+                    age: 0,
+                    life: Math.random() * 0.25 + 0.35, // seconds
+                    maxR: Math.random() * 5 + 5,
+                    droplets: [
+                        { dx: -(Math.random() * 30 + 20), dy: -(Math.random() * 60 + 50) },
+                        { dx: (Math.random() * 30 + 20), dy: -(Math.random() * 60 + 50) }
+                    ]
+                });
+            }
+
+            setEnabled(on) {
+                if (!this.canvas) return;
+                this.enabled = !!on;
+                if (this.reduceMotion) {
+                    this.intensity = this.enabled ? 1 : 0;
+                    if (this.enabled) this.renderStill();
+                    else this.clear();
+                    return;
+                }
+                if (this.enabled || this.intensity > 0.001) this.resume();
+            }
+
+            resume() {
+                if (!this.canvas || this.reduceMotion || this.animFrameId) return;
+                this.lastTs = 0;
+                const loop = (ts) => {
+                    this.animFrameId = null;
+                    if (!this.lastTs) this.lastTs = ts;
+                    const dt = Math.min(0.05, Math.max(0, (ts - this.lastTs) / 1000));
+                    this.lastTs = ts;
+                    this.update(dt);
+                    this.draw();
+                    if (this.enabled || this.intensity > 0.001) {
+                        this.animFrameId = requestAnimationFrame(loop);
+                    } else {
+                        this.intensity = 0;
+                        this.splashes = [];
+                        this.clear();
+                    }
+                };
+                this.animFrameId = requestAnimationFrame(loop);
+            }
+
+            pause() {
+                if (this.animFrameId) {
+                    cancelAnimationFrame(this.animFrameId);
+                    this.animFrameId = null;
+                }
+            }
+
+            clear() {
+                if (this.ctx) this.ctx.clearRect(0, 0, this.width, this.height);
+            }
+
+            update(dt) {
+                this.time += dt;
+                // Smooth eased fade in/out (~0.9s)
+                const targetIntensity = this.enabled ? 1 : 0;
+                this.intensity += (targetIntensity - this.intensity) * Math.min(1, dt * 3.2);
+
+                // Gentle gusting wind slant (dx per dy)
+                this.wind = 0.16 + Math.sin(this.time * 0.35) * 0.06 + Math.sin(this.time * 1.1) * 0.02;
+
+                for (let i = 0; i < this.drops.length; i++) {
+                    const d = this.drops[i];
+                    const dy = d.speed * dt;
+                    d.y += dy;
+                    d.x += dy * this.wind;
+                    const groundY = this.height - (d.near ? d.groundOffset : 0);
+                    if (d.y >= groundY) {
+                        if (d.near && this.enabled && Math.random() < 0.55) this.spawnSplash(d.x, groundY);
+                        this.drops[i] = this.createDrop(false);
+                    } else if (d.x > this.width + 90) {
+                        d.x -= this.width + 170;
+                    }
+                }
+
+                for (let i = this.splashes.length - 1; i >= 0; i--) {
+                    const s = this.splashes[i];
+                    s.age += dt;
+                    if (s.age >= s.life) this.splashes.splice(i, 1);
+                }
+            }
+
+            draw() {
+                const ctx = this.ctx;
+                const p = this.palette;
+                const k = this.intensity;
+                ctx.clearRect(0, 0, this.width, this.height);
+                if (k <= 0.001) return;
+
+                // 1. Soft overcast mist wash from the top
+                const mist = ctx.createLinearGradient(0, 0, 0, this.height * 0.7);
+                mist.addColorStop(0, p.mistTop);
+                mist.addColorStop(1, p.mistBottom);
+                ctx.globalAlpha = k;
+                ctx.fillStyle = mist;
+                ctx.fillRect(0, 0, this.width, this.height);
+
+                // 2. Rain streaks batched per depth layer (one stroke per layer for performance)
+                ctx.lineCap = 'round';
+                const wind = this.wind || 0.16;
+                const layers = [
+                    { near: false, rgb: p.far, alpha: p.farAlpha, width: 0.75 },
+                    { near: true, rgb: p.near, alpha: p.nearAlpha, width: 1.15 }
+                ];
+                for (const layer of layers) {
+                    ctx.beginPath();
+                    for (const d of this.drops) {
+                        if (d.near !== layer.near) continue;
+                        ctx.moveTo(d.x, d.y);
+                        ctx.lineTo(d.x - d.len * wind, d.y - d.len);
+                    }
+                    ctx.globalAlpha = layer.alpha * k;
+                    ctx.strokeStyle = `rgb(${layer.rgb[0]}, ${layer.rgb[1]}, ${layer.rgb[2]})`;
+                    ctx.lineWidth = layer.width;
+                    ctx.stroke();
+                }
+
+                // 3. Ripple splashes landing among the grass
+                const sc = p.splash;
+                ctx.lineWidth = 1;
+                for (const s of this.splashes) {
+                    const t = s.age / s.life;
+                    const fade = (1 - t) * p.splashAlpha * k;
+                    ctx.globalAlpha = fade;
+                    ctx.strokeStyle = `rgb(${sc[0]}, ${sc[1]}, ${sc[2]})`;
+                    ctx.beginPath();
+                    ctx.ellipse(s.x, s.y, s.maxR * t + 1, (s.maxR * t + 1) * 0.32, 0, 0, Math.PI * 2);
+                    ctx.stroke();
+
+                    ctx.fillStyle = `rgb(${p.near[0]}, ${p.near[1]}, ${p.near[2]})`;
+                    for (const dr of s.droplets) {
+                        const px = s.x + dr.dx * s.age;
+                        const py = s.y + dr.dy * s.age + 240 * s.age * s.age;
+                        ctx.beginPath();
+                        ctx.arc(px, py, 0.9, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                }
+                ctx.globalAlpha = 1;
+            }
+
+            renderStill() {
+                if (!this.ctx) return;
+                this.intensity = this.enabled ? 1 : 0;
+                this.wind = 0.16;
+                this.splashes = [];
+                this.draw();
+            }
+        }
+
+        let rainLayer = null;
+
+        function isRainEffectOn() {
+            return document.body.classList.contains('rain-enabled');
+        }
+
+        function updateRainToggleUI() {
+            const on = isRainEffectOn();
+            const isFil = (typeof currentLang !== 'undefined' && currentLang === 'fil');
+            const btn = document.getElementById('railBtnRain');
+            if (btn) {
+                btn.classList.toggle('rain-active', on);
+                btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+                btn.setAttribute('title', isFil
+                    ? (on ? 'Patayin ang Epekto ng Ulan' : 'Buksan ang Epekto ng Ulan')
+                    : (on ? 'Turn Rain Effect Off' : 'Turn Rain Effect On'));
+            }
+            const lbl = document.getElementById('txtSideRain');
+            if (lbl) lbl.textContent = isFil ? 'EPEKTO NG ULAN' : 'RAIN EFFECT';
+            const badge = document.getElementById('sideRainBadge');
+            if (badge) badge.textContent = on ? (isFil ? 'BUKAS' : 'ON') : (isFil ? 'SARADO' : 'OFF');
+        }
+
+        function setRainEffect(on, persist = true, announce = false) {
+            document.body.classList.toggle('rain-enabled', !!on);
+            if (!rainLayer) rainLayer = new RainEffectLayer('bgRainCanvas');
+            if (rainLayer) {
+                rainLayer.refreshTheme();
+                rainLayer.setEnabled(!!on);
+            }
+            if (persist) {
+                try { localStorage.setItem('anitaya_rain', on ? 'on' : 'off'); } catch (e) { }
+            }
+            updateRainToggleUI();
+            if (announce && typeof showToast === 'function') {
+                const isFil = (typeof currentLang !== 'undefined' && currentLang === 'fil');
+                showToast(on
+                    ? (isFil ? 'Binuksan ang epekto ng ulan.' : 'Rain effect turned on.')
+                    : (isFil ? 'Pinatay ang epekto ng ulan.' : 'Rain effect turned off.'));
+            }
+        }
+
+        function toggleRainEffect() {
+            setRainEffect(!isRainEffectOn(), true, true);
+        }
+
+        function initRainEffect() {
+            let saved = 'on';
+            try { saved = localStorage.getItem('anitaya_rain') || 'on'; } catch (e) { }
+            setRainEffect(saved !== 'off', false, false);
+        }
+
         class FieldAmbientBackground {
             constructor(canvasId) {
                 this.canvas = document.getElementById(canvasId);
@@ -14364,6 +14740,7 @@
             updateSeasonalAdvisorUI();
             renderCalendarMatrix();
             ambientField = new FieldAmbientBackground('bgFieldCanvas');
+            initRainEffect();
 
             // ── Initialize shell geometry after paint ──
             requestAnimationFrame(() => {
