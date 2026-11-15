@@ -36,19 +36,90 @@ def init_db():
         crops_data_json TEXT NOT NULL
     )
     """)
+    _backfill_unspecified_provinces(conn, cursor)
     conn.commit()
     conn.close()
+
+
+def _extract_prediction_metadata(data):
+    """Extract normalized location and season metadata from flat or nested calculate payloads."""
+    if not isinstance(data, dict):
+        return {
+            "province": "Unspecified Province",
+            "region": "",
+            "season": "Wet Season",
+            "soil_type": "Loam",
+        }
+
+    params = data.get("parameters") if isinstance(data.get("parameters"), dict) else {}
+    prov_details = data.get("province_details") if isinstance(data.get("province_details"), dict) else {}
+
+    top_province = str(data.get("province") or "").strip()
+    if top_province.lower() == "unspecified province":
+        top_province = ""
+
+    province = (
+        top_province
+        or str(params.get("province") or "").strip()
+        or str(prov_details.get("province") or "").strip()
+        or "Unspecified Province"
+    )
+    region = (
+        str(data.get("region") or "").strip()
+        or str(params.get("region") or "").strip()
+        or str(prov_details.get("region") or "").strip()
+    )
+    season = (
+        str(data.get("season") or "").strip()
+        or str(params.get("season") or "").strip()
+        or "Wet Season"
+    )
+    soil_type = (
+        str(data.get("soil_type") or "").strip()
+        or str(params.get("soil_type") or "").strip()
+        or str(prov_details.get("dominant_soil") or "").strip()
+        or "Loam"
+    )
+    return {
+        "province": province,
+        "region": region,
+        "season": season,
+        "soil_type": soil_type,
+    }
+
+
+def _backfill_unspecified_provinces(conn, cursor):
+    """Repair legacy rows that stored 'Unspecified Province' when nested parameters hold the province."""
+    rows = cursor.execute("""
+        SELECT id, province, region, season, soil_type, crops_data_json
+        FROM prediction_history
+        WHERE province IS NULL OR TRIM(province) = '' OR province = 'Unspecified Province'
+    """).fetchall()
+    for row in rows:
+        try:
+            payload = json.loads(row["crops_data_json"])
+        except Exception:
+            continue
+        meta = _extract_prediction_metadata(payload)
+        if meta["province"] != "Unspecified Province":
+            cursor.execute("""
+                UPDATE prediction_history
+                SET province = ?, region = ?, season = ?, soil_type = ?
+                WHERE id = ?
+            """, (meta["province"], meta["region"], meta["season"], meta["soil_type"], row["id"]))
+
 
 def save_prediction(data):
     init_db()
     conn = get_db_connection()
     cursor = conn.cursor()
-    
+
     now_iso = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    province = data.get("province", "Unspecified Province")
-    region = data.get("region", "")
-    season = data.get("season", "Wet Season")
-    soil_type = data.get("soil_type", "Loam")
+    meta = _extract_prediction_metadata(data)
+    province = meta["province"]
+    region = meta["region"]
+    season = meta["season"]
+    soil_type = meta["soil_type"]
     crop_results = data.get("crop_results", [])
     
     crop_count = len(crop_results)
