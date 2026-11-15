@@ -7492,6 +7492,237 @@
             width: 100%;
             max-width: 1200px;
         }
+
+        /* ── Dedicated Printable PDF Report View (Screen Hidden) ── */
+        .printable-report-container {
+            display: none;
+        }
+
+        @page {
+            size: A4 portrait;
+            margin: 12mm;
+        }
+
+        @media print {
+            :root,
+            html,
+            html[data-theme="dark"],
+            html[data-theme="light"] {
+                --bg-deep: #ffffff !important;
+                --bg-panel: #ffffff !important;
+                --bg-card: #ffffff !important;
+                --bg-ink: #f3f4f6 !important;
+                --text-offwhite: #111827 !important;
+                --text-muted: #4b5563 !important;
+                --border-subtle: #cbd5e1 !important;
+                --border-hairline: #cbd5e1 !important;
+                --chart-card-bg: #ffffff !important;
+                --accent-olive: #3f6212 !important;
+            }
+
+            html,
+            body {
+                background: #ffffff !important;
+                color: #111827 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+                height: auto !important;
+                min-height: 0 !important;
+                overflow: visible !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            body > *:not(#printableReportContainer) {
+                display: none !important;
+            }
+
+            #printableReportContainer {
+                display: block !important;
+                position: static !important;
+                width: 100% !important;
+                background: #ffffff !important;
+                color: #111827 !important;
+                font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+            }
+
+            .print-report-context {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 8px;
+                padding-bottom: 10px;
+                margin-bottom: 14px;
+                border-bottom: 2px solid #3f6212;
+                font-size: 10px;
+                color: #374151;
+            }
+
+            .print-report-brand {
+                font-size: 12px;
+                font-weight: 900;
+                letter-spacing: 0.05em;
+                color: #14532d;
+                text-transform: uppercase;
+            }
+
+            .print-report-section {
+                margin-bottom: 18px;
+            }
+
+            .print-section-head {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-end;
+                flex-wrap: wrap;
+                gap: 10px;
+                margin-bottom: 10px;
+                padding-bottom: 6px;
+                border-bottom: 1px solid #cbd5e1;
+            }
+
+            .print-section-title {
+                margin: 0;
+                font-size: 13px;
+                font-weight: 900;
+                letter-spacing: 0.04em;
+                color: #111827;
+                text-transform: uppercase;
+            }
+
+            .print-section-sub {
+                font-size: 10px;
+                color: #4b5563;
+                margin-top: 2px;
+            }
+
+            .printable-report-container .crop-breakdown-cards-grid {
+                display: grid !important;
+                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                gap: 10px !important;
+            }
+
+            .printable-report-container .crop-item-result-card {
+                background: #ffffff !important;
+                border: 1px solid #cbd5e1 !important;
+                border-radius: 10px !important;
+                padding: 10px 12px !important;
+                color: #111827 !important;
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            .printable-report-container .crop-result-header h4 {
+                color: #111827 !important;
+                font-size: 12.5px !important;
+            }
+
+            .printable-report-container .crop-source-badge {
+                background: #f0fdf4 !important;
+                color: #166534 !important;
+                border-color: #86efac !important;
+            }
+
+            .printable-report-container .crop-stat-line {
+                font-size: 10px !important;
+                color: #374151 !important;
+            }
+
+            .printable-report-container .crop-stat-line strong {
+                color: #111827 !important;
+            }
+
+            .printable-report-container .itemized-cost-grid .cost-item {
+                background: #f8fafc !important;
+                border: 1px solid #e2e8f0 !important;
+                color: #334155 !important;
+                font-size: 9.5px !important;
+                padding: 5px 7px !important;
+            }
+
+            .printable-report-container .itemized-cost-grid .cost-item span {
+                color: #0f172a !important;
+            }
+
+            .printable-report-container .highest-income-chip {
+                background: #f0fdf4 !important;
+                color: #166534 !important;
+                border: 1px solid #86efac !important;
+                font-size: 9.5px !important;
+                padding: 4px 10px !important;
+            }
+
+            .printable-report-container .comparison-table-wrapper {
+                overflow: visible !important;
+                border: 1px solid #cbd5e1 !important;
+                border-radius: 8px !important;
+                margin-bottom: 12px !important;
+            }
+
+            .printable-report-container .comparison-table {
+                width: 100% !important;
+                font-size: 8.8px !important;
+                border-collapse: collapse !important;
+            }
+
+            .printable-report-container .comparison-table th {
+                background: #f1f5f9 !important;
+                color: #334155 !important;
+                padding: 6px 5px !important;
+                font-size: 8.5px !important;
+                border-bottom: 1.5px solid #cbd5e1 !important;
+            }
+
+            .printable-report-container .comparison-table td {
+                padding: 6px 5px !important;
+                color: #111827 !important;
+                border-bottom: 1px solid #e2e8f0 !important;
+            }
+
+            .printable-report-container .comparison-table thead {
+                display: table-header-group;
+            }
+
+            .printable-report-container .comparison-table tr {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            .printable-report-container .comparison-chart-container {
+                background: #ffffff !important;
+                border: 1px solid #cbd5e1 !important;
+                border-radius: 10px !important;
+                padding: 12px 14px !important;
+                height: auto !important;
+                overflow: visible !important;
+                margin-bottom: 12px !important;
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            .printable-report-container #printableChartBox {
+                width: 100% !important;
+                max-height: none !important;
+                overflow: visible !important;
+            }
+
+            .printable-report-container .agronomic-alert-callout {
+                background: #fffbeb !important;
+                border: 1px solid #fcd34d !important;
+                border-left: 3px solid #d97706 !important;
+                color: #92400e !important;
+                font-size: 9.8px !important;
+                padding: 10px 12px !important;
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            .printable-report-container #printableAdvisoryText {
+                color: #1f2937 !important;
+            }
+        }
     </style>
 </head>
 
@@ -9398,6 +9629,9 @@
             </div>
         </div>
     </div>
+
+    <!-- ── PRINTABLE PDF REPORT CONTAINER (ONLY SHOWN IN @media print) ── -->
+    <div id="printableReportContainer" class="printable-report-container" aria-hidden="true"></div>
 
     <!-- ── APPLICATION CONTROLLER & LOGIC ── -->
     <script>
@@ -13205,11 +13439,8 @@
             renderCropComparisonSection(data);
         }
 
-        function renderCropBreakdownCards(cropResults) {
-            const container = document.getElementById("cropBreakdownCardsGrid");
-            if (!container) return;
-
-            container.innerHTML = cropResults.map(c => {
+        function buildCropBreakdownMarkup(cropResults) {
+            return (cropResults || []).map(c => {
                 const costs = c.itemized_costs || {};
                 return `
                     <div class="crop-item-result-card">
@@ -13273,10 +13504,35 @@
             }).join("");
         }
 
+        function renderCropBreakdownCards(cropResults) {
+            const container = document.getElementById("cropBreakdownCardsGrid");
+            if (!container) return;
+            container.innerHTML = buildCropBreakdownMarkup(cropResults);
+        }
+
+        function buildComparisonRowsMarkup(sortedCrops) {
+            return (sortedCrops || []).map((c, idx) => `
+                <tr style="${idx === 0 ? 'background: rgba(143,166,58,0.1); font-weight: 700;' : ''}">
+                    <td>
+                        ${idx === 0 ? '🏆 ' : ''}<strong>${c.crop_name}</strong>
+                    </td>
+                    <td>${c.category}</td>
+                    <td>${c.land_area_ha} HA</td>
+                    <td>${c.total_yield_mt} MT</td>
+                    <td>${formatCurrency(c.farmgate_price_php_kg)}/kg</td>
+                    <td>${formatCurrency(c.gross_income_php)}</td>
+                    <td>${formatCurrency(c.production_cost_php)}</td>
+                    <td style="color: ${c.net_income_php >= 0 ? 'var(--accent-olive)' : '#e76f51'}; font-weight: 800;">
+                        ${formatCurrency(c.net_income_php)}
+                    </td>
+                    <td>${c.roi_percent}%</td>
+                </tr>
+            `).join("");
+        }
+
         // 4. Crop Comparison Table & SVG Chart (Phase 7)
         function renderCropComparisonSection(data) {
             const tableBody = document.getElementById("comparisonTableBody");
-            const winnerBadge = document.getElementById("highestIncomeBadge");
             const winnerText = document.getElementById("txtHighestCropWinner");
             const advisoryNotice = document.getElementById("txtAgronomicAdvisoryNotice");
 
@@ -13296,31 +13552,15 @@
             }
 
             if (tableBody) {
-                tableBody.innerHTML = sorted.map((c, idx) => `
-                    <tr style="${idx === 0 ? 'background: rgba(143,166,58,0.1); font-weight: 700;' : ''}">
-                        <td>
-                            ${idx === 0 ? '🏆 ' : ''}<strong>${c.crop_name}</strong>
-                        </td>
-                        <td>${c.category}</td>
-                        <td>${c.land_area_ha} HA</td>
-                        <td>${c.total_yield_mt} MT</td>
-                        <td>${formatCurrency(c.farmgate_price_php_kg)}/kg</td>
-                        <td>${formatCurrency(c.gross_income_php)}</td>
-                        <td>${formatCurrency(c.production_cost_php)}</td>
-                        <td style="color: ${c.net_income_php >= 0 ? 'var(--accent-olive)' : '#e76f51'}; font-weight: 800;">
-                            ${formatCurrency(c.net_income_php)}
-                        </td>
-                        <td>${c.roi_percent}%</td>
-                    </tr>
-                `).join("");
+                tableBody.innerHTML = buildComparisonRowsMarkup(sorted);
             }
 
             // Draw SVG Comparison Chart
             drawCropComparisonChart(sorted);
         }
 
-        function drawCropComparisonChart(cropResults) {
-            const container = document.getElementById("cropComparisonChartBox");
+        function drawCropComparisonChart(cropResults, containerId = "cropComparisonChartBox") {
+            const container = document.getElementById(containerId);
             if (!container) return;
 
             if (!cropResults || cropResults.length === 0) {
@@ -13764,8 +14004,104 @@
         }
 
 
+        function renderPrintableReport(data) {
+            const container = document.getElementById("printableReportContainer");
+            if (!container || !data || !Array.isArray(data.crop_results) || data.crop_results.length === 0) {
+                return false;
+            }
+
+            const params = data.parameters || {};
+            const totals = data.totals || {};
+            const provName = params.province || data.province || "Unspecified Province";
+            const regionName = params.region || data.region || "";
+            const seasonName = params.season || data.season || "Wet Season";
+            const totalArea = totals.total_land_area_ha || data.crop_results.reduce((s, c) => s + (parseFloat(c.land_area_ha) || 0), 0);
+            const sorted = [...data.crop_results].sort((a, b) => b.net_income_php - a.net_income_php);
+            const winner = sorted[0];
+            const advisoryText = (data.comparison_summary && data.comparison_summary.advisory)
+                ? data.comparison_summary.advisory
+                : "While the highlighted crop indicates the highest projected net income, the highest calculated profit does not automatically make it the optimal choice. Filipino farmers must also account for local soil drainage, seasonal typhoon exposure, upfront capital outlays, and farmgate price volatility.";
+
+            container.innerHTML = `
+                <div class="print-report-context">
+                    <div class="print-report-brand">ANITAYA &bull; HARVEST &amp; INCOME REPORT</div>
+                    <div>
+                        <strong>${provName}</strong>${regionName ? ` (${regionName})` : ''}
+                        &bull; ${seasonName}
+                        &bull; ${Number(totalArea).toFixed(1)} HA
+                        &bull; ${new Date().toLocaleDateString()}
+                    </div>
+                </div>
+
+                <section class="print-report-section">
+                    <div class="print-section-head">
+                        <div>
+                            <h2 class="print-section-title">ITEMIZED HARVEST, REVENUE &amp; EXPENSE FORECAST</h2>
+                            <div class="print-section-sub">Detailed production and financial breakdown per crop</div>
+                        </div>
+                    </div>
+                    <div class="crop-breakdown-cards-grid">
+                        ${buildCropBreakdownMarkup(data.crop_results)}
+                    </div>
+                </section>
+
+                <section class="print-report-section print-comparison-section">
+                    <div class="print-section-head">
+                        <div>
+                            <h2 class="print-section-title">CROP PROFITABILITY COMPARISON</h2>
+                            <div class="print-section-sub">Side-by-side financial evaluation &amp; agronomic advisory</div>
+                        </div>
+                        <div class="highest-income-chip">
+                            Top Crop: ${winner.crop_name} (${formatCurrency(winner.net_income_php)})
+                        </div>
+                    </div>
+
+                    <div class="comparison-table-wrapper">
+                        <table class="comparison-table">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:left;">CROP NAME</th>
+                                    <th style="text-align:left;">CATEGORY</th>
+                                    <th style="text-align:left;">AREA (HA)</th>
+                                    <th style="text-align:left;">HARVEST (MT)</th>
+                                    <th style="text-align:left;">FARMGATE PRICE</th>
+                                    <th style="text-align:left;">GROSS REVENUE</th>
+                                    <th style="text-align:left;">PRODUCTION COSTS</th>
+                                    <th style="text-align:left;">NET PROFIT</th>
+                                    <th style="text-align:left;">ROI (%)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${buildComparisonRowsMarkup(sorted)}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="comparison-chart-container">
+                        <div style="font-size:9.5px; font-weight:800; color:#4b5563; letter-spacing:0.04em; margin-bottom:8px; text-transform:uppercase;">
+                            FINANCIAL COMPARISON (GROSS REVENUE vs. PRODUCTION COSTS vs. NET PROFIT)
+                        </div>
+                        <div id="printableChartBox"></div>
+                    </div>
+
+                    <div class="agronomic-alert-callout">
+                        <strong>⚠️ IMPORTANT AGRONOMIC RISK NOTICE:</strong>
+                        <span id="printableAdvisoryText" style="margin-left: 4px;">${advisoryText}</span>
+                    </div>
+                </section>
+            `;
+
+            drawCropComparisonChart(sorted, "printableChartBox");
+            return true;
+        }
+
         function downloadPdfReport() {
             if (!currentCalculatedResult) {
+                showCalculateFirstModal();
+                return;
+            }
+
+            if (!renderPrintableReport(currentCalculatedResult)) {
                 showCalculateFirstModal();
                 return;
             }
@@ -13775,6 +14111,11 @@
                 window.print();
             }, 300);
         }
+
+        window.addEventListener("afterprint", () => {
+            const container = document.getElementById("printableReportContainer");
+            if (container) container.innerHTML = "";
+        });
 
         // 7. Province Selection & Suitability Integration (Phase 10)
         function onProvinceChanged(provName) {
