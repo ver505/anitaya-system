@@ -8916,23 +8916,22 @@
                             <div class="shock-result-col">
                                 <div class="shock-result-row">
                                     <span class="shock-result-lbl" id="lblSimYield">ADJUSTED HARVEST:</span>
-                                    <span class="shock-result-val readable-num" id="simHarvestVal">578 Sacks (28,900
-                                        kg)</span>
+                                    <span class="shock-result-val readable-num" id="simHarvestVal">0 Sacks (0 kg)</span>
                                 </div>
                                 <div class="shock-result-row">
                                     <span class="shock-result-lbl" id="lblSimGross">SIMULATED REVENUE:</span>
-                                    <span class="shock-result-val readable-num" id="simGrossVal">&#8369;635,800</span>
+                                    <span class="shock-result-val readable-num" id="simGrossVal">&#8369;0</span>
                                 </div>
                                 <div class="shock-result-row">
                                     <span class="shock-result-lbl" id="lblSimCost">PRODUCTION COSTS:</span>
-                                    <span class="shock-result-val readable-num" id="simCostVal">&#8369;405,484</span>
+                                    <span class="shock-result-val readable-num" id="simCostVal">&#8369;0</span>
                                 </div>
                                 <div class="shock-result-divider">
                                     <div class="shock-result-lbl" id="lblSimNet">SIMULATED NET PROFIT / LOSS:</div>
-                                    <div class="shock-profit-highlight readable-num" id="simNetVal">&#8369;230,316</div>
+                                    <div class="shock-profit-highlight readable-num" id="simNetVal">&#8369;0</div>
                                 </div>
                                 <div class="shock-resilience-badge" id="simResilienceBadge">
-                                    STRONG RESILIENCE: Farm breaks even down to -28% harvest loss
+                                    CALCULATE YOUR FARM PLAN FIRST TO SIMULATE YIELD &amp; PRICE SHOCKS
                                 </div>
                             </div>
                         </div>
@@ -11174,6 +11173,13 @@
             closeItemizedModal();
             closeComparisonModal();
 
+            // Reset Risk & Weather What-If sliders and simulator state
+            const ysReset = document.getElementById('sliderYieldShock');
+            if (ysReset) ysReset.value = '0';
+            const psReset = document.getElementById('sliderPriceShock');
+            if (psReset) psReset.value = '0';
+            renderWeatherRiskView();
+
             const isFil = (currentLang === 'fil');
             showToast(isFil ? "Nalinis at na-reset ang plano ng sakahan." : "Farm plan cleared and reset to empty state.");
         }
@@ -11570,6 +11576,16 @@
             renderWeatherRiskView();
         }
 
+        function resolveWeatherCropKey(name) {
+            const s = String(name || '').toLowerCase();
+            if (!s) return 'rice';
+            if (s.includes('rice') || s.includes('palay')) return 'rice';
+            if (s.includes('corn') || s.includes('maize') || s.includes('mais')) return 'corn';
+            if (s.includes('potato') && !s.includes('sweet')) return 'potato';
+            if (s.includes('cassava') || s.includes('kamoteng kahoy') || s.includes('balanghoy')) return 'cassava';
+            return 'custom';
+        }
+
         function renderWeatherRiskView() {
             const isWet = (weatherSeason === 'Wet');
             const rainEl = document.getElementById('weatherRainVal');
@@ -11582,52 +11598,118 @@
             const riskChip = document.getElementById('weatherRiskChip');
 
             const isFil = (currentLang === 'fil');
+            const pSync = (typeof getSelectedProvinceData === 'function') ? getSelectedProvinceData() : null;
+            const provName = (pSync && pSync.province) ? pSync.province : 'Selected Province';
+            const regName = (pSync && pSync.region) ? pSync.region : '';
+            const annualRain = (pSync && Number(pSync.annual_rainfall_mm) > 0) ? Number(pSync.annual_rainfall_mm) : 2200;
+            const meanTemp = (pSync && Number(pSync.avg_temp_c) > 0) ? Number(pSync.avg_temp_c) : 27.4;
+            const climateLow = (pSync && pSync.climate_type) ? String(pSync.climate_type).toLowerCase() : '';
+            const hasYearRoundRain = climateLow.includes('type ii') || climateLow.includes('type iv');
+            const soilName = (pSync && pSync.dominant_soil) ? pSync.dominant_soil : 'Loam';
 
-            if (isWet) {
-                rainEl.textContent = '285 mm';
-                rainChip.textContent = isFil ? 'MALAKAS NA BUHOS NG ULAN' : 'HIGH MONSOON RAINFALL';
-                rainChip.className = 'weather-status-chip warning';
-
-                tempEl.textContent = '27.4 °C';
-                tempChip.textContent = isFil ? 'KATAMTAMANG INIT' : 'OPTIMAL THERMAL WINDOW';
-                tempChip.className = 'weather-status-chip success';
-
-                humidEl.textContent = '84%';
-                humidChip.textContent = isFil ? 'MATAAS ANG PELIGRO SA PESTE/AMAG' : 'ELEVATED FUNGAL RISK';
-                humidChip.className = 'weather-status-chip warning';
-
-                riskEl.textContent = 'LEVEL 3';
-                riskChip.textContent = isFil ? 'PELIGRO SA BAGYO AT BAHA' : 'TYPHOON / FLOOD SUSCEPTIBLE';
-                riskChip.className = 'weather-status-chip danger';
-            } else {
-                rainEl.textContent = '68 mm';
-                rainChip.textContent = isFil ? 'MABABANG BUHOS NG ULAN' : 'FAVORABLE DRY PERIOD';
-                rainChip.className = 'weather-status-chip success';
-
-                tempEl.textContent = '29.2 °C';
-                tempChip.textContent = isFil ? 'MAINIT NA PANAHON' : 'WARM / SUNNY PROFILE';
-                tempChip.className = 'weather-status-chip success';
-
-                humidEl.textContent = '62%';
-                humidChip.textContent = isFil ? 'MAINAM SA PAGPAPATUYO' : 'GOOD DRYING ATMOSPHERE';
-                humidChip.className = 'weather-status-chip success';
-
-                riskEl.textContent = 'LEVEL 1-2';
-                riskChip.textContent = isFil ? 'KAILANGAN NG PATUBIG (IRRIGATION)' : 'REQUIRES ACTIVE IRRIGATION';
-                riskChip.className = 'weather-status-chip warning';
+            const wTitleEl = document.getElementById('txtWeatherTitle');
+            if (wTitleEl && pSync && pSync.province) {
+                const provUp = pSync.province.toUpperCase();
+                const regUp = regName.toUpperCase();
+                wTitleEl.textContent = isFil
+                    ? `${provUp}${regUp ? ' AT ' + regUp : ''} — PAGSUSURI NG PANGANIB SA PANAHON`
+                    : `${provUp}${regUp ? ' & ' + regUp : ''} AGRO-CLIMATIC RISK ASSESSMENT`;
             }
 
-            // Agronomic Action Plan Grid for active crop
+            if (isWet) {
+                const wetMonthlyMm = Math.round(annualRain * (hasYearRoundRain ? 0.115 : 0.13));
+                const wetTempC = meanTemp.toFixed(1);
+                const wetHumidPct = annualRain >= 2500 ? 86 : annualRain >= 2000 ? 84 : 80;
+                const isFloodHigh = annualRain >= 2200 || climateLow.includes('type ii');
+
+                if (rainEl) rainEl.textContent = `${wetMonthlyMm} mm`;
+                if (rainChip) {
+                    rainChip.textContent = isFloodHigh
+                        ? (isFil ? 'MALAKAS NA BUHOS NG ULAN' : 'HIGH MONSOON RAINFALL')
+                        : (isFil ? 'KATAMTAMANG BUHOS NG ULAN' : 'MODERATE WET RAINFALL');
+                    rainChip.className = `weather-status-chip ${isFloodHigh ? 'warning' : 'success'}`;
+                }
+
+                if (tempEl) tempEl.textContent = `${wetTempC} °C`;
+                if (tempChip) {
+                    tempChip.textContent = isFil ? 'KATAMTAMANG INIT' : 'OPTIMAL THERMAL WINDOW';
+                    tempChip.className = 'weather-status-chip success';
+                }
+
+                if (humidEl) humidEl.textContent = `${wetHumidPct}%`;
+                if (humidChip) {
+                    humidChip.textContent = isFil ? 'MATAAS ANG PELIGRO SA PESTE/AMAG' : 'ELEVATED FUNGAL RISK';
+                    humidChip.className = 'weather-status-chip warning';
+                }
+
+                if (riskEl) riskEl.textContent = isFloodHigh ? 'LEVEL 3' : 'LEVEL 2';
+                if (riskChip) {
+                    riskChip.textContent = isFloodHigh
+                        ? (isFil ? 'PELIGRO SA BAGYO AT BAHA' : 'TYPHOON / FLOOD SUSCEPTIBLE')
+                        : (isFil ? 'KATAMTAMANG PANGANIB SA BAGYO' : 'MODERATE MONSOON EXPOSURE');
+                    riskChip.className = `weather-status-chip ${isFloodHigh ? 'danger' : 'warning'}`;
+                }
+            } else {
+                const dryMonthlyMm = Math.round(annualRain * (hasYearRoundRain ? 0.062 : 0.032));
+                const dryTempC = (meanTemp + 1.6).toFixed(1);
+                const dryHumidPct = hasYearRoundRain ? 74 : 62;
+
+                if (rainEl) rainEl.textContent = `${dryMonthlyMm} mm`;
+                if (rainChip) {
+                    rainChip.textContent = isFil
+                        ? (hasYearRoundRain ? 'MAY KATAMTAMANG ULAN' : 'MABABANG BUHOS NG ULAN')
+                        : (hasYearRoundRain ? 'MILD DRY SEASON RAIN' : 'FAVORABLE DRY PERIOD');
+                    rainChip.className = 'weather-status-chip success';
+                }
+
+                if (tempEl) tempEl.textContent = `${dryTempC} °C`;
+                if (tempChip) {
+                    tempChip.textContent = isFil ? 'MAINIT NA PANAHON' : 'WARM / SUNNY PROFILE';
+                    tempChip.className = 'weather-status-chip success';
+                }
+
+                if (humidEl) humidEl.textContent = `${dryHumidPct}%`;
+                if (humidChip) {
+                    humidChip.textContent = isFil ? 'MAINAM SA PAGPAPATUYO' : 'GOOD DRYING ATMOSPHERE';
+                    humidChip.className = 'weather-status-chip success';
+                }
+
+                if (riskEl) riskEl.textContent = hasYearRoundRain ? 'LEVEL 1' : 'LEVEL 1-2';
+                if (riskChip) {
+                    riskChip.textContent = isFil
+                        ? (hasYearRoundRain ? 'MABABANG PELIGRO SA TAGTUYOT' : 'KAILANGAN NG PATUBIG (IRRIGATION)')
+                        : (hasYearRoundRain ? 'LOW DROUGHT PRESSURE' : 'REQUIRES ACTIVE IRRIGATION');
+                    riskChip.className = `weather-status-chip ${hasYearRoundRain ? 'success' : 'warning'}`;
+                }
+            }
+
+            // Agronomic Action Plan Grid driven by active planned crops (with legacy activeCrop fallback)
             const advGrid = document.getElementById('weatherAdvisoryGrid');
             if (advGrid) {
+                let plannedNames = [];
+                if (typeof currentCalculatedResult !== 'undefined' && currentCalculatedResult && Array.isArray(currentCalculatedResult.crop_results) && currentCalculatedResult.crop_results.length > 0) {
+                    const sorted = [...currentCalculatedResult.crop_results].sort((a, b) => (parseFloat(b.land_area_ha) || 0) - (parseFloat(a.land_area_ha) || 0));
+                    plannedNames = sorted.map(c => c.crop_name).filter(Boolean);
+                } else if (typeof selectedCrops !== 'undefined' && Array.isArray(selectedCrops) && selectedCrops.length > 0) {
+                    plannedNames = selectedCrops.map(c => c.crop_name).filter(Boolean);
+                } else if (activeCrop) {
+                    plannedNames = [activeCrop];
+                }
+
+                const primaryName = plannedNames.length > 0 ? plannedNames[0] : 'Rice, paddy';
+                const cropKey = resolveWeatherCropKey(primaryName);
+                const multiNote = plannedNames.length > 1
+                    ? (isFil ? ` (kasama ang ${plannedNames.slice(1).join(', ')})` : ` (alongside ${plannedNames.slice(1).join(', ')})`)
+                    : '';
+
                 let cards = [];
-                if (activeCrop === 'rice') {
+                if (cropKey === 'rice') {
                     cards = [
                         {
                             title: isFil ? 'PAG-IWAS SA BAHA AT PAGBABARA' : 'DRAINAGE & FLASH FLOOD MITIGATION',
                             desc: isFil
-                                ? 'Linisin ang mga primary canals sa palayan bago mag-booting stage. Sa lowlands ng Laguna, siguraduhing may labasan ang tubig-baha.'
-                                : 'Ensure primary irrigation lateral gates and canal spillways are unblocked before booting stage to prevent panicle submergence.'
+                                ? `Linisin ang mga primary canals sa palayan bago mag-booting stage. Sa mga sakahan ng ${provName}${multiNote}, siguraduhing may labasan ang tubig-baha.`
+                                : `Ensure primary irrigation lateral gates and canal spillways in ${provName}${multiNote} are unblocked before booting stage to prevent panicle submergence.`
                         },
                         {
                             title: isFil ? 'PAG-IWAS SA PAGKALUPOK (LODGING)' : 'WIND LODGING & NUTRIENT CONTROL',
@@ -11642,13 +11724,13 @@
                                 : 'Plan early harvesting window before late-season monsoon peaks. Coordinate with municipal DA for access to mechanical flat-bed dryers.'
                         }
                     ];
-                } else if (activeCrop === 'corn') {
+                } else if (cropKey === 'corn') {
                     cards = [
                         {
                             title: isFil ? 'PAGPAPATIBAY NG TANGKAY (HILLING-UP)' : 'FURROW HILLING & ROOT ANCHORING',
                             desc: isFil
-                                ? 'Magsagawa ng hilling-up sa ika-25 hanggang 30 araw upang mabaon ang ugat at makatagal sa malalakas na hanging dulot ng bagyo.'
-                                : 'Perform timely furrow hilling-up at 25-30 DAP to anchor brace roots firmly against seasonal tropical cyclone wind shears.'
+                                ? `Magsagawa ng hilling-up sa ika-25 hanggang 30 araw sa ${provName}${multiNote} upang mabaon ang ugat at makatagal sa malalakas na hanging dulot ng bagyo.`
+                                : `Perform timely furrow hilling-up at 25-30 DAP in ${provName}${multiNote} to anchor brace roots firmly against seasonal tropical cyclone wind shears.`
                         },
                         {
                             title: isFil ? 'DRAINAGE SA PAGITAN NG MGA PITAK' : 'INTER-ROW SURFACE RUNOFF',
@@ -11663,13 +11745,13 @@
                                 : 'Rapidly sun-dry or mechanically dry grain down to 14% moisture within 48 hours of harvest to inhibit aflatoxin contamination.'
                         }
                     ];
-                } else if (activeCrop === 'potato') {
+                } else if (cropKey === 'potato') {
                     cards = [
                         {
                             title: isFil ? 'MATAAS NA KAMPO (RAISED BEDS)' : 'RAISED BED BEDDING',
                             desc: isFil
-                                ? 'Magtanim sa nakataas na pilapil (raised beds) na may taas na 25-30cm upang hindi mabulok ang mga patatas sa ulan.'
-                                : 'Construct raised ridges (25-30cm height) to ensure water drains rapidly from root tuber zones.'
+                                ? `Magtanim sa nakataas na pilapil (raised beds) na may taas na 25-30cm sa ${provName}${multiNote} upang hindi mabulok ang mga patatas sa ulan.`
+                                : `Construct raised ridges (25-30cm height) across ${provName} plots${multiNote} to ensure water drains rapidly from root tuber zones.`
                         },
                         {
                             title: isFil ? 'PAG-IWAS SA LATE BLIGHT' : 'LATE BLIGHT FUNGICIDE DEFENSE',
@@ -11684,13 +11766,13 @@
                                 : 'Cure tubers in dry, well-ventilated crates for 7-10 days at 15-20°C to thicken skin before marketing.'
                         }
                     ];
-                } else {
+                } else if (cropKey === 'cassava') {
                     cards = [
                         {
                             title: isFil ? 'PAG-IWAS SA TUBIG SA UGAT' : 'WATERLOGGING ROT PROTECTION',
                             desc: isFil
-                                ? 'Kahit matibay ang kamoteng kahoy sa tagtuyot, mabilis itong mabulok kung babahain. Siguraduhing maluwag at may labasan ang lupa.'
-                                : 'While highly drought-resilient, cassava roots succumb to soft rot in stagnant water. Ensure well-drained loamy soil ridges.'
+                                ? `Kahit matibay ang kamoteng kahoy sa tagtuyot, mabilis itong mabulok kung babahain. Siguraduhing maluwag ang ${soilName} sa ${provName}${multiNote}.`
+                                : `While drought-resilient, cassava roots succumb to soft rot in stagnant water. Maintain well-drained ${soilName} ridges in ${provName}${multiNote}.`
                         },
                         {
                             title: isFil ? 'KAYANG MAMALAGI SA LUPA' : 'IN-GROUND STORAGE BUFFER',
@@ -11703,6 +11785,28 @@
                             desc: isFil
                                 ? 'Maaaring i-chip at patuyuin ang kamoteng kahoy upang ibenta sa mga gilingan ng pakain sa hayop (feedmills).'
                                 : 'Explore processing into dried cassava chips for local animal feedmills if fresh edible market demand drops.'
+                        }
+                    ];
+                } else {
+                    const cropLabel = plannedNames.join(', ') || primaryName;
+                    cards = [
+                        {
+                            title: isFil ? `PAMAMAHALA NG TUBIG (${cropLabel.toUpperCase()})` : `WATER & SOIL BUFFER (${cropLabel.toUpperCase()})`,
+                            desc: isFil
+                                ? `Sa lupang ${soilName} ng ${provName}, tiyakin ang tamang daluyan ng tubig tuwing ${isWet ? 'tag-ulan' : 'patubig sa tag-araw'} upang maprotektahan ang ${cropLabel}.`
+                                : `On ${provName}'s ${soilName} terrain, ${isWet ? 'maintain peripheral drainage furrows to prevent root hypoxia' : 'schedule early-morning drip or furrow irrigation to conserve soil moisture'} for ${cropLabel}.`
+                        },
+                        {
+                            title: isFil ? 'PROTEKSYON SA PESTE AT HALUMIGMIG' : 'HUMIDITY & PEST SURVEILLANCE',
+                            desc: isFil
+                                ? `Panatilihin ang maayos na espasyo at daloy ng hangin sa pagitan ng mga tanim upang makaiwas sa amag at insekto sa kasalukuyang panahon.`
+                                : `Adjust canopy spacing and scout weekly for foliar fungi or sap-sucking pests triggered by ${isWet ? 'high monsoon humidity' : 'warm dry-season microclimates'}.`
+                        },
+                        {
+                            title: isFil ? 'ESTRATEHIYA SA PAG-AANI AT BENTA' : 'STAGGERED HARVEST & MARKET HEDGING',
+                            desc: isFil
+                                ? `Hatiin ang pag-aani at maghanap ng lokal na bagsakan o cold-storage sa ${provName} upang hindi maapektuhan ng biglaang bagsak-presyo.`
+                                : `Stagger harvests across plots and secure local bagsakan or cold-chain buyers in ${provName} to cushion sudden post-storm price volatility.`
                         }
                     ];
                 }
@@ -11723,62 +11827,139 @@
         }
 
         function updateShockSim() {
-            if (!lastCalculatedData) return;
+            const yieldSlider = document.getElementById('sliderYieldShock');
+            const priceSlider = document.getElementById('sliderPriceShock');
+            const yieldShock = yieldSlider ? (parseInt(yieldSlider.value, 10) || 0) : 0;
+            const priceShock = priceSlider ? (parseInt(priceSlider.value, 10) || 0) : 0;
 
-            const yieldShock = parseInt(document.getElementById('sliderYieldShock').value, 10) || 0;
-            const priceShock = parseInt(document.getElementById('sliderPriceShock').value, 10) || 0;
+            const isFil = (typeof currentLang !== 'undefined' && currentLang === 'fil');
 
-            const isFil = (currentLang === 'fil');
+            // Always update slider readout text immediately, even before calculation
+            const yieldValEl = document.getElementById('valYieldShock');
+            if (yieldValEl) {
+                const yieldSign = yieldShock > 0 ? '+' : '';
+                const yieldTag = yieldShock < 0
+                    ? (isFil ? 'Lugi / Bagyo' : 'Loss / Typhoon')
+                    : yieldShock === 0 ? (isFil ? 'Katamtaman' : 'Normal') : (isFil ? 'Masagana' : 'Bumper');
+                yieldValEl.textContent = `${yieldSign}${yieldShock}% (${yieldTag})`;
+            }
 
-            // Update slider readout text
-            const yieldSign = yieldShock > 0 ? '+' : '';
-            document.getElementById('valYieldShock').textContent = `${yieldSign}${yieldShock}% (${yieldShock < 0 ? (isFil ? 'Lugi / Bagyo' : 'Loss / Typhoon') : yieldShock === 0 ? (isFil ? 'Katamtaman' : 'Normal') : (isFil ? 'Masagana' : 'Bumper')})`;
+            const priceValEl = document.getElementById('valPriceShock');
+            if (priceValEl) {
+                const priceSign = priceShock > 0 ? '+' : '';
+                const priceTag = priceShock < 0
+                    ? (isFil ? 'Mababang Presyo' : 'Price Drop')
+                    : priceShock === 0 ? (isFil ? 'Batayan' : 'Baseline') : (isFil ? 'Mataas na Presyo' : 'Surge');
+                priceValEl.textContent = `${priceSign}${priceShock}% (${priceTag})`;
+            }
 
-            const priceSign = priceShock > 0 ? '+' : '';
-            document.getElementById('valPriceShock').textContent = `${priceSign}${priceShock}% (${priceShock < 0 ? (isFil ? 'Mababang Presyo' : 'Price Drop') : priceShock === 0 ? (isFil ? 'Batayan' : 'Baseline') : (isFil ? 'Mataas na Presyo' : 'Surge')})`;
+            // Read active multi-crop calculation first; fall back to legacy single-crop data if present
+            let baselineKg = 0;
+            let baselineSacks = 0;
+            let baselineGross = 0;
+            let baselineCost = 0;
+            let hasBaseline = false;
+
+            if (typeof currentCalculatedResult !== 'undefined' && currentCalculatedResult && currentCalculatedResult.totals) {
+                const t = currentCalculatedResult.totals;
+                const cropList = Array.isArray(currentCalculatedResult.crop_results) ? currentCalculatedResult.crop_results : [];
+                const rawKg = parseFloat(t.total_production_kg);
+                const rawMt = parseFloat(t.total_production_mt) || 0;
+                baselineKg = (Number.isFinite(rawKg) && rawKg > 0) ? rawKg : (rawMt * 1000);
+                const totalCavans = cropList.reduce((sum, c) => sum + (parseFloat(c.total_cavans_sacks) || 0), 0);
+                baselineSacks = totalCavans > 0 ? Math.round(totalCavans) : Math.round(baselineKg / 50);
+                baselineGross = parseFloat(t.total_gross_income_php) || 0;
+                baselineCost = parseFloat(t.total_production_cost_php) || 0;
+                hasBaseline = (baselineKg > 0 || baselineGross > 0 || baselineCost > 0);
+            } else if (typeof lastCalculatedData !== 'undefined' && lastCalculatedData && (lastCalculatedData.sacks > 0 || lastCalculatedData.baseCost > 0)) {
+                baselineSacks = Math.max(0, Math.round(lastCalculatedData.sacks || 0));
+                baselineKg = baselineSacks * 50;
+                const fallbackPrice = Math.max(0, parseFloat(typeof customPrice !== 'undefined' ? customPrice : 0) || 0);
+                baselineGross = Math.round(baselineKg * fallbackPrice);
+                baselineCost = parseFloat(lastCalculatedData.baseCost) || 0;
+                hasBaseline = (baselineKg > 0 || baselineGross > 0 || baselineCost > 0);
+            }
+
+            const harvestEl = document.getElementById('simHarvestVal');
+            const grossEl = document.getElementById('simGrossVal');
+            const costEl = document.getElementById('simCostVal');
+            const netEl = document.getElementById('simNetVal');
+            const resBadge = document.getElementById('simResilienceBadge');
+
+            if (!hasBaseline) {
+                if (harvestEl) harvestEl.textContent = isFil ? '0 Kaban (0 kg)' : '0 Sacks (0 kg)';
+                if (grossEl) grossEl.textContent = formatCurrency(0);
+                if (costEl) costEl.textContent = formatCurrency(0);
+                if (netEl) {
+                    netEl.textContent = formatCurrency(0);
+                    netEl.classList.remove('loss');
+                }
+                if (resBadge) {
+                    resBadge.textContent = isFil
+                        ? 'I-CALCULATE MUNA ANG PLANO NG SAKAHAN BAGO MAG-SIMULATE NG PINSALA AT PRESYO'
+                        : 'CALCULATE YOUR FARM PLAN FIRST TO SIMULATE YIELD & PRICE SHOCKS';
+                    resBadge.classList.remove('deficit');
+                    resBadge.style.background = '';
+                    resBadge.style.color = '';
+                }
+                return;
+            }
 
             // Calculations
-            const simYieldMult = 1.0 + (yieldShock / 100.0);
-            const simPriceMult = 1.0 + (priceShock / 100.0);
+            const simYieldMult = Math.max(0, 1.0 + (yieldShock / 100.0));
+            const simPriceMult = Math.max(0, 1.0 + (priceShock / 100.0));
 
-            const simSacks = Math.max(0, Math.round(lastCalculatedData.sacks * simYieldMult));
-            const simKg = simSacks * 50;
-            const simPrice = Math.max(0.5, customPrice * simPriceMult);
-            const simRevenue = Math.round(simKg * simPrice);
-            const simCost = lastCalculatedData.baseCost;
+            const simSacks = Math.max(0, Math.round(baselineSacks * simYieldMult));
+            const simKg = Math.max(0, Math.round(baselineKg * simYieldMult));
+            const simRevenue = Math.max(0, Math.round(baselineGross * simYieldMult * simPriceMult));
+            const simCost = Math.max(0, Math.round(baselineCost));
             const simNet = simRevenue - simCost;
 
             const breakEvenPrice = simKg > 0 ? (simCost / simKg) : 0;
+            const breakEvenStr = simKg > 0 ? `\u20B1${breakEvenPrice.toFixed(2)}/kg` : 'N/A';
 
             // Update results box
-            document.getElementById('simHarvestVal').textContent = `${simSacks} ${isFil ? 'Kaban' : 'Sacks'} (${simKg.toLocaleString()} kg)`;
-            document.getElementById('simGrossVal').textContent = formatCurrency(simRevenue);
-            document.getElementById('simCostVal').textContent = formatCurrency(simCost);
+            if (harvestEl) {
+                harvestEl.textContent = `${simSacks.toLocaleString('en-US')} ${isFil ? 'Kaban' : 'Sacks'} (${simKg.toLocaleString('en-US')} kg)`;
+            }
+            if (grossEl) grossEl.textContent = formatCurrency(simRevenue);
+            if (costEl) costEl.textContent = formatCurrency(simCost);
 
-            const netEl = document.getElementById('simNetVal');
-            netEl.textContent = (simNet >= 0 ? '+' : '') + formatCurrency(simNet);
-            netEl.classList.toggle('loss', simNet < 0);
+            if (netEl) {
+                const netSign = simNet > 0 ? '+' : (simNet < 0 ? '-' : '');
+                netEl.textContent = netSign + formatCurrency(Math.abs(simNet));
+                netEl.classList.toggle('loss', simNet < 0);
+            }
 
             // Resilience badge
-            const maxDropBeforeLoss = (lastCalculatedData.sacks * 50 * customPrice) > 0
-                ? Math.round((1 - (simCost / (lastCalculatedData.sacks * 50 * customPrice))) * 100)
+            const priceAdjustedGross = baselineGross * simPriceMult;
+            const maxDropBeforeLoss = priceAdjustedGross > 0
+                ? Math.round((1 - (simCost / priceAdjustedGross)) * 100)
                 : 0;
 
-            const resBadge = document.getElementById('simResilienceBadge');
-            if (simNet >= 0) {
-                resBadge.textContent = isFil
-                    ? `MATATAG NA SAKAHAN: Kakayanin hanggang -${maxDropBeforeLoss}% pagbaba ng ani bago malugi (Break-even: ${formatCurrency(breakEvenPrice)}/kg)`
-                    : `STRONG RESILIENCE: Farm breaks even down to -${maxDropBeforeLoss}% yield loss (Break-even: ${formatCurrency(breakEvenPrice)}/kg)`;
-                resBadge.classList.remove('deficit');
-                resBadge.style.background = '';
-                resBadge.style.color = '';
-            } else {
-                resBadge.textContent = isFil
-                    ? `BABALA SA LUGI: Sa kasalukuyang pinsala, kulang ng ${formatCurrency(Math.abs(simNet))} ang benta. Break-even: ${formatCurrency(breakEvenPrice)}/kg`
-                    : `DEFICIT WARNING: At current disaster shock, revenue falls short by ${formatCurrency(Math.abs(simNet))}. Break-even: ${formatCurrency(breakEvenPrice)}/kg`;
-                resBadge.classList.add('deficit');
-                resBadge.style.background = '';
-                resBadge.style.color = '';
+            if (resBadge) {
+                if (simNet >= 0) {
+                    if (maxDropBeforeLoss >= 0) {
+                        resBadge.textContent = isFil
+                            ? `MATATAG NA SAKAHAN: Kakayanin hanggang -${maxDropBeforeLoss}% pagbaba ng ani bago malugi (Break-even: ${breakEvenStr})`
+                            : `STRONG RESILIENCE: Farm breaks even down to -${maxDropBeforeLoss}% yield loss (Break-even: ${breakEvenStr})`;
+                    } else {
+                        const reqBoost = Math.abs(maxDropBeforeLoss);
+                        resBadge.textContent = isFil
+                            ? `MANIPIS NA TUBO: Kailangan ng hindi bababa sa +${reqBoost}% ani upang mabawi ang gastos (Break-even: ${breakEvenStr})`
+                            : `MARGINAL BUFFER: Requires at least +${reqBoost}% baseline yield at this price to break even (Break-even: ${breakEvenStr})`;
+                    }
+                    resBadge.classList.remove('deficit');
+                    resBadge.style.background = '';
+                    resBadge.style.color = '';
+                } else {
+                    resBadge.textContent = isFil
+                        ? `BABALA SA LUGI: Sa kasalukuyang pinsala, kulang ng ${formatCurrency(Math.abs(simNet))} ang benta (Break-even: ${breakEvenStr})`
+                        : `DEFICIT WARNING: At current disaster shock, revenue falls short by ${formatCurrency(Math.abs(simNet))} (Break-even: ${breakEvenStr})`;
+                    resBadge.classList.add('deficit');
+                    resBadge.style.background = '';
+                    resBadge.style.color = '';
+                }
             }
         }
 
@@ -13437,6 +13618,9 @@
 
             // Render Crop Comparison Table & SVG Chart (Phase 7)
             renderCropComparisonSection(data);
+
+            // Sync Risk & Weather advisories and What-If shock simulator with calculated farm plan
+            renderWeatherRiskView();
         }
 
         function buildCropBreakdownMarkup(cropResults) {
@@ -14140,8 +14324,9 @@
                 }
             }
 
-            // Refresh selected crops UI & open catalog modal immediately
+            // Refresh selected crops UI, Risk & Weather view, & open catalog modal immediately
             renderSelectedCropsUI();
+            renderWeatherRiskView();
             if (document.getElementById("cropSelectorModal") && document.getElementById("cropSelectorModal").classList.contains("open")) {
                 renderCropCatalogGrid();
             }
