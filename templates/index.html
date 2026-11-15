@@ -13421,12 +13421,37 @@
             } catch (e) { }
         }
 
+        function normalizeHistorySavePayload(data) {
+            if (!data || typeof data !== "object") return data;
+            const params = data.parameters || {};
+            const details = data.province_details || {};
+            const provSelect = document.getElementById("regionSelect");
+            const fallbackProv = (provSelect && provSelect.value) ? provSelect.value.trim() : "";
+            const pSync = (typeof getSelectedProvinceData === "function") ? getSelectedProvinceData() : null;
+
+            const topProv = (data.province && String(data.province).toLowerCase() !== "unspecified province")
+                ? String(data.province).trim()
+                : "";
+            const province = topProv || params.province || details.province || fallbackProv || "Unspecified Province";
+            const region = data.region || params.region || details.region || (pSync ? pSync.region : "") || "";
+            const season = data.season || params.season || ((typeof activeSeason !== "undefined" && activeSeason === "Dry") ? "Dry Season" : "Wet Season");
+            const soil_type = data.soil_type || params.soil_type || details.dominant_soil || (pSync ? pSync.dominant_soil : "") || "Loam";
+
+            return {
+                ...data,
+                province,
+                region,
+                season,
+                soil_type
+            };
+        }
+
         async function autoSavePredictionSilent(data) {
             try {
                 await fetch("/api/history/save", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data)
+                    body: JSON.stringify(normalizeHistorySavePayload(data))
                 });
                 await updateHistoryCountBadge();
                 await loadHistory();
@@ -13444,7 +13469,7 @@
                 const res = await fetch("/api/history/save", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(currentCalculatedResult)
+                    body: JSON.stringify(normalizeHistorySavePayload(currentCalculatedResult))
                 });
 
                 if (res.ok) {
