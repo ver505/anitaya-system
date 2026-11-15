@@ -12680,21 +12680,21 @@
             dark: {
                 far: [176, 192, 138],    // muted olive-silver streaks
                 near: [214, 228, 186],   // pale lime-silver streaks
-                farAlpha: 0.20,
-                nearAlpha: 0.36,
+                farAlpha: 0.30,
+                nearAlpha: 0.52,
                 splash: [201, 219, 87],  // signature olive accent ripple
-                splashAlpha: 0.42,
-                mistTop: 'rgba(120, 140, 100, 0.07)',
+                splashAlpha: 0.56,
+                mistTop: 'rgba(120, 140, 100, 0.11)',
                 mistBottom: 'rgba(11, 13, 8, 0)'
             },
             light: {
                 far: [96, 124, 104],     // soft sage-slate streaks
                 near: [52, 84, 62],      // deep forest-slate streaks
-                farAlpha: 0.18,
-                nearAlpha: 0.30,
+                farAlpha: 0.28,
+                nearAlpha: 0.46,
                 splash: [46, 89, 28],    // forest green ripple
-                splashAlpha: 0.34,
-                mistTop: 'rgba(110, 130, 120, 0.09)',
+                splashAlpha: 0.48,
+                mistTop: 'rgba(110, 130, 120, 0.13)',
                 mistBottom: 'rgba(242, 245, 236, 0)'
             }
         };
@@ -12742,38 +12742,39 @@
                 } else if (typeof this.ctx.scale === 'function') {
                     this.ctx.scale(dpr, dpr);
                 }
-                const target = Math.round(Math.max(70, Math.min(190, this.width / 8)));
+                const target = Math.round(Math.max(135, Math.min(340, this.width / 4.4)));
                 this.drops = [];
                 for (let i = 0; i < target; i++) this.drops.push(this.createDrop(true));
                 if (this.reduceMotion && this.enabled) this.renderStill();
             }
 
             createDrop(randomY = false) {
-                const near = Math.random() < 0.38;
-                const len = near ? (Math.random() * 14 + 16) : (Math.random() * 9 + 9);
+                const near = Math.random() < 0.46;
+                const len = near ? (Math.random() * 18 + 22) : (Math.random() * 12 + 13);
                 return {
-                    x: Math.random() * (this.width + 160) - 80,
+                    x: Math.random() * (this.width + 180) - 90,
                     y: randomY ? Math.random() * this.height : -len - Math.random() * this.height * 0.4,
                     len,
                     near,
-                    speed: near ? (Math.random() * 260 + 820) : (Math.random() * 180 + 520), // px per second
-                    width: near ? 1.15 : 0.75,
+                    speed: near ? (Math.random() * 320 + 960) : (Math.random() * 240 + 640), // px per second
+                    width: near ? 1.45 : 0.95,
                     // Land among the grass blades (bottom 8px-80px) for near drops
                     groundOffset: Math.random() * 72 + 8
                 };
             }
 
             spawnSplash(x, y) {
-                if (this.splashes.length > 90) return;
+                if (this.splashes.length > 140) return;
                 this.splashes.push({
                     x,
                     y,
                     age: 0,
-                    life: Math.random() * 0.25 + 0.35, // seconds
-                    maxR: Math.random() * 5 + 5,
+                    life: Math.random() * 0.26 + 0.36, // seconds
+                    maxR: Math.random() * 6.5 + 5.5,
                     droplets: [
-                        { dx: -(Math.random() * 30 + 20), dy: -(Math.random() * 60 + 50) },
-                        { dx: (Math.random() * 30 + 20), dy: -(Math.random() * 60 + 50) }
+                        { dx: -(Math.random() * 34 + 22), dy: -(Math.random() * 68 + 54) },
+                        { dx: (Math.random() * 24 - 12), dy: -(Math.random() * 78 + 62) },
+                        { dx: (Math.random() * 34 + 22), dy: -(Math.random() * 68 + 54) }
                     ]
                 });
             }
@@ -12829,7 +12830,7 @@
                 this.intensity += (targetIntensity - this.intensity) * Math.min(1, dt * 3.2);
 
                 // Gentle gusting wind slant (dx per dy)
-                this.wind = 0.16 + Math.sin(this.time * 0.35) * 0.06 + Math.sin(this.time * 1.1) * 0.02;
+                this.wind = 0.18 + Math.sin(this.time * 0.38) * 0.065 + Math.sin(this.time * 1.15) * 0.025;
 
                 for (let i = 0; i < this.drops.length; i++) {
                     const d = this.drops[i];
@@ -12838,7 +12839,7 @@
                     d.x += dy * this.wind;
                     const groundY = this.height - (d.near ? d.groundOffset : 0);
                     if (d.y >= groundY) {
-                        if (d.near && this.enabled && Math.random() < 0.55) this.spawnSplash(d.x, groundY);
+                        if (d.near && this.enabled && Math.random() < 0.72) this.spawnSplash(d.x, groundY);
                         this.drops[i] = this.createDrop(false);
                     } else if (d.x > this.width + 90) {
                         d.x -= this.width + 170;
@@ -12869,10 +12870,10 @@
 
                 // 2. Rain streaks batched per depth layer (one stroke per layer for performance)
                 ctx.lineCap = 'round';
-                const wind = this.wind || 0.16;
+                const wind = this.wind || 0.18;
                 const layers = [
-                    { near: false, rgb: p.far, alpha: p.farAlpha, width: 0.75 },
-                    { near: true, rgb: p.near, alpha: p.nearAlpha, width: 1.15 }
+                    { near: false, rgb: p.far, alpha: p.farAlpha, width: 0.95 },
+                    { near: true, rgb: p.near, alpha: p.nearAlpha, width: 1.45 }
                 ];
                 for (const layer of layers) {
                     ctx.beginPath();
@@ -12904,7 +12905,7 @@
                         const px = s.x + dr.dx * s.age;
                         const py = s.y + dr.dy * s.age + 240 * s.age * s.age;
                         ctx.beginPath();
-                        ctx.arc(px, py, 0.9, 0, Math.PI * 2);
+                        ctx.arc(px, py, 1.15, 0, Math.PI * 2);
                         ctx.fill();
                     }
                 }
