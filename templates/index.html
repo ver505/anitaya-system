@@ -5560,6 +5560,47 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
+            position: relative;
+        }
+
+        .selected-crops-list.is-scrollable {
+            max-height: 360px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-right: 6px;
+            overscroll-behavior: contain;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(182, 198, 79, 0.45) rgba(255, 255, 255, 0.04);
+        }
+
+        .selected-crops-list.is-scrollable::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .selected-crops-list.is-scrollable::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 9999px;
+        }
+
+        .selected-crops-list.is-scrollable::-webkit-scrollbar-thumb {
+            background: rgba(182, 198, 79, 0.45);
+            border-radius: 9999px;
+        }
+
+        .selected-crops-list.is-scrollable::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-olive);
+        }
+
+        [data-theme="light"] .selected-crops-list.is-scrollable {
+            scrollbar-color: rgba(45, 90, 30, 0.42) rgba(45, 90, 30, 0.08);
+        }
+
+        [data-theme="light"] .selected-crops-list.is-scrollable::-webkit-scrollbar-track {
+            background: rgba(45, 90, 30, 0.08);
+        }
+
+        [data-theme="light"] .selected-crops-list.is-scrollable::-webkit-scrollbar-thumb {
+            background: rgba(45, 90, 30, 0.42);
         }
 
         .selected-crop-item-card {
@@ -5699,52 +5740,6 @@
             background: rgba(45, 90, 30, 0.08);
             border-color: rgba(45, 90, 30, 0.28);
             color: #204015;
-        }
-
-        .btn-toggle-more-crops {
-            width: 100%;
-            margin-top: 2px;
-            padding: 9px 14px;
-            border-radius: 10px;
-            border: 1px dashed rgba(182, 198, 79, 0.42);
-            background: rgba(182, 198, 79, 0.08);
-            color: var(--accent-olive);
-            font-size: 10.5px;
-            font-weight: 800;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: background-color 0.16s ease, border-color 0.16s ease, color 0.16s ease;
-        }
-
-        .btn-toggle-more-crops:hover {
-            background: rgba(182, 198, 79, 0.16);
-            border-color: var(--accent-olive);
-            color: var(--text-offwhite);
-        }
-
-        .btn-toggle-more-crops svg {
-            transition: transform 0.2s ease;
-        }
-
-        .btn-toggle-more-crops.expanded svg {
-            transform: rotate(180deg);
-        }
-
-        [data-theme="light"] .btn-toggle-more-crops {
-            background: rgba(45, 90, 30, 0.07);
-            border-color: rgba(45, 90, 30, 0.35);
-            color: #234916;
-        }
-
-        [data-theme="light"] .btn-toggle-more-crops:hover {
-            background: rgba(45, 90, 30, 0.15);
-            border-color: #234916;
-            color: #14220f;
         }
 
         .empty-crops-placeholder {
@@ -10461,6 +10456,9 @@
                     // Pause full-screen grass/firefly canvas loop briefly so GPU gives 100% frames to assembly
                     if (ambientField) ambientField.stop();
                     document.body.classList.remove('workspace-assembling');
+                    if (viewName === 'farmer' && typeof syncSelectedCropsScrollHeight === 'function') {
+                        syncSelectedCropsScrollHeight(document.getElementById('selectedCropsListContainer'));
+                    }
                     // Lock resting L-shell SVG geometry before transforms start (prevents mid-flight snap/blink)
                     updateFarmerShellShape(viewName);
                     if (appShellEl) void appShellEl.offsetWidth;
@@ -10479,9 +10477,17 @@
                         if (ambientField && !document.hidden) ambientField.start();
                     }, 740);
                 } else {
+                    if (viewName === 'farmer' && typeof syncSelectedCropsScrollHeight === 'function') {
+                        syncSelectedCropsScrollHeight(document.getElementById('selectedCropsListContainer'));
+                    }
                     updateFarmerShellShape(viewName);
                     if (viewName === 'farmer') {
-                        requestAnimationFrame(() => updateFarmerShellShape('farmer'));
+                        requestAnimationFrame(() => {
+                            if (typeof syncSelectedCropsScrollHeight === 'function') {
+                                syncSelectedCropsScrollHeight(document.getElementById('selectedCropsListContainer'));
+                            }
+                            updateFarmerShellShape('farmer');
+                        });
                     }
                 }
             }
@@ -12703,16 +12709,10 @@
         // Global State
         const PH_CROP_CATALOG = {{ crops_catalog| tojson | safe if crops_catalog else "[]" }};
         let selectedCrops = [];
-        let isFarmPlanExpanded = false;
         let currentCalculatedResult = null;
         let activeFilterCategory = "all";
         let activeSearchQuery = "";
         let currentSuitabilityData = [];
-
-        function toggleFarmPlanExpand() {
-            isFarmPlanExpanded = !isFarmPlanExpanded;
-            renderSelectedCropsUI();
-        }
 
         // ── Modal Handlers for Itemized Forecast & Crop Comparison ──
         function openItemizedModal() {
@@ -12775,15 +12775,29 @@
             }
         });
 
+        function syncSelectedCropsScrollHeight(container) {
+            if (!container || !container.classList.contains("is-scrollable")) return;
+            const cards = container.querySelectorAll(".selected-crop-card");
+            if (cards.length >= 3 && cards[2].offsetHeight > 0) {
+                const threeCardsHeight = (cards[2].offsetTop - cards[0].offsetTop) + cards[2].offsetHeight;
+                if (threeCardsHeight > 0) {
+                    container.style.maxHeight = Math.ceil(threeCardsHeight) + "px";
+                }
+            }
+        }
+
         // 1. Multi-Crop Farm Plan Management
-        function renderSelectedCropsUI() {
+        function renderSelectedCropsUI(scrollToBottom = false) {
             const container = document.getElementById("selectedCropsListContainer");
             if (!container) return;
 
+            const prevScrollTop = container.scrollTop;
             const countEl = document.getElementById("txtPlanCropCount");
             const totalAreaEl = document.getElementById("txtPlanTotalArea");
 
             if (selectedCrops.length === 0) {
+                container.classList.remove("is-scrollable");
+                container.style.maxHeight = "";
                 container.innerHTML = `
                     <div class="empty-plan-notice" style="padding: 24px; text-align: center; border: 2px dashed var(--border-subtle); border-radius: 12px; color: var(--text-muted); font-size: 12px;">
                         NO CROPS IN FARM PLAN YET.<br>
@@ -12793,6 +12807,10 @@
                 if (countEl) countEl.textContent = "0";
                 if (totalAreaEl) totalAreaEl.textContent = "0.0";
                 updateProvinceAdvisoryUI();
+                const farmerPanel = document.getElementById('view-farmer');
+                if (document.body.classList.contains('workspace-open') && farmerPanel && farmerPanel.classList.contains('active') && typeof requestAnimationFrame === 'function') {
+                    requestAnimationFrame(() => updateFarmerShellShape('farmer'));
+                }
                 return;
             }
 
@@ -12802,17 +12820,7 @@
 
             const curProv = (document.getElementById("regionSelect") ? document.getElementById("regionSelect").value : "").toLowerCase();
 
-            const MAX_VISIBLE_CROPS = 3;
-            if (selectedCrops.length <= MAX_VISIBLE_CROPS) {
-                isFarmPlanExpanded = false;
-            }
-            const hasMoreCrops = selectedCrops.length >= 4;
-            const visibleEntries = selectedCrops
-                .map((crop, idx) => ({ crop, idx }))
-                .slice(0, (hasMoreCrops && !isFarmPlanExpanded) ? MAX_VISIBLE_CROPS : selectedCrops.length);
-            const hiddenCount = selectedCrops.length - MAX_VISIBLE_CROPS;
-
-            const cardsHtml = visibleEntries.map(({ crop: c, idx }) => {
+            container.innerHTML = selectedCrops.map((c, idx) => {
                 const catalogInfo = PH_CROP_CATALOG.find(item => item.Crop_Name.toLowerCase() === c.crop_name.toLowerCase()) || {};
                 const letter = c.crop_name.charAt(0).toUpperCase();
                 const category = catalogInfo.Crop_Category || "Crops";
@@ -12862,29 +12870,30 @@
                 `;
             }).join("");
 
-            const isFil = (typeof currentLang !== 'undefined' && currentLang === 'fil');
-            const toggleBtnHtml = hasMoreCrops ? `
-                <button type="button" id="btnToggleMoreCrops" class="btn-toggle-more-crops ${isFarmPlanExpanded ? 'expanded' : ''}" onclick="toggleFarmPlanExpand()" aria-expanded="${isFarmPlanExpanded ? 'true' : 'false'}">
-                    <span>${isFarmPlanExpanded
-                        ? (isFil ? 'ITAGO ANG IBA (3 LANG)' : 'SEE LESS (SHOW 3 ONLY)')
-                        : (isFil ? `SEE MORE (+${hiddenCount} PANG PANANIM)` : `SEE MORE (+${hiddenCount} MORE ${hiddenCount === 1 ? 'CROP' : 'CROPS'})`)}</span>
-                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5">
-                        <polyline points="6 9 12 15 18 9"></polyline>
-                    </svg>
-                </button>
-            ` : '';
+            const enableScroll = selectedCrops.length >= 4;
+            container.classList.toggle("is-scrollable", enableScroll);
+            if (!enableScroll) {
+                container.style.maxHeight = "";
+                container.scrollTop = 0;
+            } else {
+                syncSelectedCropsScrollHeight(container);
+                container.scrollTop = scrollToBottom ? container.scrollHeight : prevScrollTop;
+            }
 
-            container.innerHTML = cardsHtml + toggleBtnHtml;
             updateProvinceAdvisoryUI();
 
             const farmerPanel = document.getElementById('view-farmer');
             if (document.body.classList.contains('workspace-open') && farmerPanel && farmerPanel.classList.contains('active') && typeof requestAnimationFrame === 'function') {
-                requestAnimationFrame(() => updateFarmerShellShape('farmer'));
+                requestAnimationFrame(() => {
+                    syncSelectedCropsScrollHeight(container);
+                    updateFarmerShellShape('farmer');
+                });
             }
         }
 
         function quickAddCrop(cropName, defaultHa = 1.0) {
             const existing = selectedCrops.find(c => c.crop_name.toLowerCase() === cropName.toLowerCase());
+            let addedNew = false;
             if (existing) {
                 existing.land_area_ha = (parseFloat(existing.land_area_ha) + defaultHa).toFixed(1);
                 showToast(`Increased ${cropName} land area by ${defaultHa} ha.`);
@@ -12895,9 +12904,10 @@
                     farmgate_price: null,
                     cost_per_ha: null
                 });
+                addedNew = true;
                 showToast(`Added ${cropName} (${defaultHa} ha) to farm plan.`);
             }
-            renderSelectedCropsUI();
+            renderSelectedCropsUI(addedNew && selectedCrops.length >= 4);
         }
 
         function addCropToPlan(cropName, defaultHa = 1.0) {
@@ -13556,7 +13566,6 @@
                 }
 
                 // 3. Restore crops
-                isFarmPlanExpanded = false;
                 if (data.crop_results && data.crop_results.length > 0) {
                     selectedCrops = data.crop_results.map(c => ({
                         crop_name: c.crop_name,
@@ -13606,7 +13615,6 @@
                 closeHistoryDrawer();
 
                 if (data.crop_results && data.crop_results.length > 0) {
-                    isFarmPlanExpanded = false;
                     selectedCrops = data.crop_results.map(c => ({
                         crop_name: c.crop_name,
                         land_area_ha: c.land_area_ha,
