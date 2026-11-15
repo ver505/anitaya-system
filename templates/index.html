@@ -5665,77 +5665,97 @@
             background: rgba(45, 90, 30, 0.42);
         }
 
-        .selected-crop-item-card {
+        .selected-crop-item-card,
+        .selected-crop-card {
             background: var(--bg-ink);
             border: 1px solid var(--border-hairline);
             border-radius: 12px;
-            padding: 14px 16px;
+            padding: 12px 14px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 14px;
+            gap: 12px;
+            flex-wrap: wrap;
             transition: border-color 0.15s ease, background 0.15s ease;
         }
 
-        .selected-crop-item-card:hover {
+        .selected-crop-item-card:hover,
+        .selected-crop-card:hover {
             border-color: var(--border-hairline-strong);
         }
 
-        .crop-item-main-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            min-width: 0;
-            flex: 1;
+        [data-theme="light"] .selected-crop-card {
+            background: rgba(255, 255, 255, 0.72);
         }
 
-        .crop-icon-chip {
-            width: 38px;
-            height: 38px;
+        .crop-item-main-info,
+        .selected-crop-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 140px;
+            flex: 1 1 150px;
+        }
+
+        .crop-icon-chip,
+        .selected-crop-avatar {
+            width: 36px;
+            height: 36px;
             border-radius: 8px;
             background: rgba(182, 198, 79, 0.15);
             color: var(--accent-olive);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 900;
             flex-shrink: 0;
             border: 1px solid rgba(182, 198, 79, 0.3);
         }
 
-        [data-theme="light"] .crop-icon-chip {
+        [data-theme="light"] .crop-icon-chip,
+        [data-theme="light"] .selected-crop-avatar {
             background: rgba(46, 89, 28, 0.12);
             color: #2e591c;
             border-color: rgba(46, 89, 28, 0.25);
         }
 
-        .crop-text-block {
+        .crop-text-block,
+        .selected-crop-details {
             display: flex;
             flex-direction: column;
             gap: 2px;
             min-width: 0;
         }
 
-        .crop-text-title {
-            font-size: 12px;
+        .crop-text-title,
+        .selected-crop-details h4 {
+            font-size: 12.5px;
             font-weight: 800;
             color: var(--text-offwhite);
+            margin: 0;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        .crop-text-sub {
+        .crop-text-sub,
+        .selected-crop-details span {
             font-size: 10px;
             color: var(--text-muted);
-            letter-spacing: 0.04em;
+            letter-spacing: 0.03em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        .crop-item-controls {
+        .crop-item-controls,
+        .selected-crop-middle {
             display: flex;
             align-items: center;
-            gap: 12px;
+            justify-content: flex-end;
+            gap: 10px;
+            flex-wrap: wrap;
             flex-shrink: 0;
         }
 
@@ -7125,6 +7145,7 @@
         body.workspace-assembling .outer-brand-group,
         body.workspace-assembling .header-bar,
         body.workspace-assembling #view-farmer.active .calc-topbar-strip,
+        body.workspace-assembling #view-farmer.active .seasonal-advisor-bar,
         body.workspace-assembling #view-farmer.active .farmer-inputs-col>.farm-plan-panel,
         body.workspace-assembling #view-farmer.active .farmer-inputs-col>.calc-action-row,
         body.workspace-assembling #view-farmer.active #mainResultsCard,
@@ -7143,6 +7164,10 @@
 
         body.workspace-assembling #view-farmer.active .calc-topbar-strip {
             animation: assembleSlideFromLeft 0.46s cubic-bezier(0.16, 1, 0.3, 1) 0.06s both;
+        }
+
+        body.workspace-assembling #view-farmer.active .seasonal-advisor-bar {
+            animation: assembleSlideFromLeft 0.48s cubic-bezier(0.16, 1, 0.3, 1) 0.07s both;
         }
 
         body.workspace-assembling #view-farmer.active .farmer-inputs-col>.farm-plan-panel:nth-of-type(1) {
@@ -8446,12 +8471,50 @@
                         <div class="calc-topbar-left">
                             <span class="calc-topbar-title" id="txtCalcWorkspaceTitle">CROP INCOME CALCULATOR</span>
                             <span class="taya-badge-live" id="txtCalcWorkspaceBadge">MULTI-CROP FARM PLANNER</span>
+                            <div class="season-live-badge" id="liveCalendarBadge" title="Real-Time Philippine Agricultural Calendar">
+                                <span class="live-dot-pulse"></span>
+                                <span id="txtLiveSeasonReadout">REALITY: <strong>NOVEMBER 2026</strong> &bull; LATE WET / TRANSITION</span>
+                            </div>
                         </div>
                         <div style="display:flex; align-items:center; gap:8px;">
                             <button type="button" class="home-link-btn" onclick="switchView('home')"
                                 id="btnBackToHome">&larr; HOMEPAGE</button>
                             <button type="button" class="home-link-btn" onclick="openSystemGuideModal('how')"
                                 id="btnCalcGuide">HOW IT WORKS</button>
+                        </div>
+                    </div>
+
+                    <!-- Live Month Seasonal Crop Recommendation Bar -->
+                    <div class="seasonal-advisor-bar" id="seasonalAdvisorBar">
+                        <div class="seasonal-adv-left">
+                            <div class="seasonal-adv-badge" id="badgeAdvisorMonth">
+                                <span class="live-dot-pulse"></span>
+                                <span id="lblLiveAdvisorMonth">NOV RECOM:</span>
+                            </div>
+                            <div class="seasonal-adv-text" id="seasonalAdvText">
+                                <strong>Best to plant: Palay &amp; Mais</strong> &bull; High-risk right now: Potato (blight in wet soil). Transitioning from Late Wet to Cool Dry season.
+                            </div>
+                        </div>
+                        <div class="seasonal-adv-right">
+                            <label for="advisorMonthSelect" id="lblCheckMonth"
+                                style="font-size: 9px; font-weight: 800; color: var(--text-muted); letter-spacing: 0.08em;">CHECK MONTH:</label>
+                            <select class="month-select-pill" id="advisorMonthSelect"
+                                onchange="onAdvisorMonthChange(this.value)"
+                                aria-label="Select month for crop recommendation">
+                                <option value="current" id="optAdvisorCurrentMonth">TODAY: NOV (REALITY TIME)</option>
+                                <option value="0">JANUARY (Cool Dry)</option>
+                                <option value="1">FEBRUARY (Cool Dry)</option>
+                                <option value="2">MARCH (Hot Dry)</option>
+                                <option value="3">APRIL (Hot Dry Peak)</option>
+                                <option value="4">MAY (Dry-Wet Transition)</option>
+                                <option value="5">JUNE (Wet Planting Onset)</option>
+                                <option value="6">JULY (Peak Wet Monsoon)</option>
+                                <option value="7">AUGUST (Peak Typhoon / Wet)</option>
+                                <option value="8">SEPTEMBER (Late Monsoon)</option>
+                                <option value="9">OCTOBER (Main Harvest / Transition)</option>
+                                <option value="10">NOVEMBER (Dry Cropping Start)</option>
+                                <option value="11">DECEMBER (Cool Dry / Amihan)</option>
+                            </select>
                         </div>
                     </div>
 
@@ -8563,25 +8626,31 @@
                                 <!-- Quick Select Chips for Major Philippine Staples -->
                                 <div
                                     style="font-size:9.5px; font-weight:800; color:var(--text-muted); letter-spacing:0.05em; margin-bottom:6px; text-transform:uppercase;">
-                                    Quick-Add Major Philippine Crops:
+                                    Quick-Add Major Philippine Crops (PSA Farmgate Price):
                                 </div>
                                 <div class="quick-crops-row">
                                     <button type="button" class="quick-crop-chip"
-                                        onclick="quickAddCrop('Rice, paddy', 1.0)">+ Palay / Rice</button>
+                                        onclick="quickAddCrop('Rice, paddy', 1.0)">+ Palay / Rice (&bull; &#8369;22/kg)</button>
                                     <button type="button" class="quick-crop-chip" onclick="quickAddCrop('Maize', 1.0)">+
-                                        Mais / Corn</button>
+                                        Mais / Corn (&bull; &#8369;20.5/kg)</button>
                                     <button type="button" class="quick-crop-chip"
-                                        onclick="quickAddCrop('Potatoes', 1.0)">+ Patatas / Potato</button>
+                                        onclick="quickAddCrop('Potatoes', 1.0)">+ Patatas / Potato (&bull; &#8369;45/kg)</button>
                                     <button type="button" class="quick-crop-chip"
-                                        onclick="quickAddCrop('Cassava', 1.0)">+ Kamoteng Kahoy</button>
+                                        onclick="quickAddCrop('Cassava', 1.0)">+ Kamoteng Kahoy (&bull; &#8369;14/kg)</button>
                                     <button type="button" class="quick-crop-chip"
-                                        onclick="quickAddCrop('Red Onion', 1.0)">+ Sibuyas / Onion</button>
+                                        onclick="quickAddCrop('Red Onion', 1.0)">+ Sibuyas / Onion (&bull; &#8369;75/kg)</button>
                                     <button type="button" class="quick-crop-chip"
-                                        onclick="quickAddCrop('Tomato', 0.5)">+ Kamatis / Tomato</button>
+                                        onclick="quickAddCrop('Tomato', 0.5)">+ Kamatis / Tomato (&bull; &#8369;38/kg)</button>
                                     <button type="button" class="quick-crop-chip"
-                                        onclick="quickAddCrop('Plantains and others', 1.0)">+ Saging / Banana</button>
+                                        onclick="quickAddCrop('Plantains and others', 1.0)">+ Saging / Banana (&bull; &#8369;25/kg)</button>
                                     <button type="button" class="quick-crop-chip"
-                                        onclick="quickAddCrop('Sweet potatoes', 1.0)">+ Kamote</button>
+                                        onclick="quickAddCrop('Sweet potatoes', 1.0)">+ Kamote (&bull; &#8369;28/kg)</button>
+                                </div>
+
+                                <!-- Contextual Seasonal Crop Tip Box -->
+                                <div class="crop-seasonal-tip-box" id="cropSeasonalTipBox"
+                                    style="display: none; margin-bottom: 10px; padding: 8px 11px; border-radius: 8px; border: 1px solid var(--border-hairline); background: var(--bg-ink); font-size: 10.5px; color: var(--text-muted); line-height: 1.4;">
+                                    <span id="txtCropSeasonalTip">Select a crop to see seasonal guidance for this month.</span>
                                 </div>
 
                                 <!-- Dynamic List of Selected Crops -->
@@ -10313,6 +10382,7 @@
             const isFil = (currentLang === 'fil');
             const t = TRANSLATIONS[currentLang] || TRANSLATIONS.en;
             const realityMonth = getRealityMonth();
+            const realYear = new Date().getFullYear();
             const realCal = PH_MONTHLY_AGRI_CALENDAR[realityMonth];
             const selCal = PH_MONTHLY_AGRI_CALENDAR[selectedAdvisorMonth];
 
@@ -10321,7 +10391,15 @@
             if (liveReadout) {
                 const rName = isFil ? realCal.nameFil.toUpperCase() : realCal.nameEn.toUpperCase();
                 const rRegime = isFil ? realCal.regimeFil.toUpperCase() : realCal.regimeEn.toUpperCase();
-                liveReadout.innerHTML = `REALITY: <strong>${rName} 2026</strong> &bull; ${rRegime}`;
+                liveReadout.innerHTML = `${isFil ? 'KASALUKUYAN' : 'REALITY'}: <strong>${rName} ${realYear}</strong> &bull; ${rRegime}`;
+            }
+
+            // 1b. Update current month option label in dropdown
+            const optCurrent = document.getElementById('optAdvisorCurrentMonth');
+            if (optCurrent) {
+                optCurrent.textContent = isFil
+                    ? `NGAYON: ${realCal.code} (KASALUKUYAN)`
+                    : `TODAY: ${realCal.code} (REALITY TIME)`;
             }
 
             // 2. Advisor bar month pill label
@@ -10366,8 +10444,10 @@
                 }
             });
 
-            // 6. Update contextual crop tip box if crop is selected
-            if (activeCrop) {
+            // 6. Update contextual crop tip box if crop is selected in multi-crop plan or legacy activeCrop
+            if (typeof selectedCrops !== 'undefined' && Array.isArray(selectedCrops) && selectedCrops.length > 0) {
+                updateCropSeasonalTip(selectedCrops[selectedCrops.length - 1].crop_name);
+            } else if (activeCrop) {
                 updateCropSeasonalTip(activeCrop);
             } else {
                 const tipBox = document.getElementById('cropSeasonalTipBox');
@@ -10375,12 +10455,23 @@
             }
         }
 
-        function updateCropSeasonalTip(cropKey) {
+        function mapCropNameToSeasonalKey(raw) {
+            if (!raw) return null;
+            const s = String(raw).toLowerCase();
+            if (CROP_MODELS[s]) return s;
+            if (s.includes('rice') || s.includes('palay')) return 'rice';
+            if (s.includes('maize') || s.includes('corn') || s.includes('mais')) return 'corn';
+            if (s.includes('potato') && !s.includes('sweet')) return 'potato';
+            if (s.includes('cassava') || s.includes('kamoteng kahoy')) return 'cassava';
+            return null;
+        }
+
+        function updateCropSeasonalTip(cropKeyOrName) {
             const tipBox = document.getElementById('cropSeasonalTipBox');
             const txtTip = document.getElementById('txtCropSeasonalTip');
             if (!tipBox || !txtTip) return;
 
-            if (!cropKey || !CROP_MODELS[cropKey]) {
+            if (!cropKeyOrName) {
                 tipBox.style.display = 'none';
                 return;
             }
@@ -10388,19 +10479,38 @@
             const isFil = (currentLang === 'fil');
             const t = TRANSLATIONS[currentLang] || TRANSLATIONS.en;
             const selCal = PH_MONTHLY_AGRI_CALENDAR[selectedAdvisorMonth];
-            const crop = CROP_MODELS[cropKey];
-            const cropName = isFil ? t['crop' + capitalize(cropKey)] : crop.name;
             const monthName = isFil ? selCal.nameFil : selCal.nameEn;
-            const status = selCal.status[cropKey];
+            const mappedKey = mapCropNameToSeasonalKey(cropKeyOrName);
 
-            let statusLabel = '';
-            if (status === 'best') statusLabel = isFil ? '★ PINAKAMAINAM NA PANAHON' : '★ BEST SUITABILITY';
-            else if (status === 'risk') statusLabel = isFil ? '⚠ DELIKADONG PANAHON (MATAAS ANG PELIGRO)' : '⚠ HIGH RISK / POOR SUITABILITY';
-            else statusLabel = isFil ? 'KATAMTAMANG PANAHON' : 'MODERATE SUITABILITY';
+            if (mappedKey && CROP_MODELS[mappedKey]) {
+                const crop = CROP_MODELS[mappedKey];
+                const cropName = isFil ? t['crop' + capitalize(mappedKey)] : crop.name;
+                const status = selCal.status[mappedKey];
 
-            const tipContent = selCal.tips[cropKey][isFil ? 'fil' : 'en'];
+                let statusLabel = '';
+                if (status === 'best') statusLabel = isFil ? '★ PINAKAMAINAM NA PANAHON' : '★ BEST SUITABILITY';
+                else if (status === 'risk') statusLabel = isFil ? '⚠ DELIKADONG PANAHON (MATAAS ANG PELIGRO)' : '⚠ HIGH RISK / POOR SUITABILITY';
+                else statusLabel = isFil ? 'KATAMTAMANG PANAHON' : 'MODERATE SUITABILITY';
 
-            txtTip.innerHTML = `<strong>${cropName} &bull; ${monthName.toUpperCase()} &bull; <span style="color:${status === 'best' ? 'var(--accent-olive)' : status === 'risk' ? '#f87171' : 'var(--text-muted)'};">${statusLabel}</span>:</strong> ${tipContent}`;
+                const tipContent = selCal.tips[mappedKey][isFil ? 'fil' : 'en'];
+
+                txtTip.innerHTML = `<strong>${cropName} &bull; ${monthName.toUpperCase()} &bull; <span style="color:${status === 'best' ? 'var(--accent-olive)' : status === 'risk' ? '#f87171' : 'var(--text-muted)'};">${statusLabel}</span>:</strong> ${tipContent}`;
+                tipBox.style.display = 'flex';
+                return;
+            }
+
+            // Fallback seasonal guidance for specialty / catalog crops (Onion, Tomato, Banana, Kamote, etc.)
+            const isWetMonth = (selectedAdvisorMonth >= 5 && selectedAdvisorMonth <= 9);
+            const rawLower = String(cropKeyOrName).toLowerCase();
+            const prefersDry = rawLower.includes('onion') || rawLower.includes('garlic') || rawLower.includes('tomato') || rawLower.includes('melon') || rawLower.includes('mango') || rawLower.includes('mung');
+            const status = (prefersDry && isWetMonth) ? 'risk' : (!prefersDry && !isWetMonth ? 'mod' : 'best');
+            const statusLabel = status === 'best'
+                ? (isFil ? '★ PINAKAMAINAM NA PANAHON' : '★ BEST SUITABILITY')
+                : status === 'risk'
+                    ? (isFil ? '⚠ BANTAYAN ANG ULAN / BAHA' : '⚠ WET-SEASON MOISTURE RISK')
+                    : (isFil ? 'KATAMTAMANG PANAHON' : 'MODERATE SUITABILITY');
+            const regimeDesc = isFil ? selCal.summaryFil : selCal.summaryEn;
+            txtTip.innerHTML = `<strong>${cropKeyOrName} &bull; ${monthName.toUpperCase()} &bull; <span style="color:${status === 'best' ? 'var(--accent-olive)' : status === 'risk' ? '#f87171' : 'var(--text-muted)'};">${statusLabel}</span>:</strong> ${regimeDesc}`;
             tipBox.style.display = 'flex';
         }
 
@@ -13588,18 +13698,6 @@
             }
         }
 
-        function stepCropArea(idx, delta) {
-            if (idx >= 0 && idx < selectedCrops.length) {
-                const current = parseFloat(selectedCrops[idx].land_area_ha) || 1.0;
-                const next = Math.max(0.1, Math.min(500, Math.round((current + delta) * 10) / 10));
-                selectedCrops[idx].land_area_ha = next;
-                renderSelectedCropsUI();
-                if (currentCalculatedResult) {
-                    runCountUpCalc();
-                }
-            }
-        }
-
         // Close open modals on Escape key
         document.addEventListener("keydown", function (e) {
             if (e.key === "Escape") {
@@ -13615,6 +13713,59 @@
                 const threeCardsHeight = (cards[2].offsetTop - cards[0].offsetTop) + cards[2].offsetHeight;
                 if (threeCardsHeight > 0) {
                     container.style.maxHeight = Math.ceil(threeCardsHeight) + "px";
+                }
+            }
+        }
+
+        const DEFAULT_CROP_PRICES_FALLBACK = {
+            "rice, paddy": 22.0,
+            "maize": 20.5,
+            "potatoes": 45.0,
+            "cassava": 14.0,
+            "red onion": 75.0,
+            "tomato": 38.0,
+            "plantains and others": 25.0,
+            "sweet potatoes": 28.0
+        };
+
+        function getDefaultCropPrice(cropName) {
+            if (!cropName) return 30.0;
+            const key = String(cropName).trim().toLowerCase();
+            if (typeof PH_CROP_CATALOG !== "undefined" && Array.isArray(PH_CROP_CATALOG)) {
+                const match = PH_CROP_CATALOG.find(item => (item.Crop_Name || "").toLowerCase() === key);
+                if (match && match.Default_Price_PHP_kg && !isNaN(parseFloat(match.Default_Price_PHP_kg))) {
+                    return parseFloat(match.Default_Price_PHP_kg);
+                }
+            }
+            if (DEFAULT_CROP_PRICES_FALLBACK[key] !== undefined) {
+                return DEFAULT_CROP_PRICES_FALLBACK[key];
+            }
+            return 30.0;
+        }
+
+        function stepCropArea(idx, delta) {
+            if (idx >= 0 && idx < selectedCrops.length) {
+                const current = parseFloat(selectedCrops[idx].land_area_ha) || 1.0;
+                const next = Math.max(0.1, Math.min(500, Math.round((current + delta) * 10) / 10));
+                selectedCrops[idx].land_area_ha = next;
+                renderSelectedCropsUI();
+                if (currentCalculatedResult) {
+                    runCountUpCalc();
+                }
+            }
+        }
+
+        function stepCropPrice(idx, delta) {
+            if (idx >= 0 && idx < selectedCrops.length) {
+                const defaultPrice = getDefaultCropPrice(selectedCrops[idx].crop_name);
+                const current = (selectedCrops[idx].farmgate_price !== null && selectedCrops[idx].farmgate_price !== undefined && !isNaN(parseFloat(selectedCrops[idx].farmgate_price)))
+                    ? parseFloat(selectedCrops[idx].farmgate_price)
+                    : defaultPrice;
+                const next = Math.max(1.0, Math.min(2000, Math.round((current + delta) * 10) / 10));
+                selectedCrops[idx].farmgate_price = next;
+                renderSelectedCropsUI();
+                if (currentCalculatedResult) {
+                    runCountUpCalc();
                 }
             }
         }
@@ -13658,6 +13809,10 @@
                 const letter = c.crop_name.charAt(0).toUpperCase();
                 const category = catalogInfo.Crop_Category || "Crops";
                 const sciname = catalogInfo.Scientific_Name || "";
+                const defaultPrice = getDefaultCropPrice(c.crop_name);
+                const priceVal = (c.farmgate_price !== null && c.farmgate_price !== undefined && !isNaN(parseFloat(c.farmgate_price)))
+                    ? parseFloat(c.farmgate_price)
+                    : defaultPrice;
 
                 // Unified suitability check synced with BEST CROPS TO PLANT IN THIS PROVINCE
                 const suitInfo = isCropSuitableForProvince(c.crop_name, curProv);
@@ -13669,7 +13824,7 @@
                             <div class="selected-crop-avatar">${letter}</div>
                             <div class="selected-crop-details">
                                 <h4>${c.crop_name}</h4>
-                                <span>${category} &bull; <em>${sciname}</em></span>
+                                <span>${category} &bull; PSA Ref: &#8369;${defaultPrice.toFixed(2)}/kg ${sciname ? '&bull; <em>' + sciname + '</em>' : ''}</span>
                             </div>
                         </div>
 
@@ -13677,6 +13832,20 @@
                             <span class="crop-suit-badge ${isSuit ? '' : 'secondary'}">
                                 ${isSuit ? '✓ Suitable' : '• Secondary'}
                             </span>
+
+                            <!-- Customizable Farmgate Selling Price (PHP/kg) Stepper -->
+                            <div class="crop-area-control-box">
+                                <span class="crop-area-label">SELLING PRICE</span>
+                                <div class="crop-area-stepper-large">
+                                    <button type="button" class="stepper-step-btn" onclick="stepCropPrice(${idx}, -1)" title="Decrease ₱1/kg">−</button>
+                                    <input type="number" class="crop-ha-input-large crop-price-input-large" min="1" max="2000" step="0.5" value="${priceVal}"
+                                           onchange="updateCropPrice(${idx}, this.value)"
+                                           onblur="updateCropPrice(${idx}, this.value)"
+                                           aria-label="Selling price in PHP per kg for ${c.crop_name}">
+                                    <span class="crop-ha-unit-large">&#8369;/KG</span>
+                                    <button type="button" class="stepper-step-btn" onclick="stepCropPrice(${idx}, 1)" title="Increase ₱1/kg">+</button>
+                                </div>
+                            </div>
 
                             <!-- Prominent High-Visibility Hectare Stepper -->
                             <div class="crop-area-control-box">
@@ -13714,6 +13883,9 @@
             }
 
             updateProvinceAdvisoryUI();
+            if (typeof updateSeasonalAdvisorUI === "function") {
+                updateSeasonalAdvisorUI();
+            }
 
             const farmerPanel = document.getElementById('view-farmer');
             if (document.body.classList.contains('workspace-open') && farmerPanel && farmerPanel.classList.contains('active') && typeof requestAnimationFrame === 'function') {
@@ -13729,16 +13901,20 @@
             let addedNew = false;
             if (existing) {
                 existing.land_area_ha = (parseFloat(existing.land_area_ha) + defaultHa).toFixed(1);
+                if (existing.farmgate_price === null || existing.farmgate_price === undefined) {
+                    existing.farmgate_price = getDefaultCropPrice(cropName);
+                }
                 showToast(`Increased ${cropName} land area by ${defaultHa} ha.`);
             } else {
+                const defaultPrice = getDefaultCropPrice(cropName);
                 selectedCrops.push({
                     crop_name: cropName,
                     land_area_ha: defaultHa,
-                    farmgate_price: null,
+                    farmgate_price: defaultPrice,
                     cost_per_ha: null
                 });
                 addedNew = true;
-                showToast(`Added ${cropName} (${defaultHa} ha) to farm plan.`);
+                showToast(`Added ${cropName} (${defaultHa} ha @ ₱${defaultPrice.toFixed(2)}/kg) to farm plan.`);
             }
             renderSelectedCropsUI(addedNew && selectedCrops.length >= 4);
         }
@@ -13770,6 +13946,20 @@
                 }
             } else {
                 showToast("Please enter a valid land area between 0.1 and 500 hectares.");
+            }
+            renderSelectedCropsUI();
+        }
+
+        function updateCropPrice(index, val) {
+            if (index < 0 || index >= selectedCrops.length) return;
+            const num = parseFloat(val);
+            if (!isNaN(num) && num >= 1.0 && num <= 2000) {
+                selectedCrops[index].farmgate_price = Math.round(num * 100) / 100;
+                if (currentCalculatedResult) {
+                    runCountUpCalc();
+                }
+            } else {
+                showToast("Please enter a valid selling price between ₱1.00 and ₱2,000.00 per kg.");
             }
             renderSelectedCropsUI();
         }
@@ -13842,12 +14032,13 @@
             grid.innerHTML = filtered.map(c => {
                 const isSuit = isCropSuitableForProvince(c.Crop_Name, curProv).isSuitable;
                 const isSelected = selectedCrops.some(sc => sc.crop_name.toLowerCase() === c.Crop_Name.toLowerCase());
+                const basePrice = getDefaultCropPrice(c.Crop_Name);
 
                 return `
                     <div class="catalog-crop-card">
                         <div>
                             <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;">
-                                <span class="catalog-crop-origin">${c.Origin_Status || 'Cultivated'}</span>
+                                <span class="catalog-crop-origin">${c.Origin_Status || 'Cultivated'} &bull; &#8369;${basePrice.toFixed(2)}/kg</span>
                                 ${isSuit ? '<span style="font-size:9px; font-weight:800; color:#2a9d8f;">✓ Recommended in ' + (document.getElementById("regionSelect") ? document.getElementById("regionSelect").value : "Province") + '</span>' : ''}
                             </div>
                             <h4 class="catalog-crop-title">${c.Crop_Name}</h4>

@@ -227,8 +227,14 @@ def init_engine():
     except Exception as e:
         print(f"CropEngine: Error loading crop production: {e}")
 
-# Initialize at import
-init_engine()
+    # Enrich Crop Catalog with default PSA farmgate prices per kg
+    try:
+        for c in crop_catalog:
+            price_val, unit_str = get_farmgate_price(c.get("Crop_Name", ""))
+            c["Default_Price_PHP_kg"] = price_val
+            c["Price_Unit"] = unit_str
+    except Exception as e:
+        print(f"CropEngine: Error enriching crop catalog prices: {e}")
 
 def normalize_crop_name(raw_name):
     clean = raw_name.strip().lower()
@@ -278,6 +284,9 @@ def get_farmgate_price(crop_name, province_name=None):
         "Eggplant": (35.0, "PHP/kg")
     }
     return defaults.get(norm, (30.0, "PHP/kg"))
+
+# Initialize at import
+init_engine()
 
 def get_production_cost(crop_name, province_name=None):
     norm = normalize_crop_name(crop_name)
