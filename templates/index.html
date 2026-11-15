@@ -6450,7 +6450,38 @@
             border: 1px solid var(--border-hairline);
             border-radius: 14px;
             padding: 20px;
-            height: 280px;
+            height: auto;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        #cropComparisonChartBox {
+            width: 100%;
+            max-height: 360px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-right: 6px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(163, 198, 57, 0.45) transparent;
+        }
+
+        #cropComparisonChartBox::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #cropComparisonChartBox::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        #cropComparisonChartBox::-webkit-scrollbar-thumb {
+            background: rgba(163, 198, 57, 0.38);
+            border-radius: 999px;
+        }
+
+        #cropComparisonChartBox::-webkit-scrollbar-thumb:hover {
+            background: rgba(163, 198, 57, 0.65);
         }
 
         /* ── Custom Confirmation Dialog ── */
@@ -6926,6 +6957,7 @@
                 opacity: 0;
                 transform: translate3d(0, -88px, 0) scale3d(0.95, 0.95, 1);
             }
+
             100% {
                 opacity: 1;
                 transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
@@ -6937,6 +6969,7 @@
                 opacity: 0;
                 transform: translate3d(-110px, 0, 0) scale3d(0.96, 0.96, 1);
             }
+
             100% {
                 opacity: 1;
                 transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
@@ -6948,6 +6981,7 @@
                 opacity: 0;
                 transform: translate3d(120px, 0, 0) scale3d(0.95, 0.95, 1);
             }
+
             100% {
                 opacity: 1;
                 transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
@@ -6959,6 +6993,7 @@
                 opacity: 0;
                 transform: translate3d(0, 105px, 0) scale3d(0.96, 0.96, 1);
             }
+
             100% {
                 opacity: 1;
                 transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
@@ -6970,6 +7005,7 @@
                 opacity: 0;
                 transform: translate3d(90px, 85px, 0) scale3d(0.95, 0.95, 1);
             }
+
             100% {
                 opacity: 1;
                 transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
@@ -6981,6 +7017,7 @@
                 opacity: 0;
                 transform: scale3d(0.975, 0.975, 1);
             }
+
             100% {
                 opacity: 1;
                 transform: scale3d(1, 1, 1);
@@ -7018,7 +7055,7 @@
             animation: assembleShellSurfaceIn 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.16s both;
         }
 
-        body.workspace-assembling #appShell > .main-workspace {
+        body.workspace-assembling #appShell>.main-workspace {
             position: relative;
             z-index: 1;
         }
@@ -7026,8 +7063,8 @@
         body.workspace-assembling .outer-brand-group,
         body.workspace-assembling .header-bar,
         body.workspace-assembling #view-farmer.active .calc-topbar-strip,
-        body.workspace-assembling #view-farmer.active .farmer-inputs-col > .farm-plan-panel,
-        body.workspace-assembling #view-farmer.active .farmer-inputs-col > .calc-action-row,
+        body.workspace-assembling #view-farmer.active .farmer-inputs-col>.farm-plan-panel,
+        body.workspace-assembling #view-farmer.active .farmer-inputs-col>.calc-action-row,
         body.workspace-assembling #view-farmer.active #mainResultsCard,
         body.workspace-assembling #view-farmer.active #provinceAdvisoryCard,
         body.workspace-assembling #view-farmer.active #resultsModalTriggersRow {
@@ -7046,15 +7083,15 @@
             animation: assembleSlideFromLeft 0.46s cubic-bezier(0.16, 1, 0.3, 1) 0.06s both;
         }
 
-        body.workspace-assembling #view-farmer.active .farmer-inputs-col > .farm-plan-panel:nth-of-type(1) {
+        body.workspace-assembling #view-farmer.active .farmer-inputs-col>.farm-plan-panel:nth-of-type(1) {
             animation: assembleSlideFromLeft 0.50s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both;
         }
 
-        body.workspace-assembling #view-farmer.active .farmer-inputs-col > .farm-plan-panel:nth-of-type(2) {
+        body.workspace-assembling #view-farmer.active .farmer-inputs-col>.farm-plan-panel:nth-of-type(2) {
             animation: assembleRiseFromBottom 0.52s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
         }
 
-        body.workspace-assembling #view-farmer.active .farmer-inputs-col > .calc-action-row {
+        body.workspace-assembling #view-farmer.active .farmer-inputs-col>.calc-action-row {
             animation: assembleRiseFromBottom 0.48s cubic-bezier(0.16, 1, 0.3, 1) 0.16s both;
         }
 
@@ -7078,28 +7115,29 @@
             animation: assembleDropFromTop 0.48s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
         }
 
-        body.workspace-assembling #view-advisor.active .advisor-container > :nth-child(2),
-        body.workspace-assembling #view-weather.active .weather-container > :nth-child(2),
-        body.workspace-assembling #view-modellab.active .ml-lab-container > :nth-child(2) {
+        body.workspace-assembling #view-advisor.active .advisor-container> :nth-child(2),
+        body.workspace-assembling #view-weather.active .weather-container> :nth-child(2),
+        body.workspace-assembling #view-modellab.active .ml-lab-container> :nth-child(2) {
             will-change: transform, opacity;
             animation: assembleSlideFromLeft 0.50s cubic-bezier(0.16, 1, 0.3, 1) 0.09s both;
         }
 
-        body.workspace-assembling #view-advisor.active .advisor-container > :nth-child(3),
-        body.workspace-assembling #view-weather.active .weather-container > :nth-child(3),
-        body.workspace-assembling #view-modellab.active .ml-lab-container > :nth-child(3) {
+        body.workspace-assembling #view-advisor.active .advisor-container> :nth-child(3),
+        body.workspace-assembling #view-weather.active .weather-container> :nth-child(3),
+        body.workspace-assembling #view-modellab.active .ml-lab-container> :nth-child(3) {
             will-change: transform, opacity;
             animation: assembleFlyFromRight 0.52s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
         }
 
-        body.workspace-assembling #view-advisor.active .advisor-container > :nth-child(n+4),
-        body.workspace-assembling #view-weather.active .weather-container > :nth-child(n+4),
-        body.workspace-assembling #view-modellab.active .ml-lab-container > :nth-child(n+4) {
+        body.workspace-assembling #view-advisor.active .advisor-container> :nth-child(n+4),
+        body.workspace-assembling #view-weather.active .weather-container> :nth-child(n+4),
+        body.workspace-assembling #view-modellab.active .ml-lab-container> :nth-child(n+4) {
             will-change: transform, opacity;
             animation: assembleRiseFromBottom 0.50s cubic-bezier(0.16, 1, 0.3, 1) 0.16s both;
         }
 
         @media (prefers-reduced-motion: reduce) {
+
             body.workspace-assembling #appShell:not(.shell-farmer-mode)::before,
             body.workspace-assembling #appShell.shell-farmer-mode #shellFarmerBg,
             body.workspace-assembling * {
@@ -12260,23 +12298,6 @@
                     targetAltitude: altitude,
                     layer: layer,
                     // Visual core size: 1.2px to 2.4px
-                    size: layer === 0 ? (Math.random() * 0.5 + 1.2) : (Math.random() * 0.8 + 1.6),
-
-                    // Base horizontal wander
-                    wanderDir: Math.random() < 0.5 ? 1 : -1,
-                    wanderSpeed: Math.random() * 0.32 + 0.18,
-
-                    // Multi-harmonic smooth sinusoidal flight waves (infinitely smooth organic curves)
-                    freqX1: Math.random() * 0.0016 + 0.0008,
-                    freqX2: Math.random() * 0.0008 + 0.0004,
-                    freqY1: Math.random() * 0.0022 + 0.0011,
-                    freqY2: Math.random() * 0.0011 + 0.0005,
-                    phaseX: Math.random() * Math.PI * 2,
-                    phaseY: Math.random() * Math.PI * 2,
-                    ampX: Math.random() * 26 + 16,
-                    ampY: Math.random() * 22 + 12,
-
-                    // Bioluminescent pulsing luminescence (soft breathing glow with occasional syncopated pulse)
                     pulseSpeed: Math.random() * 0.0024 + 0.0012,
                     pulsePhase: Math.random() * Math.PI * 2,
                     glowBase: layer === 0 ? 0.20 : 0.30,
@@ -13291,9 +13312,9 @@
 
             const rowHeight = 44;
             const chartHeight = Math.max(160, cropResults.length * rowHeight + 40);
-            const chartWidth = 580;
-            const barMaxWidth = 240;
-            const startX = 140;
+            const chartWidth = 760;
+            const barMaxWidth = 420;
+            const startX = 160;
 
             let barsSvg = "";
             cropResults.forEach((c, idx) => {
@@ -13328,11 +13349,11 @@
                     <rect x="${startX}" y="10" width="8" height="8" rx="2" fill="#d4a373"/>
                     <text x="${startX + 12}" y="17" fill="var(--text-muted)" font-size="8.5" font-weight="700">Gross Revenue</text>
 
-                    <rect x="${startX + 100}" y="10" width="8" height="8" rx="2" fill="#e76f51"/>
-                    <text x="${startX + 112}" y="17" fill="var(--text-muted)" font-size="8.5" font-weight="700">Production Costs</text>
+                    <rect x="${startX + 115}" y="10" width="8" height="8" rx="2" fill="#e76f51"/>
+                    <text x="${startX + 127}" y="17" fill="var(--text-muted)" font-size="8.5" font-weight="700">Production Costs</text>
 
-                    <rect x="${startX + 210}" y="10" width="8" height="8" rx="2" fill="#8fa63a"/>
-                    <text x="${startX + 222}" y="17" fill="var(--text-muted)" font-size="8.5" font-weight="700">Net Profit</text>
+                    <rect x="${startX + 245}" y="10" width="8" height="8" rx="2" fill="#8fa63a"/>
+                    <text x="${startX + 257}" y="17" fill="var(--text-muted)" font-size="8.5" font-weight="700">Net Profit</text>
 
                     ${barsSvg}
                 </svg>
