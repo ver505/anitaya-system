@@ -1,1968 +1,4251 @@
 {
   "dataset_info": {
-    "source": "Zenodo Record 18761663 (DOI: 10.5281/zenodo.18761663)",
-    "raw_records": 25932,
-    "duplicates_removed": 3,
-    "total_records": 25929,
-    "training_samples": 20743,
-    "testing_samples": 5186,
+    "source": "Philippine Statistics Authority (PSA OpenSTAT DB/2E/CS), DOST-PAGASA CliMap v2.1 (1991-2020), & NASA POWER Agroclimatology MERRA-2 (Year-Matched 1987-2025)",
+    "file": "data/philippines_crop_yield_climate.csv",
+    "archive_total_records": 36088,
+    "archive_years": [
+      1987,
+      2025
+    ],
+    "raw_records": 36088,
+    "duplicates_removed": 0,
+    "total_records": 32618,
+    "ml_panel_years": [
+      2010,
+      2025
+    ],
+    "training_samples": 24369,
+    "testing_samples": 8249,
+    "train_period": "2010-2021",
+    "test_period": "2022-2025",
     "features": [
       "item",
       "average_rain_fall_mm_per_year",
-      "pesticides_tonnes",
       "avg_temp",
       "area"
     ],
+    "removed_unreliable_features": [
+      "pesticides_tonnes (removed hardcoded 120.0 Indonesia proxy)"
+    ],
+    "non_ml_informational_inputs": [
+      "soil_type (agronomic reference only, not used by ML model)"
+    ],
     "target": "value_hg_ha",
-    "crops_count": 10,
+    "crops_count": 35,
+    "ml_supported_crops_count": 28,
+    "statistical_fallback_crops_count": 7,
     "crops": [
+      "Abaca",
+      "Banana Cavendish",
+      "Bitter Gourd",
+      "Cabbage",
+      "Cacao",
+      "Calamansi",
       "Cassava",
+      "Coconut",
+      "Coffee",
+      "Eggplant",
+      "Garlic",
       "Maize",
+      "Mango",
+      "Mungbean",
+      "Papaya",
+      "Peanut",
+      "Pechay",
+      "Pineapple",
       "Plantains and others",
       "Potatoes",
+      "Red Onion",
       "Rice, paddy",
+      "Rubber",
       "Sorghum",
       "Soybeans",
+      "Squash",
+      "String Beans",
+      "Sugarcane",
       "Sweet potatoes",
-      "Wheat",
-      "Yams"
+      "Taro",
+      "Tobacco",
+      "Tomato",
+      "Watermelon",
+      "Yams",
+      "Yellow Onion"
     ],
-    "countries_count": 101,
+    "provinces_count": 82,
     "years": [
-      1990,
-      2013
-    ]
+      1987,
+      2025
+    ],
+    "model_artifact_size_mb": 43.33
   },
   "leakage_audit": {
     "status": "PASSED",
-    "raw_records": 25932,
+    "raw_records": 36088,
     "null_values_removed": 0,
-    "exact_duplicates_removed_pre_split": 3,
-    "clean_records": 25929,
+    "exact_duplicates_removed_pre_split": 0,
+    "clean_archive_records": 36088,
+    "ml_panel_records": 32618,
     "target_excluded_from_features": true,
+    "pesticides_proxy_removed": true,
+    "indonesia_proxy_removed": true,
     "isolated_pipeline_preprocessor": true,
     "scaler_and_encoder_fit_on_train_only": true,
-    "stratified_train_test_split": "80% Train / 20% Test (stratified by crop item)",
-    "cross_validation_protocol": "5-Fold Cross-Validation on Training Set"
+    "validation_split_method": "Chronological Out-of-Time Holdout (Train 2010-2021 vs Test 2022-2025)",
+    "cross_validation_protocol": "5-Fold CV inside 2010-2021 Train Split + 5-Fold Province GroupKFold Diagnostic",
+    "model_selection_criterion": "Highest 5-Fold Validation CV R\u00b2 inside training split (no test-set peeking)",
+    "zero_train_test_key_overlap": true
   },
   "model_comparison": {
     "Linear Regression (Baseline)": {
       "Role": "Linear Baseline",
-      "MAE": 29799.3,
-      "MSE": 1783871238.09,
-      "RMSE": 42235.9,
-      "R2": 0.7505,
-      "CV_R2_Mean": 0.731,
-      "CV_R2_Std": 0.0081,
+      "Train_R2": 0.5158,
+      "MAE": 41669.83,
+      "MSE": 5667437228.33,
+      "RMSE": 75282.38,
+      "R2": 0.3958,
+      "Seen_Crops_Test_R2": 0.3971,
+      "CV_R2_Mean": 0.5093,
+      "CV_R2_Std": 0.0126,
+      "CV_MAE": 38077.92,
+      "CV_RMSE": 66281.3,
+      "GroupKFold_Province_R2": 0.4375,
       "CV_Folds": 5,
-      "Training_Time_Sec": 0.54,
-      "Total_Eval_Time_Sec": 1.3,
-      "Rank": 6,
+      "Training_Time_Sec": 0.28,
+      "Total_Eval_Time_Sec": 2.57,
+      "Rank": 8,
       "Is_Winner": false
     },
     "Ridge Regression": {
       "Role": "L2 Regularized Linear",
-      "MAE": 29745.12,
-      "MSE": 1784528050.04,
-      "RMSE": 42243.67,
-      "R2": 0.7504,
-      "CV_R2_Mean": 0.7312,
-      "CV_R2_Std": 0.0088,
+      "Train_R2": 0.5158,
+      "MAE": 41611.77,
+      "MSE": 5664570127.8,
+      "RMSE": 75263.34,
+      "R2": 0.3961,
+      "Seen_Crops_Test_R2": 0.3974,
+      "CV_R2_Mean": 0.5093,
+      "CV_R2_Std": 0.0125,
+      "CV_MAE": 38052.43,
+      "CV_RMSE": 66279.53,
+      "GroupKFold_Province_R2": 0.4398,
       "CV_Folds": 5,
-      "Training_Time_Sec": 0.15,
-      "Total_Eval_Time_Sec": 0.52,
+      "Training_Time_Sec": 0.06,
+      "Total_Eval_Time_Sec": 0.64,
       "Rank": 7,
       "Is_Winner": false
     },
     "Support Vector Regression (SVR)": {
       "Role": "Kernel Margin Regressor",
-      "MAE": 31988.15,
-      "MSE": 1827813237.78,
-      "RMSE": 42752.93,
-      "R2": 0.7444,
-      "CV_R2_Mean": 0.7757,
-      "CV_R2_Std": 0.0214,
+      "Train_R2": 0.9541,
+      "MAE": 22003.74,
+      "MSE": 2356591852.84,
+      "RMSE": 48544.74,
+      "R2": 0.7488,
+      "Seen_Crops_Test_R2": 0.7517,
+      "CV_R2_Mean": 0.9163,
+      "CV_R2_Std": 0.0072,
+      "CV_MAE": 13060.75,
+      "CV_RMSE": 27380.87,
+      "GroupKFold_Province_R2": 0.4027,
       "CV_Folds": 5,
-      "Training_Time_Sec": 9.24,
-      "Total_Eval_Time_Sec": 21.65,
-      "Rank": 8,
+      "Training_Time_Sec": 30.39,
+      "Total_Eval_Time_Sec": 267.87,
+      "Rank": 3,
       "Is_Winner": false
     },
     "K-Nearest Neighbors (KNN)": {
       "Role": "Instance-Based Regressor",
-      "MAE": 8298.43,
-      "MSE": 309069905.97,
-      "RMSE": 17580.38,
-      "R2": 0.9568,
-      "CV_R2_Mean": 0.9305,
-      "CV_R2_Std": 0.0131,
+      "Train_R2": 1.0,
+      "MAE": 20369.51,
+      "MSE": 2263503582.66,
+      "RMSE": 47576.29,
+      "R2": 0.7587,
+      "Seen_Crops_Test_R2": 0.7626,
+      "CV_R2_Mean": 0.9017,
+      "CV_R2_Std": 0.0092,
+      "CV_MAE": 12385.85,
+      "CV_RMSE": 29668.45,
+      "GroupKFold_Province_R2": 0.3207,
       "CV_Folds": 5,
-      "Training_Time_Sec": 0.05,
-      "Total_Eval_Time_Sec": 0.36,
-      "Rank": 3,
+      "Training_Time_Sec": 0.03,
+      "Total_Eval_Time_Sec": 2.86,
+      "Rank": 4,
       "Is_Winner": false
     },
     "Decision Tree Regressor": {
       "Role": "Single Tree Regressor",
-      "MAE": 8719.93,
-      "MSE": 332337623.65,
-      "RMSE": 18230.13,
-      "R2": 0.9535,
-      "CV_R2_Mean": 0.9114,
-      "CV_R2_Std": 0.0104,
+      "Train_R2": 0.8567,
+      "MAE": 29671.75,
+      "MSE": 3538567259.75,
+      "RMSE": 59485.86,
+      "R2": 0.6228,
+      "Seen_Crops_Test_R2": 0.6256,
+      "CV_R2_Mean": 0.8083,
+      "CV_R2_Std": 0.0302,
+      "CV_MAE": 23335.64,
+      "CV_RMSE": 41316.97,
+      "GroupKFold_Province_R2": 0.3086,
       "CV_Folds": 5,
-      "Training_Time_Sec": 0.43,
-      "Total_Eval_Time_Sec": 0.85,
-      "Rank": 4,
+      "Training_Time_Sec": 0.4,
+      "Total_Eval_Time_Sec": 3.32,
+      "Rank": 6,
       "Is_Winner": false
     },
     "Random Forest Regressor": {
       "Role": "Bagging Tree Ensemble",
-      "MAE": 6437.66,
-      "MSE": 193579154.21,
-      "RMSE": 13913.27,
-      "R2": 0.9729,
-      "CV_R2_Mean": 0.9447,
-      "CV_R2_Std": 0.0047,
+      "Train_R2": 0.9779,
+      "MAE": 20447.81,
+      "MSE": 2503050575.9,
+      "RMSE": 50030.5,
+      "R2": 0.7332,
+      "Seen_Crops_Test_R2": 0.7369,
+      "CV_R2_Mean": 0.9246,
+      "CV_R2_Std": 0.0075,
+      "CV_MAE": 10973.93,
+      "CV_RMSE": 25953.78,
+      "GroupKFold_Province_R2": 0.2855,
       "CV_Folds": 5,
-      "Training_Time_Sec": 4.15,
-      "Total_Eval_Time_Sec": 7.56,
-      "Rank": 1,
-      "Is_Winner": true
-    },
-    "Extra Trees Regressor": {
-      "Role": "Randomized Tree Ensemble",
-      "MAE": 8745.74,
-      "MSE": 271183677.43,
-      "RMSE": 16467.66,
-      "R2": 0.9621,
-      "CV_R2_Mean": 0.9416,
-      "CV_R2_Std": 0.0064,
-      "CV_Folds": 5,
-      "Training_Time_Sec": 10.89,
-      "Total_Eval_Time_Sec": 15.94,
+      "Training_Time_Sec": 15.74,
+      "Total_Eval_Time_Sec": 120.07,
       "Rank": 2,
       "Is_Winner": false
     },
+    "Extra Trees Regressor": {
+      "Role": "Randomized Tree Ensemble",
+      "Train_R2": 0.9772,
+      "MAE": 19792.19,
+      "MSE": 2357212044.5,
+      "RMSE": 48551.13,
+      "R2": 0.7487,
+      "Seen_Crops_Test_R2": 0.7525,
+      "CV_R2_Mean": 0.9388,
+      "CV_R2_Std": 0.0069,
+      "CV_MAE": 9467.92,
+      "CV_RMSE": 23382.38,
+      "GroupKFold_Province_R2": 0.2468,
+      "CV_Folds": 5,
+      "Training_Time_Sec": 106.02,
+      "Total_Eval_Time_Sec": 597.46,
+      "Rank": 1,
+      "Is_Winner": true
+    },
     "Gradient Boosting Regressor": {
       "Role": "Boosted Tree Ensemble",
-      "MAE": 14337.13,
-      "MSE": 505892232.62,
-      "RMSE": 22492.05,
-      "R2": 0.9292,
-      "CV_R2_Mean": 0.9138,
-      "CV_R2_Std": 0.0033,
+      "Train_R2": 0.8498,
+      "MAE": 30083.31,
+      "MSE": 3210688385.37,
+      "RMSE": 56662.94,
+      "R2": 0.6577,
+      "Seen_Crops_Test_R2": 0.661,
+      "CV_R2_Mean": 0.8202,
+      "CV_R2_Std": 0.0064,
+      "CV_MAE": 24884.72,
+      "CV_RMSE": 40128.15,
+      "GroupKFold_Province_R2": 0.4299,
       "CV_Folds": 5,
-      "Training_Time_Sec": 25.47,
-      "Total_Eval_Time_Sec": 39.25,
+      "Training_Time_Sec": 53.13,
+      "Total_Eval_Time_Sec": 474.26,
       "Rank": 5,
       "Is_Winner": false
     }
   },
   "best_model": {
-    "name": "Random Forest Regressor",
-    "role": "Bagging Tree Ensemble",
-    "test_r2": 0.9729,
-    "test_mae": 6437.66,
-    "test_rmse": 13913.27,
-    "cv_r2_mean": 0.9447,
-    "cv_r2_std": 0.0047,
+    "name": "Extra Trees Regressor",
+    "role": "Randomized Tree Ensemble",
+    "test_r2": 0.7487,
+    "seen_crops_test_r2": 0.7525,
+    "test_mae": 19792.19,
+    "test_rmse": 48551.13,
+    "cv_r2_mean": 0.9388,
+    "cv_r2_std": 0.0069,
+    "cv_mae": 9467.92,
+    "cv_rmse": 23382.38,
+    "group_kfold_province_r2": 0.2468,
     "cv_folds": 5,
-    "training_time_sec": 4.15,
-    "runner_up_name": "Extra Trees Regressor",
-    "runner_up_r2": 0.9621,
-    "explanation": "Random Forest Regressor was automatically selected as AniTaya's primary production model after evaluating 8 regression algorithms on 5,186 unseen holdout test records and 5-Fold Cross-Validation. It achieved the highest Test R\u00b2 of 0.9729 (97.29% variance explained) and a 5-Fold Cross-Validation R\u00b2 of 0.9447 (\u00b10.0047), with a Mean Absolute Error (MAE) of 6,437.66 hg/ha (0.64 MT/ha) and RMSE of 13,913.27 hg/ha (1.39 MT/ha) in 4.15s of training. It outperformed the runner-up Extra Trees Regressor (Test R\u00b2 = 0.9621, RMSE = 16,467.66 hg/ha) and improved accuracy by +22.24 percentage points over the Linear Regression baseline while reducing MAE by 78.4%. Feature importance analysis confirms that Crop Type (item) (60.27%) and Country / Region (area) (20.39%) are the strongest drivers of harvest yield."
+    "training_time_sec": 106.02,
+    "selection_criterion": "5-Fold Cross-Validation R\u00b2 (Train 2010-2021)",
+    "r2_definition": "Coefficient of Determination (proportion of variance explained across Philippine crops & provinces), not literal accuracy %.",
+    "runner_up_name": "Random Forest Regressor",
+    "runner_up_r2": 0.7332,
+    "runner_up_cv_r2": 0.9246,
+    "explanation": "Extra Trees Regressor was automatically selected via 5-Fold Cross-Validation inside the 2010\u20132021 training panel (CV R\u00b2 = 0.9388 \u00b1 0.0069, CV RMSE = 23,382 hg/ha), without peeking at the holdout test set. On unseen 2022\u20132025 Philippine provincial harvests (8,249 records), it achieved Test R\u00b2 = 0.7487 (Seen Crops R\u00b2 = 0.7525), MAE = 19,792.19 hg/ha (1.98 MT/ha), and RMSE = 48,551.13 hg/ha, outperforming the Linear Regression baseline by +35.29 R\u00b2 percentage points and reducing MAE by 52.5%. Primary drivers: Crop Type (item) (50.5%) and Philippine Province (area) (46.0%). Note: R\u00b2 measures proportion of variance explained (Coefficient of Determination), not a literal percentage accuracy guarantee; 28 well-sampled crops use this ML model directly while 7 sparse/low-predictability crops fall back to verified PSA provincial historical statistics."
   },
   "feature_importances": [
     {
       "feature": "Crop Type (item)",
-      "importance": 60.27
+      "importance": 50.55,
+      "method": "Mean Decrease in Impurity"
     },
     {
-      "feature": "Country / Region (area)",
-      "importance": 20.39
-    },
-    {
-      "feature": "Pesticides / Agrochemical Usage (pesticides_tonnes)",
-      "importance": 10.04
+      "feature": "Philippine Province (area)",
+      "importance": 45.97,
+      "method": "Mean Decrease in Impurity"
     },
     {
       "feature": "Average Temperature (avg_temp)",
-      "importance": 4.95
+      "importance": 2.92,
+      "method": "Mean Decrease in Impurity"
     },
     {
-      "feature": "Rainfall (average_rain_fall_mm_per_year)",
-      "importance": 4.34
+      "feature": "Annual Rainfall (average_rain_fall_mm_per_year)",
+      "importance": 0.57,
+      "method": "Mean Decrease in Impurity"
     }
   ],
+  "permutation_importances": [
+    {
+      "feature": "Crop Type (item)",
+      "importance": 64.88,
+      "method": "Permutation Importance (Out-of-Time R\u00b2 Drop)"
+    },
+    {
+      "feature": "Philippine Province (area)",
+      "importance": 32.74,
+      "method": "Permutation Importance (Out-of-Time R\u00b2 Drop)"
+    },
+    {
+      "feature": "Average Temperature (avg_temp)",
+      "importance": 2.38,
+      "method": "Permutation Importance (Out-of-Time R\u00b2 Drop)"
+    },
+    {
+      "feature": "Annual Rainfall (average_rain_fall_mm_per_year)",
+      "importance": 0.0,
+      "method": "Permutation Importance (Out-of-Time R\u00b2 Drop)"
+    }
+  ],
+  "per_crop_metrics": {
+    "Abaca": {
+      "prediction_tier": "philippine_ml",
+      "ml_supported": true,
+      "archive_rows": 759,
+      "train_rows_2010_2021": 575,
+      "test_rows_2022_2025": 184,
+      "provinces_covered": 53,
+      "test_r2": 0.6551,
+      "test_mae_mt_ha": 0.145,
+      "test_rmse_mt_ha": 0.286,
+      "median_yield_mt_ha": 0.278
+    },
+    "Banana Cavendish": {
+      "prediction_tier": "philippine_ml",
+      "ml_supported": true,
+      "archive_rows": 528,
+      "train_rows_2010_2021": 377,
+      "test_rows_2022_2025": 151,
+      "provinces_covered": 47,
+      "test_r2": 0.7082,
+      "test_mae_mt_ha": 6.797,
+      "test_rmse_mt_ha": 13.058,
+      "median_yield_mt_ha": 14.846
+    },
+    "Bitter Gourd": {
+      "prediction_tier": "philippine_ml",
+      "ml_supported": true,
+      "archive_rows": 1246,
+      "train_rows_2010_2021": 927,
+      "test_rows_2022_2025": 319,
+      "provinces_covered": 82,
+      "test_r2": 0.2073,
+      "test_mae_mt_ha": 1.895,
+      "test_rmse_mt_ha": 4.4,
+      "median_yield_mt_ha": 6.116
+    },
+    "Cabbage": {
+      "prediction_tier": "philippine_ml",
+      "ml_supported": true,
+      "archive_rows": 636,
+      "train_rows_2010_2021": 481,
+      "test_rows_2022_2025": 155,
+      "provinces_covered": 49,
+      "test_r2": 0.4437,
+      "test_mae_mt_ha": 2.237,
+      "test_rmse_mt_ha": 3.468,
+      "median_yield_mt_ha": 7.115
+    },
+    "Cacao": {
+      "prediction_tier": "philippine_ml",
+      "ml_supported": true,
+      "archive_rows": 1099,
+      "train_rows_2010_2021": 817,
+      "test_rows_2022_2025": 282,
+      "provinces_covered": 76,
+      "test_r2": 0.1621,
+      "test_mae_mt_ha": 0.211,
+      "test_rmse_mt_ha": 0.413,
+      "median_yield_mt_ha": 0.294
+    },
+    "Calamansi": {
+      "prediction_tier": "philippine_ml",
+      "ml_supported": true,
+      "archive_rows": 1268,
+      "train_rows_2010_2021": 946,
+      "test_rows_2022_2025": 322,
+      "provinces_covered": 82,
+      "test_r2": 0.6627,
+      "test_mae_mt_ha": 1.182,
+      "test_rmse_mt_ha": 2.713,
+      "median_yield_mt_ha": 3.85
+    },
+    "Cassava": {
+      "prediction_tier": "philippine_ml",
+      "ml_supported": true,
+      "archive_rows": 1268,
+      "train_rows_2010_2021": 946,
+      "test_rows_2022_2025": 322,
+      "provinces_covered": 82,
+      "test_r2": 0.6147,
+      "test_mae_mt_ha": 2.232,
+      "test_rmse_mt_ha": 3.496,
+      "median_yield_mt_ha": 8.323
+    },
+    "Coconut": {
+      "prediction_tier": "philippine_ml",
+      "ml_supported": true,
+      "archive_rows": 1268,
+      "train_rows_2010_2021": 946,
+      "test_rows_2022_2025": 322,
+      "provinces_covered": 82,
+      "test_r2": 0.7796,
+      "test_mae_mt_ha": 0.573,
+      "test_rmse_mt_ha": 0.94,
+      "median_yield_mt_ha": 3.745
+    },
+    "Coffee": {
+      "prediction_tier": "philippine_ml",
+      "ml_supported": true,
+      "archive_rows": 1021,
+      "train_rows_2010_2021": 779,
+      "test_rows_2022_2025": 242,
+      "provinces_covered": 78,
+      "test_r2": 0.4235,
+      "test_mae_mt_ha": 0.119,
+      "test_rmse_mt_ha": 0.251,
+      "median_yield_mt_ha": 0.21
+    },
+    "Eggplant": {
+      "prediction_tier": "philippine_ml",
+      "ml_supported": true,
+      "archive_rows": 1268,
+      "train_rows_2010_2021": 946,
+      "test_rows_2022_2025": 322,
+      "provinces_covered": 82,
+      "test_r2": 0.4723,
+      "test_mae_mt_ha": 2.127,
+      "test_rmse_mt_ha": 3.882,
+      "median_yield_mt_ha": 6.91
+    },
+    "Garlic": {
+      "prediction_tier": "psa_statistical_historical",
+      "ml_supported": false,
+      "archive_rows": 255,
+      "train_rows_2010_2021": 206,
+      "test_rows_2022_2025": 49,
+      "provinces_covered": 25,
+      "test_r2": 0.5026,
+      "test_mae_mt_ha": 0.744,
+      "test_rmse_mt_ha": 1.197,
+      "median_yield_mt_ha": 2.433
+    },
+    "Maize": {
+      "prediction_tier": "philippine_ml",
+      "ml_supported": true,
+      "archive_rows": 3020,
+      "train_rows_2010_2021": 961,
+      "test_rows_2022_2025": 326,
+      "provinces_covered": 82,
+      "test_r2": 0.8176,
+      "test_mae_mt_ha": 0.458,
+      "test_rmse_mt_ha": 0.628,
+      "median_yield_mt_ha": 1.628
+    },
+    "Mango": {
+      "prediction_tier": "philippine_ml",
+      "ml_supported": true,
+      "archive_rows": 1262,
+      "train_rows_2010_2021": 944,
+      "test_rows_2022_2025": 318,
+      "provinces_covered": 82,
+      "test_r2": 0.7097,
+      "test_mae_mt_ha": 1.018,
+      "test_rmse_mt_ha": 1.706,
+      "median_yield_mt_ha": 2.103
+    },
+    "Mungbean": {
+      "prediction_tier": "philippine_ml",
+      "ml_supported": true,
+      "archive_rows": 1174,
+      "train_rows_2010_2021": 896,
+      "test_rows_2022_2025": 278,
+      "provinces_covered": 81,
+      "test_r2": 0.2951,
+      "test_mae_mt_ha": 0.252,
+      "test_rmse_mt_ha": 0.439,
+      "median_yield_mt_ha": 0.74
+    },
+    "Papaya": {
+      "prediction_tier": "philippine_ml",
+      "ml_supported": true,
+      "archive_rows": 1268,
+      "train_rows_2010_2021": 946,
+      "test_rows_2022_2025": 322,
+      "provinces_covered": 82,
+      "test_r2": 0.6193,
+      "test_mae_mt_ha": 3.167,
+      "test_rmse_mt_ha": 8.812,
+      "median_yield_mt_ha": 8.82
+    },
+    "Peanut": {
+      "prediction_tier": "psa_statistical_historical",
+      "ml_supported": false,
+      "archive_rows": 1233,
+      "train_rows_2010_2021": 922,
+      "test_rows_2022_2025": 311,
+      "provinces_covered": 82,
+      "test_r2": 0.0395,
+      "test_mae_mt_ha": 0.451,
+      "test_rmse_mt_ha": 1.014,
+      "median_yield_mt_ha": 0.972
+    },
+    "Pechay": {
+      "prediction_tier": "philippine_ml",
+      "ml_supported": true,
+      "archive_rows": 1253,
+      "train_rows_2010_2021": 937,
+      "test_rows_2022_2025": 316,
+      "provinces_covered": 82,
+      "test_r2": 0.2237,
+      "test_mae_mt_ha": 1.531,
+      "test_rmse_mt_ha": 4.454,
+      "median_yield_mt_ha": 5.15
+    },
+    "Pineapple": {
+      "prediction_tier": "philippine_ml",
+      "ml_supported": true,
+      "archive_rows": 1163,
+      "train_rows_2010_2021": 871,
+      "test_rows_2022_2025": 292,
+      "provinces_covered": 78,
+      "test_r2": 0.8027,
+      "test_mae_mt_ha": 3.636,
+      "test_rmse_mt_ha": 5.695,
+      "median_yield_mt_ha": 9.739
+    },
+    "Plantains and others": {
+      "prediction_tier": "philippine_ml",
+      "ml_supported": true,
+      "archive_rows": 1268,
+      "train_rows_2010_2021": 946,
+      "test_rows_2022_2025": 322,
+      "provinces_covered": 82,
+      "test_r2": 0.8656,
+      "test_mae_mt_ha": 2.177,
+      "test_rmse_mt_ha": 3.553,
+      "median_yield_mt_ha": 10.022
+    },
+    "Potatoes": {
+      "prediction_tier": "psa_statistical_historical",
+      "ml_supported": false,
+      "archive_rows": 190,
+      "train_rows_2010_2021": 140,
+      "test_rows_2022_2025": 50,
+      "provinces_covered": 20,
+      "test_r2": 0.0487,
+      "test_mae_mt_ha": 3.754,
+      "test_rmse_mt_ha": 9.293,
+      "median_yield_mt_ha": 8.467
+    },
+    "Red Onion": {
+      "prediction_tier": "psa_statistical_historical",
+      "ml_supported": false,
+      "archive_rows": 40,
+      "train_rows_2010_2021": 0,
+      "test_rows_2022_2025": 40,
+      "provinces_covered": 19,
+      "test_r2": -0.1344,
+      "test_mae_mt_ha": 5.371,
+      "test_rmse_mt_ha": 7.253,
+      "median_yield_mt_ha": 8.058
+    },
+    "Rice, paddy": {
+      "prediction_tier": "philippine_ml",
+      "ml_supported": true,
+      "archive_rows": 3024,
+      "train_rows_2010_2021": 961,
+      "test_rows_2022_2025": 326,
+      "provinces_covered": 82,
+      "test_r2": 0.8593,
+      "test_mae_mt_ha": 0.241,
+      "test_rmse_mt_ha": 0.315,
+      "median_yield_mt_ha": 3.245
+    },
+    "Rubber": {
+      "prediction_tier": "philippine_ml",
+      "ml_supported": true,
+      "archive_rows": 421,
+      "train_rows_2010_2021": 308,
+      "test_rows_2022_2025": 113,
+      "provinces_covered": 32,
+      "test_r2": 0.7725,
+      "test_mae_mt_ha": 0.34,
+      "test_rmse_mt_ha": 0.597,
+      "median_yield_mt_ha": 1.118
+    },
+    "Sorghum": {
+      "prediction_tier": "psa_statistical_historical",
+      "ml_supported": false,
+      "archive_rows": 134,
+      "train_rows_2010_2021": 107,
+      "test_rows_2022_2025": 27,
+      "provinces_covered": 11,
+      "test_r2": 0.1742,
+      "test_mae_mt_ha": 1.737,
+      "test_rmse_mt_ha": 2.743,
+      "median_yield_mt_ha": 3.845
+    },
+    "Soybeans": {
+      "prediction_tier": "psa_statistical_historical",
+      "ml_supported": false,
+      "archive_rows": 239,
+      "train_rows_2010_2021": 188,
+      "test_rows_2022_2025": 51,
+      "provinces_covered": 23,
+      "test_r2": -0.0531,
+      "test_mae_mt_ha": 0.575,
+      "test_rmse_mt_ha": 0.696,
+      "median_yield_mt_ha": 1.26
+    },
+    "Squash": {
+      "prediction_tier": "philippine_ml",
+      "ml_supported": true,
+      "archive_rows": 1267,
+      "train_rows_2010_2021": 946,
+      "test_rows_2022_2025": 321,
+      "provinces_covered": 82,
+      "test_r2": 0.5549,
+      "test_mae_mt_ha": 3.813,
+      "test_rmse_mt_ha": 5.586,
+      "median_yield_mt_ha": 12.402
+    },
+    "String Beans": {
+      "prediction_tier": "philippine_ml",
+      "ml_supported": true,
+      "archive_rows": 1255,
+      "train_rows_2010_2021": 934,
+      "test_rows_2022_2025": 321,
+      "provinces_covered": 82,
+      "test_r2": 0.489,
+      "test_mae_mt_ha": 2.156,
+      "test_rmse_mt_ha": 3.324,
+      "median_yield_mt_ha": 6.728
+    },
+    "Sugarcane": {
+      "prediction_tier": "philippine_ml",
+      "ml_supported": true,
+      "archive_rows": 756,
+      "train_rows_2010_2021": 563,
+      "test_rows_2022_2025": 193,
+      "provinces_covered": 58,
+      "test_r2": 0.5418,
+      "test_mae_mt_ha": 10.964,
+      "test_rmse_mt_ha": 16.825,
+      "median_yield_mt_ha": 37.544
+    },
+    "Sweet potatoes": {
+      "prediction_tier": "philippine_ml",
+      "ml_supported": true,
+      "archive_rows": 1268,
+      "train_rows_2010_2021": 946,
+      "test_rows_2022_2025": 322,
+      "provinces_covered": 82,
+      "test_r2": 0.5119,
+      "test_mae_mt_ha": 1.484,
+      "test_rmse_mt_ha": 2.594,
+      "median_yield_mt_ha": 5.863
+    },
+    "Taro": {
+      "prediction_tier": "philippine_ml",
+      "ml_supported": true,
+      "archive_rows": 1254,
+      "train_rows_2010_2021": 934,
+      "test_rows_2022_2025": 320,
+      "provinces_covered": 82,
+      "test_r2": 0.4684,
+      "test_mae_mt_ha": 1.846,
+      "test_rmse_mt_ha": 2.815,
+      "median_yield_mt_ha": 7.048
+    },
+    "Tobacco": {
+      "prediction_tier": "philippine_ml",
+      "ml_supported": true,
+      "archive_rows": 519,
+      "train_rows_2010_2021": 402,
+      "test_rows_2022_2025": 117,
+      "provinces_covered": 40,
+      "test_r2": 0.4527,
+      "test_mae_mt_ha": 0.484,
+      "test_rmse_mt_ha": 0.869,
+      "median_yield_mt_ha": 1.189
+    },
+    "Tomato": {
+      "prediction_tier": "philippine_ml",
+      "ml_supported": true,
+      "archive_rows": 1258,
+      "train_rows_2010_2021": 939,
+      "test_rows_2022_2025": 319,
+      "provinces_covered": 82,
+      "test_r2": 0.6927,
+      "test_mae_mt_ha": 2.076,
+      "test_rmse_mt_ha": 3.599,
+      "median_yield_mt_ha": 6.831
+    },
+    "Watermelon": {
+      "prediction_tier": "philippine_ml",
+      "ml_supported": true,
+      "archive_rows": 1112,
+      "train_rows_2010_2021": 822,
+      "test_rows_2022_2025": 290,
+      "provinces_covered": 78,
+      "test_r2": 0.4362,
+      "test_mae_mt_ha": 4.395,
+      "test_rmse_mt_ha": 7.162,
+      "median_yield_mt_ha": 7.632
+    },
+    "Yams": {
+      "prediction_tier": "philippine_ml",
+      "ml_supported": true,
+      "archive_rows": 1079,
+      "train_rows_2010_2021": 810,
+      "test_rows_2022_2025": 269,
+      "provinces_covered": 75,
+      "test_r2": 0.4891,
+      "test_mae_mt_ha": 1.727,
+      "test_rmse_mt_ha": 3.012,
+      "median_yield_mt_ha": 5.131
+    },
+    "Yellow Onion": {
+      "prediction_tier": "psa_statistical_historical",
+      "ml_supported": false,
+      "archive_rows": 15,
+      "train_rows_2010_2021": 0,
+      "test_rows_2022_2025": 15,
+      "provinces_covered": 9,
+      "test_r2": -0.6385,
+      "test_mae_mt_ha": 8.29,
+      "test_rmse_mt_ha": 10.575,
+      "median_yield_mt_ha": 11.807
+    }
+  },
   "actual_vs_predicted": [
     {
-      "crop": "Cassava",
-      "actual_mt_ha": 4.961,
-      "predicted_mt_ha": 7.266,
-      "actual_hg_ha": 49613.0,
-      "predicted_hg_ha": 72655.8,
-      "residual_mt_ha": 2.305
+      "crop": "Abaca",
+      "province": "Antique",
+      "year": 2025,
+      "actual_mt_ha": 0.025,
+      "predicted_mt_ha": 0.069,
+      "actual_hg_ha": 249.5,
+      "predicted_hg_ha": 691.3,
+      "residual_mt_ha": 0.044
     },
     {
-      "crop": "Cassava",
-      "actual_mt_ha": 12.56,
-      "predicted_mt_ha": 11.626,
-      "actual_hg_ha": 125605.0,
-      "predicted_hg_ha": 116256.7,
-      "residual_mt_ha": -0.934
+      "crop": "Abaca",
+      "province": "Camarines Sur",
+      "year": 2024,
+      "actual_mt_ha": 0.078,
+      "predicted_mt_ha": 0.104,
+      "actual_hg_ha": 779.0,
+      "predicted_hg_ha": 1039.8,
+      "residual_mt_ha": 0.026
     },
     {
-      "crop": "Cassava",
-      "actual_mt_ha": 17.231,
-      "predicted_mt_ha": 14.532,
-      "actual_hg_ha": 172308.0,
-      "predicted_hg_ha": 145324.7,
-      "residual_mt_ha": -2.699
+      "crop": "Abaca",
+      "province": "Sultan Kudarat",
+      "year": 2023,
+      "actual_mt_ha": 1.33,
+      "predicted_mt_ha": 2.503,
+      "actual_hg_ha": 13300.0,
+      "predicted_hg_ha": 25032.3,
+      "residual_mt_ha": 1.173
     },
     {
-      "crop": "Cassava",
-      "actual_mt_ha": 20.538,
-      "predicted_mt_ha": 20.538,
-      "actual_hg_ha": 205381.0,
-      "predicted_hg_ha": 205381.0,
-      "residual_mt_ha": 0.0
+      "crop": "Abaca",
+      "province": "Misamis Oriental",
+      "year": 2022,
+      "actual_mt_ha": 0.896,
+      "predicted_mt_ha": 0.73,
+      "actual_hg_ha": 8958.6,
+      "predicted_hg_ha": 7299.3,
+      "residual_mt_ha": -0.166
     },
     {
-      "crop": "Cassava",
-      "actual_mt_ha": 9.465,
-      "predicted_mt_ha": 9.673,
-      "actual_hg_ha": 94651.0,
-      "predicted_hg_ha": 96730.0,
-      "residual_mt_ha": 0.208
+      "crop": "Abaca",
+      "province": "South Cotabato",
+      "year": 2023,
+      "actual_mt_ha": 0.173,
+      "predicted_mt_ha": 0.176,
+      "actual_hg_ha": 1725.8,
+      "predicted_hg_ha": 1758.9,
+      "residual_mt_ha": 0.003
     },
     {
-      "crop": "Cassava",
-      "actual_mt_ha": 11.328,
-      "predicted_mt_ha": 9.612,
-      "actual_hg_ha": 113284.0,
-      "predicted_hg_ha": 96124.2,
-      "residual_mt_ha": -1.716
+      "crop": "Abaca",
+      "province": "Albay",
+      "year": 2025,
+      "actual_mt_ha": 0.166,
+      "predicted_mt_ha": 0.263,
+      "actual_hg_ha": 1655.4,
+      "predicted_hg_ha": 2630.0,
+      "residual_mt_ha": 0.097
     },
     {
-      "crop": "Cassava",
-      "actual_mt_ha": 24.197,
-      "predicted_mt_ha": 21.823,
-      "actual_hg_ha": 241965.0,
-      "predicted_hg_ha": 218229.4,
-      "residual_mt_ha": -2.374
+      "crop": "Abaca",
+      "province": "Basilan",
+      "year": 2022,
+      "actual_mt_ha": 0.137,
+      "predicted_mt_ha": 0.182,
+      "actual_hg_ha": 1370.0,
+      "predicted_hg_ha": 1821.0,
+      "residual_mt_ha": 0.045
     },
     {
-      "crop": "Cassava",
-      "actual_mt_ha": 32.22,
-      "predicted_mt_ha": 32.22,
-      "actual_hg_ha": 322204.0,
-      "predicted_hg_ha": 322204.0,
-      "residual_mt_ha": 0.0
+      "crop": "Abaca",
+      "province": "Davao Oriental",
+      "year": 2022,
+      "actual_mt_ha": 0.645,
+      "predicted_mt_ha": 0.64,
+      "actual_hg_ha": 6452.7,
+      "predicted_hg_ha": 6403.9,
+      "residual_mt_ha": -0.005
     },
     {
-      "crop": "Cassava",
-      "actual_mt_ha": 9.966,
-      "predicted_mt_ha": 10.361,
-      "actual_hg_ha": 99665.0,
-      "predicted_hg_ha": 103612.4,
-      "residual_mt_ha": 0.395
+      "crop": "Abaca",
+      "province": "Negros Occidental",
+      "year": 2024,
+      "actual_mt_ha": 0.26,
+      "predicted_mt_ha": 0.578,
+      "actual_hg_ha": 2604.3,
+      "predicted_hg_ha": 5783.6,
+      "residual_mt_ha": 0.318
     },
     {
-      "crop": "Cassava",
-      "actual_mt_ha": 25.277,
-      "predicted_mt_ha": 25.277,
-      "actual_hg_ha": 252775.0,
-      "predicted_hg_ha": 252775.0,
-      "residual_mt_ha": 0.0
+      "crop": "Abaca",
+      "province": "Lanao del Sur",
+      "year": 2024,
+      "actual_mt_ha": 0.559,
+      "predicted_mt_ha": 0.607,
+      "actual_hg_ha": 5586.4,
+      "predicted_hg_ha": 6066.4,
+      "residual_mt_ha": 0.048
     },
     {
-      "crop": "Cassava",
-      "actual_mt_ha": 12.193,
-      "predicted_mt_ha": 15.313,
-      "actual_hg_ha": 121925.0,
-      "predicted_hg_ha": 153129.6,
-      "residual_mt_ha": 3.12
+      "crop": "Banana Cavendish",
+      "province": "Iloilo",
+      "year": 2022,
+      "actual_mt_ha": 9.488,
+      "predicted_mt_ha": 10.799,
+      "actual_hg_ha": 94875.7,
+      "predicted_hg_ha": 107986.3,
+      "residual_mt_ha": 1.311
     },
     {
-      "crop": "Cassava",
-      "actual_mt_ha": 17.898,
-      "predicted_mt_ha": 15.807,
-      "actual_hg_ha": 178976.0,
-      "predicted_hg_ha": 158068.7,
-      "residual_mt_ha": -2.091
-    },
-    {
-      "crop": "Cassava",
-      "actual_mt_ha": 10.177,
-      "predicted_mt_ha": 9.628,
-      "actual_hg_ha": 101765.0,
-      "predicted_hg_ha": 96277.9,
-      "residual_mt_ha": -0.549
-    },
-    {
-      "crop": "Cassava",
-      "actual_mt_ha": 36.477,
-      "predicted_mt_ha": 36.477,
-      "actual_hg_ha": 364770.0,
-      "predicted_hg_ha": 364770.0,
-      "residual_mt_ha": 0.0
-    },
-    {
-      "crop": "Cassava",
-      "actual_mt_ha": 3.96,
-      "predicted_mt_ha": 3.913,
-      "actual_hg_ha": 39602.0,
-      "predicted_hg_ha": 39132.8,
-      "residual_mt_ha": -0.047
-    },
-    {
-      "crop": "Cassava",
-      "actual_mt_ha": 2.817,
-      "predicted_mt_ha": 3.024,
-      "actual_hg_ha": 28175.0,
-      "predicted_hg_ha": 30243.3,
-      "residual_mt_ha": 0.207
-    },
-    {
-      "crop": "Cassava",
-      "actual_mt_ha": 14.079,
-      "predicted_mt_ha": 14.068,
-      "actual_hg_ha": 140795.0,
-      "predicted_hg_ha": 140681.3,
-      "residual_mt_ha": -0.011
-    },
-    {
-      "crop": "Cassava",
-      "actual_mt_ha": 12.095,
-      "predicted_mt_ha": 12.189,
-      "actual_hg_ha": 120946.0,
-      "predicted_hg_ha": 121888.2,
-      "residual_mt_ha": 0.094
-    },
-    {
-      "crop": "Cassava",
-      "actual_mt_ha": 8.057,
-      "predicted_mt_ha": 9.597,
-      "actual_hg_ha": 80569.0,
-      "predicted_hg_ha": 95972.1,
-      "residual_mt_ha": 1.54
-    },
-    {
-      "crop": "Cassava",
-      "actual_mt_ha": 23.952,
-      "predicted_mt_ha": 23.952,
-      "actual_hg_ha": 239523.0,
-      "predicted_hg_ha": 239523.0,
-      "residual_mt_ha": 0.0
-    },
-    {
-      "crop": "Cassava",
-      "actual_mt_ha": 10.923,
-      "predicted_mt_ha": 10.648,
-      "actual_hg_ha": 109231.0,
-      "predicted_hg_ha": 106477.8,
-      "residual_mt_ha": -0.275
-    },
-    {
-      "crop": "Cassava",
-      "actual_mt_ha": 12.735,
-      "predicted_mt_ha": 12.725,
-      "actual_hg_ha": 127352.0,
-      "predicted_hg_ha": 127251.6,
-      "residual_mt_ha": -0.01
-    },
-    {
-      "crop": "Maize",
-      "actual_mt_ha": 10.48,
-      "predicted_mt_ha": 9.519,
-      "actual_hg_ha": 104802.0,
-      "predicted_hg_ha": 95194.8,
-      "residual_mt_ha": -0.961
-    },
-    {
-      "crop": "Maize",
-      "actual_mt_ha": 12.335,
-      "predicted_mt_ha": 11.007,
-      "actual_hg_ha": 123355.0,
-      "predicted_hg_ha": 110070.0,
-      "residual_mt_ha": -1.328
-    },
-    {
-      "crop": "Maize",
-      "actual_mt_ha": 3.729,
-      "predicted_mt_ha": 7.123,
-      "actual_hg_ha": 37288.0,
-      "predicted_hg_ha": 71231.3,
-      "residual_mt_ha": 3.394
-    },
-    {
-      "crop": "Maize",
-      "actual_mt_ha": 2.083,
-      "predicted_mt_ha": 1.943,
-      "actual_hg_ha": 20827.0,
-      "predicted_hg_ha": 19426.1,
-      "residual_mt_ha": -0.14
-    },
-    {
-      "crop": "Maize",
-      "actual_mt_ha": 1.74,
-      "predicted_mt_ha": 1.423,
-      "actual_hg_ha": 17400.0,
-      "predicted_hg_ha": 14232.5,
-      "residual_mt_ha": -0.317
-    },
-    {
-      "crop": "Maize",
-      "actual_mt_ha": 4.647,
-      "predicted_mt_ha": 4.849,
-      "actual_hg_ha": 46471.0,
-      "predicted_hg_ha": 48486.1,
-      "residual_mt_ha": 0.202
-    },
-    {
-      "crop": "Maize",
+      "crop": "Banana Cavendish",
+      "province": "Biliran",
+      "year": 2024,
       "actual_mt_ha": 0.287,
-      "predicted_mt_ha": 0.573,
-      "actual_hg_ha": 2867.0,
-      "predicted_hg_ha": 5727.8,
-      "residual_mt_ha": 0.286
-    },
-    {
-      "crop": "Maize",
-      "actual_mt_ha": 3.488,
-      "predicted_mt_ha": 2.59,
-      "actual_hg_ha": 34879.0,
-      "predicted_hg_ha": 25896.4,
-      "residual_mt_ha": -0.898
-    },
-    {
-      "crop": "Maize",
-      "actual_mt_ha": 2.556,
-      "predicted_mt_ha": 2.131,
-      "actual_hg_ha": 25557.0,
-      "predicted_hg_ha": 21313.6,
-      "residual_mt_ha": -0.425
-    },
-    {
-      "crop": "Maize",
-      "actual_mt_ha": 9.78,
-      "predicted_mt_ha": 9.483,
-      "actual_hg_ha": 97800.0,
-      "predicted_hg_ha": 94831.2,
-      "residual_mt_ha": -0.297
-    },
-    {
-      "crop": "Maize",
-      "actual_mt_ha": 2.244,
-      "predicted_mt_ha": 1.915,
-      "actual_hg_ha": 22442.0,
-      "predicted_hg_ha": 19146.7,
-      "residual_mt_ha": -0.329
-    },
-    {
-      "crop": "Maize",
-      "actual_mt_ha": 1.546,
-      "predicted_mt_ha": 1.477,
-      "actual_hg_ha": 15464.0,
-      "predicted_hg_ha": 14767.1,
-      "residual_mt_ha": -0.069
-    },
-    {
-      "crop": "Maize",
-      "actual_mt_ha": 2.257,
-      "predicted_mt_ha": 2.367,
-      "actual_hg_ha": 22573.0,
-      "predicted_hg_ha": 23673.4,
-      "residual_mt_ha": 0.11
-    },
-    {
-      "crop": "Maize",
-      "actual_mt_ha": 2.89,
-      "predicted_mt_ha": 2.514,
-      "actual_hg_ha": 28900.0,
-      "predicted_hg_ha": 25135.7,
-      "residual_mt_ha": -0.376
-    },
-    {
-      "crop": "Maize",
-      "actual_mt_ha": 3.26,
-      "predicted_mt_ha": 2.844,
-      "actual_hg_ha": 32599.0,
-      "predicted_hg_ha": 28438.5,
-      "residual_mt_ha": -0.416
-    },
-    {
-      "crop": "Maize",
-      "actual_mt_ha": 3.367,
-      "predicted_mt_ha": 3.226,
-      "actual_hg_ha": 33671.0,
-      "predicted_hg_ha": 32260.3,
-      "residual_mt_ha": -0.141
-    },
-    {
-      "crop": "Maize",
-      "actual_mt_ha": 7.188,
-      "predicted_mt_ha": 7.217,
-      "actual_hg_ha": 71878.0,
-      "predicted_hg_ha": 72171.5,
-      "residual_mt_ha": 0.029
-    },
-    {
-      "crop": "Maize",
-      "actual_mt_ha": 3.99,
-      "predicted_mt_ha": 2.72,
-      "actual_hg_ha": 39897.0,
-      "predicted_hg_ha": 27202.7,
-      "residual_mt_ha": -1.27
-    },
-    {
-      "crop": "Maize",
-      "actual_mt_ha": 2.414,
-      "predicted_mt_ha": 2.029,
-      "actual_hg_ha": 24140.0,
-      "predicted_hg_ha": 20291.9,
-      "residual_mt_ha": -0.385
-    },
-    {
-      "crop": "Maize",
-      "actual_mt_ha": 4.578,
-      "predicted_mt_ha": 3.757,
-      "actual_hg_ha": 45777.0,
-      "predicted_hg_ha": 37565.6,
-      "residual_mt_ha": -0.821
-    },
-    {
-      "crop": "Maize",
-      "actual_mt_ha": 1.891,
-      "predicted_mt_ha": 1.555,
-      "actual_hg_ha": 18911.0,
-      "predicted_hg_ha": 15546.5,
-      "residual_mt_ha": -0.336
-    },
-    {
-      "crop": "Maize",
-      "actual_mt_ha": 8.531,
-      "predicted_mt_ha": 7.45,
-      "actual_hg_ha": 85308.0,
-      "predicted_hg_ha": 74495.7,
-      "residual_mt_ha": -1.081
-    },
-    {
-      "crop": "Plantains and others",
-      "actual_mt_ha": 6.645,
-      "predicted_mt_ha": 6.734,
-      "actual_hg_ha": 66453.0,
-      "predicted_hg_ha": 67344.8,
-      "residual_mt_ha": 0.089
-    },
-    {
-      "crop": "Plantains and others",
-      "actual_mt_ha": 2.91,
-      "predicted_mt_ha": 2.828,
-      "actual_hg_ha": 29096.0,
-      "predicted_hg_ha": 28280.2,
-      "residual_mt_ha": -0.082
-    },
-    {
-      "crop": "Plantains and others",
-      "actual_mt_ha": 6.625,
-      "predicted_mt_ha": 5.788,
-      "actual_hg_ha": 66250.0,
-      "predicted_hg_ha": 57879.1,
-      "residual_mt_ha": -0.837
-    },
-    {
-      "crop": "Plantains and others",
-      "actual_mt_ha": 8.156,
-      "predicted_mt_ha": 7.871,
-      "actual_hg_ha": 81560.0,
-      "predicted_hg_ha": 78709.9,
-      "residual_mt_ha": -0.285
-    },
-    {
-      "crop": "Plantains and others",
-      "actual_mt_ha": 3.306,
-      "predicted_mt_ha": 3.02,
-      "actual_hg_ha": 33056.0,
-      "predicted_hg_ha": 30197.7,
-      "residual_mt_ha": -0.286
-    },
-    {
-      "crop": "Plantains and others",
-      "actual_mt_ha": 3.8,
-      "predicted_mt_ha": 4.686,
-      "actual_hg_ha": 38004.0,
-      "predicted_hg_ha": 46861.8,
-      "residual_mt_ha": 0.886
-    },
-    {
-      "crop": "Plantains and others",
-      "actual_mt_ha": 11.836,
-      "predicted_mt_ha": 10.651,
-      "actual_hg_ha": 118358.0,
-      "predicted_hg_ha": 106513.5,
-      "residual_mt_ha": -1.185
-    },
-    {
-      "crop": "Plantains and others",
-      "actual_mt_ha": 8.077,
-      "predicted_mt_ha": 8.047,
-      "actual_hg_ha": 80771.0,
-      "predicted_hg_ha": 80465.6,
-      "residual_mt_ha": -0.03
-    },
-    {
-      "crop": "Plantains and others",
-      "actual_mt_ha": 7.024,
-      "predicted_mt_ha": 6.672,
-      "actual_hg_ha": 70238.0,
-      "predicted_hg_ha": 66718.2,
-      "residual_mt_ha": -0.352
-    },
-    {
-      "crop": "Plantains and others",
-      "actual_mt_ha": 8.375,
-      "predicted_mt_ha": 8.461,
-      "actual_hg_ha": 83753.0,
-      "predicted_hg_ha": 84606.1,
-      "residual_mt_ha": 0.086
-    },
-    {
-      "crop": "Plantains and others",
-      "actual_mt_ha": 22.734,
-      "predicted_mt_ha": 28.674,
-      "actual_hg_ha": 227338.0,
-      "predicted_hg_ha": 286743.4,
-      "residual_mt_ha": 5.94
-    },
-    {
-      "crop": "Plantains and others",
-      "actual_mt_ha": 2.892,
-      "predicted_mt_ha": 3.235,
-      "actual_hg_ha": 28917.0,
-      "predicted_hg_ha": 32349.1,
-      "residual_mt_ha": 0.343
-    },
-    {
-      "crop": "Plantains and others",
-      "actual_mt_ha": 20.685,
-      "predicted_mt_ha": 20.156,
-      "actual_hg_ha": 206853.0,
-      "predicted_hg_ha": 201559.6,
-      "residual_mt_ha": -0.529
-    },
-    {
-      "crop": "Plantains and others",
-      "actual_mt_ha": 21.738,
-      "predicted_mt_ha": 20.006,
-      "actual_hg_ha": 217379.0,
-      "predicted_hg_ha": 200059.3,
-      "residual_mt_ha": -1.732
-    },
-    {
-      "crop": "Plantains and others",
-      "actual_mt_ha": 38.115,
-      "predicted_mt_ha": 30.899,
-      "actual_hg_ha": 381146.0,
-      "predicted_hg_ha": 308986.7,
-      "residual_mt_ha": -7.216
-    },
-    {
-      "crop": "Plantains and others",
-      "actual_mt_ha": 11.289,
-      "predicted_mt_ha": 11.294,
-      "actual_hg_ha": 112892.0,
-      "predicted_hg_ha": 112943.4,
-      "residual_mt_ha": 0.005
-    },
-    {
-      "crop": "Plantains and others",
-      "actual_mt_ha": 7.097,
-      "predicted_mt_ha": 7.111,
-      "actual_hg_ha": 70972.0,
-      "predicted_hg_ha": 71114.7,
-      "residual_mt_ha": 0.014
-    },
-    {
-      "crop": "Plantains and others",
-      "actual_mt_ha": 6.887,
-      "predicted_mt_ha": 7.12,
-      "actual_hg_ha": 68873.0,
-      "predicted_hg_ha": 71197.2,
-      "residual_mt_ha": 0.233
-    },
-    {
-      "crop": "Plantains and others",
-      "actual_mt_ha": 17.928,
-      "predicted_mt_ha": 17.541,
-      "actual_hg_ha": 179276.0,
-      "predicted_hg_ha": 175405.3,
-      "residual_mt_ha": -0.387
-    },
-    {
-      "crop": "Plantains and others",
-      "actual_mt_ha": 17.343,
-      "predicted_mt_ha": 16.901,
-      "actual_hg_ha": 173430.0,
-      "predicted_hg_ha": 169005.9,
-      "residual_mt_ha": -0.442
-    },
-    {
-      "crop": "Plantains and others",
-      "actual_mt_ha": 2.932,
-      "predicted_mt_ha": 3.347,
-      "actual_hg_ha": 29317.0,
-      "predicted_hg_ha": 33468.9,
-      "residual_mt_ha": 0.415
-    },
-    {
-      "crop": "Plantains and others",
-      "actual_mt_ha": 31.22,
-      "predicted_mt_ha": 29.845,
-      "actual_hg_ha": 312202.0,
-      "predicted_hg_ha": 298452.4,
-      "residual_mt_ha": -1.375
-    },
-    {
-      "crop": "Potatoes",
-      "actual_mt_ha": 11.967,
-      "predicted_mt_ha": 12.336,
-      "actual_hg_ha": 119667.0,
-      "predicted_hg_ha": 123357.5,
-      "residual_mt_ha": 0.369
-    },
-    {
-      "crop": "Potatoes",
-      "actual_mt_ha": 34.983,
-      "predicted_mt_ha": 33.298,
-      "actual_hg_ha": 349826.0,
-      "predicted_hg_ha": 332982.7,
-      "residual_mt_ha": -1.685
-    },
-    {
-      "crop": "Potatoes",
-      "actual_mt_ha": 15.381,
-      "predicted_mt_ha": 16.329,
-      "actual_hg_ha": 153807.0,
-      "predicted_hg_ha": 163292.8,
-      "residual_mt_ha": 0.948
-    },
-    {
-      "crop": "Potatoes",
-      "actual_mt_ha": 20.813,
-      "predicted_mt_ha": 16.082,
-      "actual_hg_ha": 208131.0,
-      "predicted_hg_ha": 160821.1,
-      "residual_mt_ha": -4.731
-    },
-    {
-      "crop": "Potatoes",
-      "actual_mt_ha": 13.376,
-      "predicted_mt_ha": 15.896,
-      "actual_hg_ha": 133759.0,
-      "predicted_hg_ha": 158958.4,
-      "residual_mt_ha": 2.52
-    },
-    {
-      "crop": "Potatoes",
-      "actual_mt_ha": 23.503,
-      "predicted_mt_ha": 24.316,
-      "actual_hg_ha": 235025.0,
-      "predicted_hg_ha": 243159.5,
-      "residual_mt_ha": 0.813
-    },
-    {
-      "crop": "Potatoes",
-      "actual_mt_ha": 17.181,
-      "predicted_mt_ha": 17.42,
-      "actual_hg_ha": 171813.0,
-      "predicted_hg_ha": 174200.0,
-      "residual_mt_ha": 0.239
-    },
-    {
-      "crop": "Potatoes",
-      "actual_mt_ha": 14.426,
-      "predicted_mt_ha": 16.904,
-      "actual_hg_ha": 144262.0,
-      "predicted_hg_ha": 169042.5,
-      "residual_mt_ha": 2.478
-    },
-    {
-      "crop": "Potatoes",
-      "actual_mt_ha": 23.333,
-      "predicted_mt_ha": 21.819,
-      "actual_hg_ha": 233333.0,
-      "predicted_hg_ha": 218193.0,
-      "residual_mt_ha": -1.514
-    },
-    {
-      "crop": "Potatoes",
-      "actual_mt_ha": 3.452,
-      "predicted_mt_ha": 3.538,
-      "actual_hg_ha": 34521.0,
-      "predicted_hg_ha": 35375.4,
-      "residual_mt_ha": 0.086
-    },
-    {
-      "crop": "Potatoes",
-      "actual_mt_ha": 14.247,
-      "predicted_mt_ha": 14.392,
-      "actual_hg_ha": 142473.0,
-      "predicted_hg_ha": 143916.7,
-      "residual_mt_ha": 0.145
-    },
-    {
-      "crop": "Potatoes",
-      "actual_mt_ha": 22.212,
-      "predicted_mt_ha": 18.842,
-      "actual_hg_ha": 222125.0,
-      "predicted_hg_ha": 188419.8,
-      "residual_mt_ha": -3.37
-    },
-    {
-      "crop": "Potatoes",
-      "actual_mt_ha": 43.786,
-      "predicted_mt_ha": 42.314,
-      "actual_hg_ha": 437856.0,
-      "predicted_hg_ha": 423143.8,
-      "residual_mt_ha": -1.472
-    },
-    {
-      "crop": "Potatoes",
-      "actual_mt_ha": 16.933,
-      "predicted_mt_ha": 14.169,
-      "actual_hg_ha": 169329.0,
-      "predicted_hg_ha": 141686.7,
-      "residual_mt_ha": -2.764
-    },
-    {
-      "crop": "Potatoes",
-      "actual_mt_ha": 38.543,
-      "predicted_mt_ha": 37.963,
-      "actual_hg_ha": 385434.0,
-      "predicted_hg_ha": 379634.1,
-      "residual_mt_ha": -0.58
-    },
-    {
-      "crop": "Potatoes",
-      "actual_mt_ha": 19.417,
-      "predicted_mt_ha": 19.418,
-      "actual_hg_ha": 194173.0,
-      "predicted_hg_ha": 194177.8,
-      "residual_mt_ha": 0.001
-    },
-    {
-      "crop": "Potatoes",
-      "actual_mt_ha": 11.486,
-      "predicted_mt_ha": 13.258,
-      "actual_hg_ha": 114862.0,
-      "predicted_hg_ha": 132576.3,
-      "residual_mt_ha": 1.772
-    },
-    {
-      "crop": "Potatoes",
-      "actual_mt_ha": 32.33,
-      "predicted_mt_ha": 31.46,
-      "actual_hg_ha": 323303.0,
-      "predicted_hg_ha": 314603.8,
-      "residual_mt_ha": -0.87
-    },
-    {
-      "crop": "Potatoes",
-      "actual_mt_ha": 23.377,
-      "predicted_mt_ha": 18.015,
-      "actual_hg_ha": 233767.0,
-      "predicted_hg_ha": 180154.8,
-      "residual_mt_ha": -5.362
-    },
-    {
-      "crop": "Potatoes",
-      "actual_mt_ha": 15.381,
-      "predicted_mt_ha": 14.618,
-      "actual_hg_ha": 153812.0,
-      "predicted_hg_ha": 146176.2,
-      "residual_mt_ha": -0.763
-    },
-    {
-      "crop": "Potatoes",
-      "actual_mt_ha": 16.551,
-      "predicted_mt_ha": 15.351,
-      "actual_hg_ha": 165508.0,
-      "predicted_hg_ha": 153508.2,
-      "residual_mt_ha": -1.2
-    },
-    {
-      "crop": "Potatoes",
-      "actual_mt_ha": 12.473,
-      "predicted_mt_ha": 12.467,
-      "actual_hg_ha": 124735.0,
-      "predicted_hg_ha": 124665.2,
-      "residual_mt_ha": -0.006
-    },
-    {
-      "crop": "Rice, paddy",
-      "actual_mt_ha": 2.925,
-      "predicted_mt_ha": 3.459,
-      "actual_hg_ha": 29255.0,
-      "predicted_hg_ha": 34588.3,
-      "residual_mt_ha": 0.534
-    },
-    {
-      "crop": "Rice, paddy",
-      "actual_mt_ha": 3.854,
-      "predicted_mt_ha": 3.813,
-      "actual_hg_ha": 38541.0,
-      "predicted_hg_ha": 38127.1,
-      "residual_mt_ha": -0.041
-    },
-    {
-      "crop": "Rice, paddy",
-      "actual_mt_ha": 7.001,
-      "predicted_mt_ha": 5.928,
-      "actual_hg_ha": 70010.0,
-      "predicted_hg_ha": 59284.8,
-      "residual_mt_ha": -1.073
-    },
-    {
-      "crop": "Rice, paddy",
-      "actual_mt_ha": 3.607,
-      "predicted_mt_ha": 3.189,
-      "actual_hg_ha": 36070.0,
-      "predicted_hg_ha": 31888.4,
-      "residual_mt_ha": -0.418
-    },
-    {
-      "crop": "Rice, paddy",
-      "actual_mt_ha": 1.867,
-      "predicted_mt_ha": 1.719,
-      "actual_hg_ha": 18665.0,
-      "predicted_hg_ha": 17187.0,
-      "residual_mt_ha": -0.148
-    },
-    {
-      "crop": "Rice, paddy",
-      "actual_mt_ha": 3.875,
-      "predicted_mt_ha": 3.34,
-      "actual_hg_ha": 38746.0,
-      "predicted_hg_ha": 33401.7,
-      "residual_mt_ha": -0.535
-    },
-    {
-      "crop": "Rice, paddy",
-      "actual_mt_ha": 2.658,
-      "predicted_mt_ha": 2.725,
-      "actual_hg_ha": 26578.0,
-      "predicted_hg_ha": 27252.3,
-      "residual_mt_ha": 0.067
-    },
-    {
-      "crop": "Rice, paddy",
-      "actual_mt_ha": 3.691,
-      "predicted_mt_ha": 3.302,
-      "actual_hg_ha": 36909.0,
-      "predicted_hg_ha": 33015.7,
-      "residual_mt_ha": -0.389
-    },
-    {
-      "crop": "Rice, paddy",
-      "actual_mt_ha": 3.216,
-      "predicted_mt_ha": 3.395,
-      "actual_hg_ha": 32162.0,
-      "predicted_hg_ha": 33951.4,
-      "residual_mt_ha": 0.179
-    },
-    {
-      "crop": "Rice, paddy",
-      "actual_mt_ha": 4.776,
-      "predicted_mt_ha": 4.402,
-      "actual_hg_ha": 47762.0,
-      "predicted_hg_ha": 44021.3,
-      "residual_mt_ha": -0.374
-    },
-    {
-      "crop": "Rice, paddy",
-      "actual_mt_ha": 4.889,
-      "predicted_mt_ha": 4.191,
-      "actual_hg_ha": 48887.0,
-      "predicted_hg_ha": 41914.5,
-      "residual_mt_ha": -0.698
-    },
-    {
-      "crop": "Rice, paddy",
-      "actual_mt_ha": 4.417,
-      "predicted_mt_ha": 4.59,
-      "actual_hg_ha": 44168.0,
-      "predicted_hg_ha": 45897.9,
-      "residual_mt_ha": 0.173
-    },
-    {
-      "crop": "Rice, paddy",
-      "actual_mt_ha": 4.127,
-      "predicted_mt_ha": 4.526,
-      "actual_hg_ha": 41266.0,
-      "predicted_hg_ha": 45256.5,
-      "residual_mt_ha": 0.399
-    },
-    {
-      "crop": "Rice, paddy",
-      "actual_mt_ha": 1.114,
-      "predicted_mt_ha": 2.439,
-      "actual_hg_ha": 11137.0,
-      "predicted_hg_ha": 24386.6,
-      "residual_mt_ha": 1.325
-    },
-    {
-      "crop": "Rice, paddy",
-      "actual_mt_ha": 4.405,
-      "predicted_mt_ha": 4.306,
-      "actual_hg_ha": 44049.0,
-      "predicted_hg_ha": 43060.6,
-      "residual_mt_ha": -0.099
-    },
-    {
-      "crop": "Rice, paddy",
-      "actual_mt_ha": 4.375,
-      "predicted_mt_ha": 4.514,
-      "actual_hg_ha": 43750.0,
-      "predicted_hg_ha": 45142.5,
-      "residual_mt_ha": 0.139
-    },
-    {
-      "crop": "Rice, paddy",
-      "actual_mt_ha": 2.41,
-      "predicted_mt_ha": 2.251,
-      "actual_hg_ha": 24100.0,
-      "predicted_hg_ha": 22514.0,
-      "residual_mt_ha": -0.159
-    },
-    {
-      "crop": "Rice, paddy",
-      "actual_mt_ha": 6.704,
-      "predicted_mt_ha": 6.212,
-      "actual_hg_ha": 67037.0,
-      "predicted_hg_ha": 62116.9,
-      "residual_mt_ha": -0.492
-    },
-    {
-      "crop": "Rice, paddy",
-      "actual_mt_ha": 7.599,
-      "predicted_mt_ha": 8.659,
-      "actual_hg_ha": 75988.0,
-      "predicted_hg_ha": 86588.3,
-      "residual_mt_ha": 1.06
-    },
-    {
-      "crop": "Rice, paddy",
-      "actual_mt_ha": 4.462,
-      "predicted_mt_ha": 4.682,
-      "actual_hg_ha": 44619.0,
-      "predicted_hg_ha": 46820.2,
-      "residual_mt_ha": 0.22
-    },
-    {
-      "crop": "Rice, paddy",
-      "actual_mt_ha": 7.785,
-      "predicted_mt_ha": 6.91,
-      "actual_hg_ha": 77851.0,
-      "predicted_hg_ha": 69096.5,
-      "residual_mt_ha": -0.875
-    },
-    {
-      "crop": "Rice, paddy",
-      "actual_mt_ha": 3.59,
-      "predicted_mt_ha": 3.068,
-      "actual_hg_ha": 35903.0,
-      "predicted_hg_ha": 30679.3,
-      "residual_mt_ha": -0.522
-    },
-    {
-      "crop": "Sorghum",
-      "actual_mt_ha": 0.702,
-      "predicted_mt_ha": 0.588,
-      "actual_hg_ha": 7019.0,
-      "predicted_hg_ha": 5880.3,
-      "residual_mt_ha": -0.114
-    },
-    {
-      "crop": "Sorghum",
-      "actual_mt_ha": 2.654,
-      "predicted_mt_ha": 5.105,
-      "actual_hg_ha": 26544.0,
-      "predicted_hg_ha": 51049.3,
-      "residual_mt_ha": 2.451
-    },
-    {
-      "crop": "Sorghum",
-      "actual_mt_ha": 0.255,
-      "predicted_mt_ha": 0.45,
-      "actual_hg_ha": 2548.0,
-      "predicted_hg_ha": 4499.4,
-      "residual_mt_ha": 0.195
-    },
-    {
-      "crop": "Sorghum",
-      "actual_mt_ha": 3.436,
-      "predicted_mt_ha": 3.668,
-      "actual_hg_ha": 34355.0,
-      "predicted_hg_ha": 36676.2,
-      "residual_mt_ha": 0.232
-    },
-    {
-      "crop": "Sorghum",
-      "actual_mt_ha": 5.839,
-      "predicted_mt_ha": 5.927,
-      "actual_hg_ha": 58388.0,
-      "predicted_hg_ha": 59274.9,
-      "residual_mt_ha": 0.088
-    },
-    {
-      "crop": "Sorghum",
-      "actual_mt_ha": 0.829,
-      "predicted_mt_ha": 0.925,
-      "actual_hg_ha": 8288.0,
-      "predicted_hg_ha": 9253.4,
-      "residual_mt_ha": 0.096
-    },
-    {
-      "crop": "Sorghum",
-      "actual_mt_ha": 0.6,
-      "predicted_mt_ha": 0.611,
-      "actual_hg_ha": 5998.0,
-      "predicted_hg_ha": 6107.8,
-      "residual_mt_ha": 0.011
-    },
-    {
-      "crop": "Sorghum",
-      "actual_mt_ha": 0.357,
-      "predicted_mt_ha": 0.663,
-      "actual_hg_ha": 3572.0,
-      "predicted_hg_ha": 6633.0,
-      "residual_mt_ha": 0.306
-    },
-    {
-      "crop": "Sorghum",
-      "actual_mt_ha": 5.749,
-      "predicted_mt_ha": 5.874,
-      "actual_hg_ha": 57487.0,
-      "predicted_hg_ha": 58737.4,
-      "residual_mt_ha": 0.125
-    },
-    {
-      "crop": "Sorghum",
-      "actual_mt_ha": 1.507,
-      "predicted_mt_ha": 1.884,
-      "actual_hg_ha": 15068.0,
-      "predicted_hg_ha": 18842.7,
-      "residual_mt_ha": 0.377
-    },
-    {
-      "crop": "Sorghum",
-      "actual_mt_ha": 0.864,
-      "predicted_mt_ha": 0.898,
-      "actual_hg_ha": 8640.0,
-      "predicted_hg_ha": 8977.6,
-      "residual_mt_ha": 0.034
-    },
-    {
-      "crop": "Sorghum",
-      "actual_mt_ha": 1.571,
-      "predicted_mt_ha": 1.685,
-      "actual_hg_ha": 15711.0,
-      "predicted_hg_ha": 16851.1,
-      "residual_mt_ha": 0.114
-    },
-    {
-      "crop": "Sorghum",
-      "actual_mt_ha": 3.315,
-      "predicted_mt_ha": 3.106,
-      "actual_hg_ha": 33152.0,
-      "predicted_hg_ha": 31057.7,
-      "residual_mt_ha": -0.209
-    },
-    {
-      "crop": "Sorghum",
+      "predicted_mt_ha": 2.468,
+      "actual_hg_ha": 2869.4,
+      "predicted_hg_ha": 24677.8,
+      "residual_mt_ha": 2.181
+    },
+    {
+      "crop": "Banana Cavendish",
+      "province": "Laguna",
+      "year": 2024,
+      "actual_mt_ha": 10.583,
+      "predicted_mt_ha": 17.356,
+      "actual_hg_ha": 105831.4,
+      "predicted_hg_ha": 173558.3,
+      "residual_mt_ha": 6.773
+    },
+    {
+      "crop": "Banana Cavendish",
+      "province": "Laguna",
+      "year": 2023,
+      "actual_mt_ha": 15.352,
+      "predicted_mt_ha": 21.456,
+      "actual_hg_ha": 153517.1,
+      "predicted_hg_ha": 214557.2,
+      "residual_mt_ha": 6.104
+    },
+    {
+      "crop": "Banana Cavendish",
+      "province": "Zamboanga Sibugay",
+      "year": 2024,
+      "actual_mt_ha": 9.057,
+      "predicted_mt_ha": 13.691,
+      "actual_hg_ha": 90573.2,
+      "predicted_hg_ha": 136905.2,
+      "residual_mt_ha": 4.633
+    },
+    {
+      "crop": "Banana Cavendish",
+      "province": "Camiguin",
+      "year": 2024,
+      "actual_mt_ha": 16.502,
+      "predicted_mt_ha": 6.685,
+      "actual_hg_ha": 165015.0,
+      "predicted_hg_ha": 66847.0,
+      "residual_mt_ha": -9.817
+    },
+    {
+      "crop": "Banana Cavendish",
+      "province": "Iloilo",
+      "year": 2024,
+      "actual_mt_ha": 8.681,
+      "predicted_mt_ha": 8.447,
+      "actual_hg_ha": 86810.3,
+      "predicted_hg_ha": 84471.5,
+      "residual_mt_ha": -0.234
+    },
+    {
+      "crop": "Banana Cavendish",
+      "province": "Davao del Norte",
+      "year": 2023,
+      "actual_mt_ha": 52.747,
+      "predicted_mt_ha": 49.482,
+      "actual_hg_ha": 527472.1,
+      "predicted_hg_ha": 494820.3,
+      "residual_mt_ha": -3.265
+    },
+    {
+      "crop": "Banana Cavendish",
+      "province": "Davao Oriental",
+      "year": 2022,
+      "actual_mt_ha": 16.906,
+      "predicted_mt_ha": 22.646,
+      "actual_hg_ha": 169056.6,
+      "predicted_hg_ha": 226457.3,
+      "residual_mt_ha": 5.74
+    },
+    {
+      "crop": "Banana Cavendish",
+      "province": "Lanao del Sur",
+      "year": 2024,
+      "actual_mt_ha": 1.591,
+      "predicted_mt_ha": 5.884,
+      "actual_hg_ha": 15912.1,
+      "predicted_hg_ha": 58839.8,
+      "residual_mt_ha": 4.293
+    },
+    {
+      "crop": "Bitter Gourd",
+      "province": "Camarines Norte",
+      "year": 2025,
       "actual_mt_ha": 1.666,
-      "predicted_mt_ha": 1.635,
-      "actual_hg_ha": 16657.0,
-      "predicted_hg_ha": 16347.6,
-      "residual_mt_ha": -0.031
+      "predicted_mt_ha": 6.699,
+      "actual_hg_ha": 16657.7,
+      "predicted_hg_ha": 66987.2,
+      "residual_mt_ha": 5.033
     },
     {
-      "crop": "Sorghum",
-      "actual_mt_ha": 1.737,
-      "predicted_mt_ha": 2.226,
-      "actual_hg_ha": 17368.0,
-      "predicted_hg_ha": 22260.4,
-      "residual_mt_ha": 0.489
+      "crop": "Bitter Gourd",
+      "province": "Nueva Vizcaya",
+      "year": 2025,
+      "actual_mt_ha": 4.459,
+      "predicted_mt_ha": 3.223,
+      "actual_hg_ha": 44592.5,
+      "predicted_hg_ha": 32234.6,
+      "residual_mt_ha": -1.236
     },
     {
-      "crop": "Sorghum",
-      "actual_mt_ha": 0.595,
-      "predicted_mt_ha": 0.62,
-      "actual_hg_ha": 5952.0,
-      "predicted_hg_ha": 6200.5,
-      "residual_mt_ha": 0.025
-    },
-    {
-      "crop": "Sorghum",
-      "actual_mt_ha": 2.851,
-      "predicted_mt_ha": 3.503,
-      "actual_hg_ha": 28509.0,
-      "predicted_hg_ha": 35031.1,
-      "residual_mt_ha": 0.652
-    },
-    {
-      "crop": "Sorghum",
-      "actual_mt_ha": 1.798,
-      "predicted_mt_ha": 1.879,
-      "actual_hg_ha": 17981.0,
-      "predicted_hg_ha": 18785.9,
-      "residual_mt_ha": 0.081
-    },
-    {
-      "crop": "Sorghum",
-      "actual_mt_ha": 0.574,
-      "predicted_mt_ha": 0.612,
-      "actual_hg_ha": 5736.0,
-      "predicted_hg_ha": 6123.7,
-      "residual_mt_ha": 0.038
-    },
-    {
-      "crop": "Sorghum",
-      "actual_mt_ha": 0.745,
-      "predicted_mt_ha": 0.869,
-      "actual_hg_ha": 7447.0,
-      "predicted_hg_ha": 8693.3,
-      "residual_mt_ha": 0.124
-    },
-    {
-      "crop": "Sorghum",
-      "actual_mt_ha": 3.51,
-      "predicted_mt_ha": 3.228,
-      "actual_hg_ha": 35096.0,
-      "predicted_hg_ha": 32276.8,
-      "residual_mt_ha": -0.282
-    },
-    {
-      "crop": "Sorghum",
-      "actual_mt_ha": 2.543,
-      "predicted_mt_ha": 2.271,
-      "actual_hg_ha": 25429.0,
-      "predicted_hg_ha": 22705.6,
-      "residual_mt_ha": -0.272
-    },
-    {
-      "crop": "Soybeans",
-      "actual_mt_ha": 1.1,
-      "predicted_mt_ha": 1.075,
-      "actual_hg_ha": 11001.0,
-      "predicted_hg_ha": 10747.9,
-      "residual_mt_ha": -0.025
-    },
-    {
-      "crop": "Soybeans",
-      "actual_mt_ha": 2.6,
-      "predicted_mt_ha": 2.189,
-      "actual_hg_ha": 26000.0,
-      "predicted_hg_ha": 21894.4,
-      "residual_mt_ha": -0.411
-    },
-    {
-      "crop": "Soybeans",
-      "actual_mt_ha": 0.79,
-      "predicted_mt_ha": 0.928,
-      "actual_hg_ha": 7901.0,
-      "predicted_hg_ha": 9276.0,
-      "residual_mt_ha": 0.138
-    },
-    {
-      "crop": "Soybeans",
-      "actual_mt_ha": 1.52,
-      "predicted_mt_ha": 1.697,
-      "actual_hg_ha": 15198.0,
-      "predicted_hg_ha": 16971.3,
-      "residual_mt_ha": 0.177
-    },
-    {
-      "crop": "Soybeans",
-      "actual_mt_ha": 1.839,
-      "predicted_mt_ha": 1.636,
-      "actual_hg_ha": 18388.0,
-      "predicted_hg_ha": 16363.0,
-      "residual_mt_ha": -0.203
-    },
-    {
-      "crop": "Soybeans",
-      "actual_mt_ha": 1.552,
-      "predicted_mt_ha": 1.624,
-      "actual_hg_ha": 15520.0,
-      "predicted_hg_ha": 16239.5,
-      "residual_mt_ha": 0.072
-    },
-    {
-      "crop": "Soybeans",
-      "actual_mt_ha": 2.2,
-      "predicted_mt_ha": 2.188,
-      "actual_hg_ha": 21998.0,
-      "predicted_hg_ha": 21877.6,
-      "residual_mt_ha": -0.012
-    },
-    {
-      "crop": "Soybeans",
-      "actual_mt_ha": 2.816,
-      "predicted_mt_ha": 2.809,
-      "actual_hg_ha": 28162.0,
-      "predicted_hg_ha": 28090.4,
-      "residual_mt_ha": -0.007
-    },
-    {
-      "crop": "Soybeans",
-      "actual_mt_ha": 2.637,
-      "predicted_mt_ha": 2.668,
-      "actual_hg_ha": 26366.0,
-      "predicted_hg_ha": 26677.2,
-      "residual_mt_ha": 0.031
-    },
-    {
-      "crop": "Soybeans",
-      "actual_mt_ha": 2.105,
-      "predicted_mt_ha": 2.482,
-      "actual_hg_ha": 21053.0,
-      "predicted_hg_ha": 24817.8,
-      "residual_mt_ha": 0.377
-    },
-    {
-      "crop": "Soybeans",
-      "actual_mt_ha": 0.914,
-      "predicted_mt_ha": 0.907,
-      "actual_hg_ha": 9139.0,
-      "predicted_hg_ha": 9070.2,
-      "residual_mt_ha": -0.007
-    },
-    {
-      "crop": "Soybeans",
-      "actual_mt_ha": 2.059,
-      "predicted_mt_ha": 2.276,
-      "actual_hg_ha": 20587.0,
-      "predicted_hg_ha": 22761.8,
-      "residual_mt_ha": 0.217
-    },
-    {
-      "crop": "Soybeans",
-      "actual_mt_ha": 2.711,
-      "predicted_mt_ha": 2.557,
-      "actual_hg_ha": 27105.0,
-      "predicted_hg_ha": 25567.3,
-      "residual_mt_ha": -0.154
-    },
-    {
-      "crop": "Soybeans",
-      "actual_mt_ha": 2.208,
-      "predicted_mt_ha": 2.531,
-      "actual_hg_ha": 22075.0,
-      "predicted_hg_ha": 25307.0,
-      "residual_mt_ha": 0.323
-    },
-    {
-      "crop": "Soybeans",
-      "actual_mt_ha": 1.401,
-      "predicted_mt_ha": 1.754,
-      "actual_hg_ha": 14013.0,
-      "predicted_hg_ha": 17542.4,
-      "residual_mt_ha": 0.353
-    },
-    {
-      "crop": "Soybeans",
-      "actual_mt_ha": 2.285,
-      "predicted_mt_ha": 2.306,
-      "actual_hg_ha": 22852.0,
-      "predicted_hg_ha": 23062.2,
-      "residual_mt_ha": 0.021
-    },
-    {
-      "crop": "Soybeans",
-      "actual_mt_ha": 0.675,
-      "predicted_mt_ha": 1.358,
-      "actual_hg_ha": 6755.0,
-      "predicted_hg_ha": 13575.0,
-      "residual_mt_ha": 0.683
-    },
-    {
-      "crop": "Soybeans",
-      "actual_mt_ha": 2.222,
-      "predicted_mt_ha": 2.22,
-      "actual_hg_ha": 22222.0,
-      "predicted_hg_ha": 22196.2,
-      "residual_mt_ha": -0.002
-    },
-    {
-      "crop": "Soybeans",
-      "actual_mt_ha": 1.239,
-      "predicted_mt_ha": 1.64,
-      "actual_hg_ha": 12392.0,
-      "predicted_hg_ha": 16395.6,
-      "residual_mt_ha": 0.401
-    },
-    {
-      "crop": "Soybeans",
-      "actual_mt_ha": 0.621,
-      "predicted_mt_ha": 1.366,
-      "actual_hg_ha": 6214.0,
-      "predicted_hg_ha": 13657.9,
-      "residual_mt_ha": 0.745
-    },
-    {
-      "crop": "Soybeans",
-      "actual_mt_ha": 2.434,
-      "predicted_mt_ha": 2.68,
-      "actual_hg_ha": 24344.0,
-      "predicted_hg_ha": 26798.8,
-      "residual_mt_ha": 0.246
-    },
-    {
-      "crop": "Soybeans",
-      "actual_mt_ha": 1.974,
-      "predicted_mt_ha": 2.048,
-      "actual_hg_ha": 19741.0,
-      "predicted_hg_ha": 20478.3,
-      "residual_mt_ha": 0.074
-    },
-    {
-      "crop": "Sweet potatoes",
-      "actual_mt_ha": 8.642,
-      "predicted_mt_ha": 9.995,
-      "actual_hg_ha": 86415.0,
-      "predicted_hg_ha": 99946.4,
-      "residual_mt_ha": 1.353
-    },
-    {
-      "crop": "Sweet potatoes",
-      "actual_mt_ha": 4.832,
-      "predicted_mt_ha": 6.924,
-      "actual_hg_ha": 48316.0,
-      "predicted_hg_ha": 69236.4,
-      "residual_mt_ha": 2.092
-    },
-    {
-      "crop": "Sweet potatoes",
-      "actual_mt_ha": 10.792,
-      "predicted_mt_ha": 10.523,
-      "actual_hg_ha": 107920.0,
-      "predicted_hg_ha": 105232.8,
-      "residual_mt_ha": -0.269
-    },
-    {
-      "crop": "Sweet potatoes",
-      "actual_mt_ha": 23.503,
-      "predicted_mt_ha": 24.332,
-      "actual_hg_ha": 235027.0,
-      "predicted_hg_ha": 243322.6,
-      "residual_mt_ha": 0.829
-    },
-    {
-      "crop": "Sweet potatoes",
-      "actual_mt_ha": 8.482,
-      "predicted_mt_ha": 8.482,
-      "actual_hg_ha": 84823.0,
-      "predicted_hg_ha": 84818.5,
-      "residual_mt_ha": 0.0
-    },
-    {
-      "crop": "Sweet potatoes",
-      "actual_mt_ha": 13.288,
-      "predicted_mt_ha": 18.866,
-      "actual_hg_ha": 132882.0,
-      "predicted_hg_ha": 188663.1,
-      "residual_mt_ha": 5.578
-    },
-    {
-      "crop": "Sweet potatoes",
-      "actual_mt_ha": 0.999,
-      "predicted_mt_ha": 0.929,
-      "actual_hg_ha": 9988.0,
-      "predicted_hg_ha": 9291.6,
-      "residual_mt_ha": -0.07
-    },
-    {
-      "crop": "Sweet potatoes",
-      "actual_mt_ha": 9.717,
-      "predicted_mt_ha": 9.707,
-      "actual_hg_ha": 97174.0,
-      "predicted_hg_ha": 97074.1,
-      "residual_mt_ha": -0.01
-    },
-    {
-      "crop": "Sweet potatoes",
-      "actual_mt_ha": 18.139,
-      "predicted_mt_ha": 18.62,
-      "actual_hg_ha": 181389.0,
-      "predicted_hg_ha": 186198.9,
-      "residual_mt_ha": 0.481
-    },
-    {
-      "crop": "Sweet potatoes",
-      "actual_mt_ha": 2.143,
-      "predicted_mt_ha": 5.521,
-      "actual_hg_ha": 21429.0,
-      "predicted_hg_ha": 55211.7,
-      "residual_mt_ha": 3.378
-    },
-    {
-      "crop": "Sweet potatoes",
-      "actual_mt_ha": 8.574,
-      "predicted_mt_ha": 8.582,
-      "actual_hg_ha": 85744.0,
-      "predicted_hg_ha": 85816.3,
-      "residual_mt_ha": 0.008
-    },
-    {
-      "crop": "Sweet potatoes",
-      "actual_mt_ha": 8.698,
-      "predicted_mt_ha": 8.79,
-      "actual_hg_ha": 86976.0,
-      "predicted_hg_ha": 87903.0,
-      "residual_mt_ha": 0.092
-    },
-    {
-      "crop": "Sweet potatoes",
-      "actual_mt_ha": 3.53,
-      "predicted_mt_ha": 3.392,
-      "actual_hg_ha": 35304.0,
-      "predicted_hg_ha": 33924.1,
-      "residual_mt_ha": -0.138
-    },
-    {
-      "crop": "Sweet potatoes",
-      "actual_mt_ha": 34.439,
-      "predicted_mt_ha": 33.943,
-      "actual_hg_ha": 344391.0,
-      "predicted_hg_ha": 339429.1,
-      "residual_mt_ha": -0.496
-    },
-    {
-      "crop": "Sweet potatoes",
-      "actual_mt_ha": 7.292,
-      "predicted_mt_ha": 9.425,
-      "actual_hg_ha": 72917.0,
-      "predicted_hg_ha": 94247.1,
-      "residual_mt_ha": 2.133
-    },
-    {
-      "crop": "Sweet potatoes",
-      "actual_mt_ha": 16.754,
-      "predicted_mt_ha": 18.869,
-      "actual_hg_ha": 167541.0,
-      "predicted_hg_ha": 188691.2,
-      "residual_mt_ha": 2.115
-    },
-    {
-      "crop": "Sweet potatoes",
-      "actual_mt_ha": 9.717,
-      "predicted_mt_ha": 9.707,
-      "actual_hg_ha": 97174.0,
-      "predicted_hg_ha": 97074.1,
-      "residual_mt_ha": -0.01
-    },
-    {
-      "crop": "Sweet potatoes",
-      "actual_mt_ha": 17.517,
-      "predicted_mt_ha": 18.112,
-      "actual_hg_ha": 175168.0,
-      "predicted_hg_ha": 181117.0,
-      "residual_mt_ha": 0.595
-    },
-    {
-      "crop": "Sweet potatoes",
-      "actual_mt_ha": 25.333,
-      "predicted_mt_ha": 25.053,
-      "actual_hg_ha": 253333.0,
-      "predicted_hg_ha": 250530.5,
-      "residual_mt_ha": -0.28
-    },
-    {
-      "crop": "Sweet potatoes",
-      "actual_mt_ha": 9.796,
-      "predicted_mt_ha": 9.932,
-      "actual_hg_ha": 97962.0,
-      "predicted_hg_ha": 99316.4,
-      "residual_mt_ha": 0.136
-    },
-    {
-      "crop": "Sweet potatoes",
-      "actual_mt_ha": 8.859,
-      "predicted_mt_ha": 8.866,
-      "actual_hg_ha": 88588.0,
-      "predicted_hg_ha": 88659.8,
+      "crop": "Bitter Gourd",
+      "province": "Apayao",
+      "year": 2023,
+      "actual_mt_ha": 2.468,
+      "predicted_mt_ha": 2.476,
+      "actual_hg_ha": 24680.9,
+      "predicted_hg_ha": 24755.5,
       "residual_mt_ha": 0.007
     },
     {
-      "crop": "Sweet potatoes",
-      "actual_mt_ha": 10.774,
-      "predicted_mt_ha": 10.298,
-      "actual_hg_ha": 107743.0,
-      "predicted_hg_ha": 102980.9,
-      "residual_mt_ha": -0.476
+      "crop": "Bitter Gourd",
+      "province": "Northern Samar",
+      "year": 2023,
+      "actual_mt_ha": 5.367,
+      "predicted_mt_ha": 5.456,
+      "actual_hg_ha": 53666.7,
+      "predicted_hg_ha": 54563.3,
+      "residual_mt_ha": 0.09
     },
     {
-      "crop": "Wheat",
-      "actual_mt_ha": 2.55,
-      "predicted_mt_ha": 2.487,
-      "actual_hg_ha": 25497.0,
-      "predicted_hg_ha": 24873.9,
-      "residual_mt_ha": -0.063
+      "crop": "Bitter Gourd",
+      "province": "Agusan del Sur",
+      "year": 2023,
+      "actual_mt_ha": 8.873,
+      "predicted_mt_ha": 7.78,
+      "actual_hg_ha": 88728.4,
+      "predicted_hg_ha": 77799.9,
+      "residual_mt_ha": -1.093
     },
     {
-      "crop": "Wheat",
-      "actual_mt_ha": 1.915,
-      "predicted_mt_ha": 1.842,
-      "actual_hg_ha": 19153.0,
-      "predicted_hg_ha": 18415.2,
-      "residual_mt_ha": -0.073
+      "crop": "Bitter Gourd",
+      "province": "Cotabato",
+      "year": 2025,
+      "actual_mt_ha": 4.653,
+      "predicted_mt_ha": 7.614,
+      "actual_hg_ha": 46529.2,
+      "predicted_hg_ha": 76144.9,
+      "residual_mt_ha": 2.962
     },
     {
-      "crop": "Wheat",
-      "actual_mt_ha": 3.81,
-      "predicted_mt_ha": 2.879,
-      "actual_hg_ha": 38100.0,
-      "predicted_hg_ha": 28793.6,
-      "residual_mt_ha": -0.931
+      "crop": "Bitter Gourd",
+      "province": "Leyte",
+      "year": 2024,
+      "actual_mt_ha": 4.242,
+      "predicted_mt_ha": 5.155,
+      "actual_hg_ha": 42422.4,
+      "predicted_hg_ha": 51548.1,
+      "residual_mt_ha": 0.913
     },
     {
-      "crop": "Wheat",
-      "actual_mt_ha": 2.03,
-      "predicted_mt_ha": 1.972,
-      "actual_hg_ha": 20301.0,
-      "predicted_hg_ha": 19723.5,
-      "residual_mt_ha": -0.058
+      "crop": "Bitter Gourd",
+      "province": "Masbate",
+      "year": 2024,
+      "actual_mt_ha": 5.905,
+      "predicted_mt_ha": 6.638,
+      "actual_hg_ha": 59046.5,
+      "predicted_hg_ha": 66380.9,
+      "residual_mt_ha": 0.733
     },
     {
-      "crop": "Wheat",
-      "actual_mt_ha": 5.657,
-      "predicted_mt_ha": 5.623,
-      "actual_hg_ha": 56568.0,
-      "predicted_hg_ha": 56227.0,
-      "residual_mt_ha": -0.034
+      "crop": "Bitter Gourd",
+      "province": "Bulacan",
+      "year": 2023,
+      "actual_mt_ha": 12.462,
+      "predicted_mt_ha": 14.173,
+      "actual_hg_ha": 124624.8,
+      "predicted_hg_ha": 141728.7,
+      "residual_mt_ha": 1.71
     },
     {
-      "crop": "Wheat",
-      "actual_mt_ha": 1.931,
-      "predicted_mt_ha": 2.332,
-      "actual_hg_ha": 19315.0,
-      "predicted_hg_ha": 23322.4,
-      "residual_mt_ha": 0.401
+      "crop": "Bitter Gourd",
+      "province": "Davao del Norte",
+      "year": 2024,
+      "actual_mt_ha": 5.439,
+      "predicted_mt_ha": 5.732,
+      "actual_hg_ha": 54391.6,
+      "predicted_hg_ha": 57320.3,
+      "residual_mt_ha": 0.293
     },
     {
-      "crop": "Wheat",
-      "actual_mt_ha": 9.465,
-      "predicted_mt_ha": 8.367,
-      "actual_hg_ha": 94652.0,
-      "predicted_hg_ha": 83673.1,
-      "residual_mt_ha": -1.098
+      "crop": "Cabbage",
+      "province": "Laguna",
+      "year": 2022,
+      "actual_mt_ha": 11.771,
+      "predicted_mt_ha": 10.027,
+      "actual_hg_ha": 117715.0,
+      "predicted_hg_ha": 100273.4,
+      "residual_mt_ha": -1.744
     },
     {
-      "crop": "Wheat",
-      "actual_mt_ha": 6.582,
-      "predicted_mt_ha": 6.372,
-      "actual_hg_ha": 65823.0,
-      "predicted_hg_ha": 63718.6,
-      "residual_mt_ha": -0.21
+      "crop": "Cabbage",
+      "province": "Sultan Kudarat",
+      "year": 2025,
+      "actual_mt_ha": 6.744,
+      "predicted_mt_ha": 9.146,
+      "actual_hg_ha": 67441.7,
+      "predicted_hg_ha": 91456.9,
+      "residual_mt_ha": 2.402
     },
     {
-      "crop": "Wheat",
-      "actual_mt_ha": 1.135,
-      "predicted_mt_ha": 1.08,
-      "actual_hg_ha": 11348.0,
-      "predicted_hg_ha": 10802.1,
-      "residual_mt_ha": -0.055
+      "crop": "Cabbage",
+      "province": "Bukidnon",
+      "year": 2024,
+      "actual_mt_ha": 11.919,
+      "predicted_mt_ha": 13.805,
+      "actual_hg_ha": 119193.0,
+      "predicted_hg_ha": 138050.2,
+      "residual_mt_ha": 1.886
     },
     {
-      "crop": "Wheat",
-      "actual_mt_ha": 2.121,
-      "predicted_mt_ha": 2.156,
-      "actual_hg_ha": 21211.0,
-      "predicted_hg_ha": 21563.5,
-      "residual_mt_ha": 0.035
+      "crop": "Cabbage",
+      "province": "Bukidnon",
+      "year": 2022,
+      "actual_mt_ha": 12.034,
+      "predicted_mt_ha": 13.804,
+      "actual_hg_ha": 120338.7,
+      "predicted_hg_ha": 138040.6,
+      "residual_mt_ha": 1.77
     },
     {
-      "crop": "Wheat",
-      "actual_mt_ha": 2.998,
-      "predicted_mt_ha": 2.536,
-      "actual_hg_ha": 29976.0,
-      "predicted_hg_ha": 25358.2,
-      "residual_mt_ha": -0.462
+      "crop": "Cabbage",
+      "province": "Nueva Vizcaya",
+      "year": 2023,
+      "actual_mt_ha": 6.478,
+      "predicted_mt_ha": 5.595,
+      "actual_hg_ha": 64776.7,
+      "predicted_hg_ha": 55952.0,
+      "residual_mt_ha": -0.882
     },
     {
-      "crop": "Wheat",
-      "actual_mt_ha": 0.895,
-      "predicted_mt_ha": 1.317,
-      "actual_hg_ha": 8948.0,
-      "predicted_hg_ha": 13173.9,
-      "residual_mt_ha": 0.422
+      "crop": "Cabbage",
+      "province": "Ifugao",
+      "year": 2022,
+      "actual_mt_ha": 16.206,
+      "predicted_mt_ha": 16.94,
+      "actual_hg_ha": 162060.0,
+      "predicted_hg_ha": 169395.6,
+      "residual_mt_ha": 0.734
     },
     {
-      "crop": "Wheat",
-      "actual_mt_ha": 0.298,
-      "predicted_mt_ha": 1.068,
-      "actual_hg_ha": 2980.0,
-      "predicted_hg_ha": 10678.6,
-      "residual_mt_ha": 0.77
+      "crop": "Cabbage",
+      "province": "Leyte",
+      "year": 2022,
+      "actual_mt_ha": 5.864,
+      "predicted_mt_ha": 4.446,
+      "actual_hg_ha": 58644.5,
+      "predicted_hg_ha": 44460.2,
+      "residual_mt_ha": -1.418
     },
     {
-      "crop": "Wheat",
-      "actual_mt_ha": 4.129,
-      "predicted_mt_ha": 3.619,
-      "actual_hg_ha": 41292.0,
-      "predicted_hg_ha": 36193.2,
-      "residual_mt_ha": -0.51
+      "crop": "Cabbage",
+      "province": "Zamboanga del Norte",
+      "year": 2022,
+      "actual_mt_ha": 5.113,
+      "predicted_mt_ha": 3.484,
+      "actual_hg_ha": 51132.7,
+      "predicted_hg_ha": 34836.3,
+      "residual_mt_ha": -1.63
     },
     {
-      "crop": "Wheat",
-      "actual_mt_ha": 3.065,
-      "predicted_mt_ha": 3.725,
-      "actual_hg_ha": 30649.0,
-      "predicted_hg_ha": 37249.5,
-      "residual_mt_ha": 0.66
+      "crop": "Cabbage",
+      "province": "Zamboanga del Sur",
+      "year": 2024,
+      "actual_mt_ha": 8.774,
+      "predicted_mt_ha": 8.929,
+      "actual_hg_ha": 87741.0,
+      "predicted_hg_ha": 89293.6,
+      "residual_mt_ha": 0.155
     },
     {
-      "crop": "Wheat",
-      "actual_mt_ha": 2.7,
-      "predicted_mt_ha": 2.438,
-      "actual_hg_ha": 27004.0,
-      "predicted_hg_ha": 24383.2,
-      "residual_mt_ha": -0.262
+      "crop": "Cabbage",
+      "province": "Ilocos Sur",
+      "year": 2022,
+      "actual_mt_ha": 9.519,
+      "predicted_mt_ha": 8.837,
+      "actual_hg_ha": 95187.2,
+      "predicted_hg_ha": 88367.3,
+      "residual_mt_ha": -0.682
     },
     {
-      "crop": "Wheat",
-      "actual_mt_ha": 6.888,
-      "predicted_mt_ha": 7.14,
-      "actual_hg_ha": 68882.0,
-      "predicted_hg_ha": 71399.8,
-      "residual_mt_ha": 0.252
+      "crop": "Cacao",
+      "province": "Davao Occidental",
+      "year": 2024,
+      "actual_mt_ha": 1.218,
+      "predicted_mt_ha": 1.238,
+      "actual_hg_ha": 12184.8,
+      "predicted_hg_ha": 12383.9,
+      "residual_mt_ha": 0.02
     },
     {
-      "crop": "Wheat",
-      "actual_mt_ha": 2.61,
-      "predicted_mt_ha": 2.449,
-      "actual_hg_ha": 26096.0,
-      "predicted_hg_ha": 24491.2,
-      "residual_mt_ha": -0.161
+      "crop": "Cacao",
+      "province": "Davao Occidental",
+      "year": 2025,
+      "actual_mt_ha": 1.213,
+      "predicted_mt_ha": 1.271,
+      "actual_hg_ha": 12132.2,
+      "predicted_hg_ha": 12708.1,
+      "residual_mt_ha": 0.058
     },
     {
-      "crop": "Wheat",
-      "actual_mt_ha": 2.329,
-      "predicted_mt_ha": 2.342,
-      "actual_hg_ha": 23291.0,
-      "predicted_hg_ha": 23422.3,
-      "residual_mt_ha": 0.013
+      "crop": "Cacao",
+      "province": "Mountain Province",
+      "year": 2025,
+      "actual_mt_ha": 1.905,
+      "predicted_mt_ha": 0.513,
+      "actual_hg_ha": 19045.5,
+      "predicted_hg_ha": 5127.6,
+      "residual_mt_ha": -1.392
     },
     {
-      "crop": "Wheat",
-      "actual_mt_ha": 3.263,
-      "predicted_mt_ha": 2.733,
-      "actual_hg_ha": 32628.0,
-      "predicted_hg_ha": 27325.6,
-      "residual_mt_ha": -0.53
+      "crop": "Cacao",
+      "province": "Ilocos Sur",
+      "year": 2022,
+      "actual_mt_ha": 0.23,
+      "predicted_mt_ha": 0.253,
+      "actual_hg_ha": 2296.7,
+      "predicted_hg_ha": 2533.6,
+      "residual_mt_ha": 0.024
     },
     {
-      "crop": "Wheat",
-      "actual_mt_ha": 5.418,
-      "predicted_mt_ha": 5.179,
-      "actual_hg_ha": 54185.0,
-      "predicted_hg_ha": 51791.8,
-      "residual_mt_ha": -0.239
+      "crop": "Cacao",
+      "province": "Surigao del Sur",
+      "year": 2024,
+      "actual_mt_ha": 0.276,
+      "predicted_mt_ha": 0.389,
+      "actual_hg_ha": 2756.3,
+      "predicted_hg_ha": 3893.2,
+      "residual_mt_ha": 0.114
     },
     {
-      "crop": "Wheat",
-      "actual_mt_ha": 2.9,
-      "predicted_mt_ha": 2.459,
-      "actual_hg_ha": 28998.0,
-      "predicted_hg_ha": 24587.6,
-      "residual_mt_ha": -0.441
+      "crop": "Cacao",
+      "province": "Siquijor",
+      "year": 2023,
+      "actual_mt_ha": 0.38,
+      "predicted_mt_ha": 0.431,
+      "actual_hg_ha": 3800.0,
+      "predicted_hg_ha": 4311.7,
+      "residual_mt_ha": 0.051
     },
     {
-      "crop": "Yams",
-      "actual_mt_ha": 17.104,
-      "predicted_mt_ha": 16.15,
-      "actual_hg_ha": 171042.0,
-      "predicted_hg_ha": 161503.7,
-      "residual_mt_ha": -0.954
+      "crop": "Cacao",
+      "province": "Catanduanes",
+      "year": 2025,
+      "actual_mt_ha": 0.446,
+      "predicted_mt_ha": 0.284,
+      "actual_hg_ha": 4459.0,
+      "predicted_hg_ha": 2836.0,
+      "residual_mt_ha": -0.162
     },
     {
-      "crop": "Yams",
-      "actual_mt_ha": 9.152,
-      "predicted_mt_ha": 9.162,
-      "actual_hg_ha": 91522.0,
-      "predicted_hg_ha": 91622.8,
+      "crop": "Cacao",
+      "province": "Aklan",
+      "year": 2022,
+      "actual_mt_ha": 0.245,
+      "predicted_mt_ha": 0.145,
+      "actual_hg_ha": 2445.5,
+      "predicted_hg_ha": 1447.5,
+      "residual_mt_ha": -0.1
+    },
+    {
+      "crop": "Cacao",
+      "province": "Sultan Kudarat",
+      "year": 2025,
+      "actual_mt_ha": 0.42,
+      "predicted_mt_ha": 0.148,
+      "actual_hg_ha": 4204.0,
+      "predicted_hg_ha": 1480.9,
+      "residual_mt_ha": -0.272
+    },
+    {
+      "crop": "Cacao",
+      "province": "Tawi-Tawi",
+      "year": 2023,
+      "actual_mt_ha": 0.4,
+      "predicted_mt_ha": 0.503,
+      "actual_hg_ha": 4000.0,
+      "predicted_hg_ha": 5026.9,
+      "residual_mt_ha": 0.103
+    },
+    {
+      "crop": "Calamansi",
+      "province": "Lanao del Sur",
+      "year": 2023,
+      "actual_mt_ha": 5.727,
+      "predicted_mt_ha": 6.113,
+      "actual_hg_ha": 57273.3,
+      "predicted_hg_ha": 61127.8,
+      "residual_mt_ha": 0.385
+    },
+    {
+      "crop": "Calamansi",
+      "province": "Guimaras",
+      "year": 2022,
+      "actual_mt_ha": 4.619,
+      "predicted_mt_ha": 6.551,
+      "actual_hg_ha": 46189.4,
+      "predicted_hg_ha": 65509.6,
+      "residual_mt_ha": 1.932
+    },
+    {
+      "crop": "Calamansi",
+      "province": "Misamis Oriental",
+      "year": 2025,
+      "actual_mt_ha": 4.076,
+      "predicted_mt_ha": 1.298,
+      "actual_hg_ha": 40763.6,
+      "predicted_hg_ha": 12978.0,
+      "residual_mt_ha": -2.779
+    },
+    {
+      "crop": "Calamansi",
+      "province": "Agusan del Sur",
+      "year": 2023,
+      "actual_mt_ha": 3.546,
+      "predicted_mt_ha": 3.765,
+      "actual_hg_ha": 35462.0,
+      "predicted_hg_ha": 37654.5,
+      "residual_mt_ha": 0.219
+    },
+    {
+      "crop": "Calamansi",
+      "province": "Davao Occidental",
+      "year": 2022,
+      "actual_mt_ha": 4.834,
+      "predicted_mt_ha": 5.381,
+      "actual_hg_ha": 48342.9,
+      "predicted_hg_ha": 53807.2,
+      "residual_mt_ha": 0.546
+    },
+    {
+      "crop": "Calamansi",
+      "province": "Davao del Norte",
+      "year": 2025,
+      "actual_mt_ha": 4.17,
+      "predicted_mt_ha": 4.103,
+      "actual_hg_ha": 41704.0,
+      "predicted_hg_ha": 41025.5,
+      "residual_mt_ha": -0.068
+    },
+    {
+      "crop": "Calamansi",
+      "province": "Romblon",
+      "year": 2024,
+      "actual_mt_ha": 2.492,
+      "predicted_mt_ha": 2.825,
+      "actual_hg_ha": 24918.8,
+      "predicted_hg_ha": 28250.9,
+      "residual_mt_ha": 0.333
+    },
+    {
+      "crop": "Calamansi",
+      "province": "Kalinga",
+      "year": 2024,
+      "actual_mt_ha": 1.619,
+      "predicted_mt_ha": 1.391,
+      "actual_hg_ha": 16187.5,
+      "predicted_hg_ha": 13911.5,
+      "residual_mt_ha": -0.228
+    },
+    {
+      "crop": "Calamansi",
+      "province": "Oriental Mindoro",
+      "year": 2022,
+      "actual_mt_ha": 5.815,
+      "predicted_mt_ha": 9.961,
+      "actual_hg_ha": 58149.5,
+      "predicted_hg_ha": 99611.4,
+      "residual_mt_ha": 4.146
+    },
+    {
+      "crop": "Calamansi",
+      "province": "Zamboanga Sibugay",
+      "year": 2023,
+      "actual_mt_ha": 11.923,
+      "predicted_mt_ha": 9.819,
+      "actual_hg_ha": 119227.2,
+      "predicted_hg_ha": 98191.2,
+      "residual_mt_ha": -2.104
+    },
+    {
+      "crop": "Cassava",
+      "province": "Lanao del Sur",
+      "year": 2023,
+      "actual_mt_ha": 15.585,
+      "predicted_mt_ha": 15.703,
+      "actual_hg_ha": 155849.3,
+      "predicted_hg_ha": 157034.6,
+      "residual_mt_ha": 0.119
+    },
+    {
+      "crop": "Cassava",
+      "province": "Guimaras",
+      "year": 2022,
+      "actual_mt_ha": 11.433,
+      "predicted_mt_ha": 8.453,
+      "actual_hg_ha": 114325.1,
+      "predicted_hg_ha": 84530.0,
+      "residual_mt_ha": -2.98
+    },
+    {
+      "crop": "Cassava",
+      "province": "Misamis Oriental",
+      "year": 2025,
+      "actual_mt_ha": 12.14,
+      "predicted_mt_ha": 26.627,
+      "actual_hg_ha": 121401.7,
+      "predicted_hg_ha": 266270.5,
+      "residual_mt_ha": 14.487
+    },
+    {
+      "crop": "Cassava",
+      "province": "Agusan del Sur",
+      "year": 2023,
+      "actual_mt_ha": 10.46,
+      "predicted_mt_ha": 11.12,
+      "actual_hg_ha": 104595.1,
+      "predicted_hg_ha": 111201.7,
+      "residual_mt_ha": 0.661
+    },
+    {
+      "crop": "Cassava",
+      "province": "Davao Occidental",
+      "year": 2022,
+      "actual_mt_ha": 7.179,
+      "predicted_mt_ha": 6.867,
+      "actual_hg_ha": 71789.6,
+      "predicted_hg_ha": 68672.7,
+      "residual_mt_ha": -0.312
+    },
+    {
+      "crop": "Cassava",
+      "province": "Davao del Norte",
+      "year": 2025,
+      "actual_mt_ha": 5.65,
+      "predicted_mt_ha": 7.95,
+      "actual_hg_ha": 56502.7,
+      "predicted_hg_ha": 79504.6,
+      "residual_mt_ha": 2.3
+    },
+    {
+      "crop": "Cassava",
+      "province": "Romblon",
+      "year": 2024,
+      "actual_mt_ha": 6.985,
+      "predicted_mt_ha": 7.761,
+      "actual_hg_ha": 69854.6,
+      "predicted_hg_ha": 77607.9,
+      "residual_mt_ha": 0.775
+    },
+    {
+      "crop": "Cassava",
+      "province": "Kalinga",
+      "year": 2024,
+      "actual_mt_ha": 5.338,
+      "predicted_mt_ha": 7.073,
+      "actual_hg_ha": 53375.0,
+      "predicted_hg_ha": 70729.3,
+      "residual_mt_ha": 1.735
+    },
+    {
+      "crop": "Cassava",
+      "province": "Oriental Mindoro",
+      "year": 2022,
+      "actual_mt_ha": 14.952,
+      "predicted_mt_ha": 9.392,
+      "actual_hg_ha": 149517.6,
+      "predicted_hg_ha": 93920.7,
+      "residual_mt_ha": -5.56
+    },
+    {
+      "crop": "Cassava",
+      "province": "Zamboanga Sibugay",
+      "year": 2023,
+      "actual_mt_ha": 11.193,
+      "predicted_mt_ha": 10.696,
+      "actual_hg_ha": 111930.0,
+      "predicted_hg_ha": 106961.6,
+      "residual_mt_ha": -0.497
+    },
+    {
+      "crop": "Coconut",
+      "province": "Lanao del Sur",
+      "year": 2023,
+      "actual_mt_ha": 3.969,
+      "predicted_mt_ha": 3.892,
+      "actual_hg_ha": 39690.3,
+      "predicted_hg_ha": 38923.6,
+      "residual_mt_ha": -0.077
+    },
+    {
+      "crop": "Coconut",
+      "province": "Guimaras",
+      "year": 2022,
+      "actual_mt_ha": 4.591,
+      "predicted_mt_ha": 4.043,
+      "actual_hg_ha": 45906.5,
+      "predicted_hg_ha": 40429.5,
+      "residual_mt_ha": -0.548
+    },
+    {
+      "crop": "Coconut",
+      "province": "Misamis Oriental",
+      "year": 2025,
+      "actual_mt_ha": 5.008,
+      "predicted_mt_ha": 5.215,
+      "actual_hg_ha": 50084.5,
+      "predicted_hg_ha": 52150.0,
+      "residual_mt_ha": 0.207
+    },
+    {
+      "crop": "Coconut",
+      "province": "Agusan del Sur",
+      "year": 2023,
+      "actual_mt_ha": 3.034,
+      "predicted_mt_ha": 3.097,
+      "actual_hg_ha": 30337.2,
+      "predicted_hg_ha": 30974.1,
+      "residual_mt_ha": 0.064
+    },
+    {
+      "crop": "Coconut",
+      "province": "Davao Occidental",
+      "year": 2022,
+      "actual_mt_ha": 6.624,
+      "predicted_mt_ha": 6.469,
+      "actual_hg_ha": 66236.6,
+      "predicted_hg_ha": 64690.8,
+      "residual_mt_ha": -0.155
+    },
+    {
+      "crop": "Coconut",
+      "province": "Davao del Norte",
+      "year": 2025,
+      "actual_mt_ha": 5.924,
+      "predicted_mt_ha": 5.742,
+      "actual_hg_ha": 59242.8,
+      "predicted_hg_ha": 57418.5,
+      "residual_mt_ha": -0.182
+    },
+    {
+      "crop": "Coconut",
+      "province": "Romblon",
+      "year": 2024,
+      "actual_mt_ha": 4.189,
+      "predicted_mt_ha": 3.823,
+      "actual_hg_ha": 41892.9,
+      "predicted_hg_ha": 38231.4,
+      "residual_mt_ha": -0.366
+    },
+    {
+      "crop": "Coconut",
+      "province": "Kalinga",
+      "year": 2024,
+      "actual_mt_ha": 2.124,
+      "predicted_mt_ha": 1.802,
+      "actual_hg_ha": 21244.7,
+      "predicted_hg_ha": 18018.0,
+      "residual_mt_ha": -0.323
+    },
+    {
+      "crop": "Coconut",
+      "province": "Oriental Mindoro",
+      "year": 2022,
+      "actual_mt_ha": 1.803,
+      "predicted_mt_ha": 2.764,
+      "actual_hg_ha": 18031.1,
+      "predicted_hg_ha": 27635.8,
+      "residual_mt_ha": 0.96
+    },
+    {
+      "crop": "Coconut",
+      "province": "Zamboanga Sibugay",
+      "year": 2023,
+      "actual_mt_ha": 4.46,
+      "predicted_mt_ha": 3.629,
+      "actual_hg_ha": 44604.4,
+      "predicted_hg_ha": 36291.1,
+      "residual_mt_ha": -0.831
+    },
+    {
+      "crop": "Coffee",
+      "province": "Apayao",
+      "year": 2023,
+      "actual_mt_ha": 0.043,
+      "predicted_mt_ha": 0.077,
+      "actual_hg_ha": 426.8,
+      "predicted_hg_ha": 767.9,
+      "residual_mt_ha": 0.034
+    },
+    {
+      "crop": "Coffee",
+      "province": "Agusan del Norte",
+      "year": 2024,
+      "actual_mt_ha": 0.11,
+      "predicted_mt_ha": 0.103,
+      "actual_hg_ha": 1095.9,
+      "predicted_hg_ha": 1034.1,
+      "residual_mt_ha": -0.006
+    },
+    {
+      "crop": "Coffee",
+      "province": "Misamis Occidental",
+      "year": 2025,
+      "actual_mt_ha": 0.163,
+      "predicted_mt_ha": 0.196,
+      "actual_hg_ha": 1632.4,
+      "predicted_hg_ha": 1957.6,
+      "residual_mt_ha": 0.033
+    },
+    {
+      "crop": "Coffee",
+      "province": "South Cotabato",
+      "year": 2025,
+      "actual_mt_ha": 0.227,
+      "predicted_mt_ha": 0.336,
+      "actual_hg_ha": 2266.0,
+      "predicted_hg_ha": 3362.7,
+      "residual_mt_ha": 0.11
+    },
+    {
+      "crop": "Coffee",
+      "province": "Zamboanga del Norte",
+      "year": 2025,
+      "actual_mt_ha": 0.097,
+      "predicted_mt_ha": 0.393,
+      "actual_hg_ha": 968.0,
+      "predicted_hg_ha": 3927.6,
+      "residual_mt_ha": 0.296
+    },
+    {
+      "crop": "Coffee",
+      "province": "Samar",
+      "year": 2023,
+      "actual_mt_ha": 0.434,
+      "predicted_mt_ha": 0.229,
+      "actual_hg_ha": 4341.7,
+      "predicted_hg_ha": 2287.2,
+      "residual_mt_ha": -0.205
+    },
+    {
+      "crop": "Coffee",
+      "province": "Pangasinan",
+      "year": 2025,
+      "actual_mt_ha": 0.379,
+      "predicted_mt_ha": 0.323,
+      "actual_hg_ha": 3791.1,
+      "predicted_hg_ha": 3229.3,
+      "residual_mt_ha": -0.056
+    },
+    {
+      "crop": "Coffee",
+      "province": "Misamis Occidental",
+      "year": 2023,
+      "actual_mt_ha": 0.174,
+      "predicted_mt_ha": 0.201,
+      "actual_hg_ha": 1735.2,
+      "predicted_hg_ha": 2013.5,
+      "residual_mt_ha": 0.028
+    },
+    {
+      "crop": "Coffee",
+      "province": "Agusan del Sur",
+      "year": 2023,
+      "actual_mt_ha": 0.033,
+      "predicted_mt_ha": 0.036,
+      "actual_hg_ha": 328.2,
+      "predicted_hg_ha": 357.9,
+      "residual_mt_ha": 0.003
+    },
+    {
+      "crop": "Coffee",
+      "province": "Ilocos Sur",
+      "year": 2025,
+      "actual_mt_ha": 0.189,
+      "predicted_mt_ha": 0.198,
+      "actual_hg_ha": 1885.1,
+      "predicted_hg_ha": 1982.2,
       "residual_mt_ha": 0.01
     },
     {
-      "crop": "Yams",
-      "actual_mt_ha": 17.5,
-      "predicted_mt_ha": 17.465,
-      "actual_hg_ha": 175000.0,
-      "predicted_hg_ha": 174649.0,
-      "residual_mt_ha": -0.035
+      "crop": "Eggplant",
+      "province": "Lanao del Sur",
+      "year": 2023,
+      "actual_mt_ha": 7.161,
+      "predicted_mt_ha": 5.673,
+      "actual_hg_ha": 71611.6,
+      "predicted_hg_ha": 56729.9,
+      "residual_mt_ha": -1.488
     },
     {
-      "crop": "Yams",
-      "actual_mt_ha": 5.89,
-      "predicted_mt_ha": 5.946,
-      "actual_hg_ha": 58904.0,
-      "predicted_hg_ha": 59458.6,
-      "residual_mt_ha": 0.056
+      "crop": "Eggplant",
+      "province": "Guimaras",
+      "year": 2022,
+      "actual_mt_ha": 10.693,
+      "predicted_mt_ha": 9.905,
+      "actual_hg_ha": 106934.7,
+      "predicted_hg_ha": 99046.1,
+      "residual_mt_ha": -0.789
     },
     {
-      "crop": "Yams",
-      "actual_mt_ha": 5.278,
-      "predicted_mt_ha": 5.548,
-      "actual_hg_ha": 52778.0,
-      "predicted_hg_ha": 55475.7,
+      "crop": "Eggplant",
+      "province": "Misamis Oriental",
+      "year": 2025,
+      "actual_mt_ha": 13.096,
+      "predicted_mt_ha": 6.326,
+      "actual_hg_ha": 130958.2,
+      "predicted_hg_ha": 63262.3,
+      "residual_mt_ha": -6.77
+    },
+    {
+      "crop": "Eggplant",
+      "province": "Agusan del Sur",
+      "year": 2023,
+      "actual_mt_ha": 5.522,
+      "predicted_mt_ha": 7.028,
+      "actual_hg_ha": 55220.4,
+      "predicted_hg_ha": 70276.0,
+      "residual_mt_ha": 1.506
+    },
+    {
+      "crop": "Eggplant",
+      "province": "Davao Occidental",
+      "year": 2022,
+      "actual_mt_ha": 6.394,
+      "predicted_mt_ha": 6.528,
+      "actual_hg_ha": 63938.1,
+      "predicted_hg_ha": 65279.3,
+      "residual_mt_ha": 0.134
+    },
+    {
+      "crop": "Eggplant",
+      "province": "Davao del Norte",
+      "year": 2025,
+      "actual_mt_ha": 2.74,
+      "predicted_mt_ha": 2.447,
+      "actual_hg_ha": 27405.0,
+      "predicted_hg_ha": 24473.8,
+      "residual_mt_ha": -0.293
+    },
+    {
+      "crop": "Eggplant",
+      "province": "Romblon",
+      "year": 2024,
+      "actual_mt_ha": 5.618,
+      "predicted_mt_ha": 6.85,
+      "actual_hg_ha": 56181.7,
+      "predicted_hg_ha": 68502.2,
+      "residual_mt_ha": 1.232
+    },
+    {
+      "crop": "Eggplant",
+      "province": "Kalinga",
+      "year": 2024,
+      "actual_mt_ha": 5.558,
+      "predicted_mt_ha": 3.424,
+      "actual_hg_ha": 55582.6,
+      "predicted_hg_ha": 34243.4,
+      "residual_mt_ha": -2.134
+    },
+    {
+      "crop": "Eggplant",
+      "province": "Oriental Mindoro",
+      "year": 2022,
+      "actual_mt_ha": 8.356,
+      "predicted_mt_ha": 5.769,
+      "actual_hg_ha": 83560.7,
+      "predicted_hg_ha": 57689.3,
+      "residual_mt_ha": -2.587
+    },
+    {
+      "crop": "Eggplant",
+      "province": "Zamboanga Sibugay",
+      "year": 2023,
+      "actual_mt_ha": 7.539,
+      "predicted_mt_ha": 6.246,
+      "actual_hg_ha": 75388.6,
+      "predicted_hg_ha": 62456.2,
+      "residual_mt_ha": -1.293
+    },
+    {
+      "crop": "Garlic",
+      "province": "Ilocos Norte",
+      "year": 2025,
+      "actual_mt_ha": 2.362,
+      "predicted_mt_ha": 2.633,
+      "actual_hg_ha": 23624.1,
+      "predicted_hg_ha": 26325.7,
       "residual_mt_ha": 0.27
     },
     {
-      "crop": "Yams",
-      "actual_mt_ha": 16.571,
-      "predicted_mt_ha": 17.465,
-      "actual_hg_ha": 165714.0,
-      "predicted_hg_ha": 174648.1,
-      "residual_mt_ha": 0.894
+      "crop": "Garlic",
+      "province": "Romblon",
+      "year": 2022,
+      "actual_mt_ha": 1.911,
+      "predicted_mt_ha": 2.088,
+      "actual_hg_ha": 19107.4,
+      "predicted_hg_ha": 20880.5,
+      "residual_mt_ha": 0.177
     },
     {
-      "crop": "Yams",
-      "actual_mt_ha": 6.983,
-      "predicted_mt_ha": 5.802,
-      "actual_hg_ha": 69832.0,
-      "predicted_hg_ha": 58022.6,
-      "residual_mt_ha": -1.181
+      "crop": "Garlic",
+      "province": "Romblon",
+      "year": 2024,
+      "actual_mt_ha": 1.805,
+      "predicted_mt_ha": 2.166,
+      "actual_hg_ha": 18054.9,
+      "predicted_hg_ha": 21664.0,
+      "residual_mt_ha": 0.361
     },
     {
-      "crop": "Yams",
-      "actual_mt_ha": 10.0,
-      "predicted_mt_ha": 11.591,
-      "actual_hg_ha": 100000.0,
-      "predicted_hg_ha": 115913.2,
-      "residual_mt_ha": 1.591
+      "crop": "Garlic",
+      "province": "Pangasinan",
+      "year": 2025,
+      "actual_mt_ha": 0.025,
+      "predicted_mt_ha": 1.876,
+      "actual_hg_ha": 248.9,
+      "predicted_hg_ha": 18764.7,
+      "residual_mt_ha": 1.852
     },
     {
-      "crop": "Yams",
-      "actual_mt_ha": 10.999,
-      "predicted_mt_ha": 10.989,
-      "actual_hg_ha": 109992.0,
-      "predicted_hg_ha": 109892.3,
-      "residual_mt_ha": -0.01
+      "crop": "Garlic",
+      "province": "Ilocos Sur",
+      "year": 2025,
+      "actual_mt_ha": 2.374,
+      "predicted_mt_ha": 2.386,
+      "actual_hg_ha": 23741.5,
+      "predicted_hg_ha": 23857.4,
+      "residual_mt_ha": 0.012
     },
     {
-      "crop": "Yams",
-      "actual_mt_ha": 4.21,
-      "predicted_mt_ha": 4.188,
-      "actual_hg_ha": 42104.0,
-      "predicted_hg_ha": 41881.1,
-      "residual_mt_ha": -0.022
+      "crop": "Garlic",
+      "province": "Marinduque",
+      "year": 2025,
+      "actual_mt_ha": 1.566,
+      "predicted_mt_ha": 2.674,
+      "actual_hg_ha": 15655.7,
+      "predicted_hg_ha": 26744.7,
+      "residual_mt_ha": 1.109
     },
     {
-      "crop": "Yams",
-      "actual_mt_ha": 9.167,
-      "predicted_mt_ha": 9.166,
-      "actual_hg_ha": 91667.0,
-      "predicted_hg_ha": 91655.0,
-      "residual_mt_ha": -0.001
+      "crop": "Garlic",
+      "province": "Marinduque",
+      "year": 2024,
+      "actual_mt_ha": 1.223,
+      "predicted_mt_ha": 2.359,
+      "actual_hg_ha": 12233.8,
+      "predicted_hg_ha": 23591.0,
+      "residual_mt_ha": 1.136
     },
     {
-      "crop": "Yams",
-      "actual_mt_ha": 20.079,
-      "predicted_mt_ha": 21.035,
-      "actual_hg_ha": 200786.0,
-      "predicted_hg_ha": 210352.4,
-      "residual_mt_ha": 0.956
+      "crop": "Garlic",
+      "province": "Marinduque",
+      "year": 2023,
+      "actual_mt_ha": 2.643,
+      "predicted_mt_ha": 2.617,
+      "actual_hg_ha": 26426.7,
+      "predicted_hg_ha": 26174.0,
+      "residual_mt_ha": -0.025
     },
     {
-      "crop": "Yams",
-      "actual_mt_ha": 16.522,
-      "predicted_mt_ha": 11.83,
-      "actual_hg_ha": 165217.0,
-      "predicted_hg_ha": 118301.9,
-      "residual_mt_ha": -4.692
+      "crop": "Garlic",
+      "province": "Nueva Ecija",
+      "year": 2025,
+      "actual_mt_ha": 2.344,
+      "predicted_mt_ha": 2.154,
+      "actual_hg_ha": 23441.7,
+      "predicted_hg_ha": 21542.2,
+      "residual_mt_ha": -0.19
     },
     {
-      "crop": "Yams",
-      "actual_mt_ha": 13.279,
-      "predicted_mt_ha": 13.314,
-      "actual_hg_ha": 132794.0,
-      "predicted_hg_ha": 133144.4,
-      "residual_mt_ha": 0.035
+      "crop": "Garlic",
+      "province": "Iloilo",
+      "year": 2023,
+      "actual_mt_ha": 4.568,
+      "predicted_mt_ha": 4.181,
+      "actual_hg_ha": 45683.3,
+      "predicted_hg_ha": 41814.2,
+      "residual_mt_ha": -0.387
     },
     {
-      "crop": "Yams",
-      "actual_mt_ha": 5.462,
-      "predicted_mt_ha": 6.179,
-      "actual_hg_ha": 54622.0,
-      "predicted_hg_ha": 61786.7,
-      "residual_mt_ha": 0.717
+      "crop": "Maize",
+      "province": "Palawan",
+      "year": 2022,
+      "actual_mt_ha": 3.142,
+      "predicted_mt_ha": 2.656,
+      "actual_hg_ha": 31415.4,
+      "predicted_hg_ha": 26558.1,
+      "residual_mt_ha": -0.486
     },
     {
-      "crop": "Yams",
-      "actual_mt_ha": 9.2,
-      "predicted_mt_ha": 9.191,
-      "actual_hg_ha": 92000.0,
-      "predicted_hg_ha": 91906.1,
-      "residual_mt_ha": -0.009
+      "crop": "Maize",
+      "province": "Davao Oriental",
+      "year": 2024,
+      "actual_mt_ha": 1.385,
+      "predicted_mt_ha": 1.286,
+      "actual_hg_ha": 13846.2,
+      "predicted_hg_ha": 12857.0,
+      "residual_mt_ha": -0.099
     },
     {
-      "crop": "Yams",
-      "actual_mt_ha": 8.668,
-      "predicted_mt_ha": 6.995,
-      "actual_hg_ha": 86683.0,
-      "predicted_hg_ha": 69948.7,
-      "residual_mt_ha": -1.673
+      "crop": "Maize",
+      "province": "Quezon",
+      "year": 2025,
+      "actual_mt_ha": 2.584,
+      "predicted_mt_ha": 2.48,
+      "actual_hg_ha": 25837.6,
+      "predicted_hg_ha": 24801.4,
+      "residual_mt_ha": -0.104
     },
     {
-      "crop": "Yams",
-      "actual_mt_ha": 8.377,
-      "predicted_mt_ha": 10.339,
-      "actual_hg_ha": 83772.0,
-      "predicted_hg_ha": 103385.1,
-      "residual_mt_ha": 1.962
+      "crop": "Maize",
+      "province": "Agusan del Sur",
+      "year": 2023,
+      "actual_mt_ha": 3.945,
+      "predicted_mt_ha": 2.998,
+      "actual_hg_ha": 39453.8,
+      "predicted_hg_ha": 29977.5,
+      "residual_mt_ha": -0.948
     },
     {
-      "crop": "Yams",
-      "actual_mt_ha": 7.584,
-      "predicted_mt_ha": 7.513,
-      "actual_hg_ha": 75844.0,
-      "predicted_hg_ha": 75127.1,
-      "residual_mt_ha": -0.071
+      "crop": "Maize",
+      "province": "Cavite",
+      "year": 2023,
+      "actual_mt_ha": 1.607,
+      "predicted_mt_ha": 1.915,
+      "actual_hg_ha": 16067.0,
+      "predicted_hg_ha": 19147.8,
+      "residual_mt_ha": 0.308
     },
     {
-      "crop": "Yams",
-      "actual_mt_ha": 20.079,
-      "predicted_mt_ha": 21.035,
-      "actual_hg_ha": 200786.0,
-      "predicted_hg_ha": 210352.4,
-      "residual_mt_ha": 0.956
+      "crop": "Maize",
+      "province": "Nueva Ecija",
+      "year": 2023,
+      "actual_mt_ha": 5.222,
+      "predicted_mt_ha": 3.706,
+      "actual_hg_ha": 52218.7,
+      "predicted_hg_ha": 37059.5,
+      "residual_mt_ha": -1.516
     },
     {
-      "crop": "Yams",
-      "actual_mt_ha": 5.718,
-      "predicted_mt_ha": 6.741,
-      "actual_hg_ha": 57179.0,
-      "predicted_hg_ha": 67413.3,
+      "crop": "Maize",
+      "province": "Sorsogon",
+      "year": 2022,
+      "actual_mt_ha": 2.29,
+      "predicted_mt_ha": 2.216,
+      "actual_hg_ha": 22896.7,
+      "predicted_hg_ha": 22162.4,
+      "residual_mt_ha": -0.073
+    },
+    {
+      "crop": "Maize",
+      "province": "Misamis Oriental",
+      "year": 2022,
+      "actual_mt_ha": 2.563,
+      "predicted_mt_ha": 2.477,
+      "actual_hg_ha": 25634.1,
+      "predicted_hg_ha": 24769.6,
+      "residual_mt_ha": -0.086
+    },
+    {
+      "crop": "Maize",
+      "province": "Mountain Province",
+      "year": 2023,
+      "actual_mt_ha": 3.499,
+      "predicted_mt_ha": 3.254,
+      "actual_hg_ha": 34988.1,
+      "predicted_hg_ha": 32537.0,
+      "residual_mt_ha": -0.245
+    },
+    {
+      "crop": "Maize",
+      "province": "Cotabato",
+      "year": 2023,
+      "actual_mt_ha": 2.404,
+      "predicted_mt_ha": 2.883,
+      "actual_hg_ha": 24038.0,
+      "predicted_hg_ha": 28829.1,
+      "residual_mt_ha": 0.479
+    },
+    {
+      "crop": "Mango",
+      "province": "Camarines Sur",
+      "year": 2022,
+      "actual_mt_ha": 0.268,
+      "predicted_mt_ha": 0.335,
+      "actual_hg_ha": 2676.1,
+      "predicted_hg_ha": 3350.1,
+      "residual_mt_ha": 0.067
+    },
+    {
+      "crop": "Mango",
+      "province": "Southern Leyte",
+      "year": 2025,
+      "actual_mt_ha": 0.721,
+      "predicted_mt_ha": 0.622,
+      "actual_hg_ha": 7209.3,
+      "predicted_hg_ha": 6217.4,
+      "residual_mt_ha": -0.099
+    },
+    {
+      "crop": "Mango",
+      "province": "Apayao",
+      "year": 2024,
+      "actual_mt_ha": 0.101,
+      "predicted_mt_ha": 0.232,
+      "actual_hg_ha": 1014.2,
+      "predicted_hg_ha": 2322.0,
+      "residual_mt_ha": 0.131
+    },
+    {
+      "crop": "Mango",
+      "province": "Samar",
+      "year": 2024,
+      "actual_mt_ha": 1.499,
+      "predicted_mt_ha": 1.037,
+      "actual_hg_ha": 14993.8,
+      "predicted_hg_ha": 10369.7,
+      "residual_mt_ha": -0.462
+    },
+    {
+      "crop": "Mango",
+      "province": "Agusan del Sur",
+      "year": 2023,
+      "actual_mt_ha": 0.645,
+      "predicted_mt_ha": 0.783,
+      "actual_hg_ha": 6446.5,
+      "predicted_hg_ha": 7826.5,
+      "residual_mt_ha": 0.138
+    },
+    {
+      "crop": "Mango",
+      "province": "Davao Occidental",
+      "year": 2023,
+      "actual_mt_ha": 2.771,
+      "predicted_mt_ha": 2.518,
+      "actual_hg_ha": 27713.2,
+      "predicted_hg_ha": 25180.5,
+      "residual_mt_ha": -0.253
+    },
+    {
+      "crop": "Mango",
+      "province": "Maguindanao del Norte",
+      "year": 2025,
+      "actual_mt_ha": 1.885,
+      "predicted_mt_ha": 1.78,
+      "actual_hg_ha": 18845.4,
+      "predicted_hg_ha": 17796.9,
+      "residual_mt_ha": -0.105
+    },
+    {
+      "crop": "Mango",
+      "province": "Misamis Occidental",
+      "year": 2022,
+      "actual_mt_ha": 10.769,
+      "predicted_mt_ha": 9.68,
+      "actual_hg_ha": 107693.4,
+      "predicted_hg_ha": 96803.7,
+      "residual_mt_ha": -1.089
+    },
+    {
+      "crop": "Mango",
+      "province": "Bulacan",
+      "year": 2024,
+      "actual_mt_ha": 1.054,
+      "predicted_mt_ha": 1.025,
+      "actual_hg_ha": 10544.1,
+      "predicted_hg_ha": 10252.5,
+      "residual_mt_ha": -0.029
+    },
+    {
+      "crop": "Mango",
+      "province": "Davao del Sur",
+      "year": 2022,
+      "actual_mt_ha": 2.332,
+      "predicted_mt_ha": 2.397,
+      "actual_hg_ha": 23317.7,
+      "predicted_hg_ha": 23966.8,
+      "residual_mt_ha": 0.065
+    },
+    {
+      "crop": "Mungbean",
+      "province": "Aurora",
+      "year": 2025,
+      "actual_mt_ha": 1.085,
+      "predicted_mt_ha": 1.163,
+      "actual_hg_ha": 10853.7,
+      "predicted_hg_ha": 11625.7,
+      "residual_mt_ha": 0.077
+    },
+    {
+      "crop": "Mungbean",
+      "province": "Kalinga",
+      "year": 2025,
+      "actual_mt_ha": 0.358,
+      "predicted_mt_ha": 0.509,
+      "actual_hg_ha": 3579.6,
+      "predicted_hg_ha": 5085.7,
+      "residual_mt_ha": 0.151
+    },
+    {
+      "crop": "Mungbean",
+      "province": "Pampanga",
+      "year": 2025,
+      "actual_mt_ha": 2.662,
+      "predicted_mt_ha": 1.299,
+      "actual_hg_ha": 26620.0,
+      "predicted_hg_ha": 12993.7,
+      "residual_mt_ha": -1.363
+    },
+    {
+      "crop": "Mungbean",
+      "province": "Leyte",
+      "year": 2025,
+      "actual_mt_ha": 0.453,
+      "predicted_mt_ha": 0.559,
+      "actual_hg_ha": 4528.7,
+      "predicted_hg_ha": 5592.9,
+      "residual_mt_ha": 0.106
+    },
+    {
+      "crop": "Mungbean",
+      "province": "Surigao del Sur",
+      "year": 2024,
+      "actual_mt_ha": 0.146,
+      "predicted_mt_ha": 0.589,
+      "actual_hg_ha": 1455.6,
+      "predicted_hg_ha": 5894.9,
+      "residual_mt_ha": 0.444
+    },
+    {
+      "crop": "Mungbean",
+      "province": "Southern Leyte",
+      "year": 2023,
+      "actual_mt_ha": 0.737,
+      "predicted_mt_ha": 0.842,
+      "actual_hg_ha": 7368.4,
+      "predicted_hg_ha": 8417.6,
+      "residual_mt_ha": 0.105
+    },
+    {
+      "crop": "Mungbean",
+      "province": "Davao del Sur",
+      "year": 2025,
+      "actual_mt_ha": 0.874,
+      "predicted_mt_ha": 0.509,
+      "actual_hg_ha": 8741.1,
+      "predicted_hg_ha": 5086.0,
+      "residual_mt_ha": -0.366
+    },
+    {
+      "crop": "Mungbean",
+      "province": "Quezon",
+      "year": 2024,
+      "actual_mt_ha": 0.527,
+      "predicted_mt_ha": 0.673,
+      "actual_hg_ha": 5269.6,
+      "predicted_hg_ha": 6726.5,
+      "residual_mt_ha": 0.146
+    },
+    {
+      "crop": "Mungbean",
+      "province": "Zambales",
+      "year": 2023,
+      "actual_mt_ha": 0.341,
+      "predicted_mt_ha": 0.482,
+      "actual_hg_ha": 3408.8,
+      "predicted_hg_ha": 4823.5,
+      "residual_mt_ha": 0.141
+    },
+    {
+      "crop": "Mungbean",
+      "province": "Maguindanao del Sur",
+      "year": 2025,
+      "actual_mt_ha": 2.751,
+      "predicted_mt_ha": 0.887,
+      "actual_hg_ha": 27511.1,
+      "predicted_hg_ha": 8865.9,
+      "residual_mt_ha": -1.865
+    },
+    {
+      "crop": "Papaya",
+      "province": "Lanao del Sur",
+      "year": 2023,
+      "actual_mt_ha": 7.445,
+      "predicted_mt_ha": 9.986,
+      "actual_hg_ha": 74452.2,
+      "predicted_hg_ha": 99864.5,
+      "residual_mt_ha": 2.541
+    },
+    {
+      "crop": "Papaya",
+      "province": "Guimaras",
+      "year": 2022,
+      "actual_mt_ha": 8.202,
+      "predicted_mt_ha": 5.195,
+      "actual_hg_ha": 82017.6,
+      "predicted_hg_ha": 51947.4,
+      "residual_mt_ha": -3.007
+    },
+    {
+      "crop": "Papaya",
+      "province": "Misamis Oriental",
+      "year": 2025,
+      "actual_mt_ha": 80.169,
+      "predicted_mt_ha": 85.959,
+      "actual_hg_ha": 801693.7,
+      "predicted_hg_ha": 859586.3,
+      "residual_mt_ha": 5.789
+    },
+    {
+      "crop": "Papaya",
+      "province": "Agusan del Sur",
+      "year": 2023,
+      "actual_mt_ha": 7.587,
+      "predicted_mt_ha": 9.273,
+      "actual_hg_ha": 75873.7,
+      "predicted_hg_ha": 92726.2,
+      "residual_mt_ha": 1.685
+    },
+    {
+      "crop": "Papaya",
+      "province": "Davao Occidental",
+      "year": 2022,
+      "actual_mt_ha": 23.45,
+      "predicted_mt_ha": 24.73,
+      "actual_hg_ha": 234499.8,
+      "predicted_hg_ha": 247302.6,
+      "residual_mt_ha": 1.28
+    },
+    {
+      "crop": "Papaya",
+      "province": "Davao del Norte",
+      "year": 2025,
+      "actual_mt_ha": 22.25,
+      "predicted_mt_ha": 22.437,
+      "actual_hg_ha": 222501.1,
+      "predicted_hg_ha": 224370.4,
+      "residual_mt_ha": 0.187
+    },
+    {
+      "crop": "Papaya",
+      "province": "Romblon",
+      "year": 2024,
+      "actual_mt_ha": 2.269,
+      "predicted_mt_ha": 5.147,
+      "actual_hg_ha": 22694.0,
+      "predicted_hg_ha": 51469.7,
+      "residual_mt_ha": 2.878
+    },
+    {
+      "crop": "Papaya",
+      "province": "Kalinga",
+      "year": 2024,
+      "actual_mt_ha": 1.593,
+      "predicted_mt_ha": 1.107,
+      "actual_hg_ha": 15925.0,
+      "predicted_hg_ha": 11065.3,
+      "residual_mt_ha": -0.486
+    },
+    {
+      "crop": "Papaya",
+      "province": "Oriental Mindoro",
+      "year": 2022,
+      "actual_mt_ha": 5.733,
+      "predicted_mt_ha": 5.367,
+      "actual_hg_ha": 57329.0,
+      "predicted_hg_ha": 53669.1,
+      "residual_mt_ha": -0.366
+    },
+    {
+      "crop": "Papaya",
+      "province": "Zamboanga Sibugay",
+      "year": 2023,
+      "actual_mt_ha": 11.518,
+      "predicted_mt_ha": 11.819,
+      "actual_hg_ha": 115177.9,
+      "predicted_hg_ha": 118193.7,
+      "residual_mt_ha": 0.302
+    },
+    {
+      "crop": "Peanut",
+      "province": "Tarlac",
+      "year": 2025,
+      "actual_mt_ha": 1.268,
+      "predicted_mt_ha": 1.369,
+      "actual_hg_ha": 12677.4,
+      "predicted_hg_ha": 13688.1,
+      "residual_mt_ha": 0.101
+    },
+    {
+      "crop": "Peanut",
+      "province": "Aklan",
+      "year": 2022,
+      "actual_mt_ha": 0.961,
+      "predicted_mt_ha": 0.79,
+      "actual_hg_ha": 9614.0,
+      "predicted_hg_ha": 7896.5,
+      "residual_mt_ha": -0.172
+    },
+    {
+      "crop": "Peanut",
+      "province": "Bulacan",
+      "year": 2022,
+      "actual_mt_ha": 1.627,
+      "predicted_mt_ha": 1.372,
+      "actual_hg_ha": 16270.0,
+      "predicted_hg_ha": 13717.6,
+      "residual_mt_ha": -0.255
+    },
+    {
+      "crop": "Peanut",
+      "province": "Bulacan",
+      "year": 2025,
+      "actual_mt_ha": 2.644,
+      "predicted_mt_ha": 1.316,
+      "actual_hg_ha": 26436.4,
+      "predicted_hg_ha": 13155.7,
+      "residual_mt_ha": -1.328
+    },
+    {
+      "crop": "Peanut",
+      "province": "Aurora",
+      "year": 2022,
+      "actual_mt_ha": 1.617,
+      "predicted_mt_ha": 1.516,
+      "actual_hg_ha": 16166.6,
+      "predicted_hg_ha": 15158.7,
+      "residual_mt_ha": -0.101
+    },
+    {
+      "crop": "Peanut",
+      "province": "Cagayan",
+      "year": 2024,
+      "actual_mt_ha": 1.804,
+      "predicted_mt_ha": 1.441,
+      "actual_hg_ha": 18044.7,
+      "predicted_hg_ha": 14413.2,
+      "residual_mt_ha": -0.363
+    },
+    {
+      "crop": "Peanut",
+      "province": "Cotabato",
+      "year": 2024,
+      "actual_mt_ha": 0.499,
+      "predicted_mt_ha": 0.844,
+      "actual_hg_ha": 4985.8,
+      "predicted_hg_ha": 8437.8,
+      "residual_mt_ha": 0.345
+    },
+    {
+      "crop": "Peanut",
+      "province": "Misamis Oriental",
+      "year": 2022,
+      "actual_mt_ha": 1.17,
+      "predicted_mt_ha": 1.265,
+      "actual_hg_ha": 11702.3,
+      "predicted_hg_ha": 12650.5,
+      "residual_mt_ha": 0.095
+    },
+    {
+      "crop": "Peanut",
+      "province": "Romblon",
+      "year": 2022,
+      "actual_mt_ha": 1.157,
+      "predicted_mt_ha": 1.128,
+      "actual_hg_ha": 11574.8,
+      "predicted_hg_ha": 11282.4,
+      "residual_mt_ha": -0.029
+    },
+    {
+      "crop": "Peanut",
+      "province": "Biliran",
+      "year": 2023,
+      "actual_mt_ha": 2.47,
+      "predicted_mt_ha": 1.803,
+      "actual_hg_ha": 24700.2,
+      "predicted_hg_ha": 18025.1,
+      "residual_mt_ha": -0.668
+    },
+    {
+      "crop": "Pechay",
+      "province": "Lanao del Sur",
+      "year": 2023,
+      "actual_mt_ha": 3.808,
+      "predicted_mt_ha": 6.665,
+      "actual_hg_ha": 38079.0,
+      "predicted_hg_ha": 66648.0,
+      "residual_mt_ha": 2.857
+    },
+    {
+      "crop": "Pechay",
+      "province": "Basilan",
+      "year": 2023,
+      "actual_mt_ha": 1.658,
+      "predicted_mt_ha": 1.562,
+      "actual_hg_ha": 16578.9,
+      "predicted_hg_ha": 15618.3,
+      "residual_mt_ha": -0.096
+    },
+    {
+      "crop": "Pechay",
+      "province": "Laguna",
+      "year": 2023,
+      "actual_mt_ha": 9.152,
+      "predicted_mt_ha": 10.293,
+      "actual_hg_ha": 91521.5,
+      "predicted_hg_ha": 102934.5,
+      "residual_mt_ha": 1.141
+    },
+    {
+      "crop": "Pechay",
+      "province": "Camarines Sur",
+      "year": 2024,
+      "actual_mt_ha": 6.117,
+      "predicted_mt_ha": 4.723,
+      "actual_hg_ha": 61173.2,
+      "predicted_hg_ha": 47229.9,
+      "residual_mt_ha": -1.394
+    },
+    {
+      "crop": "Pechay",
+      "province": "Cavite",
+      "year": 2023,
+      "actual_mt_ha": 5.232,
+      "predicted_mt_ha": 4.23,
+      "actual_hg_ha": 52317.4,
+      "predicted_hg_ha": 42303.9,
+      "residual_mt_ha": -1.001
+    },
+    {
+      "crop": "Pechay",
+      "province": "Siquijor",
+      "year": 2024,
+      "actual_mt_ha": 5.819,
+      "predicted_mt_ha": 5.917,
+      "actual_hg_ha": 58191.0,
+      "predicted_hg_ha": 59171.9,
+      "residual_mt_ha": 0.098
+    },
+    {
+      "crop": "Pechay",
+      "province": "Apayao",
+      "year": 2023,
+      "actual_mt_ha": 2.272,
+      "predicted_mt_ha": 2.001,
+      "actual_hg_ha": 22721.7,
+      "predicted_hg_ha": 20008.2,
+      "residual_mt_ha": -0.271
+    },
+    {
+      "crop": "Pechay",
+      "province": "Agusan del Sur",
+      "year": 2023,
+      "actual_mt_ha": 5.088,
+      "predicted_mt_ha": 7.294,
+      "actual_hg_ha": 50879.5,
+      "predicted_hg_ha": 72935.0,
+      "residual_mt_ha": 2.206
+    },
+    {
+      "crop": "Pechay",
+      "province": "Bukidnon",
+      "year": 2025,
+      "actual_mt_ha": 8.778,
+      "predicted_mt_ha": 8.014,
+      "actual_hg_ha": 87778.8,
+      "predicted_hg_ha": 80144.5,
+      "residual_mt_ha": -0.763
+    },
+    {
+      "crop": "Pechay",
+      "province": "Camiguin",
+      "year": 2024,
+      "actual_mt_ha": 4.361,
+      "predicted_mt_ha": 4.292,
+      "actual_hg_ha": 43606.6,
+      "predicted_hg_ha": 42917.2,
+      "residual_mt_ha": -0.069
+    },
+    {
+      "crop": "Pineapple",
+      "province": "Catanduanes",
+      "year": 2024,
+      "actual_mt_ha": 1.188,
+      "predicted_mt_ha": 2.322,
+      "actual_hg_ha": 11875.0,
+      "predicted_hg_ha": 23224.1,
+      "residual_mt_ha": 1.135
+    },
+    {
+      "crop": "Pineapple",
+      "province": "Sultan Kudarat",
+      "year": 2024,
+      "actual_mt_ha": 10.763,
+      "predicted_mt_ha": 28.099,
+      "actual_hg_ha": 107627.9,
+      "predicted_hg_ha": 280987.5,
+      "residual_mt_ha": 17.336
+    },
+    {
+      "crop": "Pineapple",
+      "province": "Batangas",
+      "year": 2025,
+      "actual_mt_ha": 17.41,
+      "predicted_mt_ha": 8.242,
+      "actual_hg_ha": 174100.0,
+      "predicted_hg_ha": 82422.0,
+      "residual_mt_ha": -9.168
+    },
+    {
+      "crop": "Pineapple",
+      "province": "Marinduque",
+      "year": 2025,
+      "actual_mt_ha": 14.37,
+      "predicted_mt_ha": 5.264,
+      "actual_hg_ha": 143700.0,
+      "predicted_hg_ha": 52643.4,
+      "residual_mt_ha": -9.106
+    },
+    {
+      "crop": "Pineapple",
+      "province": "Iloilo",
+      "year": 2024,
+      "actual_mt_ha": 34.853,
+      "predicted_mt_ha": 31.533,
+      "actual_hg_ha": 348526.4,
+      "predicted_hg_ha": 315325.3,
+      "residual_mt_ha": -3.32
+    },
+    {
+      "crop": "Pineapple",
+      "province": "Guimaras",
+      "year": 2022,
+      "actual_mt_ha": 7.512,
+      "predicted_mt_ha": 4.569,
+      "actual_hg_ha": 75118.5,
+      "predicted_hg_ha": 45694.8,
+      "residual_mt_ha": -2.942
+    },
+    {
+      "crop": "Pineapple",
+      "province": "Quirino",
+      "year": 2023,
+      "actual_mt_ha": 6.013,
+      "predicted_mt_ha": 9.237,
+      "actual_hg_ha": 60134.1,
+      "predicted_hg_ha": 92374.8,
+      "residual_mt_ha": 3.224
+    },
+    {
+      "crop": "Pineapple",
+      "province": "Dinagat Islands",
+      "year": 2023,
+      "actual_mt_ha": 0.326,
+      "predicted_mt_ha": 0.698,
+      "actual_hg_ha": 3260.0,
+      "predicted_hg_ha": 6979.3,
+      "residual_mt_ha": 0.372
+    },
+    {
+      "crop": "Pineapple",
+      "province": "Agusan del Sur",
+      "year": 2023,
+      "actual_mt_ha": 11.776,
+      "predicted_mt_ha": 13.517,
+      "actual_hg_ha": 117763.3,
+      "predicted_hg_ha": 135166.5,
+      "residual_mt_ha": 1.74
+    },
+    {
+      "crop": "Pineapple",
+      "province": "Cebu",
+      "year": 2023,
+      "actual_mt_ha": 10.72,
+      "predicted_mt_ha": 20.516,
+      "actual_hg_ha": 107200.0,
+      "predicted_hg_ha": 205159.3,
+      "residual_mt_ha": 9.796
+    },
+    {
+      "crop": "Plantains and others",
+      "province": "Lanao del Sur",
+      "year": 2023,
+      "actual_mt_ha": 22.107,
+      "predicted_mt_ha": 21.972,
+      "actual_hg_ha": 221065.6,
+      "predicted_hg_ha": 219724.0,
+      "residual_mt_ha": -0.134
+    },
+    {
+      "crop": "Plantains and others",
+      "province": "Guimaras",
+      "year": 2022,
+      "actual_mt_ha": 17.518,
+      "predicted_mt_ha": 13.19,
+      "actual_hg_ha": 175177.1,
+      "predicted_hg_ha": 131903.5,
+      "residual_mt_ha": -4.327
+    },
+    {
+      "crop": "Plantains and others",
+      "province": "Misamis Oriental",
+      "year": 2025,
+      "actual_mt_ha": 14.913,
+      "predicted_mt_ha": 14.175,
+      "actual_hg_ha": 149126.6,
+      "predicted_hg_ha": 141748.3,
+      "residual_mt_ha": -0.738
+    },
+    {
+      "crop": "Plantains and others",
+      "province": "Agusan del Sur",
+      "year": 2023,
+      "actual_mt_ha": 9.534,
+      "predicted_mt_ha": 9.918,
+      "actual_hg_ha": 95340.0,
+      "predicted_hg_ha": 99175.3,
+      "residual_mt_ha": 0.384
+    },
+    {
+      "crop": "Plantains and others",
+      "province": "Davao Occidental",
+      "year": 2022,
+      "actual_mt_ha": 40.238,
+      "predicted_mt_ha": 39.815,
+      "actual_hg_ha": 402377.5,
+      "predicted_hg_ha": 398149.1,
+      "residual_mt_ha": -0.423
+    },
+    {
+      "crop": "Plantains and others",
+      "province": "Davao del Norte",
+      "year": 2025,
+      "actual_mt_ha": 9.357,
+      "predicted_mt_ha": 10.38,
+      "actual_hg_ha": 93567.2,
+      "predicted_hg_ha": 103798.0,
       "residual_mt_ha": 1.023
     },
     {
+      "crop": "Plantains and others",
+      "province": "Romblon",
+      "year": 2024,
+      "actual_mt_ha": 3.791,
+      "predicted_mt_ha": 3.242,
+      "actual_hg_ha": 37906.7,
+      "predicted_hg_ha": 32420.9,
+      "residual_mt_ha": -0.549
+    },
+    {
+      "crop": "Plantains and others",
+      "province": "Kalinga",
+      "year": 2024,
+      "actual_mt_ha": 5.259,
+      "predicted_mt_ha": 3.197,
+      "actual_hg_ha": 52591.7,
+      "predicted_hg_ha": 31967.1,
+      "residual_mt_ha": -2.062
+    },
+    {
+      "crop": "Plantains and others",
+      "province": "Oriental Mindoro",
+      "year": 2022,
+      "actual_mt_ha": 3.024,
+      "predicted_mt_ha": 6.931,
+      "actual_hg_ha": 30244.1,
+      "predicted_hg_ha": 69306.0,
+      "residual_mt_ha": 3.906
+    },
+    {
+      "crop": "Plantains and others",
+      "province": "Zamboanga Sibugay",
+      "year": 2023,
+      "actual_mt_ha": 19.328,
+      "predicted_mt_ha": 19.531,
+      "actual_hg_ha": 193283.1,
+      "predicted_hg_ha": 195307.4,
+      "residual_mt_ha": 0.202
+    },
+    {
+      "crop": "Potatoes",
+      "province": "Davao del Sur",
+      "year": 2022,
+      "actual_mt_ha": 8.905,
+      "predicted_mt_ha": 7.692,
+      "actual_hg_ha": 89051.1,
+      "predicted_hg_ha": 76924.1,
+      "residual_mt_ha": -1.213
+    },
+    {
+      "crop": "Potatoes",
+      "province": "Sarangani",
+      "year": 2024,
+      "actual_mt_ha": 3.433,
+      "predicted_mt_ha": 4.163,
+      "actual_hg_ha": 34327.0,
+      "predicted_hg_ha": 41633.9,
+      "residual_mt_ha": 0.731
+    },
+    {
+      "crop": "Potatoes",
+      "province": "Negros Oriental",
+      "year": 2022,
+      "actual_mt_ha": 0.69,
+      "predicted_mt_ha": 2.065,
+      "actual_hg_ha": 6900.0,
+      "predicted_hg_ha": 20647.2,
+      "residual_mt_ha": 1.375
+    },
+    {
+      "crop": "Potatoes",
+      "province": "Sultan Kudarat",
+      "year": 2023,
+      "actual_mt_ha": 7.145,
+      "predicted_mt_ha": 9.977,
+      "actual_hg_ha": 71452.6,
+      "predicted_hg_ha": 99769.4,
+      "residual_mt_ha": 2.832
+    },
+    {
+      "crop": "Potatoes",
+      "province": "Ifugao",
+      "year": 2022,
+      "actual_mt_ha": 8.484,
+      "predicted_mt_ha": 13.154,
+      "actual_hg_ha": 84835.8,
+      "predicted_hg_ha": 131537.7,
+      "residual_mt_ha": 4.67
+    },
+    {
+      "crop": "Potatoes",
+      "province": "Tawi-Tawi",
+      "year": 2025,
+      "actual_mt_ha": 0.62,
+      "predicted_mt_ha": 2.708,
+      "actual_hg_ha": 6200.0,
+      "predicted_hg_ha": 27082.5,
+      "residual_mt_ha": 2.088
+    },
+    {
+      "crop": "Potatoes",
+      "province": "Mountain Province",
+      "year": 2022,
+      "actual_mt_ha": 11.904,
+      "predicted_mt_ha": 12.659,
+      "actual_hg_ha": 119044.3,
+      "predicted_hg_ha": 126587.5,
+      "residual_mt_ha": 0.754
+    },
+    {
+      "crop": "Potatoes",
+      "province": "Misamis Oriental",
+      "year": 2025,
+      "actual_mt_ha": 0.864,
+      "predicted_mt_ha": 9.882,
+      "actual_hg_ha": 8636.4,
+      "predicted_hg_ha": 98820.0,
+      "residual_mt_ha": 9.018
+    },
+    {
+      "crop": "Potatoes",
+      "province": "Negros Oriental",
+      "year": 2024,
+      "actual_mt_ha": 0.74,
+      "predicted_mt_ha": 4.114,
+      "actual_hg_ha": 7403.8,
+      "predicted_hg_ha": 41137.3,
+      "residual_mt_ha": 3.373
+    },
+    {
+      "crop": "Potatoes",
+      "province": "Ifugao",
+      "year": 2024,
+      "actual_mt_ha": 2.759,
+      "predicted_mt_ha": 12.66,
+      "actual_hg_ha": 27591.7,
+      "predicted_hg_ha": 126601.3,
+      "residual_mt_ha": 9.901
+    },
+    {
+      "crop": "Red Onion",
+      "province": "La Union",
+      "year": 2025,
+      "actual_mt_ha": 11.203,
+      "predicted_mt_ha": 8.026,
+      "actual_hg_ha": 112026.5,
+      "predicted_hg_ha": 80261.2,
+      "residual_mt_ha": -3.177
+    },
+    {
+      "crop": "Red Onion",
+      "province": "Isabela",
+      "year": 2024,
+      "actual_mt_ha": 2.723,
+      "predicted_mt_ha": 8.249,
+      "actual_hg_ha": 27225.8,
+      "predicted_hg_ha": 82490.0,
+      "residual_mt_ha": 5.526
+    },
+    {
+      "crop": "Red Onion",
+      "province": "Iloilo",
+      "year": 2025,
+      "actual_mt_ha": 7.408,
+      "predicted_mt_ha": 8.422,
+      "actual_hg_ha": 74076.9,
+      "predicted_hg_ha": 84217.0,
+      "residual_mt_ha": 1.014
+    },
+    {
+      "crop": "Red Onion",
+      "province": "Nueva Vizcaya",
+      "year": 2024,
+      "actual_mt_ha": 10.06,
+      "predicted_mt_ha": 6.614,
+      "actual_hg_ha": 100597.4,
+      "predicted_hg_ha": 66140.0,
+      "residual_mt_ha": -3.446
+    },
+    {
+      "crop": "Red Onion",
+      "province": "Batangas",
+      "year": 2025,
+      "actual_mt_ha": 0.562,
+      "predicted_mt_ha": 6.967,
+      "actual_hg_ha": 5616.4,
+      "predicted_hg_ha": 69674.3,
+      "residual_mt_ha": 6.406
+    },
+    {
+      "crop": "Red Onion",
+      "province": "Ilocos Sur",
+      "year": 2025,
+      "actual_mt_ha": 23.485,
+      "predicted_mt_ha": 5.649,
+      "actual_hg_ha": 234852.6,
+      "predicted_hg_ha": 56494.4,
+      "residual_mt_ha": -17.836
+    },
+    {
+      "crop": "Red Onion",
+      "province": "Tarlac",
+      "year": 2023,
+      "actual_mt_ha": 10.583,
+      "predicted_mt_ha": 8.46,
+      "actual_hg_ha": 105833.3,
+      "predicted_hg_ha": 84599.4,
+      "residual_mt_ha": -2.123
+    },
+    {
+      "crop": "Red Onion",
+      "province": "Nueva Vizcaya",
+      "year": 2025,
+      "actual_mt_ha": 13.119,
+      "predicted_mt_ha": 6.609,
+      "actual_hg_ha": 131189.9,
+      "predicted_hg_ha": 66090.6,
+      "residual_mt_ha": -6.51
+    },
+    {
+      "crop": "Red Onion",
+      "province": "Tarlac",
+      "year": 2025,
+      "actual_mt_ha": 13.321,
+      "predicted_mt_ha": 9.614,
+      "actual_hg_ha": 133213.8,
+      "predicted_hg_ha": 96135.6,
+      "residual_mt_ha": -3.708
+    },
+    {
+      "crop": "Red Onion",
+      "province": "Cavite",
+      "year": 2025,
+      "actual_mt_ha": 3.922,
+      "predicted_mt_ha": 4.464,
+      "actual_hg_ha": 39220.2,
+      "predicted_hg_ha": 44640.3,
+      "residual_mt_ha": 0.542
+    },
+    {
+      "crop": "Rice, paddy",
+      "province": "Palawan",
+      "year": 2022,
+      "actual_mt_ha": 3.9,
+      "predicted_mt_ha": 3.509,
+      "actual_hg_ha": 39003.2,
+      "predicted_hg_ha": 35090.5,
+      "residual_mt_ha": -0.391
+    },
+    {
+      "crop": "Rice, paddy",
+      "province": "Davao Oriental",
+      "year": 2024,
+      "actual_mt_ha": 4.593,
+      "predicted_mt_ha": 4.517,
+      "actual_hg_ha": 45928.4,
+      "predicted_hg_ha": 45168.7,
+      "residual_mt_ha": -0.076
+    },
+    {
+      "crop": "Rice, paddy",
+      "province": "Quezon",
+      "year": 2025,
+      "actual_mt_ha": 3.278,
+      "predicted_mt_ha": 3.273,
+      "actual_hg_ha": 32775.8,
+      "predicted_hg_ha": 32726.0,
+      "residual_mt_ha": -0.005
+    },
+    {
+      "crop": "Rice, paddy",
+      "province": "Agusan del Sur",
+      "year": 2023,
+      "actual_mt_ha": 3.391,
+      "predicted_mt_ha": 3.173,
+      "actual_hg_ha": 33910.4,
+      "predicted_hg_ha": 31729.8,
+      "residual_mt_ha": -0.218
+    },
+    {
+      "crop": "Rice, paddy",
+      "province": "Cavite",
+      "year": 2023,
+      "actual_mt_ha": 3.848,
+      "predicted_mt_ha": 3.634,
+      "actual_hg_ha": 38477.6,
+      "predicted_hg_ha": 36343.9,
+      "residual_mt_ha": -0.213
+    },
+    {
+      "crop": "Rice, paddy",
+      "province": "Nueva Ecija",
+      "year": 2023,
+      "actual_mt_ha": 6.278,
+      "predicted_mt_ha": 5.279,
+      "actual_hg_ha": 62784.5,
+      "predicted_hg_ha": 52786.0,
+      "residual_mt_ha": -1.0
+    },
+    {
+      "crop": "Rice, paddy",
+      "province": "Sorsogon",
+      "year": 2022,
+      "actual_mt_ha": 4.313,
+      "predicted_mt_ha": 4.137,
+      "actual_hg_ha": 43130.9,
+      "predicted_hg_ha": 41373.1,
+      "residual_mt_ha": -0.176
+    },
+    {
+      "crop": "Rice, paddy",
+      "province": "Misamis Oriental",
+      "year": 2022,
+      "actual_mt_ha": 3.908,
+      "predicted_mt_ha": 4.045,
+      "actual_hg_ha": 39079.6,
+      "predicted_hg_ha": 40446.3,
+      "residual_mt_ha": 0.137
+    },
+    {
+      "crop": "Rice, paddy",
+      "province": "Mountain Province",
+      "year": 2023,
+      "actual_mt_ha": 2.88,
+      "predicted_mt_ha": 2.943,
+      "actual_hg_ha": 28800.5,
+      "predicted_hg_ha": 29433.0,
+      "residual_mt_ha": 0.063
+    },
+    {
+      "crop": "Rice, paddy",
+      "province": "Cotabato",
+      "year": 2023,
+      "actual_mt_ha": 3.859,
+      "predicted_mt_ha": 3.919,
+      "actual_hg_ha": 38589.1,
+      "predicted_hg_ha": 39195.0,
+      "residual_mt_ha": 0.061
+    },
+    {
+      "crop": "Rubber",
+      "province": "Palawan",
+      "year": 2024,
+      "actual_mt_ha": 0.067,
+      "predicted_mt_ha": 0.068,
+      "actual_hg_ha": 667.9,
+      "predicted_hg_ha": 682.9,
+      "residual_mt_ha": 0.002
+    },
+    {
+      "crop": "Rubber",
+      "province": "Agusan del Sur",
+      "year": 2022,
+      "actual_mt_ha": 1.419,
+      "predicted_mt_ha": 1.239,
+      "actual_hg_ha": 14188.7,
+      "predicted_hg_ha": 12389.0,
+      "residual_mt_ha": -0.18
+    },
+    {
+      "crop": "Rubber",
+      "province": "Davao del Norte",
+      "year": 2022,
+      "actual_mt_ha": 1.768,
+      "predicted_mt_ha": 1.835,
+      "actual_hg_ha": 17685.0,
+      "predicted_hg_ha": 18351.9,
+      "residual_mt_ha": 0.067
+    },
+    {
+      "crop": "Rubber",
+      "province": "Misamis Oriental",
+      "year": 2025,
+      "actual_mt_ha": 1.054,
+      "predicted_mt_ha": 0.874,
+      "actual_hg_ha": 10537.5,
+      "predicted_hg_ha": 8735.4,
+      "residual_mt_ha": -0.18
+    },
+    {
+      "crop": "Rubber",
+      "province": "Basilan",
+      "year": 2024,
+      "actual_mt_ha": 1.875,
+      "predicted_mt_ha": 1.851,
+      "actual_hg_ha": 18748.5,
+      "predicted_hg_ha": 18514.7,
+      "residual_mt_ha": -0.023
+    },
+    {
+      "crop": "Rubber",
+      "province": "Davao del Sur",
+      "year": 2023,
+      "actual_mt_ha": 3.013,
+      "predicted_mt_ha": 2.451,
+      "actual_hg_ha": 30126.7,
+      "predicted_hg_ha": 24512.6,
+      "residual_mt_ha": -0.561
+    },
+    {
+      "crop": "Rubber",
+      "province": "Negros Oriental",
+      "year": 2022,
+      "actual_mt_ha": 0.076,
+      "predicted_mt_ha": 0.052,
+      "actual_hg_ha": 764.5,
+      "predicted_hg_ha": 522.2,
+      "residual_mt_ha": -0.024
+    },
+    {
+      "crop": "Rubber",
+      "province": "Misamis Oriental",
+      "year": 2022,
+      "actual_mt_ha": 0.933,
+      "predicted_mt_ha": 0.93,
+      "actual_hg_ha": 9328.2,
+      "predicted_hg_ha": 9296.2,
+      "residual_mt_ha": -0.003
+    },
+    {
+      "crop": "Rubber",
+      "province": "Davao del Sur",
+      "year": 2025,
+      "actual_mt_ha": 1.715,
+      "predicted_mt_ha": 2.421,
+      "actual_hg_ha": 17153.6,
+      "predicted_hg_ha": 24214.8,
+      "residual_mt_ha": 0.706
+    },
+    {
+      "crop": "Rubber",
+      "province": "Basilan",
+      "year": 2025,
+      "actual_mt_ha": 1.895,
+      "predicted_mt_ha": 1.754,
+      "actual_hg_ha": 18954.7,
+      "predicted_hg_ha": 17541.1,
+      "residual_mt_ha": -0.141
+    },
+    {
+      "crop": "Sorghum",
+      "province": "Ilocos Norte",
+      "year": 2024,
+      "actual_mt_ha": 6.313,
+      "predicted_mt_ha": 3.0,
+      "actual_hg_ha": 63128.2,
+      "predicted_hg_ha": 30002.5,
+      "residual_mt_ha": -3.313
+    },
+    {
+      "crop": "Sorghum",
+      "province": "Nueva Ecija",
+      "year": 2025,
+      "actual_mt_ha": 12.138,
+      "predicted_mt_ha": 6.003,
+      "actual_hg_ha": 121384.3,
+      "predicted_hg_ha": 60029.5,
+      "residual_mt_ha": -6.135
+    },
+    {
+      "crop": "Sorghum",
+      "province": "Ilocos Norte",
+      "year": 2025,
+      "actual_mt_ha": 5.931,
+      "predicted_mt_ha": 5.747,
+      "actual_hg_ha": 59305.6,
+      "predicted_hg_ha": 57469.5,
+      "residual_mt_ha": -0.184
+    },
+    {
+      "crop": "Sorghum",
+      "province": "Tarlac",
+      "year": 2022,
+      "actual_mt_ha": 6.244,
+      "predicted_mt_ha": 8.931,
+      "actual_hg_ha": 62444.4,
+      "predicted_hg_ha": 89309.7,
+      "residual_mt_ha": 2.687
+    },
+    {
+      "crop": "Sorghum",
+      "province": "Cotabato",
+      "year": 2022,
+      "actual_mt_ha": 1.6,
+      "predicted_mt_ha": 2.151,
+      "actual_hg_ha": 16000.0,
+      "predicted_hg_ha": 21510.7,
+      "residual_mt_ha": 0.551
+    },
+    {
+      "crop": "Sorghum",
+      "province": "Nueva Ecija",
+      "year": 2023,
+      "actual_mt_ha": 7.789,
+      "predicted_mt_ha": 6.413,
+      "actual_hg_ha": 77891.4,
+      "predicted_hg_ha": 64128.4,
+      "residual_mt_ha": -1.376
+    },
+    {
+      "crop": "Sorghum",
+      "province": "Sarangani",
+      "year": 2024,
+      "actual_mt_ha": 3.332,
+      "predicted_mt_ha": 3.602,
+      "actual_hg_ha": 33320.0,
+      "predicted_hg_ha": 36022.7,
+      "residual_mt_ha": 0.27
+    },
+    {
+      "crop": "Sorghum",
+      "province": "Sarangani",
+      "year": 2025,
+      "actual_mt_ha": 3.324,
+      "predicted_mt_ha": 3.841,
+      "actual_hg_ha": 33240.0,
+      "predicted_hg_ha": 38407.5,
+      "residual_mt_ha": 0.517
+    },
+    {
+      "crop": "Sorghum",
+      "province": "Nueva Ecija",
+      "year": 2024,
+      "actual_mt_ha": 8.226,
+      "predicted_mt_ha": 6.358,
+      "actual_hg_ha": 82255.7,
+      "predicted_hg_ha": 63577.4,
+      "residual_mt_ha": -1.868
+    },
+    {
+      "crop": "Sorghum",
+      "province": "Tarlac",
+      "year": 2025,
+      "actual_mt_ha": 2.938,
+      "predicted_mt_ha": 10.175,
+      "actual_hg_ha": 29380.0,
+      "predicted_hg_ha": 101751.0,
+      "residual_mt_ha": 7.237
+    },
+    {
+      "crop": "Soybeans",
+      "province": "Surigao del Sur",
+      "year": 2022,
+      "actual_mt_ha": 1.464,
+      "predicted_mt_ha": 1.375,
+      "actual_hg_ha": 14638.3,
+      "predicted_hg_ha": 13749.1,
+      "residual_mt_ha": -0.089
+    },
+    {
+      "crop": "Soybeans",
+      "province": "Sarangani",
+      "year": 2025,
+      "actual_mt_ha": 0.069,
+      "predicted_mt_ha": 0.571,
+      "actual_hg_ha": 691.8,
+      "predicted_hg_ha": 5711.5,
+      "residual_mt_ha": 0.502
+    },
+    {
+      "crop": "Soybeans",
+      "province": "Surigao del Sur",
+      "year": 2025,
+      "actual_mt_ha": 1.041,
+      "predicted_mt_ha": 1.426,
+      "actual_hg_ha": 10411.1,
+      "predicted_hg_ha": 14259.2,
+      "residual_mt_ha": 0.385
+    },
+    {
+      "crop": "Soybeans",
+      "province": "Davao de Oro",
+      "year": 2023,
+      "actual_mt_ha": 0.706,
+      "predicted_mt_ha": 1.01,
+      "actual_hg_ha": 7062.1,
+      "predicted_hg_ha": 10098.2,
+      "residual_mt_ha": 0.304
+    },
+    {
+      "crop": "Soybeans",
+      "province": "Ilocos Norte",
+      "year": 2025,
+      "actual_mt_ha": 0.81,
+      "predicted_mt_ha": 1.926,
+      "actual_hg_ha": 8100.0,
+      "predicted_hg_ha": 19259.9,
+      "residual_mt_ha": 1.116
+    },
+    {
+      "crop": "Soybeans",
+      "province": "Lanao del Sur",
+      "year": 2022,
+      "actual_mt_ha": 2.256,
+      "predicted_mt_ha": 3.792,
+      "actual_hg_ha": 22555.6,
+      "predicted_hg_ha": 37921.4,
+      "residual_mt_ha": 1.537
+    },
+    {
+      "crop": "Soybeans",
+      "province": "Davao del Norte",
+      "year": 2024,
+      "actual_mt_ha": 1.331,
+      "predicted_mt_ha": 2.366,
+      "actual_hg_ha": 13312.1,
+      "predicted_hg_ha": 23656.5,
+      "residual_mt_ha": 1.034
+    },
+    {
+      "crop": "Soybeans",
+      "province": "Lanao del Sur",
+      "year": 2023,
+      "actual_mt_ha": 3.353,
+      "predicted_mt_ha": 4.375,
+      "actual_hg_ha": 33533.3,
+      "predicted_hg_ha": 43753.1,
+      "residual_mt_ha": 1.022
+    },
+    {
+      "crop": "Soybeans",
+      "province": "Bukidnon",
+      "year": 2022,
+      "actual_mt_ha": 0.889,
+      "predicted_mt_ha": 1.253,
+      "actual_hg_ha": 8888.9,
+      "predicted_hg_ha": 12532.8,
+      "residual_mt_ha": 0.364
+    },
+    {
+      "crop": "Soybeans",
+      "province": "La Union",
+      "year": 2025,
+      "actual_mt_ha": 0.584,
+      "predicted_mt_ha": 1.308,
+      "actual_hg_ha": 5836.7,
+      "predicted_hg_ha": 13083.2,
+      "residual_mt_ha": 0.725
+    },
+    {
+      "crop": "Squash",
+      "province": "Lanao del Sur",
+      "year": 2024,
+      "actual_mt_ha": 3.919,
+      "predicted_mt_ha": 20.79,
+      "actual_hg_ha": 39192.2,
+      "predicted_hg_ha": 207899.2,
+      "residual_mt_ha": 16.871
+    },
+    {
+      "crop": "Squash",
+      "province": "Guimaras",
+      "year": 2023,
+      "actual_mt_ha": 21.354,
+      "predicted_mt_ha": 13.839,
+      "actual_hg_ha": 213537.4,
+      "predicted_hg_ha": 138393.5,
+      "residual_mt_ha": -7.514
+    },
+    {
+      "crop": "Squash",
+      "province": "Mountain Province",
+      "year": 2022,
+      "actual_mt_ha": 11.471,
+      "predicted_mt_ha": 9.466,
+      "actual_hg_ha": 114710.8,
+      "predicted_hg_ha": 94659.2,
+      "residual_mt_ha": -2.005
+    },
+    {
+      "crop": "Squash",
+      "province": "Agusan del Sur",
+      "year": 2023,
+      "actual_mt_ha": 14.667,
+      "predicted_mt_ha": 13.983,
+      "actual_hg_ha": 146670.5,
+      "predicted_hg_ha": 139825.3,
+      "residual_mt_ha": -0.685
+    },
+    {
+      "crop": "Squash",
+      "province": "Davao Occidental",
+      "year": 2023,
+      "actual_mt_ha": 16.058,
+      "predicted_mt_ha": 15.203,
+      "actual_hg_ha": 160577.6,
+      "predicted_hg_ha": 152033.1,
+      "residual_mt_ha": -0.854
+    },
+    {
+      "crop": "Squash",
+      "province": "Davao del Sur",
+      "year": 2022,
+      "actual_mt_ha": 18.893,
+      "predicted_mt_ha": 13.741,
+      "actual_hg_ha": 188926.0,
+      "predicted_hg_ha": 137409.0,
+      "residual_mt_ha": -5.152
+    },
+    {
+      "crop": "Squash",
+      "province": "Rizal",
+      "year": 2023,
+      "actual_mt_ha": 9.719,
+      "predicted_mt_ha": 6.855,
+      "actual_hg_ha": 97191.9,
+      "predicted_hg_ha": 68545.4,
+      "residual_mt_ha": -2.865
+    },
+    {
+      "crop": "Squash",
+      "province": "Kalinga",
+      "year": 2025,
+      "actual_mt_ha": 9.216,
+      "predicted_mt_ha": 15.603,
+      "actual_hg_ha": 92156.7,
+      "predicted_hg_ha": 156034.2,
+      "residual_mt_ha": 6.388
+    },
+    {
+      "crop": "Squash",
+      "province": "Oriental Mindoro",
+      "year": 2023,
+      "actual_mt_ha": 3.755,
+      "predicted_mt_ha": 6.189,
+      "actual_hg_ha": 37554.5,
+      "predicted_hg_ha": 61887.9,
+      "residual_mt_ha": 2.433
+    },
+    {
+      "crop": "Squash",
+      "province": "Zamboanga Sibugay",
+      "year": 2023,
+      "actual_mt_ha": 8.773,
+      "predicted_mt_ha": 11.066,
+      "actual_hg_ha": 87726.9,
+      "predicted_hg_ha": 110661.0,
+      "residual_mt_ha": 2.293
+    },
+    {
+      "crop": "String Beans",
+      "province": "Lanao del Sur",
+      "year": 2024,
+      "actual_mt_ha": 10.847,
+      "predicted_mt_ha": 2.877,
+      "actual_hg_ha": 108470.9,
+      "predicted_hg_ha": 28771.9,
+      "residual_mt_ha": -7.97
+    },
+    {
+      "crop": "String Beans",
+      "province": "Guimaras",
+      "year": 2023,
+      "actual_mt_ha": 20.976,
+      "predicted_mt_ha": 13.583,
+      "actual_hg_ha": 209756.1,
+      "predicted_hg_ha": 135828.8,
+      "residual_mt_ha": -7.393
+    },
+    {
+      "crop": "String Beans",
+      "province": "Mountain Province",
+      "year": 2022,
+      "actual_mt_ha": 3.663,
+      "predicted_mt_ha": 2.958,
+      "actual_hg_ha": 36626.2,
+      "predicted_hg_ha": 29584.8,
+      "residual_mt_ha": -0.704
+    },
+    {
+      "crop": "String Beans",
+      "province": "Agusan del Sur",
+      "year": 2023,
+      "actual_mt_ha": 11.631,
+      "predicted_mt_ha": 9.517,
+      "actual_hg_ha": 116312.3,
+      "predicted_hg_ha": 95169.0,
+      "residual_mt_ha": -2.114
+    },
+    {
+      "crop": "String Beans",
+      "province": "Davao Occidental",
+      "year": 2023,
+      "actual_mt_ha": 6.513,
+      "predicted_mt_ha": 6.401,
+      "actual_hg_ha": 65129.3,
+      "predicted_hg_ha": 64013.7,
+      "residual_mt_ha": -0.112
+    },
+    {
+      "crop": "String Beans",
+      "province": "Davao del Sur",
+      "year": 2022,
+      "actual_mt_ha": 7.062,
+      "predicted_mt_ha": 5.316,
+      "actual_hg_ha": 70620.8,
+      "predicted_hg_ha": 53155.5,
+      "residual_mt_ha": -1.747
+    },
+    {
+      "crop": "String Beans",
+      "province": "Rizal",
+      "year": 2023,
+      "actual_mt_ha": 7.428,
+      "predicted_mt_ha": 5.534,
+      "actual_hg_ha": 74276.4,
+      "predicted_hg_ha": 55343.9,
+      "residual_mt_ha": -1.893
+    },
+    {
+      "crop": "String Beans",
+      "province": "Kalinga",
+      "year": 2025,
+      "actual_mt_ha": 6.421,
+      "predicted_mt_ha": 4.975,
+      "actual_hg_ha": 64214.9,
+      "predicted_hg_ha": 49752.3,
+      "residual_mt_ha": -1.446
+    },
+    {
+      "crop": "String Beans",
+      "province": "Oriental Mindoro",
+      "year": 2023,
+      "actual_mt_ha": 4.247,
+      "predicted_mt_ha": 4.922,
+      "actual_hg_ha": 42468.3,
+      "predicted_hg_ha": 49222.6,
+      "residual_mt_ha": 0.675
+    },
+    {
+      "crop": "String Beans",
+      "province": "Zamboanga Sibugay",
+      "year": 2023,
+      "actual_mt_ha": 2.568,
+      "predicted_mt_ha": 2.316,
+      "actual_hg_ha": 25677.5,
+      "predicted_hg_ha": 23158.8,
+      "residual_mt_ha": -0.252
+    },
+    {
+      "crop": "Sugarcane",
+      "province": "Cebu",
+      "year": 2022,
+      "actual_mt_ha": 38.061,
+      "predicted_mt_ha": 46.359,
+      "actual_hg_ha": 380605.9,
+      "predicted_hg_ha": 463589.3,
+      "residual_mt_ha": 8.298
+    },
+    {
+      "crop": "Sugarcane",
+      "province": "Pangasinan",
+      "year": 2023,
+      "actual_mt_ha": 14.502,
+      "predicted_mt_ha": 27.389,
+      "actual_hg_ha": 145022.2,
+      "predicted_hg_ha": 273886.9,
+      "residual_mt_ha": 12.886
+    },
+    {
+      "crop": "Sugarcane",
+      "province": "Ilocos Norte",
+      "year": 2024,
+      "actual_mt_ha": 32.45,
+      "predicted_mt_ha": 53.125,
+      "actual_hg_ha": 324499.7,
+      "predicted_hg_ha": 531248.1,
+      "residual_mt_ha": 20.675
+    },
+    {
+      "crop": "Sugarcane",
+      "province": "Quirino",
+      "year": 2022,
+      "actual_mt_ha": 17.759,
+      "predicted_mt_ha": 17.706,
+      "actual_hg_ha": 177590.5,
+      "predicted_hg_ha": 177064.6,
+      "residual_mt_ha": -0.053
+    },
+    {
+      "crop": "Sugarcane",
+      "province": "Mountain Province",
+      "year": 2023,
+      "actual_mt_ha": 30.948,
+      "predicted_mt_ha": 32.087,
+      "actual_hg_ha": 309481.3,
+      "predicted_hg_ha": 320867.8,
+      "residual_mt_ha": 1.139
+    },
+    {
+      "crop": "Sugarcane",
+      "province": "Sarangani",
+      "year": 2022,
+      "actual_mt_ha": 34.365,
+      "predicted_mt_ha": 49.709,
+      "actual_hg_ha": 343649.5,
+      "predicted_hg_ha": 497089.7,
+      "residual_mt_ha": 15.344
+    },
+    {
+      "crop": "Sugarcane",
+      "province": "Batangas",
+      "year": 2023,
+      "actual_mt_ha": 38.76,
+      "predicted_mt_ha": 55.737,
+      "actual_hg_ha": 387599.2,
+      "predicted_hg_ha": 557372.0,
+      "residual_mt_ha": 16.977
+    },
+    {
+      "crop": "Sugarcane",
+      "province": "Benguet",
+      "year": 2022,
+      "actual_mt_ha": 3.065,
+      "predicted_mt_ha": 2.34,
+      "actual_hg_ha": 30653.1,
+      "predicted_hg_ha": 23400.5,
+      "residual_mt_ha": -0.725
+    },
+    {
+      "crop": "Sugarcane",
+      "province": "Batangas",
+      "year": 2024,
+      "actual_mt_ha": 24.047,
+      "predicted_mt_ha": 55.082,
+      "actual_hg_ha": 240473.6,
+      "predicted_hg_ha": 550819.8,
+      "residual_mt_ha": 31.035
+    },
+    {
+      "crop": "Sugarcane",
+      "province": "Antique",
+      "year": 2022,
+      "actual_mt_ha": 73.787,
+      "predicted_mt_ha": 61.881,
+      "actual_hg_ha": 737872.4,
+      "predicted_hg_ha": 618809.2,
+      "residual_mt_ha": -11.906
+    },
+    {
+      "crop": "Sweet potatoes",
+      "province": "Lanao del Sur",
+      "year": 2023,
+      "actual_mt_ha": 2.283,
+      "predicted_mt_ha": 3.605,
+      "actual_hg_ha": 22832.5,
+      "predicted_hg_ha": 36049.7,
+      "residual_mt_ha": 1.322
+    },
+    {
+      "crop": "Sweet potatoes",
+      "province": "Guimaras",
+      "year": 2022,
+      "actual_mt_ha": 9.507,
+      "predicted_mt_ha": 7.475,
+      "actual_hg_ha": 95073.1,
+      "predicted_hg_ha": 74747.1,
+      "residual_mt_ha": -2.033
+    },
+    {
+      "crop": "Sweet potatoes",
+      "province": "Misamis Oriental",
+      "year": 2025,
+      "actual_mt_ha": 15.05,
+      "predicted_mt_ha": 9.438,
+      "actual_hg_ha": 150499.6,
+      "predicted_hg_ha": 94376.3,
+      "residual_mt_ha": -5.612
+    },
+    {
+      "crop": "Sweet potatoes",
+      "province": "Agusan del Sur",
+      "year": 2023,
+      "actual_mt_ha": 6.758,
+      "predicted_mt_ha": 6.408,
+      "actual_hg_ha": 67577.1,
+      "predicted_hg_ha": 64084.7,
+      "residual_mt_ha": -0.349
+    },
+    {
+      "crop": "Sweet potatoes",
+      "province": "Davao Occidental",
+      "year": 2022,
+      "actual_mt_ha": 3.921,
+      "predicted_mt_ha": 3.869,
+      "actual_hg_ha": 39205.9,
+      "predicted_hg_ha": 38694.5,
+      "residual_mt_ha": -0.051
+    },
+    {
+      "crop": "Sweet potatoes",
+      "province": "Davao del Norte",
+      "year": 2025,
+      "actual_mt_ha": 3.657,
+      "predicted_mt_ha": 4.727,
+      "actual_hg_ha": 36573.4,
+      "predicted_hg_ha": 47272.1,
+      "residual_mt_ha": 1.07
+    },
+    {
+      "crop": "Sweet potatoes",
+      "province": "Romblon",
+      "year": 2024,
+      "actual_mt_ha": 7.154,
+      "predicted_mt_ha": 8.636,
+      "actual_hg_ha": 71536.2,
+      "predicted_hg_ha": 86363.2,
+      "residual_mt_ha": 1.483
+    },
+    {
+      "crop": "Sweet potatoes",
+      "province": "Kalinga",
+      "year": 2024,
+      "actual_mt_ha": 3.38,
+      "predicted_mt_ha": 3.829,
+      "actual_hg_ha": 33798.1,
+      "predicted_hg_ha": 38286.3,
+      "residual_mt_ha": 0.449
+    },
+    {
+      "crop": "Sweet potatoes",
+      "province": "Oriental Mindoro",
+      "year": 2022,
+      "actual_mt_ha": 6.695,
+      "predicted_mt_ha": 3.949,
+      "actual_hg_ha": 66947.6,
+      "predicted_hg_ha": 39486.7,
+      "residual_mt_ha": -2.746
+    },
+    {
+      "crop": "Sweet potatoes",
+      "province": "Zamboanga Sibugay",
+      "year": 2023,
+      "actual_mt_ha": 11.852,
+      "predicted_mt_ha": 9.806,
+      "actual_hg_ha": 118516.6,
+      "predicted_hg_ha": 98057.9,
+      "residual_mt_ha": -2.046
+    },
+    {
+      "crop": "Taro",
+      "province": "Laguna",
+      "year": 2025,
+      "actual_mt_ha": 9.732,
+      "predicted_mt_ha": 10.916,
+      "actual_hg_ha": 97321.4,
+      "predicted_hg_ha": 109164.7,
+      "residual_mt_ha": 1.184
+    },
+    {
+      "crop": "Taro",
+      "province": "Palawan",
+      "year": 2022,
+      "actual_mt_ha": 4.236,
+      "predicted_mt_ha": 4.43,
+      "actual_hg_ha": 42356.5,
+      "predicted_hg_ha": 44301.4,
+      "residual_mt_ha": 0.194
+    },
+    {
+      "crop": "Taro",
+      "province": "Apayao",
+      "year": 2023,
+      "actual_mt_ha": 2.376,
+      "predicted_mt_ha": 4.005,
+      "actual_hg_ha": 23762.8,
+      "predicted_hg_ha": 40047.7,
+      "residual_mt_ha": 1.628
+    },
+    {
+      "crop": "Taro",
+      "province": "Bukidnon",
+      "year": 2025,
+      "actual_mt_ha": 11.091,
+      "predicted_mt_ha": 11.231,
+      "actual_hg_ha": 110909.5,
+      "predicted_hg_ha": 112314.0,
+      "residual_mt_ha": 0.14
+    },
+    {
+      "crop": "Taro",
+      "province": "Agusan del Sur",
+      "year": 2023,
+      "actual_mt_ha": 6.939,
+      "predicted_mt_ha": 7.394,
+      "actual_hg_ha": 69389.3,
+      "predicted_hg_ha": 73942.6,
+      "residual_mt_ha": 0.455
+    },
+    {
+      "crop": "Taro",
+      "province": "Davao Oriental",
+      "year": 2024,
+      "actual_mt_ha": 8.802,
+      "predicted_mt_ha": 6.419,
+      "actual_hg_ha": 88021.1,
+      "predicted_hg_ha": 64186.2,
+      "residual_mt_ha": -2.383
+    },
+    {
+      "crop": "Taro",
+      "province": "Masbate",
+      "year": 2022,
+      "actual_mt_ha": 1.739,
+      "predicted_mt_ha": 1.733,
+      "actual_hg_ha": 17393.8,
+      "predicted_hg_ha": 17334.2,
+      "residual_mt_ha": -0.006
+    },
+    {
+      "crop": "Taro",
+      "province": "Ilocos Norte",
+      "year": 2025,
+      "actual_mt_ha": 7.009,
+      "predicted_mt_ha": 6.865,
+      "actual_hg_ha": 70092.7,
+      "predicted_hg_ha": 68645.5,
+      "residual_mt_ha": -0.145
+    },
+    {
+      "crop": "Taro",
+      "province": "Quezon",
+      "year": 2024,
+      "actual_mt_ha": 4.975,
+      "predicted_mt_ha": 5.964,
+      "actual_hg_ha": 49745.8,
+      "predicted_hg_ha": 59638.6,
+      "residual_mt_ha": 0.989
+    },
+    {
+      "crop": "Taro",
+      "province": "Occidental Mindoro",
+      "year": 2024,
+      "actual_mt_ha": 4.606,
+      "predicted_mt_ha": 5.257,
+      "actual_hg_ha": 46064.6,
+      "predicted_hg_ha": 52573.4,
+      "residual_mt_ha": 0.651
+    },
+    {
+      "crop": "Tobacco",
+      "province": "Iloilo",
+      "year": 2022,
+      "actual_mt_ha": 1.512,
+      "predicted_mt_ha": 1.826,
+      "actual_hg_ha": 15115.4,
+      "predicted_hg_ha": 18257.6,
+      "residual_mt_ha": 0.314
+    },
+    {
+      "crop": "Tobacco",
+      "province": "Antique",
+      "year": 2022,
+      "actual_mt_ha": 0.767,
+      "predicted_mt_ha": 0.754,
+      "actual_hg_ha": 7666.7,
+      "predicted_hg_ha": 7544.1,
+      "residual_mt_ha": -0.012
+    },
+    {
+      "crop": "Tobacco",
+      "province": "Kalinga",
+      "year": 2023,
+      "actual_mt_ha": 4.1,
+      "predicted_mt_ha": 2.037,
+      "actual_hg_ha": 41000.0,
+      "predicted_hg_ha": 20374.9,
+      "residual_mt_ha": -2.063
+    },
+    {
+      "crop": "Tobacco",
+      "province": "Ilocos Sur",
+      "year": 2024,
+      "actual_mt_ha": 1.531,
+      "predicted_mt_ha": 1.369,
+      "actual_hg_ha": 15305.4,
+      "predicted_hg_ha": 13688.9,
+      "residual_mt_ha": -0.162
+    },
+    {
+      "crop": "Tobacco",
+      "province": "Biliran",
+      "year": 2024,
+      "actual_mt_ha": 0.43,
+      "predicted_mt_ha": 1.167,
+      "actual_hg_ha": 4300.0,
+      "predicted_hg_ha": 11668.5,
+      "residual_mt_ha": 0.737
+    },
+    {
+      "crop": "Tobacco",
+      "province": "Romblon",
+      "year": 2022,
+      "actual_mt_ha": 0.583,
+      "predicted_mt_ha": 0.733,
+      "actual_hg_ha": 5833.3,
+      "predicted_hg_ha": 7334.6,
+      "residual_mt_ha": 0.15
+    },
+    {
+      "crop": "Tobacco",
+      "province": "Negros Occidental",
+      "year": 2025,
+      "actual_mt_ha": 0.176,
+      "predicted_mt_ha": 0.46,
+      "actual_hg_ha": 1763.2,
+      "predicted_hg_ha": 4603.9,
+      "residual_mt_ha": 0.284
+    },
+    {
+      "crop": "Tobacco",
+      "province": "Sarangani",
+      "year": 2025,
+      "actual_mt_ha": 0.908,
+      "predicted_mt_ha": 0.954,
+      "actual_hg_ha": 9078.9,
+      "predicted_hg_ha": 9540.7,
+      "residual_mt_ha": 0.046
+    },
+    {
+      "crop": "Tobacco",
+      "province": "Ilocos Norte",
+      "year": 2022,
+      "actual_mt_ha": 1.926,
+      "predicted_mt_ha": 1.526,
+      "actual_hg_ha": 19263.9,
+      "predicted_hg_ha": 15255.3,
+      "residual_mt_ha": -0.401
+    },
+    {
+      "crop": "Tobacco",
+      "province": "Cagayan",
+      "year": 2022,
+      "actual_mt_ha": 1.798,
+      "predicted_mt_ha": 1.9,
+      "actual_hg_ha": 17984.6,
+      "predicted_hg_ha": 18996.6,
+      "residual_mt_ha": 0.101
+    },
+    {
+      "crop": "Tomato",
+      "province": "Camarines Norte",
+      "year": 2023,
+      "actual_mt_ha": 1.75,
+      "predicted_mt_ha": 1.99,
+      "actual_hg_ha": 17496.1,
+      "predicted_hg_ha": 19897.3,
+      "residual_mt_ha": 0.24
+    },
+    {
+      "crop": "Tomato",
+      "province": "Nueva Vizcaya",
+      "year": 2024,
+      "actual_mt_ha": 11.846,
+      "predicted_mt_ha": 13.476,
+      "actual_hg_ha": 118462.7,
+      "predicted_hg_ha": 134760.3,
+      "residual_mt_ha": 1.63
+    },
+    {
+      "crop": "Tomato",
+      "province": "Apayao",
+      "year": 2023,
+      "actual_mt_ha": 4.062,
+      "predicted_mt_ha": 4.552,
+      "actual_hg_ha": 40616.4,
+      "predicted_hg_ha": 45518.9,
+      "residual_mt_ha": 0.49
+    },
+    {
+      "crop": "Tomato",
+      "province": "Northern Samar",
+      "year": 2022,
+      "actual_mt_ha": 2.789,
+      "predicted_mt_ha": 2.58,
+      "actual_hg_ha": 27891.2,
+      "predicted_hg_ha": 25797.8,
+      "residual_mt_ha": -0.209
+    },
+    {
+      "crop": "Tomato",
+      "province": "Agusan del Sur",
+      "year": 2023,
+      "actual_mt_ha": 5.642,
+      "predicted_mt_ha": 5.61,
+      "actual_hg_ha": 56422.6,
+      "predicted_hg_ha": 56095.1,
+      "residual_mt_ha": -0.033
+    },
+    {
+      "crop": "Tomato",
+      "province": "Cotabato",
+      "year": 2023,
+      "actual_mt_ha": 8.511,
+      "predicted_mt_ha": 9.091,
+      "actual_hg_ha": 85106.3,
+      "predicted_hg_ha": 90914.6,
+      "residual_mt_ha": 0.581
+    },
+    {
+      "crop": "Tomato",
+      "province": "Leyte",
+      "year": 2024,
+      "actual_mt_ha": 7.63,
+      "predicted_mt_ha": 7.557,
+      "actual_hg_ha": 76301.9,
+      "predicted_hg_ha": 75570.9,
+      "residual_mt_ha": -0.073
+    },
+    {
+      "crop": "Tomato",
+      "province": "Masbate",
+      "year": 2024,
+      "actual_mt_ha": 3.91,
+      "predicted_mt_ha": 5.254,
+      "actual_hg_ha": 39102.1,
+      "predicted_hg_ha": 52540.6,
+      "residual_mt_ha": 1.344
+    },
+    {
+      "crop": "Tomato",
+      "province": "Bukidnon",
+      "year": 2025,
+      "actual_mt_ha": 28.242,
+      "predicted_mt_ha": 19.373,
+      "actual_hg_ha": 282417.4,
+      "predicted_hg_ha": 193725.1,
+      "residual_mt_ha": -8.869
+    },
+    {
+      "crop": "Tomato",
+      "province": "Davao del Norte",
+      "year": 2022,
+      "actual_mt_ha": 4.301,
+      "predicted_mt_ha": 4.26,
+      "actual_hg_ha": 43007.0,
+      "predicted_hg_ha": 42602.1,
+      "residual_mt_ha": -0.04
+    },
+    {
+      "crop": "Watermelon",
+      "province": "Cebu",
+      "year": 2023,
+      "actual_mt_ha": 5.218,
+      "predicted_mt_ha": 7.804,
+      "actual_hg_ha": 52175.5,
+      "predicted_hg_ha": 78042.0,
+      "residual_mt_ha": 2.587
+    },
+    {
+      "crop": "Watermelon",
+      "province": "Sultan Kudarat",
+      "year": 2024,
+      "actual_mt_ha": 3.12,
+      "predicted_mt_ha": 5.358,
+      "actual_hg_ha": 31199.6,
+      "predicted_hg_ha": 53583.8,
+      "residual_mt_ha": 2.238
+    },
+    {
+      "crop": "Watermelon",
+      "province": "Bohol",
+      "year": 2023,
+      "actual_mt_ha": 17.497,
+      "predicted_mt_ha": 23.362,
+      "actual_hg_ha": 174970.6,
+      "predicted_hg_ha": 233623.7,
+      "residual_mt_ha": 5.865
+    },
+    {
+      "crop": "Watermelon",
+      "province": "Misamis Oriental",
+      "year": 2024,
+      "actual_mt_ha": 5.401,
+      "predicted_mt_ha": 13.055,
+      "actual_hg_ha": 54007.5,
+      "predicted_hg_ha": 130545.9,
+      "residual_mt_ha": 7.654
+    },
+    {
+      "crop": "Watermelon",
+      "province": "La Union",
+      "year": 2024,
+      "actual_mt_ha": 20.76,
+      "predicted_mt_ha": 21.952,
+      "actual_hg_ha": 207604.9,
+      "predicted_hg_ha": 219516.6,
+      "residual_mt_ha": 1.191
+    },
+    {
+      "crop": "Watermelon",
+      "province": "Ilocos Norte",
+      "year": 2022,
+      "actual_mt_ha": 23.438,
+      "predicted_mt_ha": 23.33,
+      "actual_hg_ha": 234376.8,
+      "predicted_hg_ha": 233301.5,
+      "residual_mt_ha": -0.108
+    },
+    {
+      "crop": "Watermelon",
+      "province": "Quirino",
+      "year": 2025,
+      "actual_mt_ha": 12.371,
+      "predicted_mt_ha": 9.967,
+      "actual_hg_ha": 123713.7,
+      "predicted_hg_ha": 99669.4,
+      "residual_mt_ha": -2.404
+    },
+    {
+      "crop": "Watermelon",
+      "province": "Eastern Samar",
+      "year": 2025,
+      "actual_mt_ha": 4.984,
+      "predicted_mt_ha": 2.892,
+      "actual_hg_ha": 49840.9,
+      "predicted_hg_ha": 28917.4,
+      "residual_mt_ha": -2.092
+    },
+    {
+      "crop": "Watermelon",
+      "province": "Agusan del Sur",
+      "year": 2023,
+      "actual_mt_ha": 18.417,
+      "predicted_mt_ha": 19.588,
+      "actual_hg_ha": 184170.4,
+      "predicted_hg_ha": 195882.6,
+      "residual_mt_ha": 1.171
+    },
+    {
+      "crop": "Watermelon",
+      "province": "Cotabato",
+      "year": 2025,
+      "actual_mt_ha": 2.996,
+      "predicted_mt_ha": 10.002,
+      "actual_hg_ha": 29963.2,
+      "predicted_hg_ha": 100021.3,
+      "residual_mt_ha": 7.006
+    },
+    {
       "crop": "Yams",
-      "actual_mt_ha": 6.667,
-      "predicted_mt_ha": 6.772,
-      "actual_hg_ha": 66667.0,
-      "predicted_hg_ha": 67720.7,
-      "residual_mt_ha": 0.105
+      "province": "Bataan",
+      "year": 2024,
+      "actual_mt_ha": 2.729,
+      "predicted_mt_ha": 6.516,
+      "actual_hg_ha": 27294.4,
+      "predicted_hg_ha": 65160.2,
+      "residual_mt_ha": 3.787
+    },
+    {
+      "crop": "Yams",
+      "province": "Ilocos Sur",
+      "year": 2022,
+      "actual_mt_ha": 4.837,
+      "predicted_mt_ha": 5.038,
+      "actual_hg_ha": 48372.1,
+      "predicted_hg_ha": 50384.2,
+      "residual_mt_ha": 0.201
+    },
+    {
+      "crop": "Yams",
+      "province": "Cavite",
+      "year": 2023,
+      "actual_mt_ha": 5.471,
+      "predicted_mt_ha": 4.369,
+      "actual_hg_ha": 54711.6,
+      "predicted_hg_ha": 43686.7,
+      "residual_mt_ha": -1.102
+    },
+    {
+      "crop": "Yams",
+      "province": "Isabela",
+      "year": 2025,
+      "actual_mt_ha": 2.52,
+      "predicted_mt_ha": 7.225,
+      "actual_hg_ha": 25196.8,
+      "predicted_hg_ha": 72251.2,
+      "residual_mt_ha": 4.705
+    },
+    {
+      "crop": "Yams",
+      "province": "Occidental Mindoro",
+      "year": 2024,
+      "actual_mt_ha": 3.024,
+      "predicted_mt_ha": 6.792,
+      "actual_hg_ha": 30241.9,
+      "predicted_hg_ha": 67922.7,
+      "residual_mt_ha": 3.768
+    },
+    {
+      "crop": "Yams",
+      "province": "Laguna",
+      "year": 2023,
+      "actual_mt_ha": 14.308,
+      "predicted_mt_ha": 6.52,
+      "actual_hg_ha": 143076.9,
+      "predicted_hg_ha": 65203.5,
+      "residual_mt_ha": -7.787
+    },
+    {
+      "crop": "Yams",
+      "province": "Pampanga",
+      "year": 2024,
+      "actual_mt_ha": 1.707,
+      "predicted_mt_ha": 2.902,
+      "actual_hg_ha": 17066.7,
+      "predicted_hg_ha": 29022.2,
+      "residual_mt_ha": 1.196
+    },
+    {
+      "crop": "Yams",
+      "province": "Biliran",
+      "year": 2023,
+      "actual_mt_ha": 4.157,
+      "predicted_mt_ha": 4.244,
+      "actual_hg_ha": 41567.0,
+      "predicted_hg_ha": 42441.7,
+      "residual_mt_ha": 0.087
+    },
+    {
+      "crop": "Yams",
+      "province": "Negros Occidental",
+      "year": 2025,
+      "actual_mt_ha": 11.768,
+      "predicted_mt_ha": 10.484,
+      "actual_hg_ha": 117682.6,
+      "predicted_hg_ha": 104836.7,
+      "residual_mt_ha": -1.285
+    },
+    {
+      "crop": "Yams",
+      "province": "Southern Leyte",
+      "year": 2022,
+      "actual_mt_ha": 1.465,
+      "predicted_mt_ha": 1.457,
+      "actual_hg_ha": 14645.7,
+      "predicted_hg_ha": 14573.3,
+      "residual_mt_ha": -0.007
+    },
+    {
+      "crop": "Yellow Onion",
+      "province": "Occidental Mindoro",
+      "year": 2025,
+      "actual_mt_ha": 14.462,
+      "predicted_mt_ha": 3.858,
+      "actual_hg_ha": 144620.9,
+      "predicted_hg_ha": 38584.0,
+      "residual_mt_ha": -10.604
+    },
+    {
+      "crop": "Yellow Onion",
+      "province": "Pangasinan",
+      "year": 2024,
+      "actual_mt_ha": 11.134,
+      "predicted_mt_ha": 6.389,
+      "actual_hg_ha": 111344.5,
+      "predicted_hg_ha": 63885.3,
+      "residual_mt_ha": -4.746
+    },
+    {
+      "crop": "Yellow Onion",
+      "province": "Bataan",
+      "year": 2024,
+      "actual_mt_ha": 4.124,
+      "predicted_mt_ha": 6.431,
+      "actual_hg_ha": 41241.4,
+      "predicted_hg_ha": 64312.9,
+      "residual_mt_ha": 2.307
+    },
+    {
+      "crop": "Yellow Onion",
+      "province": "Tarlac",
+      "year": 2024,
+      "actual_mt_ha": 16.225,
+      "predicted_mt_ha": 7.98,
+      "actual_hg_ha": 162251.7,
+      "predicted_hg_ha": 79798.4,
+      "residual_mt_ha": -8.245
+    },
+    {
+      "crop": "Yellow Onion",
+      "province": "La Union",
+      "year": 2025,
+      "actual_mt_ha": 0.604,
+      "predicted_mt_ha": 8.026,
+      "actual_hg_ha": 6038.8,
+      "predicted_hg_ha": 80261.2,
+      "residual_mt_ha": 7.422
+    },
+    {
+      "crop": "Yellow Onion",
+      "province": "Nueva Ecija",
+      "year": 2025,
+      "actual_mt_ha": 24.915,
+      "predicted_mt_ha": 5.293,
+      "actual_hg_ha": 249150.0,
+      "predicted_hg_ha": 52931.4,
+      "residual_mt_ha": -19.622
+    },
+    {
+      "crop": "Yellow Onion",
+      "province": "Ilocos Norte",
+      "year": 2025,
+      "actual_mt_ha": 12.622,
+      "predicted_mt_ha": 6.519,
+      "actual_hg_ha": 126218.6,
+      "predicted_hg_ha": 65190.1,
+      "residual_mt_ha": -6.103
+    },
+    {
+      "crop": "Yellow Onion",
+      "province": "Ilocos Norte",
+      "year": 2024,
+      "actual_mt_ha": 7.919,
+      "predicted_mt_ha": 6.291,
+      "actual_hg_ha": 79189.2,
+      "predicted_hg_ha": 62906.9,
+      "residual_mt_ha": -1.628
+    },
+    {
+      "crop": "Yellow Onion",
+      "province": "Tarlac",
+      "year": 2025,
+      "actual_mt_ha": 10.568,
+      "predicted_mt_ha": 9.614,
+      "actual_hg_ha": 105682.6,
+      "predicted_hg_ha": 96135.6,
+      "residual_mt_ha": -0.955
+    },
+    {
+      "crop": "Yellow Onion",
+      "province": "La Union",
+      "year": 2024,
+      "actual_mt_ha": 0.639,
+      "predicted_mt_ha": 7.314,
+      "actual_hg_ha": 6393.2,
+      "predicted_hg_ha": 73139.7,
+      "residual_mt_ha": 6.675
     }
   ],
   "ph_benchmarks": {
     "Rice, paddy": {
       "filipino_name": "Palay (Palay / Bigas)",
-      "farmgate_price_per_kg": 22.0,
-      "cost_per_ha": 45000.0,
-      "typical_yield_mt_ha": 4.2,
+      "farmgate_price_per_kg": 17.04,
+      "price_source": "PSA OpenSTAT Farmgate (2025 Provincial Median)",
+      "cost_per_ha": 59695.0,
+      "cost_source": "PSA OpenSTAT Table 5.5 All Palay (2024 Average)",
+      "typical_yield_mt_ha": 3.7,
       "cavan_weight_kg": 50,
       "growing_days": 115,
       "recommended_season": "Wet & Dry Season",
@@ -1970,14 +4253,16 @@
         "Seeds": 12.0,
         "Fertilizers & Agrochemicals": 32.0,
         "Labor & Land Preparation": 38.0,
-        "Fuel, Irrigation & Threshing": 18.0
+        "Irrigation & Harvesting": 18.0
       }
     },
     "Maize": {
       "filipino_name": "Mais (Corn / Yellow & White)",
-      "farmgate_price_per_kg": 20.5,
+      "farmgate_price_per_kg": 15.3,
+      "price_source": "PSA OpenSTAT Farmgate (2025 Provincial Median)",
       "cost_per_ha": 38000.0,
-      "typical_yield_mt_ha": 4.5,
+      "cost_source": "DA/PSA Reference Cost Estimate",
+      "typical_yield_mt_ha": 2.65,
       "cavan_weight_kg": 50,
       "growing_days": 105,
       "recommended_season": "Dry Season / Late Wet",
@@ -1990,9 +4275,11 @@
     },
     "Cassava": {
       "filipino_name": "Kamoteng Kahoy (Cassava)",
-      "farmgate_price_per_kg": 14.0,
+      "farmgate_price_per_kg": 18.39,
+      "price_source": "PSA OpenSTAT Farmgate (2025 Provincial Median)",
       "cost_per_ha": 32000.0,
-      "typical_yield_mt_ha": 12.5,
+      "cost_source": "DA/PSA Reference Cost Estimate",
+      "typical_yield_mt_ha": 8.24,
       "cavan_weight_kg": 50,
       "growing_days": 270,
       "recommended_season": "Early Wet Season",
@@ -2005,9 +4292,11 @@
     },
     "Potatoes": {
       "filipino_name": "Patatas (Irish Potato)",
-      "farmgate_price_per_kg": 45.0,
+      "farmgate_price_per_kg": 46.11,
+      "price_source": "PSA OpenSTAT Farmgate (2025 Provincial Median)",
       "cost_per_ha": 95000.0,
-      "typical_yield_mt_ha": 18.0,
+      "cost_source": "DA/PSA Reference Cost Estimate",
+      "typical_yield_mt_ha": 7.9,
       "cavan_weight_kg": 50,
       "growing_days": 90,
       "recommended_season": "Cool Dry Season",
@@ -2020,9 +4309,11 @@
     },
     "Sweet potatoes": {
       "filipino_name": "Kamote (Sweet Potato)",
-      "farmgate_price_per_kg": 28.0,
+      "farmgate_price_per_kg": 29.37,
+      "price_source": "PSA OpenSTAT Farmgate (2025 Provincial Median)",
       "cost_per_ha": 28000.0,
-      "typical_yield_mt_ha": 8.0,
+      "cost_source": "DA/PSA Reference Cost Estimate",
+      "typical_yield_mt_ha": 5.87,
       "cavan_weight_kg": 50,
       "growing_days": 110,
       "recommended_season": "All Seasons",
@@ -2034,25 +4325,29 @@
       }
     },
     "Plantains and others": {
-      "filipino_name": "Saging (Banana / Saba / Plantains)",
-      "farmgate_price_per_kg": 25.0,
+      "filipino_name": "Saging (Saba / Cardaba)",
+      "farmgate_price_per_kg": 17.0,
+      "price_source": "PSA OpenSTAT Farmgate (2025 Provincial Median)",
       "cost_per_ha": 40000.0,
-      "typical_yield_mt_ha": 15.0,
+      "cost_source": "DA/PSA Reference Cost Estimate",
+      "typical_yield_mt_ha": 9.35,
       "cavan_weight_kg": 50,
       "growing_days": 365,
       "recommended_season": "Year-round",
       "production_cost_breakdown": {
         "Suckers / Seedlings": 15.0,
         "Fertilizer & Mulch": 30.0,
-        "Maintenance & De-suckering": 35.0,
+        "Maintenance": 35.0,
         "Harvesting": 20.0
       }
     },
     "Soybeans": {
       "filipino_name": "Utaw (Soybeans)",
-      "farmgate_price_per_kg": 35.0,
+      "farmgate_price_per_kg": 37.55,
+      "price_source": "PSA OpenSTAT Farmgate (2025 Provincial Median)",
       "cost_per_ha": 30000.0,
-      "typical_yield_mt_ha": 2.0,
+      "cost_source": "DA/PSA Reference Cost Estimate",
+      "typical_yield_mt_ha": 0.94,
       "cavan_weight_kg": 50,
       "growing_days": 100,
       "recommended_season": "Dry Season",
@@ -2065,9 +4360,11 @@
     },
     "Sorghum": {
       "filipino_name": "Batad (Sorghum)",
-      "farmgate_price_per_kg": 18.0,
+      "farmgate_price_per_kg": 15.5,
+      "price_source": "PSA OpenSTAT Farmgate (2025 Provincial Median)",
       "cost_per_ha": 25000.0,
-      "typical_yield_mt_ha": 3.0,
+      "cost_source": "DA/PSA Reference Cost Estimate",
+      "typical_yield_mt_ha": 3.5,
       "cavan_weight_kg": 50,
       "growing_days": 100,
       "recommended_season": "Dry / Drought-tolerant",
@@ -2080,9 +4377,11 @@
     },
     "Yams": {
       "filipino_name": "Ube (Purple Yam)",
-      "farmgate_price_per_kg": 65.0,
+      "farmgate_price_per_kg": 40.0,
+      "price_source": "PSA OpenSTAT Farmgate (2025 Provincial Median)",
       "cost_per_ha": 55000.0,
-      "typical_yield_mt_ha": 9.0,
+      "cost_source": "DA/PSA Reference Cost Estimate",
+      "typical_yield_mt_ha": 4.73,
       "cavan_weight_kg": 50,
       "growing_days": 240,
       "recommended_season": "Wet Season",
@@ -2091,21 +4390,6 @@
         "Trellising & Poles": 20.0,
         "Fertilizer": 20.0,
         "Labor & Digging": 30.0
-      }
-    },
-    "Wheat": {
-      "filipino_name": "Trigo (Wheat)",
-      "farmgate_price_per_kg": 24.0,
-      "cost_per_ha": 35000.0,
-      "typical_yield_mt_ha": 3.2,
-      "cavan_weight_kg": 50,
-      "growing_days": 110,
-      "recommended_season": "Cool Season",
-      "production_cost_breakdown": {
-        "Seeds": 15.0,
-        "Fertilizers": 35.0,
-        "Labor": 30.0,
-        "Harvesting": 20.0
       }
     }
   }

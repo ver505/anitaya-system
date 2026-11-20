@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AniTaya | Agricultural Harvest &amp; Income Prediction System</title>
     <meta name="description"
-        content="AniTaya - Laguna State Polytechnic University basic machine learning Random Forest harvest and income predictor">
+        content="AniTaya - Laguna State Polytechnic University agricultural harvest prediction and farm income estimation system trained on Philippine PSA, PAGASA, and NASA POWER datasets">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap"
@@ -5775,7 +5775,8 @@
             justify-content: flex-end;
             gap: 10px;
             flex-wrap: wrap;
-            flex-shrink: 0;
+            flex: 0 1 auto;
+            max-width: 100%;
         }
 
         .btn-remove-crop {
@@ -8604,11 +8605,12 @@
                                 <!-- Soil & Agro-climatic Live Meta Line -->
                                 <div
                                     style="background:rgba(0,0,0,0.18); border-radius:6px; padding:8px 12px; font-size:10.5px; color:var(--text-muted); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
-                                    <div>
+                                    <div title="Informational provincial soil profile from DA-BSWM. Soil type is displayed for agronomic context only and is NOT an ML input feature.">
                                         <strong style="color:var(--text-offwhite);" id="txtProvinceSoilName">Soil: San
                                             Manuel Silt Loam / Clay</strong>
+                                        <span style="font-size:9px; opacity:0.8; margin-left:4px;">(Info only &bull; Non-ML)</span>
                                     </div>
-                                    <div id="txtProvinceClimateMeta">
+                                    <div id="txtProvinceClimateMeta" title="Official DOST-PAGASA CliMap v2.1 observed province climate normals (1991-2020)">
                                         Annual Rain: 2,400 mm &bull; Mean Temp: 28.2&deg;C
                                     </div>
                                 </div>
@@ -8645,25 +8647,25 @@
                                 <!-- Quick Select Chips for Major Philippine Staples -->
                                 <div
                                     style="font-size:9.5px; font-weight:800; color:var(--text-muted); letter-spacing:0.05em; margin-bottom:6px; text-transform:uppercase;">
-                                    Quick-Add Major Philippine Crops (PSA Farmgate Price):
+                                    Quick-Add Major Philippine Crops (PSA Ref. Farmgate &bull; Editable):
                                 </div>
                                 <div class="quick-crops-row">
                                     <button type="button" class="quick-crop-chip"
-                                        onclick="quickAddCrop('Rice, paddy', 1.0)">+ Palay / Rice (&bull; &#8369;22/kg)</button>
+                                        onclick="quickAddCrop('Rice, paddy', 1.0)">+ Palay / Rice</button>
                                     <button type="button" class="quick-crop-chip" onclick="quickAddCrop('Maize', 1.0)">+
-                                        Mais / Corn (&bull; &#8369;20.5/kg)</button>
+                                        Mais / Corn</button>
                                     <button type="button" class="quick-crop-chip"
-                                        onclick="quickAddCrop('Potatoes', 1.0)">+ Patatas / Potato (&bull; &#8369;45/kg)</button>
+                                        onclick="quickAddCrop('Potatoes', 1.0)">+ Patatas / Potato</button>
                                     <button type="button" class="quick-crop-chip"
-                                        onclick="quickAddCrop('Cassava', 1.0)">+ Kamoteng Kahoy (&bull; &#8369;14/kg)</button>
+                                        onclick="quickAddCrop('Cassava', 1.0)">+ Kamoteng Kahoy</button>
                                     <button type="button" class="quick-crop-chip"
-                                        onclick="quickAddCrop('Red Onion', 1.0)">+ Sibuyas / Onion (&bull; &#8369;75/kg)</button>
+                                        onclick="quickAddCrop('Red Onion', 1.0)">+ Sibuyas / Onion</button>
                                     <button type="button" class="quick-crop-chip"
-                                        onclick="quickAddCrop('Tomato', 0.5)">+ Kamatis / Tomato (&bull; &#8369;38/kg)</button>
+                                        onclick="quickAddCrop('Tomato', 0.5)">+ Kamatis / Tomato</button>
                                     <button type="button" class="quick-crop-chip"
-                                        onclick="quickAddCrop('Plantains and others', 1.0)">+ Saging / Banana (&bull; &#8369;25/kg)</button>
+                                        onclick="quickAddCrop('Plantains and others', 1.0)">+ Saging / Saba</button>
                                     <button type="button" class="quick-crop-chip"
-                                        onclick="quickAddCrop('Sweet potatoes', 1.0)">+ Kamote (&bull; &#8369;28/kg)</button>
+                                        onclick="quickAddCrop('Sweet potatoes', 1.0)">+ Kamote</button>
                                 </div>
 
                                 <!-- Contextual Seasonal Crop Tip Box -->
@@ -8765,8 +8767,7 @@
 
                                 <!-- Footnote -->
                                 <div class="results-guarantee-note" id="resGuaranteeNote">
-                                    ESTIMATES BASED ON PSA HISTORICAL FARMGATE RECORDS &bull; RANDOM FOREST PIPELINE (R²
-                                    = 0.966)
+                                    PLANNING ESTIMATES ONLY (NOT GUARANTEED) &bull; {{ best_model.get('name', 'Extra Trees Regressor') | upper }} (5-FOLD CV R&sup2; = {{ "%.4f"|format(best_model.get('cv_r2_mean', 0.9388)) }} &bull; TEST R&sup2; = {{ "%.4f"|format(best_model.get('test_r2', 0.7487)) }})
                                 </div>
                             </div>
 
@@ -8791,12 +8792,12 @@
                                 <div class="province-advisory-content">
                                     <div class="province-advisory-landscape-grid">
                                         <div class="prov-agro-specs-col">
-                                            <div class="prov-meta-pill" title="Dominant Soil Series">
+                                            <div class="prov-meta-pill" title="Dominant Soil Series (Informational agronomic reference only; not an ML model feature)">
                                                 <svg viewBox="0 0 24 24" width="14" height="14" fill="none"
                                                     stroke="currentColor" stroke-width="2">
                                                     <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
                                                 </svg>
-                                                <span id="provAdvisorySoil">Soil: Clay &amp; Silt Loam</span>
+                                                <span id="provAdvisorySoil">Soil: Clay &amp; Silt Loam (Info only)</span>
                                             </div>
                                             <div class="prov-meta-pill" title="PAGASA Climate Type">
                                                 <svg viewBox="0 0 24 24" width="14" height="14" fill="none"
@@ -9112,11 +9113,11 @@
                         <!-- Heading -->
                         <div class="ml-lab-header">
                             <div class="ml-lab-title-group">
-                                <h2>CSST 102 &bull; MACHINE LEARNING MODEL LABORATORY (8-ALGORITHM BENCHMARK)</h2>
-                                <p id="txtMlLabSubtitle">8-MODEL EVALUATION WITH 5-FOLD CROSS-VALIDATION ON {{ dataset_info.get('total_records', 25929) }} CLEAN GLOBAL AGRICULTURAL RECORDS (ZENODO 18761663 / FAO)</p>
+                                <h2>CSST 102 &bull; PHILIPPINE MACHINE LEARNING MODEL LABORATORY (8-ALGORITHM BENCHMARK)</h2>
+                                <p id="txtMlLabSubtitle">8-MODEL EVALUATION WITH 5-FOLD CV &amp; CHRONOLOGICAL HOLDOUT TEST ON {{ dataset_info.get('total_records', 32618) }} PHILIPPINE OBSERVATIONS (2010&ndash;2025 PANEL &bull; PSA + PAGASA + NASA POWER)</p>
                             </div>
                             <div class="ml-winner-badge-pill" id="mlWinnerBadgePill">
-                                PRIMARY SELECTED MODEL: {{ best_model.get('name', 'Random Forest Regressor') }} (TEST R&sup2; = {{ best_model.get('test_r2', 0.966) }} &bull; 5-FOLD CV R&sup2; = {{ best_model.get('cv_r2_mean', 0.9395) }})
+                                PRIMARY SELECTED MODEL: {{ best_model.get('name', 'Extra Trees Regressor') }} (5-FOLD CV R&sup2; = {{ "%.4f"|format(best_model.get('cv_r2_mean', 0.9388)) }} &bull; HOLDOUT TEST R&sup2; = {{ "%.4f"|format(best_model.get('test_r2', 0.7487)) }})
                             </div>
                         </div>
 
@@ -9171,7 +9172,7 @@
                             <div class="responsible-ai-box">
                                 <div class="responsible-ai-title">PIPELINE PREPROCESSING &amp; DATA LEAKAGE VERIFICATION</div>
                                 <p class="responsible-ai-text" id="txtPipelineLeakageAudit">
-                                    <strong>Status: PASSED (Zero Data Leakage).</strong> Exact feature-target duplicates and null records are removed prior to stratified 80/20 train-test splitting. Each algorithm runs inside an isolated Scikit-Learn <code>Pipeline</code> with its own fresh <code>ColumnTransformer</code> (<code>StandardScaler</code> for numeric climate features and <code>OneHotEncoder(handle_unknown="ignore")</code> for categorical crop/region features) fitted strictly on training folds during 5-Fold Cross-Validation. Crop yield prediction (MT/ha) is kept strictly separate from downstream Peso (&#8369;) income calculations.
+                                    <strong>Status: PASSED (Zero Data Leakage).</strong> Verified Philippine PSA + PAGASA + NASA POWER dataset ({{ dataset_info.get('archive_total_records', 36088) }} archive rows; {{ dataset_info.get('total_records', 32618) }} uniform 2010&ndash;2025 ML rows) is deduplicated prior to chronological out-of-time splitting (Train 2010&ndash;2021 vs Test 2022&ndash;2025). Each of the 8 algorithms runs inside an isolated Scikit-Learn <code>Pipeline</code> with its own fresh <code>ColumnTransformer</code> (<code>StandardScaler</code> for rainfall/temperature and <code>OneHotEncoder</code> for crop/province) fitted strictly on training folds. Yield (MT/ha) is strictly separated from Peso (&#8369;) financial math.
                                 </p>
                             </div>
                         </div>
@@ -9203,17 +9204,26 @@
                             </div>
                         </div>
 
-                        <!-- Section 4 Statement Box -->
+                        <!-- Section 4 Statement + Dataset Transparency & Routing Card -->
+                        <div class="responsible-ai-box" id="mlDatasetTransparencyBox" style="margin-bottom: 14px;">
+                            <div class="responsible-ai-title">PHILIPPINE DATASET TRANSPARENCY &amp; CROP PREDICTION ROUTING</div>
+                            <div class="responsible-ai-text" id="txtDatasetTransparencySummary">
+                                <strong>Sources:</strong> Philippine Statistics Authority (PSA OpenSTAT <code>DB/2E/CS</code> production &amp; harvested area; <code>DB/2M/NFG</code> farmgate prices; Table 5.5 Palay costs), DOST-PAGASA CliMap v2.1 observed normals (1991&ndash;2020), &amp; NASA POWER MERRA-2 historical climate (1987&ndash;2025).
+                                <br><strong>Coverage &amp; Features:</strong> {{ dataset_info.get('archive_total_records', 36088) }} verified observations across {{ dataset_info.get('provinces_count', 82) }} provinces and {{ dataset_info.get('crops_count', 35) }} crops. ML uses 4 verified inputs only: <code>Crop Type</code>, <code>Philippine Province</code>, <code>Annual Rainfall</code>, and <code>Average Temperature</code>. Hardcoded <code>pesticides_tonnes</code> and Indonesia proxies were permanently removed. <em>Soil Type is informational/advisory only.</em>
+                                <br><strong>Prediction Routing &amp; R&sup2; Clarification:</strong> {{ dataset_info.get('ml_supported_crops_count', 28) }} well-sampled crops use the ML model (<code>philippine_ml</code>), while {{ dataset_info.get('statistical_fallback_crops_count', 7) }} sparse or newly disaggregated crops use verified PSA provincial historical medians (<code>psa_statistical_historical</code>). Note that <strong>R&sup2; (Coefficient of Determination)</strong> measures variance explained across crops &amp; provinces &mdash; NOT literal accuracy percentage.
+                            </div>
+                        </div>
+
                         <div class="responsible-ai-box">
                             <div class="responsible-ai-title">SECTION 4 &mdash; RESPONSIBLE AI &amp; LIMITATIONS
                                 STATEMENT</div>
                             <p class="responsible-ai-text">
-                                AniTaya is engineered exclusively as a predictive decision-support system to guide
-                                agricultural resource planning and harvest estimation. It does not constitute a loan
-                                warranty or yield guarantee. Climatic parameters are calibrated using Southeast Asian
-                                tropical proxies (Indonesia) from the FAO dataset. In compliance with data privacy
-                                ethics, AniTaya gathers zero personally identifiable information (PII), farmer
-                                identification records, or land titles.
+                                AniTaya is engineered strictly as a planning decision-support guide for Philippine
+                                farmers. Yield and net-income outputs are statistical and empirical estimates, NOT
+                                financial or bank-loan guarantees. Climate drivers use provincial annual summaries and
+                                climate normals that cannot anticipate acute local disasters (Super Typhoons, localized
+                                flash floods, El Ni&ntilde;o droughts, or sudden farmgate price drops). AniTaya stores
+                                zero farmer PII, accounts, or land title records.
                             </p>
                         </div>
 
@@ -9561,11 +9571,9 @@
                                         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                                         <polyline points="22 4 12 14.01 9 11.01"></polyline>
                                     </svg>
-                                    96.60% MACHINE LEARNING ACCURACY
+                                    PHILIPPINE ML FORECASTING &amp; PSA DATA
                                 </span>
-                                <span class="guide-point-text" id="txtImpPoint2">Powered by a Random Forest regression
-                                    pipeline trained on over 25,900 international and local agricultural observations
-                                    across multi-year climate cycles.</span>
+                                <span class="guide-point-text" id="txtImpPoint2">Powered by {{ best_model.get('name', 'Extra Trees Regressor') }} trained strictly on {{ dataset_info.get('archive_total_records', 36088) }} PSA &amp; climate observations across 82 Philippine provinces (5-Fold CV R&sup2; = {{ "%.4f"|format(best_model.get('cv_r2_mean', 0.9388)) }}, Holdout Test R&sup2; = {{ "%.4f"|format(best_model.get('test_r2', 0.7487)) }} variance explained).</span>
                             </div>
                             <div class="guide-point-pill">
                                 <span class="guide-point-title">
@@ -12169,15 +12177,18 @@
         // ── Advisor Ranking View Generator ──
         function renderAdvisorView() {
             const reg = document.getElementById('regionSelect').value;
-            document.getElementById('advisorSubtitle').textContent = `${farmArea} HA \u2022 ${activeSeason.toUpperCase()} SEASON \u2022 ${reg.toUpperCase()}`;
+            const advisorHa = (typeof selectedCrops !== 'undefined' && Array.isArray(selectedCrops) && selectedCrops.length > 0)
+                ? Math.max(0.5, Math.round(selectedCrops.reduce((sum, c) => sum + (parseFloat(c.land_area_ha) || 0), 0) * 10) / 10)
+                : (farmArea > 0 ? farmArea : 1.0);
+            document.getElementById('advisorSubtitle').textContent = `${advisorHa} HA \u2022 ${activeSeason.toUpperCase()} SEASON \u2022 ${reg.toUpperCase()}`;
 
             const listEl = document.getElementById('advisorRankList');
             if (!listEl) return;
 
-            // Calculate profit for all 4 crops
+            // Calculate estimated comparison for reference crops using active farm size
             const cropKeys = ['potato', 'cassava', 'corn', 'rice'];
             const cropResults = cropKeys.map(k => {
-                const res = calculateCropData(k, farmArea, activeSeason);
+                const res = calculateCropData(k, advisorHa, activeSeason);
                 return {
                     key: k,
                     name: res.name,
@@ -12655,13 +12666,13 @@
 
             const badgeEl = document.getElementById('mlWinnerBadgePill');
             if (badgeEl && best.name) {
-                badgeEl.innerHTML = `PRIMARY SELECTED MODEL: ${best.name} (TEST R&sup2; = ${Number(best.test_r2 || 0).toFixed(4)} &bull; ${best.cv_folds || 5}-FOLD CV R&sup2; = ${Number(best.cv_r2_mean || 0).toFixed(4)})`;
+                badgeEl.innerHTML = `PRIMARY SELECTED MODEL: ${best.name} (${best.cv_folds || 5}-FOLD CV R&sup2; = ${Number(best.cv_r2_mean || 0).toFixed(4)} &bull; HOLDOUT TEST R&sup2; = ${Number(best.test_r2 || 0).toFixed(4)})`;
             }
 
             const subEl = document.getElementById('txtMlLabSubtitle');
             if (subEl && ds.total_records) {
                 const algoCount = Object.keys(comp).length || 8;
-                subEl.textContent = `${algoCount}-MODEL EVALUATION WITH ${best.cv_folds || 5}-FOLD CROSS-VALIDATION ON ${Number(ds.total_records).toLocaleString()} CLEAN GLOBAL AGRICULTURAL RECORDS (ZENODO 18761663 / FAO)`;
+                subEl.textContent = `${algoCount}-MODEL ${best.cv_folds || 5}-FOLD CV & CHRONOLOGICAL HOLDOUT ON ${Number(ds.total_records).toLocaleString()} PHILIPPINE ROWS (${ds.train_period || '2010-2021'} vs ${ds.test_period || '2022-2025'} • ${Number(ds.archive_total_records || ds.total_records).toLocaleString()} PSA ARCHIVE)`;
             }
 
             const titleExp = document.getElementById('titleSelectedModelExplanation');
@@ -12676,13 +12687,13 @@
 
             const txtAudit = document.getElementById('txtPipelineLeakageAudit');
             if (txtAudit && audit.status) {
-                txtAudit.innerHTML = `<strong>Status: ${audit.status} (Zero Data Leakage).</strong> Pre-split audit inspected ${Number(audit.raw_records || 25932).toLocaleString()} raw records, removed ${audit.exact_duplicates_removed_pre_split || 0} exact feature-target duplicates and ${audit.null_values_removed || 0} null records (${Number(audit.clean_records || 25929).toLocaleString()} clean records), and performed an ${audit.stratified_train_test_split || '80% Train / 20% Test split'}. Each of the ${Object.keys(comp).length || 8} models runs inside an isolated Scikit-Learn <code>Pipeline</code> with its own fresh <code>ColumnTransformer</code> (<code>StandardScaler</code> + <code>OneHotEncoder</code>) fitted strictly on training folds during ${audit.cross_validation_protocol || '5-Fold Cross-Validation'}.`;
+                txtAudit.innerHTML = `<strong>Status: ${audit.status} (Zero Data Leakage).</strong> Audited ${Number(audit.clean_archive_records || ds.archive_total_records || 36088).toLocaleString()} PSA+Climate archive rows (${Number(audit.ml_panel_records || ds.total_records || 32618).toLocaleString()} uniform ${ds.ml_panel_years ? ds.ml_panel_years.join('&ndash;') : '2010&ndash;2025'} ML rows), ${audit.exact_duplicates_removed_pre_split || 0} duplicates removed, zero key overlap across ${audit.validation_split_method || 'Chronological Split'}. Selection strictly followed <em>${audit.model_selection_criterion || 'Highest 5-Fold Validation CV R²'}</em> across 4 reliable features (<code>item</code>, <code>area</code>, <code>rainfall</code>, <code>avg_temp</code>) with <code>pesticides_tonnes</code> &amp; Indonesia proxy permanently removed.`;
             }
 
             const tbody = document.getElementById('mlBenchmarkTableBody');
             const modelNames = Object.keys(comp);
             if (tbody && modelNames.length > 0) {
-                const sortedNames = modelNames.slice().sort((a, b) => (comp[b].R2 || 0) - (comp[a].R2 || 0));
+                const sortedNames = modelNames.slice().sort((a, b) => (comp[a].Rank || 99) - (comp[b].Rank || 99) || (comp[b].CV_R2_Mean || 0) - (comp[a].CV_R2_Mean || 0));
                 tbody.innerHTML = sortedNames.map(name => {
                     const m = comp[name] || {};
                     const isWin = (name === best.name) || Boolean(m.Is_Winner);
@@ -12729,7 +12740,7 @@
             const comp = (ML_METRICS_DATA && ML_METRICS_DATA.model_comparison) ? ML_METRICS_DATA.model_comparison : null;
             const bestName = (ML_METRICS_DATA && ML_METRICS_DATA.best_model && ML_METRICS_DATA.best_model.name)
                 ? ML_METRICS_DATA.best_model.name
-                : 'Random Forest Regressor';
+                : 'Extra Trees Regressor';
 
             let models = [];
             if (comp && Object.keys(comp).length > 0) {
@@ -12740,18 +12751,19 @@
                     cvR2: Number(comp[k].CV_R2_Mean || 0),
                     maeK: Number((comp[k].MAE || 0) / 1000.0),
                     rmseK: Number((comp[k].RMSE || 0) / 1000.0),
+                    rank: Number(comp[k].Rank || 99),
                     isWin: (k === bestName) || Boolean(comp[k].Is_Winner)
-                })).sort((a, b) => b.r2 - a.r2);
+                })).sort((a, b) => a.rank - b.rank || b.cvR2 - a.cvR2);
             } else {
                 models = [
-                    { name: 'RANDOM FOREST', r2: 0.9729, cvR2: 0.9447, maeK: 6.4, isWin: true },
-                    { name: 'EXTRA TREES', r2: 0.9621, cvR2: 0.9416, maeK: 8.7 },
-                    { name: 'KNN REGRESSOR', r2: 0.9568, cvR2: 0.9305, maeK: 8.3 },
-                    { name: 'DECISION TREE', r2: 0.9535, cvR2: 0.9114, maeK: 8.7 },
-                    { name: 'GRADIENT BOOST', r2: 0.9292, cvR2: 0.9138, maeK: 14.3 },
-                    { name: 'LINEAR REG.', r2: 0.7505, cvR2: 0.7310, maeK: 29.8 },
-                    { name: 'RIDGE REG.', r2: 0.7504, cvR2: 0.7312, maeK: 29.7 },
-                    { name: 'SVR (RBF)', r2: 0.7444, cvR2: 0.7757, maeK: 32.0 }
+                    { name: 'EXTRA TREES', r2: 0.7487, cvR2: 0.9388, maeK: 19.8, isWin: true },
+                    { name: 'RANDOM FOREST', r2: 0.7332, cvR2: 0.9246, maeK: 20.4 },
+                    { name: 'SVR (RBF)', r2: 0.7488, cvR2: 0.9163, maeK: 22.0 },
+                    { name: 'KNN REGRESSOR', r2: 0.7587, cvR2: 0.9017, maeK: 20.4 },
+                    { name: 'GRADIENT BOOST', r2: 0.6577, cvR2: 0.8202, maeK: 30.1 },
+                    { name: 'DECISION TREE', r2: 0.6228, cvR2: 0.8083, maeK: 29.7 },
+                    { name: 'RIDGE REG.', r2: 0.3961, cvR2: 0.5093, maeK: 41.6 },
+                    { name: 'LINEAR REG.', r2: 0.3958, cvR2: 0.5093, maeK: 41.7 }
                 ];
             }
 
@@ -12788,8 +12800,7 @@
         function shortenFeatureName(rawName) {
             const s = String(rawName || '').toUpperCase();
             if (s.includes('CROP TYPE') || s.includes('ITEM')) return 'CROP TYPE';
-            if (s.includes('COUNTRY') || s.includes('REGION') || s.includes('AREA')) return 'CLIMATE REGION';
-            if (s.includes('PESTICIDE') || s.includes('AGROCHEMICAL')) return 'PESTICIDE / CARE';
+            if (s.includes('PROVINCE') || s.includes('COUNTRY') || s.includes('REGION') || s.includes('AREA')) return 'PH PROVINCE';
             if (s.includes('TEMP')) return 'AVG TEMPERATURE';
             if (s.includes('RAIN')) return 'ANNUAL RAINFALL';
             return s.slice(0, 18);
@@ -12802,11 +12813,10 @@
             const rawFeats = (ML_METRICS_DATA && Array.isArray(ML_METRICS_DATA.feature_importances) && ML_METRICS_DATA.feature_importances.length > 0)
                 ? ML_METRICS_DATA.feature_importances
                 : [
-                    { feature: 'Crop Type (item)', importance: 61.36 },
-                    { feature: 'Country / Region (area)', importance: 20.69 },
-                    { feature: 'Pesticides / Agrochemical Usage', importance: 9.75 },
-                    { feature: 'Average Temperature (avg_temp)', importance: 4.55 },
-                    { feature: 'Rainfall (average_rain_fall_mm_per_year)', importance: 3.65 }
+                    { feature: 'Crop Type (item)', importance: 50.55 },
+                    { feature: 'Philippine Province (area)', importance: 45.97 },
+                    { feature: 'Average Temperature (avg_temp)', importance: 2.92 },
+                    { feature: 'Annual Rainfall (average_rain_fall_mm_per_year)', importance: 0.57 }
                 ];
 
             const features = rawFeats.map(f => ({
@@ -12841,7 +12851,7 @@
             const realPoints = (ML_METRICS_DATA && Array.isArray(ML_METRICS_DATA.actual_vs_predicted) && ML_METRICS_DATA.actual_vs_predicted.length > 0)
                 ? ML_METRICS_DATA.actual_vs_predicted
                 : [];
-            const best = (ML_METRICS_DATA && ML_METRICS_DATA.best_model) ? ML_METRICS_DATA.best_model : { name: 'Random Forest Regressor', test_r2: 0.9729, test_rmse: 13913.27 };
+            const best = (ML_METRICS_DATA && ML_METRICS_DATA.best_model) ? ML_METRICS_DATA.best_model : { name: 'Extra Trees Regressor', test_r2: 0.7487, test_rmse: 48551.13 };
 
             let dotsSvg = '';
             if (realPoints.length > 0) {
@@ -12851,27 +12861,13 @@
                     const pred = Math.max(0, Number(p.predicted_mt_ha || 0));
                     const cx = (38 + Math.min(1, act / maxVal) * 235).toFixed(1);
                     const cy = (175 - Math.min(1, pred / maxVal) * 145).toFixed(1);
-                    dotsSvg += `<circle cx="${cx}" cy="${cy}" r="2.1" fill="#8fa63a" opacity="0.82"><title>${p.crop || 'Crop'}: Actual ${act.toFixed(2)} MT/ha vs Predicted ${pred.toFixed(2)} MT/ha</title></circle>`;
+                    dotsSvg += `<circle cx="${cx}" cy="${cy}" r="2.1" fill="#8fa63a" opacity="0.82"><title>${p.crop || 'Crop'} (${p.province || 'PH'}, ${p.year || ''}): Actual ${act.toFixed(2)} MT/ha vs Predicted ${pred.toFixed(2)} MT/ha</title></circle>`;
                 });
-            } else {
-                let seed = 42;
-                function rand() {
-                    seed = (seed * 16807) % 2147483647;
-                    return (seed - 1) / 2147483646;
-                }
-                for (let i = 0; i < 180; i++) {
-                    const actual = rand() * 14.0 + 1.0;
-                    const noise = (rand() - 0.5) * (0.7 + actual * 0.04);
-                    const pred = Math.max(0.5, actual + noise);
-                    const cx = (38 + (actual / 15.0) * 235).toFixed(1);
-                    const cy = (175 - (pred / 15.0) * 145).toFixed(1);
-                    dotsSvg += `<circle cx="${cx}" cy="${cy}" r="2.0" fill="#8fa63a" opacity="0.82"/>`;
-                }
             }
 
             container.innerHTML = `
                 <svg viewBox="0 0 320 215" style="width:100%; height:100%; display:block;" aria-label="Actual versus Predicted Scatter Plot">
-                    <text x="160" y="11" fill="#738064" font-size="6.8" font-weight="800" text-anchor="middle">ACTUAL VS. PREDICTED YIELD (${realPoints.length || 220} HOLDOUT TEST SAMPLES &bull; R&sup2; = ${Number(best.test_r2 || 0.9729).toFixed(4)})</text>
+                    <text x="160" y="11" fill="#738064" font-size="6.8" font-weight="800" text-anchor="middle">UNSEEN 2022–2025 TEST SAMPLES (${realPoints.length} PTS &bull; R&sup2; = ${Number(best.test_r2 || 0.7487).toFixed(4)})</text>
                     <!-- Axes & Grid -->
                     <line x1="38" y1="25" x2="38" y2="175" stroke="rgba(22,32,15,0.22)" stroke-width="1"/>
                     <line x1="38" y1="175" x2="282" y2="175" stroke="rgba(22,32,15,0.22)" stroke-width="1"/>
@@ -13850,18 +13846,18 @@
         }
 
         const DEFAULT_CROP_PRICES_FALLBACK = {
-            "rice, paddy": 22.0,
-            "maize": 20.5,
-            "potatoes": 45.0,
-            "cassava": 14.0,
-            "red onion": 75.0,
-            "tomato": 38.0,
-            "plantains and others": 25.0,
-            "sweet potatoes": 28.0
+            "rice, paddy": 17.4,
+            "maize": 13.0,
+            "potatoes": 38.2,
+            "cassava": 12.0,
+            "red onion": 39.3,
+            "tomato": 23.6,
+            "plantains and others": 11.3,
+            "sweet potatoes": 17.7
         };
 
         function getDefaultCropPrice(cropName) {
-            if (!cropName) return 30.0;
+            if (!cropName) return 25.0;
             const key = String(cropName).trim().toLowerCase();
             if (typeof PH_CROP_CATALOG !== "undefined" && Array.isArray(PH_CROP_CATALOG)) {
                 const match = PH_CROP_CATALOG.find(item => (item.Crop_Name || "").toLowerCase() === key);
@@ -13872,7 +13868,19 @@
             if (DEFAULT_CROP_PRICES_FALLBACK[key] !== undefined) {
                 return DEFAULT_CROP_PRICES_FALLBACK[key];
             }
-            return 30.0;
+            return 25.0;
+        }
+
+        function getDefaultCropCost(cropName) {
+            if (!cropName) return 45000.0;
+            const key = String(cropName).trim().toLowerCase();
+            if (typeof PH_CROP_CATALOG !== "undefined" && Array.isArray(PH_CROP_CATALOG)) {
+                const match = PH_CROP_CATALOG.find(item => (item.Crop_Name || "").toLowerCase() === key);
+                if (match && match.Default_Cost_PHP_ha && !isNaN(parseFloat(match.Default_Cost_PHP_ha))) {
+                    return parseFloat(match.Default_Cost_PHP_ha);
+                }
+            }
+            return key === "rice, paddy" ? 59695.0 : 45000.0;
         }
 
         function stepCropArea(idx, delta) {
@@ -13945,6 +13953,13 @@
                 const priceVal = (c.farmgate_price !== null && c.farmgate_price !== undefined && !isNaN(parseFloat(c.farmgate_price)))
                     ? parseFloat(c.farmgate_price)
                     : defaultPrice;
+                const defaultCost = getDefaultCropCost(c.crop_name);
+                const costVal = (c.cost_per_ha !== null && c.cost_per_ha !== undefined && !isNaN(parseFloat(c.cost_per_ha)))
+                    ? parseFloat(c.cost_per_ha)
+                    : defaultCost;
+                const predTierBadge = catalogInfo.ML_Supported
+                    ? '<span title="Yield predicted by Philippine climate-trained Extra Trees ML model" style="color:var(--accent-olive);font-weight:800;">ML Yield</span>'
+                    : '<span title="Yield based on official PSA provincial historical statistics" style="opacity:0.85;font-weight:700;">PSA Stats</span>';
 
                 // Unified suitability check synced with BEST CROPS TO PLANT IN THIS PROVINCE
                 const suitInfo = isCropSuitableForProvince(c.crop_name, curProv);
@@ -13956,7 +13971,7 @@
                             <div class="selected-crop-avatar">${letter}</div>
                             <div class="selected-crop-details">
                                 <h4>${c.crop_name}</h4>
-                                <span>${category} &bull; PSA Ref: &#8369;${defaultPrice.toFixed(2)}/kg ${sciname ? '&bull; <em>' + sciname + '</em>' : ''}</span>
+                                <span>${category} &bull; ${predTierBadge} &bull; Ref: &#8369;${defaultPrice.toFixed(2)}/kg ${sciname ? '&bull; <em>' + sciname + '</em>' : ''}</span>
                             </div>
                         </div>
 
@@ -13976,6 +13991,20 @@
                                            aria-label="Selling price in PHP per kg for ${c.crop_name}">
                                     <span class="crop-ha-unit-large">&#8369;/KG</span>
                                     <button type="button" class="stepper-step-btn" onclick="stepCropPrice(${idx}, 1)" title="Increase ₱1/kg">+</button>
+                                </div>
+                            </div>
+
+                            <!-- Customizable Production Cost (PHP/ha) Stepper -->
+                            <div class="crop-area-control-box">
+                                <span class="crop-area-label">COST EST. / HA</span>
+                                <div class="crop-area-stepper-large">
+                                    <button type="button" class="stepper-step-btn" onclick="stepCropCost(${idx}, -2000)" title="Decrease ₱2,000/ha">−</button>
+                                    <input type="number" class="crop-ha-input-large crop-cost-input-large" style="width:68px;" min="1000" max="1000000" step="1000" value="${Math.round(costVal)}"
+                                           onchange="updateCropCost(${idx}, this.value)"
+                                           onblur="updateCropCost(${idx}, this.value)"
+                                           aria-label="Production cost in PHP per hectare for ${c.crop_name}">
+                                    <span class="crop-ha-unit-large">&#8369;/HA</span>
+                                    <button type="button" class="stepper-step-btn" onclick="stepCropCost(${idx}, 2000)" title="Increase ₱2,000/ha">+</button>
                                 </div>
                             </div>
 
@@ -14039,11 +14068,12 @@
                 showToast(`Increased ${cropName} land area by ${defaultHa} ha.`);
             } else {
                 const defaultPrice = getDefaultCropPrice(cropName);
+                const defaultCost = getDefaultCropCost(cropName);
                 selectedCrops.push({
                     crop_name: cropName,
                     land_area_ha: defaultHa,
                     farmgate_price: defaultPrice,
-                    cost_per_ha: null
+                    cost_per_ha: defaultCost
                 });
                 addedNew = true;
                 showToast(`Added ${cropName} (${defaultHa} ha @ ₱${defaultPrice.toFixed(2)}/kg) to farm plan.`);
@@ -14078,6 +14108,35 @@
                 }
             } else {
                 showToast("Please enter a valid land area between 0.1 and 500 hectares.");
+            }
+            renderSelectedCropsUI();
+        }
+
+        function stepCropCost(idx, delta) {
+            if (idx >= 0 && idx < selectedCrops.length) {
+                const defaultCost = getDefaultCropCost(selectedCrops[idx].crop_name);
+                const current = (selectedCrops[idx].cost_per_ha !== null && selectedCrops[idx].cost_per_ha !== undefined && !isNaN(parseFloat(selectedCrops[idx].cost_per_ha)))
+                    ? parseFloat(selectedCrops[idx].cost_per_ha)
+                    : defaultCost;
+                const next = Math.max(1000, Math.min(1000000, Math.round(current + delta)));
+                selectedCrops[idx].cost_per_ha = next;
+                renderSelectedCropsUI();
+                if (currentCalculatedResult) {
+                    runCountUpCalc();
+                }
+            }
+        }
+
+        function updateCropCost(idx, val) {
+            if (idx < 0 || idx >= selectedCrops.length) return;
+            const num = parseFloat(val);
+            if (!isNaN(num) && num >= 1000 && num <= 1000000) {
+                selectedCrops[idx].cost_per_ha = Math.round(num * 100) / 100;
+                if (currentCalculatedResult) {
+                    runCountUpCalc();
+                }
+            } else {
+                showToast("Please enter a valid cost estimate between ₱1,000 and ₱1,000,000 per hectare.");
             }
             renderSelectedCropsUI();
         }
@@ -14220,8 +14279,7 @@
                     crop_name: c.crop_name,
                     land_area_ha: parseFloat(c.land_area_ha) || 1.0,
                     farmgate_price: c.farmgate_price,
-                    cost_per_ha: c.cost_per_ha,
-                    pesticides_tonnes: 120.0
+                    cost_per_ha: c.cost_per_ha
                 }))
             };
 
@@ -14313,6 +14371,13 @@
             const sGoodVal = document.getElementById("scenGoodVal");
             if (sGoodVal) sGoodVal.textContent = formatK(scenGood);
 
+            // Update Methodology Footer dynamically from backend model_summary
+            const noteEl = document.getElementById("resGuaranteeNote");
+            if (noteEl && data.model_summary) {
+                const ms = data.model_summary;
+                noteEl.innerHTML = `PLANNING ESTIMATES ONLY (NOT GUARANTEED) &bull; ${String(ms.model_name || 'Extra Trees Regressor').toUpperCase()} (5-FOLD CV R&sup2; = ${Number(ms.cv_r2_mean || 0).toFixed(4)} &bull; HOLDOUT TEST R&sup2; = ${Number(ms.test_r2 || 0).toFixed(4)})`;
+            }
+
             // Render Per-Crop Breakdown Cards Grid
             renderCropBreakdownCards(cropResults);
 
@@ -14326,35 +14391,44 @@
         function buildCropBreakdownMarkup(cropResults) {
             return (cropResults || []).map(c => {
                 const costs = c.itemized_costs || {};
+                const methodLabel = c.prediction_method_label || (c.is_ml_predicted ? 'Philippine ML Model' : 'PSA Historical Stats');
+                const cropR2Badge = (c.is_ml_predicted && c.crop_test_r2 !== null && c.crop_test_r2 !== undefined)
+                    ? `${methodLabel} (Crop R² ${Number(c.crop_test_r2).toFixed(2)})`
+                    : methodLabel;
+                const pricePerMt = c.farmgate_price_php_mt || ((c.farmgate_price_php_kg || 0) * 1000);
                 return `
                     <div class="crop-item-result-card">
                         <div class="crop-result-header">
                             <div>
                                 <h4>${c.crop_name}</h4>
-                                <span style="font-size:10px; color:var(--text-muted);">${c.category} &bull; ${c.land_area_ha} Hectares</span>
+                                <span style="font-size:10px; color:var(--text-muted);">${c.category} &bull; ${c.land_area_ha} HA &bull; Est. Rate: ${c.yield_rate_mt_ha} MT/ha (${Number(c.yield_rate_kg_ha || 0).toLocaleString()} kg/ha)</span>
                             </div>
-                            <span class="crop-source-badge">${c.is_ml_predicted ? 'ML Model (R² 0.966)' : 'PSA Baseline Stats'}</span>
+                            <span class="crop-source-badge" title="${c.yield_source || ''}">${cropR2Badge}</span>
                         </div>
 
                         <div class="crop-stat-line">
-                            <span>Harvest Production:</span>
-                            <strong>${c.total_yield_mt} MT (${c.total_cavans_sacks} cavans)</strong>
+                            <span>Est. Total Harvest:</span>
+                            <strong>${c.total_yield_mt} MT (${Number(c.total_yield_kg || 0).toLocaleString()} kg &bull; ${c.total_cavans_sacks} cavans)</strong>
                         </div>
                         <div class="crop-stat-line">
-                            <span>Farmgate Price:</span>
-                            <strong>${formatCurrency(c.farmgate_price_php_kg)} / kg</strong>
+                            <span>Farmgate Price (${c.price_unit || 'PHP/kg'}):</span>
+                            <strong>${formatCurrency(c.farmgate_price_php_kg)} / kg (${formatCurrency(pricePerMt)} / MT)</strong>
                         </div>
                         <div class="crop-stat-line">
-                            <span>Gross Farm Revenue:</span>
+                            <span>Est. Gross Revenue:</span>
                             <strong>${formatCurrency(c.gross_income_php)}</strong>
                         </div>
                         <div class="crop-stat-line">
-                            <span>Total Production Cost:</span>
+                            <span>Est. Production Cost (${formatCurrency(c.cost_per_ha_php || 0)}/ha):</span>
                             <strong>${formatCurrency(c.production_cost_php)}</strong>
                         </div>
                         <div class="crop-stat-line" style="border-top: 1px dashed var(--border-subtle); padding-top: 6px;">
-                            <span style="font-weight:800; color:var(--text-offwhite);">Net Farm Profit:</span>
+                            <span style="font-weight:800; color:var(--text-offwhite);">Est. Net Farm Income:</span>
                             <strong style="color: var(--accent-olive); font-size: 13px;">${formatCurrency(c.net_income_php)} (${c.roi_percent}% ROI)</strong>
+                        </div>
+                        <div style="font-size:9.5px; color:var(--text-muted); margin-top:4px; line-height:1.35;">
+                            <strong>Yield:</strong> ${c.yield_source || methodLabel}<br>
+                            <strong>Price:</strong> ${c.price_source || 'PSA OpenSTAT'} &bull; <strong>Cost:</strong> ${c.cost_source || 'Reference Estimate'}
                         </div>
 
                         <!-- Itemized Costs Breakdown -->

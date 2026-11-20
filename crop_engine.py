@@ -1,38 +1,54 @@
 """
-Taya System - Multi-Crop Agricultural Prediction & Financial Engine
+AniTaya System - Multi-Crop Agricultural Prediction & Financial Engine
 Integrates:
-- Scikit-Learn Machine Learning Pipeline (Random Forest Regressor, R² = 0.966)
-- Philippine Statistics Authority (PSA) Farmgate Price Records
-- PSA Costs and Returns of Agricultural Production
-- PSA Major Crops Production Statistics
-- DA-AMIA Provincial Agro-Climatic Suitability Series
+- Leak-free Scikit-Learn ML Pipeline trained on real Philippine datasets
+  (PSA OpenSTAT provincial yields + NASA POWER year-matched climate + PAGASA CliMap normals)
+- Official PSA OpenSTAT Provincial Farmgate Price Series (DB/2M/NFG/0032M4AFN01..08.px)
+- Official PSA OpenSTAT Table 5.5/5.6/5.7 Palay Costs & Returns (2022-2024) + DA reference costs
+- Official PSA OpenSTAT Provincial Historical Crop Production Statistics (1987-2025)
+- DA-AMIA Provincial Agro-Climatic Suitability Series (NCCAG v2.0)
 """
 
-import os
 import json
-import pandas as pd
-import numpy as np
+import os
 import joblib
+import numpy as np
+import pandas as pd
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "data")
 MODEL_PATH = os.path.join(BASE_DIR, "models", "anitaya_best_pipeline.joblib")
 METRICS_PATH = os.path.join(BASE_DIR, "models", "model_metrics.json")
 
-# Load datasets
+# Official Philippine Datasets (with clean fallback check only if needed)
 CROP_LIST_PATH = os.path.join(DATA_DIR, "philippine_crop_list.csv")
-FARMGATE_PATH = os.path.join(DATA_DIR, "farmgate_prices.csv")
-COSTS_PATH = os.path.join(DATA_DIR, "crop_production_costs.csv")
-PROD_PATH = os.path.join(DATA_DIR, "crop_production.csv")
+PSA_FG_PATH = os.path.join(DATA_DIR, "psa_provincial_farmgate_prices.csv")
+PSA_PROD_PATH = os.path.join(DATA_DIR, "psa_provincial_production.csv")
+PSA_PALAY_COST_PATH = os.path.join(DATA_DIR, "psa_palay_costs_returns.csv")
 
-# In-memory cached data
+# In-memory cached state (single centralized instance shared with app.py)
 crop_catalog = []
 crop_by_name = {}
 df_farmgate = pd.DataFrame()
-df_costs = pd.DataFrame()
 df_prod = pd.DataFrame()
+df_palay_cr = pd.DataFrame()
 ml_pipeline = None
 ml_metrics = {}
+ml_supported_crops = set()
+per_crop_metrics_map = {}
+
+# Representative province fallback when a legacy /api/predict request sends region without province
+REGION_REP_PROVINCE = {
+    "Laguna / CALABARZON (Region IV-A)": "Laguna",
+    "Central Luzon (Region III - Rice Granary)": "Nueva Ecija",
+    "Ilocos Region (Region I)": "Ilocos Norte",
+    "Cagayan Valley (Region II)": "Isabela",
+    "Bicol Region (Region V)": "Camarines Sur",
+    "Western Visayas (Region VI)": "Iloilo",
+    "Davao Region (Region XI)": "Davao del Sur",
+    "Northern Mindanao (Region X)": "Bukidnon",
+    "Cordillera / Benguet Highlands": "Benguet",
+}
 
 # Aliases and name normalizer
 CROP_NAME_MAP = {
@@ -122,15 +138,43 @@ CROP_NAME_MAP = {
     "tobacco": "Tobacco",
     "tabako": "Tobacco",
     "rubber": "Rubber",
-    "goma": "Rubber"
+    "goma": "Rubber",
 }
 
-# Canonical catalog names grouped with Dataset 1 (DA-AMIA) short labels
 CROP_SUITABILITY_ALIASES = {
     "rice, paddy": ("rice, paddy", "rice", "palay", "bigas"),
     "maize": ("maize", "corn", "mais", "yellow corn", "white corn"),
     "potatoes": ("potatoes", "potato", "patatas", "irish potato"),
     "cassava": ("cassava", "kamoteng kahoy", "balanghoy"),
+}
+
+# Reference Philippine Production Cost Estimates per hectare (PHP/ha) by crop category/crop.
+# Palay (Rice, paddy) overrides dynamically from official PSA Table 5.5/5.6/5.7 CSV when loaded.
+# All other crops carry transparent reference estimates and remain fully user-editable.
+CATEGORY_COST_REFERENCE = {
+    "Cereals & Grains": (38000.0, (0.35, 0.30, 0.08, 0.14, 0.13)),
+    "Root & Tuber Crops": (36000.0, (0.42, 0.22, 0.06, 0.16, 0.14)),
+    "Vegetables": (75000.0, (0.34, 0.25, 0.10, 0.18, 0.13)),
+    "Legumes": (30000.0, (0.38, 0.24, 0.07, 0.18, 0.13)),
+    "Fruits": (58000.0, (0.36, 0.28, 0.09, 0.13, 0.14)),
+    "Commercial & Plantation": (55000.0, (0.40, 0.27, 0.07, 0.12, 0.14)),
+}
+
+CROP_COST_OVERRIDES = {
+    "Potatoes": (95000.0, (0.24, 0.28, 0.10, 0.28, 0.10)),
+    "Red Onion": (115000.0, (0.30, 0.22, 0.11, 0.27, 0.10)),
+    "Yellow Onion": (115000.0, (0.30, 0.22, 0.11, 0.27, 0.10)),
+    "Garlic": (105000.0, (0.28, 0.20, 0.09, 0.33, 0.10)),
+    "Tomato": (82000.0, (0.35, 0.25, 0.11, 0.16, 0.13)),
+    "Eggplant": (72000.0, (0.36, 0.25, 0.10, 0.15, 0.14)),
+    "Cabbage": (78000.0, (0.34, 0.26, 0.12, 0.15, 0.13)),
+    "Banana Cavendish": (135000.0, (0.34, 0.30, 0.12, 0.10, 0.14)),
+    "Pineapple": (110000.0, (0.33, 0.28, 0.09, 0.18, 0.12)),
+    "Sugarcane": (68000.0, (0.38, 0.29, 0.06, 0.15, 0.12)),
+    "Coconut": (24000.0, (0.48, 0.22, 0.05, 0.10, 0.15)),
+    "Tobacco": (65000.0, (0.40, 0.26, 0.08, 0.12, 0.14)),
+    "Cassava": (34000.0, (0.44, 0.22, 0.06, 0.14, 0.14)),
+    "Sweet potatoes": (29000.0, (0.44, 0.22, 0.06, 0.14, 0.14)),
 }
 
 
@@ -167,44 +211,36 @@ def assess_crop_province_suitability(crop_name, province_info, crop_meta=None):
     if in_secondary:
         return True, True, f"Officially designated as a suitable rotational crop for {prov_name} by DA-AMIA."
     if is_catalog_suitable:
-        return True, False, f"Cultivated across {prov_name} according to PSA crop statistics."
+        return True, False, f"Major commercial producing province for {norm_crop} in PSA statistics."
     return False, False, f"Secondary or non-traditional crop for {prov_name}; verify local water and soil conditions."
 
 
-# 10 FAO crops directly supported by the trained ML pipeline
-ML_SUPPORTED_CROPS = {
-    "Rice, paddy",
-    "Maize",
-    "Sorghum",
-    "Cassava",
-    "Sweet potatoes",
-    "Potatoes",
-    "Yams",
-    "Soybeans",
-    "Plantains and others",
-    "Wheat"
-}
-
 def init_engine():
-    global crop_catalog, crop_by_name, df_farmgate, df_costs, df_prod, ml_pipeline, ml_metrics
-    
-    # Load ML Pipeline
+    global crop_catalog, crop_by_name, df_farmgate, df_prod, df_palay_cr
+    global ml_pipeline, ml_metrics, ml_supported_crops, per_crop_metrics_map
+
     try:
         if os.path.exists(MODEL_PATH):
             ml_pipeline = joblib.load(MODEL_PATH)
-            print("CropEngine: ML pipeline loaded successfully.")
+            print("CropEngine: Centralized ML pipeline loaded successfully.")
     except Exception as e:
         print(f"CropEngine: Could not load ML pipeline: {e}")
 
-    # Load ML Evaluation Metrics (Dynamic Best Model Metadata)
     try:
         if os.path.exists(METRICS_PATH):
             with open(METRICS_PATH, "r", encoding="utf-8") as f:
                 ml_metrics = json.load(f)
+            per_crop_metrics_map = ml_metrics.get("per_crop_metrics", {})
+            if per_crop_metrics_map:
+                ml_supported_crops = {
+                    crop for crop, info in per_crop_metrics_map.items()
+                    if info.get("ml_supported")
+                }
+            else:
+                ml_supported_crops = set(ml_metrics.get("dataset_info", {}).get("crops", []))
     except Exception as e:
         print(f"CropEngine: Could not load ML metrics: {e}")
-        
-    # Load Crop Catalog
+
     try:
         if os.path.exists(CROP_LIST_PATH):
             df_c = pd.read_csv(CROP_LIST_PATH)
@@ -215,279 +251,398 @@ def init_engine():
     except Exception as e:
         print(f"CropEngine: Error loading crop catalog: {e}")
 
-    # Load Farmgate Prices
     try:
-        if os.path.exists(FARMGATE_PATH):
-            df_farmgate = pd.read_csv(FARMGATE_PATH)
-            print(f"CropEngine: Loaded {len(df_farmgate)} farmgate price records.")
+        if os.path.exists(PSA_FG_PATH):
+            df_farmgate = pd.read_csv(PSA_FG_PATH)
+            print(f"CropEngine: Loaded {len(df_farmgate):,} official PSA farmgate prices.")
     except Exception as e:
-        print(f"CropEngine: Error loading farmgate prices: {e}")
+        print(f"CropEngine: Error loading official PSA farmgate prices: {e}")
 
-    # Load Production Costs
     try:
-        if os.path.exists(COSTS_PATH):
-            df_costs = pd.read_csv(COSTS_PATH)
-            print(f"CropEngine: Loaded {len(df_costs)} production cost records.")
+        if os.path.exists(PSA_PROD_PATH):
+            df_prod = pd.read_csv(PSA_PROD_PATH)
+            print(f"CropEngine: Loaded {len(df_prod):,} official PSA provincial production rows.")
     except Exception as e:
-        print(f"CropEngine: Error loading production costs: {e}")
+        print(f"CropEngine: Error loading official PSA crop production: {e}")
 
-    # Load Crop Production Stats
     try:
-        if os.path.exists(PROD_PATH):
-            df_prod = pd.read_csv(PROD_PATH)
-            print(f"CropEngine: Loaded {len(df_prod)} crop production records.")
+        if os.path.exists(PSA_PALAY_COST_PATH):
+            df_palay_cr = pd.read_csv(PSA_PALAY_COST_PATH)
+            print(f"CropEngine: Loaded {len(df_palay_cr)} official PSA Palay Costs & Returns rows.")
     except Exception as e:
-        print(f"CropEngine: Error loading crop production: {e}")
+        print(f"CropEngine: Error loading official PSA Palay Costs & Returns: {e}")
 
-    # Enrich Crop Catalog with default PSA farmgate prices per kg
+    # Enrich Crop Catalog with verified PSA prices, reference costs & empirical prediction tier
     try:
         for c in crop_catalog:
-            price_val, unit_str = get_farmgate_price(c.get("Crop_Name", ""))
+            c_name = c.get("Crop_Name", "")
+            price_val, unit_str, price_src = get_farmgate_price_with_source(c_name)
+            cost_info = get_production_cost(c_name)
+            pm_meta = per_crop_metrics_map.get(c_name, {})
             c["Default_Price_PHP_kg"] = price_val
             c["Price_Unit"] = unit_str
+            c["Price_Source"] = price_src
+            c["Default_Cost_PHP_ha"] = cost_info["total_cost_per_ha"]
+            c["Cost_Source"] = cost_info["cost_source"]
+            c["Prediction_Method"] = pm_meta.get(
+                "prediction_tier",
+                "philippine_ml" if c_name in ml_supported_crops else "psa_statistical_historical",
+            )
+            c["ML_Supported"] = bool(c_name in ml_supported_crops)
     except Exception as e:
-        print(f"CropEngine: Error enriching crop catalog prices: {e}")
+        print(f"CropEngine: Error enriching crop catalog: {e}")
+
 
 def normalize_crop_name(raw_name):
     clean = raw_name.strip().lower()
     return CROP_NAME_MAP.get(clean, raw_name.strip())
 
+
 def get_crop_info(crop_name):
     norm = normalize_crop_name(crop_name)
     info = crop_by_name.get(norm.lower())
     if not info:
-        # Match partial
         for k, v in crop_by_name.items():
             if norm.lower() in k or k in norm.lower():
                 return v
     return info
 
-def get_farmgate_price(crop_name, province_name=None):
+
+def get_farmgate_price_with_source(crop_name, province_name=None):
+    """
+    Returns (price_php_per_kg, unit_label, source_description).
+    Handles Sugarcane (mill-gate commercial cane reference instead of fresh chewing-cane retail)
+    and Coconut (notes PSA per-nut farmgate parity vs kg-weight with husk cleanly).
+    """
     norm = normalize_crop_name(crop_name)
+
+    # Commercial Sugarcane harvested weight in PSA production is whole millable cane (MT/ha);
+    # PSA NFG Table 08 tracks retail "Sugarcane for Chewing" (~PHP 11.9/kg) which does not match centrifugal mill-gate pricing.
+    if norm == "Sugarcane":
+        return 2.80, "PHP/kg (mill-gate cane ref)", "SRA / Commercial Mill-Gate Cane Reference (~PHP 2,800/MT; editable)"
+
     if not df_farmgate.empty:
-        if province_name:
-            match = df_farmgate[(df_farmgate["Crop_Name"].str.lower() == norm.lower()) & 
-                                (df_farmgate["Province"].str.lower() == province_name.strip().lower())]
-            if not match.empty:
-                latest_yr = match["Year"].max()
-                row = match[match["Year"] == latest_yr].iloc[0]
-                return float(row["Farmgate_Price"]), str(row["Price_Unit"])
-        
-        # Fallback to national average for the crop
-        match_crop = df_farmgate[df_farmgate["Crop_Name"].str.lower() == norm.lower()]
-        if not match_crop.empty:
-            latest_yr = match_crop["Year"].max()
-            sub = match_crop[match_crop["Year"] == latest_yr]
-            avg_price = float(sub["Farmgate_Price"].mean())
-            unit = str(sub.iloc[0]["Price_Unit"])
-            return round(avg_price, 2), unit
+        sub_crop = df_farmgate[df_farmgate["Crop_Name"].str.lower() == norm.lower()]
+        if not sub_crop.empty:
+            if province_name:
+                match = sub_crop[sub_crop["Province"].str.lower() == province_name.strip().lower()]
+                if not match.empty:
+                    latest_yr = int(match["Year"].max())
+                    row = match[match["Year"] == latest_yr].iloc[0]
+                    raw_unit = str(row["Price_Unit"])
+                    raw_src = str(row.get("Price_Source", "PSA OpenSTAT"))
+                    if norm == "Coconut":
+                        # PSA Coconut price is PHP/nut (avg mature nut ~1.2 kg with husk -> approx weight-basis parity note)
+                        return round(float(row["Farmgate_Price"]), 2), "PHP/kg-equiv (from PHP/nut PSA)", f"{raw_src} ({latest_yr} Provincial Price; PHP/nut Basis)"
+                    return round(float(row["Farmgate_Price"]), 2), raw_unit, f"{raw_src} ({latest_yr} Provincial Price)"
 
-    # Default fallback benchmarks
+            # Fallback to median across provinces in latest available PSA year
+            latest_yr = int(sub_crop["Year"].max())
+            latest_sub = sub_crop[sub_crop["Year"] == latest_yr]
+            med_price = round(float(latest_sub["Farmgate_Price"].median()), 2)
+            raw_unit = str(latest_sub.iloc[0]["Price_Unit"])
+            raw_src = str(latest_sub.iloc[0].get("Price_Source", "PSA OpenSTAT"))
+            if norm == "Coconut":
+                return med_price, "PHP/kg-equiv (from PHP/nut PSA)", f"{raw_src} ({latest_yr} National Median; PHP/nut Basis)"
+            return med_price, raw_unit, f"{raw_src} ({latest_yr} National Median)"
+
+    # Static fallback if dataset unavailable
     defaults = {
-        "Rice, paddy": (22.0, "PHP/kg"),
-        "Maize": (20.5, "PHP/kg"),
-        "Potatoes": (45.0, "PHP/kg"),
-        "Cassava": (14.0, "PHP/kg"),
-        "Sweet potatoes": (28.0, "PHP/kg"),
-        "Plantains and others": (25.0, "PHP/kg"),
-        "Red Onion": (75.0, "PHP/kg"),
-        "Garlic": (110.0, "PHP/kg"),
-        "Tomato": (38.0, "PHP/kg"),
-        "Eggplant": (35.0, "PHP/kg")
+        "Rice, paddy": 17.5,
+        "Maize": 13.5,
+        "Potatoes": 38.0,
+        "Cassava": 12.0,
+        "Sweet potatoes": 17.5,
+        "Plantains and others": 11.5,
+        "Red Onion": 39.5,
+        "Yellow Onion": 31.5,
+        "Garlic": 98.0,
+        "Tomato": 23.5,
+        "Eggplant": 26.5,
     }
-    return defaults.get(norm, (30.0, "PHP/kg"))
+    return defaults.get(norm, 25.0), "PHP/kg", "Reference Estimate (No PSA Farmgate Match)"
 
-# Initialize at import
-init_engine()
+
+def get_farmgate_price(crop_name, province_name=None):
+    price, unit, _src = get_farmgate_price_with_source(crop_name, province_name)
+    return price, unit
+
 
 def get_production_cost(crop_name, province_name=None):
+    """
+    Returns itemized production cost breakdown in PHP/ha.
+    Uses official PSA Table 5.5/5.6/5.7 Palay Costs & Returns for 'Rice, paddy';
+    for all other crops uses transparently labeled DA/PSA reference cost estimates.
+    """
     norm = normalize_crop_name(crop_name)
-    if not df_costs.empty:
-        if province_name:
-            match = df_costs[(df_costs["Crop_Name"].str.lower() == norm.lower()) & 
-                             (df_costs["Province"].str.lower() == province_name.strip().lower())]
-            if not match.empty:
-                latest_yr = match["Year"].max()
-                row = match[match["Year"] == latest_yr].iloc[0]
-                return {
-                    "total_cost_per_ha": float(row["Total_Production_Cost"]),
-                    "labor_cost": float(row["Labor_Cost"]),
-                    "fertilizer_cost": float(row["Fertilizer_Cost"]),
-                    "pesticide_cost": float(row["Pesticide_Cost"]),
-                    "seeds_cost": float(row["Seeds_Cost"]),
-                    "other_costs": float(row["Other_Costs"])
-                }
 
-        # Fallback to national average for the crop
-        match_crop = df_costs[df_costs["Crop_Name"].str.lower() == norm.lower()]
-        if not match_crop.empty:
-            latest_yr = match_crop["Year"].max()
-            sub = match_crop[match_crop["Year"] == latest_yr]
+    if norm == "Rice, paddy" and not df_palay_cr.empty:
+        all_palay = df_palay_cr[(df_palay_cr["Ecosystem"] == "All Palay") & (df_palay_cr["Semester"] == "Average")]
+        if not all_palay.empty:
+            max_yr = int(all_palay["Year"].max())
+            yr_rows = all_palay[all_palay["Year"] == max_yr].set_index("Item")["Value"].to_dict()
+            total_c = float(yr_rows.get("Total Costs", 59695.0))
             return {
-                "total_cost_per_ha": round(float(sub["Total_Production_Cost"].mean()), 2),
-                "labor_cost": round(float(sub["Labor_Cost"].mean()), 2),
-                "fertilizer_cost": round(float(sub["Fertilizer_Cost"].mean()), 2),
-                "pesticide_cost": round(float(sub["Pesticide_Cost"].mean()), 2),
-                "seeds_cost": round(float(sub["Seeds_Cost"].mean()), 2),
-                "other_costs": round(float(sub["Other_Costs"].mean()), 2)
+                "total_cost_per_ha": round(total_c, 2),
+                "labor_cost": round(total_c * 0.38, 2),
+                "fertilizer_cost": round(total_c * 0.30, 2),
+                "pesticide_cost": round(total_c * 0.08, 2),
+                "seeds_cost": round(total_c * 0.10, 2),
+                "other_costs": round(total_c * 0.14, 2),
+                "cost_source": f"PSA OpenSTAT Table 5.5 All Palay Total Costs ({max_yr} Official National Avg; editable)",
+                "is_official_psa_cost": True,
             }
 
-    # Default fallback cost
+    if norm in CROP_COST_OVERRIDES:
+        total_c, shares = CROP_COST_OVERRIDES[norm]
+    else:
+        meta = get_crop_info(norm) or {}
+        cat = meta.get("Crop_Category", "Cereals & Grains")
+        total_c, shares = CATEGORY_COST_REFERENCE.get(cat, (45000.0, (0.38, 0.28, 0.08, 0.12, 0.14)))
+
+    lab_s, fert_s, pest_s, seed_s, oth_s = shares
     return {
-        "total_cost_per_ha": 45000.0,
-        "labor_cost": 16000.0,
-        "fertilizer_cost": 14000.0,
-        "pesticide_cost": 4500.0,
-        "seeds_cost": 5500.0,
-        "other_costs": 5000.0
+        "total_cost_per_ha": round(total_c, 2),
+        "labor_cost": round(total_c * lab_s, 2),
+        "fertilizer_cost": round(total_c * fert_s, 2),
+        "pesticide_cost": round(total_c * pest_s, 2),
+        "seeds_cost": round(total_c * seed_s, 2),
+        "other_costs": round(total_c * oth_s, 2),
+        "cost_source": "Reference Production Cost Estimate (Not an official PSA cost survey; editable)",
+        "is_official_psa_cost": False,
     }
+
+
+def get_historical_psa_yield(crop_name, province_name=None):
+    """
+    Look up verified recent official PSA provincial historical yield (MT/ha)
+    from psa_provincial_production.csv.
+    Returns (yield_mt_ha, scope_label, obs_count, latest_year).
+    """
+    norm = normalize_crop_name(crop_name)
+    if df_prod.empty:
+        return None, "Unavailable", 0, None
+
+    crop_rows = df_prod[df_prod["item"].str.lower() == norm.lower()]
+    if crop_rows.empty:
+        return None, "Unavailable", 0, None
+
+    # Prefer province-specific recent years (2020+)
+    if province_name:
+        prov_rows = crop_rows[crop_rows["area"].str.lower() == province_name.strip().lower()].sort_values("year")
+        if not prov_rows.empty:
+            recent = prov_rows.tail(4)
+            med_y = round(float(recent["yield_mt_ha"].median()), 3)
+            max_yr = int(recent["year"].max())
+            min_yr = int(recent["year"].min())
+            return med_y, f"PSA Official Historical Yield for {prov_rows.iloc[0]['area']} ({min_yr}-{max_yr} median)", len(prov_rows), max_yr
+
+    # Fallback to recent national median across producing Philippine provinces
+    recent_all = crop_rows[crop_rows["year"] >= max(2020, int(crop_rows["year"].max()) - 3)]
+    med_nat = round(float(recent_all["yield_mt_ha"].median()), 3)
+    max_yr = int(recent_all["year"].max())
+    return (
+        med_nat,
+        f"PSA Official National Producing-Province Median ({int(recent_all['year'].min())}-{max_yr}; no PSA commercial record in selected province)",
+        len(recent_all),
+        max_yr,
+    )
+
 
 def get_baseline_yield_mt(crop_name, province_name=None):
-    norm = normalize_crop_name(crop_name)
-    if not df_prod.empty:
-        if province_name:
-            match = df_prod[(df_prod["Crop_Name"].str.lower() == norm.lower()) & 
-                            (df_prod["Province"].str.lower() == province_name.strip().lower())]
-            if not match.empty:
-                latest_yr = match["Year"].max()
-                row = match[match["Year"] == latest_yr].iloc[0]
-                return float(row["Yield_Per_Hectare"])
-        
-        match_crop = df_prod[df_prod["Crop_Name"].str.lower() == norm.lower()]
-        if not match_crop.empty:
-            latest_yr = match_crop["Year"].max()
-            sub = match_crop[match_crop["Year"] == latest_yr]
-            return round(float(sub["Yield_Per_Hectare"].mean()), 2)
-            
-    # Default fallbacks
+    y_val, _lbl, _cnt, _yr = get_historical_psa_yield(crop_name, province_name)
+    if y_val is not None:
+        return y_val
     fallbacks = {
-        "Rice, paddy": 4.15,
-        "Maize": 4.30,
-        "Cassava": 12.50,
-        "Potatoes": 17.50,
-        "Sweet potatoes": 7.90,
-        "Plantains and others": 14.80,
-        "Red Onion": 10.50,
-        "Garlic": 3.80,
-        "Tomato": 11.20,
-        "Eggplant": 12.00
+        "Rice, paddy": 3.5,
+        "Maize": 2.8,
+        "Cassava": 9.5,
+        "Potatoes": 9.0,
+        "Sweet potatoes": 6.3,
+        "Plantains and others": 12.2,
+        "Red Onion": 8.6,
+        "Yellow Onion": 11.8,
+        "Garlic": 2.9,
+        "Tomato": 8.2,
+        "Eggplant": 7.7,
     }
-    return fallbacks.get(norm, 5.0)
+    return fallbacks.get(normalize_crop_name(crop_name), 4.0)
 
-def predict_crop_yield_rate(norm_crop, rainfall, avg_temp, pesticides_tonnes, season, prov_name, crop_meta):
+
+def get_province_psa_crop_summary(province_name):
+    """Return dict of crop_name -> recent PSA provincial stats for UI / Advisor integration."""
+    if df_prod.empty or not province_name:
+        return {}
+    prov_rows = df_prod[df_prod["area"].str.lower() == province_name.strip().lower()]
+    if prov_rows.empty:
+        return {}
+    summary = {}
+    for item_name, g in prov_rows.groupby("item"):
+        recent = g.sort_values("year").tail(4)
+        summary[item_name] = {
+            "recent_yield_mt_ha": round(float(recent["yield_mt_ha"].median()), 2),
+            "latest_year": int(recent["year"].max()),
+            "latest_area_ha": round(float(recent.iloc[-1]["harvested_area_ha"]), 1),
+            "latest_production_mt": round(float(recent.iloc[-1]["production_mt"]), 1),
+            "observations_count": int(len(g)),
+        }
+    return summary
+
+
+# Initialize engine at module import (single centralized instance)
+init_engine()
+
+
+def predict_crop_yield_rate(norm_crop, rainfall, avg_temp, season, prov_name, crop_meta, province_info=None):
     """
-    Pure Agronomic / Machine Learning Crop Yield Prediction Function (MT/ha).
-    Kept strictly separate from financial and income calculations.
-    Uses the automatically selected best ML pipeline from models/anitaya_best_pipeline.joblib
-    and dynamic evaluation metadata from models/model_metrics.json.
+    Pure Crop Yield Prediction Rate (MT/ha) separated cleanly from financial math.
+    Never uses hardcoded pesticides_tonnes=120.0 or Indonesia proxy!
+    Uses explicit 3-tier classification:
+      1. philippine_ml             -> Trained ML pipeline on verified PH province & climate
+      2. psa_statistical_historical -> PSA official historical observation (sparse/low-R2/new crops)
+      3. fallback_reference        -> Explicit fallback reference when neither exists
+    Returns:
+      (yield_rate_mt_ha, yield_source, prediction_method, method_label, is_ml_predicted)
     """
     best_info = ml_metrics.get("best_model", {}) if isinstance(ml_metrics, dict) else {}
-    best_name = best_info.get("name", "Random Forest Regressor")
-    best_r2 = best_info.get("test_r2", 0.966)
+    best_name = best_info.get("name", "Extra Trees Regressor")
+    crop_eval = per_crop_metrics_map.get(norm_crop, {})
 
-    if norm_crop in ML_SUPPORTED_CROPS and ml_pipeline is not None:
-        effective_rainfall = rainfall
-        if season == "Wet Season":
-            effective_rainfall = max(rainfall, 1800.0)
+    target_prov = (prov_name or "").strip() or "Laguna"
+    clamped_temp = max(14.0, min(34.0, float(avg_temp)))
+
+    # Season-aware climate input using observed PAGASA seasonal ratios when available
+    ann_rain = float(rainfall)
+    if province_info and pd.notna(province_info.get("pagasa_wet_rain_mm")) and pd.notna(province_info.get("pagasa_dry_rain_mm")):
+        wet_r = float(province_info["pagasa_wet_rain_mm"])
+        dry_r = float(province_info["pagasa_dry_rain_mm"])
+        if "wet" in season.lower():
+            # Reflect fuller wet-season water availability relative to province climate baseline
+            effective_rainfall = max(ann_rain, wet_r * 1.15)
         else:
-            effective_rainfall = min(rainfall, 1600.0)
+            effective_rainfall = min(ann_rain, max(900.0, dry_r * 1.85))
+    else:
+        effective_rainfall = ann_rain if "wet" in season.lower() else min(ann_rain, ann_rain * 0.78)
+    effective_rainfall = max(400.0, min(5500.0, effective_rainfall))
 
+    if norm_crop in ml_supported_crops and ml_pipeline is not None:
         input_df = pd.DataFrame([{
             "item": norm_crop,
-            "average_rain_fall_mm_per_year": effective_rainfall,
-            "pesticides_tonnes": pesticides_tonnes,
-            "avg_temp": avg_temp,
-            "area": "Indonesia"  # Top representative tropical Southeast Asian climate
+            "average_rain_fall_mm_per_year": round(effective_rainfall, 1),
+            "avg_temp": round(clamped_temp, 2),
+            "area": target_prov,
         }])
+        predicted_hg_ha = float(ml_pipeline.predict(input_df)[0])
+        predicted_hg_ha = max(predicted_hg_ha, 200.0)  # Physical lower floor 0.02 MT/ha (preserves Coffee/Abaca scale)
+        yield_rate_mt_ha = predicted_hg_ha / 10000.0
 
-        try:
-            predicted_hg_ha = float(ml_pipeline.predict(input_df)[0])
-            predicted_hg_ha = max(predicted_hg_ha, 4000.0)
-            yield_rate_mt_ha = predicted_hg_ha / 10000.0
-            yield_source = f"Machine Learning Model ({best_name}, Test R² = {best_r2})"
-            return round(yield_rate_mt_ha, 3), yield_source, True
-        except Exception:
-            yield_rate_mt_ha = get_baseline_yield_mt(norm_crop, prov_name)
-            yield_source = "Official PSA Baseline Statistics (Fallback)"
-            return round(yield_rate_mt_ha, 3), yield_source, False
+        # Season-specific agronomic adjustment for lowland rice/corn where Dry irrigated outyields wet typhoon season slightly
+        if norm_crop == "Rice, paddy" and "dry" in season.lower():
+            yield_rate_mt_ha *= 1.04
+        elif norm_crop == "Maize" and "dry" in season.lower():
+            yield_rate_mt_ha *= 1.03
 
-    # Specialized Philippine Crop: Use official PSA agricultural statistics
-    base_mt = get_baseline_yield_mt(norm_crop, prov_name)
-    cat = crop_meta.get("Crop_Category", "") if crop_meta else ""
-    if cat in ["Vegetables", "Legumes"] and season == "Dry Season":
-        yield_rate_mt_ha = round(base_mt * 1.05, 2)
-    elif cat == "Root & Tuber Crops" and season == "Wet Season":
-        yield_rate_mt_ha = round(base_mt * 1.03, 2)
-    else:
-        yield_rate_mt_ha = round(base_mt, 2)
-    yield_source = "Official PSA Agrometeorological Baseline (Major Crops Statistics)"
-    return round(yield_rate_mt_ha, 3), yield_source, False
+        c_r2 = crop_eval.get("test_r2")
+        r2_note = f"Crop Holdout R²={c_r2:.2f}" if isinstance(c_r2, (int, float)) else f"Overall Test R²={best_info.get('test_r2', 0):.2f}"
+        return (
+            round(yield_rate_mt_ha, 4),
+            f"{best_name} trained on Philippine PSA + NASA POWER/PAGASA ({target_prov}, {r2_note})",
+            "philippine_ml",
+            "Philippine ML Model",
+            True,
+        )
+
+    # Tier 2: Verified PSA Provincial Historical Observations
+    hist_yield, hist_label, obs_cnt, _yr = get_historical_psa_yield(norm_crop, target_prov)
+    if hist_yield is not None and hist_yield > 0:
+        if "wet" in season.lower() and norm_crop in ("Red Onion", "Yellow Onion", "Garlic", "Potatoes", "Tomato", "Watermelon"):
+            # Dry-season bulb/tuber/solanaceous crops face moisture blight stress during peak monsoon
+            season_factor = 0.88
+            hist_label += " (adjusted -12% for Wet Season disease/moisture risk)"
+        else:
+            season_factor = 1.0
+        return (
+            round(hist_yield * season_factor, 4),
+            hist_label,
+            "psa_statistical_historical",
+            "PSA Historical Stats",
+            False,
+        )
+
+    # Tier 3: Reference Baseline Fallback
+    base_mt = get_baseline_yield_mt(norm_crop, target_prov)
+    return (
+        round(base_mt, 4),
+        "Reference Agronomic Baseline Estimate (Insufficient PSA provincial data for ML)",
+        "fallback_reference",
+        "Reference Fallback",
+        False,
+    )
 
 
 def calculate_single_crop(crop_input, province_info, season="Wet Season", soil_type="Loam"):
     """
     Computes yield (via predict_crop_yield_rate) and separate financial projections for one crop.
-    crop_input: dict with keys:
-      - crop_name (str)
-      - land_area_ha (float)
-      - farmgate_price (float, optional)
-      - cost_per_ha (float, optional)
-      - pesticides_tonnes (float, optional)
+    Note: soil_type is preserved solely as informational agronomic metadata and is NOT an ML input feature.
     """
     raw_crop = crop_input.get("crop_name", "Rice, paddy")
     norm_crop = normalize_crop_name(raw_crop)
     land_area = float(crop_input.get("land_area_ha", 1.0))
-    pesticides_tonnes = float(crop_input.get("pesticides_tonnes", 120.0))
-    
+
     crop_meta = get_crop_info(norm_crop) or {
         "Crop_Name": norm_crop,
         "Scientific_Name": "Agricultural crop",
         "Crop_Category": "General Agriculture",
         "Origin_Status": "Cultivated",
-        "Description": "Cultivated Philippine crop."
+        "Description": "Cultivated Philippine crop.",
     }
 
     prov_name = province_info.get("province", "") if province_info else ""
+    if not prov_name:
+        prov_name = "Laguna"
     rainfall = float(province_info.get("annual_rainfall_mm", 2200.0)) if province_info else 2200.0
-    avg_temp = float(province_info.get("avg_temp_c", 28.0)) if province_info else 28.0
+    avg_temp = float(province_info.get("avg_temp_c", 27.5)) if province_info else 27.5
 
-    # Step 1: Pure Crop Yield Prediction (separate from income calculation)
-    yield_rate_mt_ha, yield_source, is_ml_predicted = predict_crop_yield_rate(
+    # Step 1: Pure Crop Yield Prediction (separated from financials)
+    yield_rate_mt_ha, yield_source, pred_method, method_label, is_ml_predicted = predict_crop_yield_rate(
         norm_crop=norm_crop,
         rainfall=rainfall,
         avg_temp=avg_temp,
-        pesticides_tonnes=pesticides_tonnes,
         season=season,
         prov_name=prov_name,
         crop_meta=crop_meta,
+        province_info=province_info,
     )
     yield_rate_kg_ha = round(yield_rate_mt_ha * 1000.0, 1)
     total_yield_mt = round(yield_rate_mt_ha * land_area, 3)
     total_yield_kg = round(total_yield_mt * 1000.0, 1)
 
-    # Cavans (50kg bags)
     cavan_weight = 50.0
     total_cavans = round(total_yield_kg / cavan_weight, 1)
 
-    # Farmgate Price
+    # Step 2: Farmgate Price
     custom_price = crop_input.get("farmgate_price")
-    if custom_price is not None and float(custom_price) > 0:
-        price_used = float(custom_price)
-        price_unit = "PHP/kg (custom)"
+    if custom_price is not None and str(custom_price).strip() != "" and float(custom_price) > 0:
+        price_used = round(float(custom_price), 2)
+        price_unit = "PHP/kg (Custom User Input)"
+        price_source = "User-Specified Custom Farmgate Price"
     else:
-        price_used, price_unit = get_farmgate_price(norm_crop, prov_name)
+        price_used, price_unit, price_source = get_farmgate_price_with_source(norm_crop, prov_name)
+    price_per_mt = round(price_used * 1000.0, 2)
 
-    # Production Cost
+    # Step 3: Production Cost (Editable custom cost supported)
     custom_cost = crop_input.get("cost_per_ha")
     cost_info = get_production_cost(norm_crop, prov_name)
-    if custom_cost is not None and float(custom_cost) > 0:
-        cost_per_ha = float(custom_cost)
+    if custom_cost is not None and str(custom_cost).strip() != "" and float(custom_cost) > 0:
+        cost_per_ha = round(float(custom_cost), 2)
         scale_ratio = cost_per_ha / cost_info["total_cost_per_ha"] if cost_info["total_cost_per_ha"] > 0 else 1.0
         labor_cost = round(cost_info["labor_cost"] * scale_ratio, 2)
         fert_cost = round(cost_info["fertilizer_cost"] * scale_ratio, 2)
         pest_cost = round(cost_info["pesticide_cost"] * scale_ratio, 2)
         seed_cost = round(cost_info["seeds_cost"] * scale_ratio, 2)
         other_cost = round(cost_per_ha - (labor_cost + fert_cost + pest_cost + seed_cost), 2)
+        cost_source = "User-Specified Custom Cost/ha"
+        is_official_cost = False
     else:
         cost_per_ha = cost_info["total_cost_per_ha"]
         labor_cost = cost_info["labor_cost"]
@@ -495,6 +650,8 @@ def calculate_single_crop(crop_input, province_info, season="Wet Season", soil_t
         pest_cost = cost_info["pesticide_cost"]
         seed_cost = cost_info["seeds_cost"]
         other_cost = cost_info["other_costs"]
+        cost_source = cost_info["cost_source"]
+        is_official_cost = cost_info["is_official_psa_cost"]
 
     total_production_cost = round(cost_per_ha * land_area, 2)
     itemized_costs = {
@@ -502,45 +659,44 @@ def calculate_single_crop(crop_input, province_info, season="Wet Season", soil_t
         "fertilizer_cost_php": round(fert_cost * land_area, 2),
         "pesticide_cost_php": round(pest_cost * land_area, 2),
         "seeds_cost_php": round(seed_cost * land_area, 2),
-        "other_costs_php": round(other_cost * land_area, 2)
+        "other_costs_php": round(other_cost * land_area, 2),
     }
 
-    # Gross & Net Income
-    gross_income = round(total_yield_kg * price_used, 2)
+    # Step 4: Revenue & Net Income Estimates
+    gross_income = round(total_yield_mt * price_per_mt, 2)
     net_income = round(gross_income - total_production_cost, 2)
     roi_percent = round((net_income / total_production_cost * 100.0), 2) if total_production_cost > 0 else 0.0
     profit_margin_percent = round((net_income / gross_income * 100.0), 2) if gross_income > 0 else 0.0
 
-    # Scenarios (+15%, Expected, -20%)
     scenarios = {
         "favorable": {
             "label": "Favorable Season (+15%)",
-            "condition": "Optimal rainfall distribution, low disease incidence, sunny grain/fruit filling",
+            "condition": "Optimal rainfall distribution, low disease pressure, favorable harvest window",
             "yield_mt": round(total_yield_mt * 1.15, 2),
             "yield_kg": round(total_yield_kg * 1.15, 1),
             "gross_income_php": round(gross_income * 1.15, 2),
-            "net_income_php": round((gross_income * 1.15) - total_production_cost, 2)
+            "net_income_php": round((gross_income * 1.15) - total_production_cost, 2),
         },
         "expected": {
-            "label": "Baseline Expected (Normal)",
-            "condition": "Standard seasonal conditions and regular farm operations",
+            "label": "Baseline Expected Estimate (Normal)",
+            "condition": "Typical provincial seasonal climate and normal farm input management",
             "yield_mt": total_yield_mt,
             "yield_kg": total_yield_kg,
             "gross_income_php": gross_income,
-            "net_income_php": net_income
+            "net_income_php": net_income,
         },
         "adverse": {
             "label": "Adverse Shock (-20%)",
-            "condition": "Monsoon flooding, prolonged dry spell, or seasonal pest outbreak",
+            "condition": "Typhoon/monsoon flood stress, El Niño dry spell, or pest incidence",
             "yield_mt": round(total_yield_mt * 0.80, 2),
             "yield_kg": round(total_yield_kg * 0.80, 1),
             "gross_income_php": round(gross_income * 0.80, 2),
-            "net_income_php": round((gross_income * 0.80) - total_production_cost, 2)
-        }
+            "net_income_php": round((gross_income * 0.80) - total_production_cost, 2),
+        },
     }
 
-    # Unified DA-AMIA + PSA crop suitability assessment
     is_suitable, _is_da_rec, suitability_notes = assess_crop_province_suitability(norm_crop, province_info, crop_meta)
+    crop_eval = per_crop_metrics_map.get(norm_crop, {})
 
     return {
         "crop_name": norm_crop,
@@ -551,14 +707,19 @@ def calculate_single_crop(crop_input, province_info, season="Wet Season", soil_t
         "land_area_ha": land_area,
         "season": season,
         "soil_type": soil_type,
+        "soil_is_ml_feature": False,
         "yield_rate_mt_ha": round(yield_rate_mt_ha, 2),
         "yield_rate_kg_ha": round(yield_rate_kg_ha, 1),
         "total_yield_mt": total_yield_mt,
         "total_yield_kg": total_yield_kg,
         "total_cavans_sacks": total_cavans,
         "farmgate_price_php_kg": price_used,
+        "farmgate_price_php_mt": price_per_mt,
         "price_unit": price_unit,
+        "price_source": price_source,
         "cost_per_ha_php": cost_per_ha,
+        "cost_source": cost_source,
+        "is_official_psa_cost": is_official_cost,
         "production_cost_php": total_production_cost,
         "gross_income_php": gross_income,
         "net_income_php": net_income,
@@ -569,22 +730,24 @@ def calculate_single_crop(crop_input, province_info, season="Wet Season", soil_t
         "is_suitable": is_suitable,
         "suitability_notes": suitability_notes,
         "yield_source": yield_source,
-        "is_ml_predicted": is_ml_predicted
+        "prediction_method": pred_method,
+        "prediction_method_label": method_label,
+        "crop_test_r2": crop_eval.get("test_r2"),
+        "crop_test_mae_mt_ha": crop_eval.get("test_mae_mt_ha"),
+        "is_ml_predicted": is_ml_predicted,
     }
 
+
 def process_multi_crop_calculation(payload, provinces_by_name):
-    """
-    Main calculation entrypoint for multiple crops.
-    """
+    """Main calculation entrypoint for multiple crops."""
     province_name = payload.get("province", "").strip()
     season = payload.get("season", "Wet Season").strip()
-    soil_type = payload.get("soil_type", "Sandy Loam").strip()
+    soil_type = payload.get("soil_type", "Loam").strip()
     crops_inputs = payload.get("crops", [])
 
     if not crops_inputs:
         return {"status": "error", "message": "At least one crop must be selected."}, 422
 
-    # Match province
     matched_province = None
     if province_name:
         matched_province = provinces_by_name.get(province_name.lower())
@@ -612,7 +775,6 @@ def process_multi_crop_calculation(payload, provinces_by_name):
     if not crop_results:
         return {"status": "error", "message": "No valid crop calculations could be generated."}, 422
 
-    # Aggregate Totals
     total_area = round(sum(c["land_area_ha"] for c in crop_results), 2)
     total_gross = round(sum(c["gross_income_php"] for c in crop_results), 2)
     total_cost = round(sum(c["production_cost_php"] for c in crop_results), 2)
@@ -621,10 +783,8 @@ def process_multi_crop_calculation(payload, provinces_by_name):
     total_production_kg = round(sum(c["total_yield_kg"] for c in crop_results), 1)
     overall_roi = round((total_net / total_cost * 100.0), 2) if total_cost > 0 else 0.0
 
-    # Best Crop by Net Income
     best_crop = max(crop_results, key=lambda x: x["net_income_php"])
 
-    # Educational Comparison & Agronomic Advisory
     comparison_summary = {
         "best_crop_name": best_crop["crop_name"],
         "best_crop_net_income": best_crop["net_income_php"],
@@ -634,19 +794,29 @@ def process_multi_crop_calculation(payload, provinces_by_name):
             f"(₱{best_crop['net_income_php']:,.2f}), the highest calculated income does not "
             f"automatically indicate it is the optimal agricultural choice. Filipino farmers must also "
             f"weigh local soil chemistry, seasonal typhoon exposure, upfront capital requirements "
-            f"(₱{best_crop['production_cost_php']:,.2f}), and farmgate market price volatility."
-        )
+            f"(₱{best_crop['production_cost_php']:,.2f}), and farmgate market price volatility. "
+            f"All yield and peso figures are planning estimates, not financial guarantees."
+        ),
     }
 
+    best_info = ml_metrics.get("best_model", {}) if isinstance(ml_metrics, dict) else {}
     response_data = {
         "status": "success",
         "parameters": {
-            "province": matched_province["province"] if matched_province else (province_name or "National Average"),
+            "province": matched_province["province"] if matched_province else (province_name or "Laguna (Fallback)"),
             "region": matched_province["region"] if matched_province else "Philippines",
             "season": season,
             "soil_type": soil_type,
+            "soil_note": "Informational agronomic metadata only (not an input feature to the ML model).",
             "annual_rainfall_mm": matched_province["annual_rainfall_mm"] if matched_province else 2200.0,
-            "avg_temp_c": matched_province["avg_temp_c"] if matched_province else 28.0
+            "avg_temp_c": matched_province["avg_temp_c"] if matched_province else 27.5,
+            "climate_data_source": matched_province.get("climate_data_source", "DOST-PAGASA CliMap v2.1 Normals (1991-2020)") if matched_province else "Philippine Reference Average",
+        },
+        "model_summary": {
+            "model_name": best_info.get("name", "Extra Trees Regressor"),
+            "cv_r2_mean": best_info.get("cv_r2_mean"),
+            "test_r2": best_info.get("test_r2"),
+            "test_mae_mt_ha": round(best_info.get("test_mae", 0) / 10000.0, 2) if best_info.get("test_mae") else None,
         },
         "totals": {
             "crop_count": len(crop_results),
@@ -656,10 +826,10 @@ def process_multi_crop_calculation(payload, provinces_by_name):
             "total_gross_income_php": total_gross,
             "total_production_cost_php": total_cost,
             "total_net_income_php": total_net,
-            "overall_roi_percent": overall_roi
+            "overall_roi_percent": overall_roi,
         },
         "crop_results": crop_results,
-        "comparison_summary": comparison_summary
+        "comparison_summary": comparison_summary,
     }
 
     if matched_province:
@@ -672,7 +842,7 @@ def process_multi_crop_calculation(payload, provinces_by_name):
             "dominant_soil": matched_province["dominant_soil"],
             "climate_type": matched_province["climate_type"],
             "national_distinction": matched_province["national_distinction"],
-            "agronomic_advice": matched_province["agronomic_advice"]
+            "agronomic_advice": matched_province["agronomic_advice"],
         }
 
     return response_data, 200
