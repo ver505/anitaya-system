@@ -27,7 +27,7 @@
    - **Saved Files:** `data/philippines_province_yearly_climate.csv` (**3,198 province-year rows**; cross-checked vs. PAGASA normals: $r=0.873$ rainfall, $r=0.725$ temperature).
 6. **Master Merged Dataset:** `data/philippines_crop_yield_climate.csv` (**36,088 clean deduplicated rows**, zero nulls/duplicates).
 
-*(Full URLs, cleaning formulas, manual PhilRice PalayStat drop-in instructions, and per-crop audit are documented in [`PHILIPPINE_DATASET_DOCUMENTATION.md`](PHILIPPINE_DATASET_DOCUMENTATION.md).)*
+*(Yields converted via `value_hg_ha = (production_mt / harvested_area_ha) * 10000`, filtering sub-hectare `< 1.0 ha` denominator artifacts and deduplicating by `(area, year, item)`. Optional manual PhilRice PalayStat / PAGASA station CSV exports can be dropped into `data/manual_imports/` before running `build_philippines_real_dataset.py`.)*
 
 ---
 
