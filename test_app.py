@@ -25,11 +25,11 @@ def test():
         print("\nTesting POST /api/predict ...")
         payload = {
             "crop": "Rice, paddy",
+            "province": "Laguna",
             "land_area": 2.0,
             "season": "Wet Season",
             "rainfall": 2400.0,
-            "avg_temp": 28.2,
-            "pesticides_tonnes": 120.0
+            "avg_temp": 27.5
         }
         r_pred = requests.post("http://127.0.0.1:5000/api/predict", json=payload, timeout=5)
         print(f"API status code: {r_pred.status_code}")
