@@ -89,6 +89,8 @@ def index():
     best_model = metrics_data.get("best_model", {})
     feature_importances = metrics_data.get("feature_importances", [])
     dataset_info = metrics_data.get("dataset_info", {})
+    actual_vs_predicted = metrics_data.get("actual_vs_predicted", [])
+    leakage_audit = metrics_data.get("leakage_audit", {})
     system_stats = history_db.get_stats()
     system_stats["total_crops"] = len(crop_engine.crop_catalog)
     system_stats["total_provinces"] = len(provinces_data)
@@ -103,6 +105,9 @@ def index():
         best_model=best_model,
         feature_importances=feature_importances,
         dataset_info=dataset_info,
+        actual_vs_predicted=actual_vs_predicted,
+        leakage_audit=leakage_audit,
+        metrics_data=metrics_data,
         crops_catalog=crop_engine.crop_catalog,
         system_stats=system_stats
     )

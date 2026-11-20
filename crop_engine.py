@@ -9,6 +9,7 @@ Integrates:
 """
 
 import os
+import json
 import pandas as pd
 import numpy as np
 import joblib
@@ -16,6 +17,7 @@ import joblib
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "data")
 MODEL_PATH = os.path.join(BASE_DIR, "models", "anitaya_best_pipeline.joblib")
+METRICS_PATH = os.path.join(BASE_DIR, "models", "model_metrics.json")
 
 # Load datasets
 CROP_LIST_PATH = os.path.join(DATA_DIR, "philippine_crop_list.csv")
@@ -30,6 +32,7 @@ df_farmgate = pd.DataFrame()
 df_costs = pd.DataFrame()
 df_prod = pd.DataFrame()
 ml_pipeline = None
+ml_metrics = {}
 
 # Aliases and name normalizer
 CROP_NAME_MAP = {
@@ -178,11 +181,12 @@ ML_SUPPORTED_CROPS = {
     "Potatoes",
     "Yams",
     "Soybeans",
-    "Plantains and others"
+    "Plantains and others",
+    "Wheat"
 }
 
 def init_engine():
-    global crop_catalog, crop_by_name, df_farmgate, df_costs, df_prod, ml_pipeline
+    global crop_catalog, crop_by_name, df_farmgate, df_costs, df_prod, ml_pipeline, ml_metrics
     
     # Load ML Pipeline
     try:
@@ -191,6 +195,14 @@ def init_engine():
             print("CropEngine: ML pipeline loaded successfully.")
     except Exception as e:
         print(f"CropEngine: Could not load ML pipeline: {e}")
+
+    # Load ML Evaluation Metrics (Dynamic Best Model Metadata)
+    try:
+        if os.path.exists(METRICS_PATH):
+            with open(METRICS_PATH, "r", encoding="utf-8") as f:
+                ml_metrics = json.load(f)
+    except Exception as e:
+        print(f"CropEngine: Could not load ML metrics: {e}")
         
     # Load Crop Catalog
     try:
@@ -362,9 +374,59 @@ def get_baseline_yield_mt(crop_name, province_name=None):
     }
     return fallbacks.get(norm, 5.0)
 
+def predict_crop_yield_rate(norm_crop, rainfall, avg_temp, pesticides_tonnes, season, prov_name, crop_meta):
+    """
+    Pure Agronomic / Machine Learning Crop Yield Prediction Function (MT/ha).
+    Kept strictly separate from financial and income calculations.
+    Uses the automatically selected best ML pipeline from models/anitaya_best_pipeline.joblib
+    and dynamic evaluation metadata from models/model_metrics.json.
+    """
+    best_info = ml_metrics.get("best_model", {}) if isinstance(ml_metrics, dict) else {}
+    best_name = best_info.get("name", "Random Forest Regressor")
+    best_r2 = best_info.get("test_r2", 0.966)
+
+    if norm_crop in ML_SUPPORTED_CROPS and ml_pipeline is not None:
+        effective_rainfall = rainfall
+        if season == "Wet Season":
+            effective_rainfall = max(rainfall, 1800.0)
+        else:
+            effective_rainfall = min(rainfall, 1600.0)
+
+        input_df = pd.DataFrame([{
+            "item": norm_crop,
+            "average_rain_fall_mm_per_year": effective_rainfall,
+            "pesticides_tonnes": pesticides_tonnes,
+            "avg_temp": avg_temp,
+            "area": "Indonesia"  # Top representative tropical Southeast Asian climate
+        }])
+
+        try:
+            predicted_hg_ha = float(ml_pipeline.predict(input_df)[0])
+            predicted_hg_ha = max(predicted_hg_ha, 4000.0)
+            yield_rate_mt_ha = predicted_hg_ha / 10000.0
+            yield_source = f"Machine Learning Model ({best_name}, Test R² = {best_r2})"
+            return round(yield_rate_mt_ha, 3), yield_source, True
+        except Exception:
+            yield_rate_mt_ha = get_baseline_yield_mt(norm_crop, prov_name)
+            yield_source = "Official PSA Baseline Statistics (Fallback)"
+            return round(yield_rate_mt_ha, 3), yield_source, False
+
+    # Specialized Philippine Crop: Use official PSA agricultural statistics
+    base_mt = get_baseline_yield_mt(norm_crop, prov_name)
+    cat = crop_meta.get("Crop_Category", "") if crop_meta else ""
+    if cat in ["Vegetables", "Legumes"] and season == "Dry Season":
+        yield_rate_mt_ha = round(base_mt * 1.05, 2)
+    elif cat == "Root & Tuber Crops" and season == "Wet Season":
+        yield_rate_mt_ha = round(base_mt * 1.03, 2)
+    else:
+        yield_rate_mt_ha = round(base_mt, 2)
+    yield_source = "Official PSA Agrometeorological Baseline (Major Crops Statistics)"
+    return round(yield_rate_mt_ha, 3), yield_source, False
+
+
 def calculate_single_crop(crop_input, province_info, season="Wet Season", soil_type="Loam"):
     """
-    Computes yield and financial projections for one crop.
+    Computes yield (via predict_crop_yield_rate) and separate financial projections for one crop.
     crop_input: dict with keys:
       - crop_name (str)
       - land_area_ha (float)
@@ -389,51 +451,16 @@ def calculate_single_crop(crop_input, province_info, season="Wet Season", soil_t
     rainfall = float(province_info.get("annual_rainfall_mm", 2200.0)) if province_info else 2200.0
     avg_temp = float(province_info.get("avg_temp_c", 28.0)) if province_info else 28.0
 
-    # Determine Yield
-    yield_source = ""
-    is_ml_predicted = False
-    
-    if norm_crop in ML_SUPPORTED_CROPS and ml_pipeline is not None:
-        # Use ML Random Forest Pipeline
-        effective_rainfall = rainfall
-        if season == "Wet Season":
-            effective_rainfall = max(rainfall, 1800.0)
-        else:
-            effective_rainfall = min(rainfall, 1600.0)
-
-        input_df = pd.DataFrame([{
-            "item": norm_crop,
-            "average_rain_fall_mm_per_year": effective_rainfall,
-            "pesticides_tonnes": pesticides_tonnes,
-            "avg_temp": avg_temp,
-            "area": "Indonesia" # Top representative tropical Southeast Asian climate
-        }])
-        
-        try:
-            predicted_hg_ha = float(ml_pipeline.predict(input_df)[0])
-            predicted_hg_ha = max(predicted_hg_ha, 4000.0)
-            yield_rate_mt_ha = predicted_hg_ha / 10000.0
-            yield_source = "Machine Learning Model (Random Forest Pipeline, R² 0.966)"
-            is_ml_predicted = True
-        except Exception as e:
-            # Fallback to PSA baseline
-            yield_rate_mt_ha = get_baseline_yield_mt(norm_crop, prov_name)
-            yield_source = "Official PSA Baseline Statistics (Fallback)"
-    else:
-        # Specialized Philippine Crop: Use official PSA agricultural statistics
-        base_mt = get_baseline_yield_mt(norm_crop, prov_name)
-        # Seasonal modulations for specific categories
-        cat = crop_meta.get("Crop_Category", "")
-        if cat in ["Vegetables", "Legumes"] and season == "Dry Season":
-            # Dry season with irrigation often produces slightly higher vegetable yields
-            yield_rate_mt_ha = round(base_mt * 1.05, 2)
-        elif cat == "Root & Tuber Crops" and season == "Wet Season":
-            yield_rate_mt_ha = round(base_mt * 1.03, 2)
-        else:
-            yield_rate_mt_ha = round(base_mt, 2)
-        yield_source = "Official PSA Agrometeorological Baseline (Major Crops Statistics)"
-
-    yield_rate_mt_ha = round(yield_rate_mt_ha, 3)
+    # Step 1: Pure Crop Yield Prediction (separate from income calculation)
+    yield_rate_mt_ha, yield_source, is_ml_predicted = predict_crop_yield_rate(
+        norm_crop=norm_crop,
+        rainfall=rainfall,
+        avg_temp=avg_temp,
+        pesticides_tonnes=pesticides_tonnes,
+        season=season,
+        prov_name=prov_name,
+        crop_meta=crop_meta,
+    )
     yield_rate_kg_ha = round(yield_rate_mt_ha * 1000.0, 1)
     total_yield_mt = round(yield_rate_mt_ha * land_area, 3)
     total_yield_kg = round(total_yield_mt * 1000.0, 1)

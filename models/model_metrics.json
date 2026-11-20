@@ -1,9 +1,11 @@
 {
   "dataset_info": {
     "source": "Zenodo Record 18761663 (DOI: 10.5281/zenodo.18761663)",
-    "total_records": 25932,
-    "training_samples": 20745,
-    "testing_samples": 5187,
+    "raw_records": 25932,
+    "duplicates_removed": 3,
+    "total_records": 25929,
+    "training_samples": 20743,
+    "testing_samples": 5186,
     "features": [
       "item",
       "average_rain_fall_mm_per_year",
@@ -31,81 +33,1928 @@
       2013
     ]
   },
+  "leakage_audit": {
+    "status": "PASSED",
+    "raw_records": 25932,
+    "null_values_removed": 0,
+    "exact_duplicates_removed_pre_split": 3,
+    "clean_records": 25929,
+    "target_excluded_from_features": true,
+    "isolated_pipeline_preprocessor": true,
+    "scaler_and_encoder_fit_on_train_only": true,
+    "stratified_train_test_split": "80% Train / 20% Test (stratified by crop item)",
+    "cross_validation_protocol": "5-Fold Cross-Validation on Training Set"
+  },
   "model_comparison": {
     "Linear Regression (Baseline)": {
-      "MAE": 30572.39,
-      "MSE": 1930187354.65,
-      "RMSE": 43933.9,
-      "R2": 0.7405,
-      "CV_R2_Mean": 0.7378,
-      "CV_R2_Std": 0.01,
-      "Training_Time_Sec": 0.96
+      "Role": "Linear Baseline",
+      "MAE": 29799.3,
+      "MSE": 1783871238.09,
+      "RMSE": 42235.9,
+      "R2": 0.7505,
+      "CV_R2_Mean": 0.731,
+      "CV_R2_Std": 0.0081,
+      "CV_Folds": 5,
+      "Training_Time_Sec": 0.54,
+      "Total_Eval_Time_Sec": 1.3,
+      "Rank": 6,
+      "Is_Winner": false
     },
     "Ridge Regression": {
-      "MAE": 30537.31,
-      "MSE": 1931558053.62,
-      "RMSE": 43949.49,
-      "R2": 0.7403,
-      "CV_R2_Mean": 0.7375,
-      "CV_R2_Std": 0.0094,
-      "Training_Time_Sec": 0.32
+      "Role": "L2 Regularized Linear",
+      "MAE": 29745.12,
+      "MSE": 1784528050.04,
+      "RMSE": 42243.67,
+      "R2": 0.7504,
+      "CV_R2_Mean": 0.7312,
+      "CV_R2_Std": 0.0088,
+      "CV_Folds": 5,
+      "Training_Time_Sec": 0.15,
+      "Total_Eval_Time_Sec": 0.52,
+      "Rank": 7,
+      "Is_Winner": false
+    },
+    "Support Vector Regression (SVR)": {
+      "Role": "Kernel Margin Regressor",
+      "MAE": 31988.15,
+      "MSE": 1827813237.78,
+      "RMSE": 42752.93,
+      "R2": 0.7444,
+      "CV_R2_Mean": 0.7757,
+      "CV_R2_Std": 0.0214,
+      "CV_Folds": 5,
+      "Training_Time_Sec": 9.24,
+      "Total_Eval_Time_Sec": 21.65,
+      "Rank": 8,
+      "Is_Winner": false
+    },
+    "K-Nearest Neighbors (KNN)": {
+      "Role": "Instance-Based Regressor",
+      "MAE": 8298.43,
+      "MSE": 309069905.97,
+      "RMSE": 17580.38,
+      "R2": 0.9568,
+      "CV_R2_Mean": 0.9305,
+      "CV_R2_Std": 0.0131,
+      "CV_Folds": 5,
+      "Training_Time_Sec": 0.05,
+      "Total_Eval_Time_Sec": 0.36,
+      "Rank": 3,
+      "Is_Winner": false
     },
     "Decision Tree Regressor": {
-      "MAE": 9225.55,
-      "MSE": 387634345.13,
-      "RMSE": 19688.43,
-      "R2": 0.9479,
-      "CV_R2_Mean": 0.917,
-      "CV_R2_Std": 0.0001,
-      "Training_Time_Sec": 0.81
+      "Role": "Single Tree Regressor",
+      "MAE": 8719.93,
+      "MSE": 332337623.65,
+      "RMSE": 18230.13,
+      "R2": 0.9535,
+      "CV_R2_Mean": 0.9114,
+      "CV_R2_Std": 0.0104,
+      "CV_Folds": 5,
+      "Training_Time_Sec": 0.43,
+      "Total_Eval_Time_Sec": 0.85,
+      "Rank": 4,
+      "Is_Winner": false
     },
-    "Random Forest (Primary Model)": {
-      "MAE": 6908.5,
-      "MSE": 252931379.74,
-      "RMSE": 15903.82,
-      "R2": 0.966,
-      "CV_R2_Mean": 0.9395,
-      "CV_R2_Std": 0.0073,
-      "Training_Time_Sec": 43.37
+    "Random Forest Regressor": {
+      "Role": "Bagging Tree Ensemble",
+      "MAE": 6437.66,
+      "MSE": 193579154.21,
+      "RMSE": 13913.27,
+      "R2": 0.9729,
+      "CV_R2_Mean": 0.9447,
+      "CV_R2_Std": 0.0047,
+      "CV_Folds": 5,
+      "Training_Time_Sec": 4.15,
+      "Total_Eval_Time_Sec": 7.56,
+      "Rank": 1,
+      "Is_Winner": true
+    },
+    "Extra Trees Regressor": {
+      "Role": "Randomized Tree Ensemble",
+      "MAE": 8745.74,
+      "MSE": 271183677.43,
+      "RMSE": 16467.66,
+      "R2": 0.9621,
+      "CV_R2_Mean": 0.9416,
+      "CV_R2_Std": 0.0064,
+      "CV_Folds": 5,
+      "Training_Time_Sec": 10.89,
+      "Total_Eval_Time_Sec": 15.94,
+      "Rank": 2,
+      "Is_Winner": false
     },
     "Gradient Boosting Regressor": {
-      "MAE": 14927.96,
-      "MSE": 560516358.52,
-      "RMSE": 23675.23,
-      "R2": 0.9246,
-      "CV_R2_Mean": 0.9191,
-      "CV_R2_Std": 0.0085,
-      "Training_Time_Sec": 32.93
+      "Role": "Boosted Tree Ensemble",
+      "MAE": 14337.13,
+      "MSE": 505892232.62,
+      "RMSE": 22492.05,
+      "R2": 0.9292,
+      "CV_R2_Mean": 0.9138,
+      "CV_R2_Std": 0.0033,
+      "CV_Folds": 5,
+      "Training_Time_Sec": 25.47,
+      "Total_Eval_Time_Sec": 39.25,
+      "Rank": 5,
+      "Is_Winner": false
     }
   },
   "best_model": {
-    "name": "Random Forest (Primary Model)",
-    "test_r2": 0.966,
-    "test_mae": 6908.5,
-    "test_rmse": 15903.82,
-    "cv_r2_mean": 0.9395,
-    "cv_r2_std": 0.0073
+    "name": "Random Forest Regressor",
+    "role": "Bagging Tree Ensemble",
+    "test_r2": 0.9729,
+    "test_mae": 6437.66,
+    "test_rmse": 13913.27,
+    "cv_r2_mean": 0.9447,
+    "cv_r2_std": 0.0047,
+    "cv_folds": 5,
+    "training_time_sec": 4.15,
+    "runner_up_name": "Extra Trees Regressor",
+    "runner_up_r2": 0.9621,
+    "explanation": "Random Forest Regressor was automatically selected as AniTaya's primary production model after evaluating 8 regression algorithms on 5,186 unseen holdout test records and 5-Fold Cross-Validation. It achieved the highest Test R\u00b2 of 0.9729 (97.29% variance explained) and a 5-Fold Cross-Validation R\u00b2 of 0.9447 (\u00b10.0047), with a Mean Absolute Error (MAE) of 6,437.66 hg/ha (0.64 MT/ha) and RMSE of 13,913.27 hg/ha (1.39 MT/ha) in 4.15s of training. It outperformed the runner-up Extra Trees Regressor (Test R\u00b2 = 0.9621, RMSE = 16,467.66 hg/ha) and improved accuracy by +22.24 percentage points over the Linear Regression baseline while reducing MAE by 78.4%. Feature importance analysis confirms that Crop Type (item) (60.27%) and Country / Region (area) (20.39%) are the strongest drivers of harvest yield."
   },
   "feature_importances": [
     {
       "feature": "Crop Type (item)",
-      "importance": 60.46
+      "importance": 60.27
     },
     {
       "feature": "Country / Region (area)",
-      "importance": 20.64
+      "importance": 20.39
     },
     {
       "feature": "Pesticides / Agrochemical Usage (pesticides_tonnes)",
-      "importance": 10.02
+      "importance": 10.04
     },
     {
       "feature": "Average Temperature (avg_temp)",
-      "importance": 4.91
+      "importance": 4.95
     },
     {
       "feature": "Rainfall (average_rain_fall_mm_per_year)",
-      "importance": 3.97
+      "importance": 4.34
+    }
+  ],
+  "actual_vs_predicted": [
+    {
+      "crop": "Cassava",
+      "actual_mt_ha": 4.961,
+      "predicted_mt_ha": 7.266,
+      "actual_hg_ha": 49613.0,
+      "predicted_hg_ha": 72655.8,
+      "residual_mt_ha": 2.305
+    },
+    {
+      "crop": "Cassava",
+      "actual_mt_ha": 12.56,
+      "predicted_mt_ha": 11.626,
+      "actual_hg_ha": 125605.0,
+      "predicted_hg_ha": 116256.7,
+      "residual_mt_ha": -0.934
+    },
+    {
+      "crop": "Cassava",
+      "actual_mt_ha": 17.231,
+      "predicted_mt_ha": 14.532,
+      "actual_hg_ha": 172308.0,
+      "predicted_hg_ha": 145324.7,
+      "residual_mt_ha": -2.699
+    },
+    {
+      "crop": "Cassava",
+      "actual_mt_ha": 20.538,
+      "predicted_mt_ha": 20.538,
+      "actual_hg_ha": 205381.0,
+      "predicted_hg_ha": 205381.0,
+      "residual_mt_ha": 0.0
+    },
+    {
+      "crop": "Cassava",
+      "actual_mt_ha": 9.465,
+      "predicted_mt_ha": 9.673,
+      "actual_hg_ha": 94651.0,
+      "predicted_hg_ha": 96730.0,
+      "residual_mt_ha": 0.208
+    },
+    {
+      "crop": "Cassava",
+      "actual_mt_ha": 11.328,
+      "predicted_mt_ha": 9.612,
+      "actual_hg_ha": 113284.0,
+      "predicted_hg_ha": 96124.2,
+      "residual_mt_ha": -1.716
+    },
+    {
+      "crop": "Cassava",
+      "actual_mt_ha": 24.197,
+      "predicted_mt_ha": 21.823,
+      "actual_hg_ha": 241965.0,
+      "predicted_hg_ha": 218229.4,
+      "residual_mt_ha": -2.374
+    },
+    {
+      "crop": "Cassava",
+      "actual_mt_ha": 32.22,
+      "predicted_mt_ha": 32.22,
+      "actual_hg_ha": 322204.0,
+      "predicted_hg_ha": 322204.0,
+      "residual_mt_ha": 0.0
+    },
+    {
+      "crop": "Cassava",
+      "actual_mt_ha": 9.966,
+      "predicted_mt_ha": 10.361,
+      "actual_hg_ha": 99665.0,
+      "predicted_hg_ha": 103612.4,
+      "residual_mt_ha": 0.395
+    },
+    {
+      "crop": "Cassava",
+      "actual_mt_ha": 25.277,
+      "predicted_mt_ha": 25.277,
+      "actual_hg_ha": 252775.0,
+      "predicted_hg_ha": 252775.0,
+      "residual_mt_ha": 0.0
+    },
+    {
+      "crop": "Cassava",
+      "actual_mt_ha": 12.193,
+      "predicted_mt_ha": 15.313,
+      "actual_hg_ha": 121925.0,
+      "predicted_hg_ha": 153129.6,
+      "residual_mt_ha": 3.12
+    },
+    {
+      "crop": "Cassava",
+      "actual_mt_ha": 17.898,
+      "predicted_mt_ha": 15.807,
+      "actual_hg_ha": 178976.0,
+      "predicted_hg_ha": 158068.7,
+      "residual_mt_ha": -2.091
+    },
+    {
+      "crop": "Cassava",
+      "actual_mt_ha": 10.177,
+      "predicted_mt_ha": 9.628,
+      "actual_hg_ha": 101765.0,
+      "predicted_hg_ha": 96277.9,
+      "residual_mt_ha": -0.549
+    },
+    {
+      "crop": "Cassava",
+      "actual_mt_ha": 36.477,
+      "predicted_mt_ha": 36.477,
+      "actual_hg_ha": 364770.0,
+      "predicted_hg_ha": 364770.0,
+      "residual_mt_ha": 0.0
+    },
+    {
+      "crop": "Cassava",
+      "actual_mt_ha": 3.96,
+      "predicted_mt_ha": 3.913,
+      "actual_hg_ha": 39602.0,
+      "predicted_hg_ha": 39132.8,
+      "residual_mt_ha": -0.047
+    },
+    {
+      "crop": "Cassava",
+      "actual_mt_ha": 2.817,
+      "predicted_mt_ha": 3.024,
+      "actual_hg_ha": 28175.0,
+      "predicted_hg_ha": 30243.3,
+      "residual_mt_ha": 0.207
+    },
+    {
+      "crop": "Cassava",
+      "actual_mt_ha": 14.079,
+      "predicted_mt_ha": 14.068,
+      "actual_hg_ha": 140795.0,
+      "predicted_hg_ha": 140681.3,
+      "residual_mt_ha": -0.011
+    },
+    {
+      "crop": "Cassava",
+      "actual_mt_ha": 12.095,
+      "predicted_mt_ha": 12.189,
+      "actual_hg_ha": 120946.0,
+      "predicted_hg_ha": 121888.2,
+      "residual_mt_ha": 0.094
+    },
+    {
+      "crop": "Cassava",
+      "actual_mt_ha": 8.057,
+      "predicted_mt_ha": 9.597,
+      "actual_hg_ha": 80569.0,
+      "predicted_hg_ha": 95972.1,
+      "residual_mt_ha": 1.54
+    },
+    {
+      "crop": "Cassava",
+      "actual_mt_ha": 23.952,
+      "predicted_mt_ha": 23.952,
+      "actual_hg_ha": 239523.0,
+      "predicted_hg_ha": 239523.0,
+      "residual_mt_ha": 0.0
+    },
+    {
+      "crop": "Cassava",
+      "actual_mt_ha": 10.923,
+      "predicted_mt_ha": 10.648,
+      "actual_hg_ha": 109231.0,
+      "predicted_hg_ha": 106477.8,
+      "residual_mt_ha": -0.275
+    },
+    {
+      "crop": "Cassava",
+      "actual_mt_ha": 12.735,
+      "predicted_mt_ha": 12.725,
+      "actual_hg_ha": 127352.0,
+      "predicted_hg_ha": 127251.6,
+      "residual_mt_ha": -0.01
+    },
+    {
+      "crop": "Maize",
+      "actual_mt_ha": 10.48,
+      "predicted_mt_ha": 9.519,
+      "actual_hg_ha": 104802.0,
+      "predicted_hg_ha": 95194.8,
+      "residual_mt_ha": -0.961
+    },
+    {
+      "crop": "Maize",
+      "actual_mt_ha": 12.335,
+      "predicted_mt_ha": 11.007,
+      "actual_hg_ha": 123355.0,
+      "predicted_hg_ha": 110070.0,
+      "residual_mt_ha": -1.328
+    },
+    {
+      "crop": "Maize",
+      "actual_mt_ha": 3.729,
+      "predicted_mt_ha": 7.123,
+      "actual_hg_ha": 37288.0,
+      "predicted_hg_ha": 71231.3,
+      "residual_mt_ha": 3.394
+    },
+    {
+      "crop": "Maize",
+      "actual_mt_ha": 2.083,
+      "predicted_mt_ha": 1.943,
+      "actual_hg_ha": 20827.0,
+      "predicted_hg_ha": 19426.1,
+      "residual_mt_ha": -0.14
+    },
+    {
+      "crop": "Maize",
+      "actual_mt_ha": 1.74,
+      "predicted_mt_ha": 1.423,
+      "actual_hg_ha": 17400.0,
+      "predicted_hg_ha": 14232.5,
+      "residual_mt_ha": -0.317
+    },
+    {
+      "crop": "Maize",
+      "actual_mt_ha": 4.647,
+      "predicted_mt_ha": 4.849,
+      "actual_hg_ha": 46471.0,
+      "predicted_hg_ha": 48486.1,
+      "residual_mt_ha": 0.202
+    },
+    {
+      "crop": "Maize",
+      "actual_mt_ha": 0.287,
+      "predicted_mt_ha": 0.573,
+      "actual_hg_ha": 2867.0,
+      "predicted_hg_ha": 5727.8,
+      "residual_mt_ha": 0.286
+    },
+    {
+      "crop": "Maize",
+      "actual_mt_ha": 3.488,
+      "predicted_mt_ha": 2.59,
+      "actual_hg_ha": 34879.0,
+      "predicted_hg_ha": 25896.4,
+      "residual_mt_ha": -0.898
+    },
+    {
+      "crop": "Maize",
+      "actual_mt_ha": 2.556,
+      "predicted_mt_ha": 2.131,
+      "actual_hg_ha": 25557.0,
+      "predicted_hg_ha": 21313.6,
+      "residual_mt_ha": -0.425
+    },
+    {
+      "crop": "Maize",
+      "actual_mt_ha": 9.78,
+      "predicted_mt_ha": 9.483,
+      "actual_hg_ha": 97800.0,
+      "predicted_hg_ha": 94831.2,
+      "residual_mt_ha": -0.297
+    },
+    {
+      "crop": "Maize",
+      "actual_mt_ha": 2.244,
+      "predicted_mt_ha": 1.915,
+      "actual_hg_ha": 22442.0,
+      "predicted_hg_ha": 19146.7,
+      "residual_mt_ha": -0.329
+    },
+    {
+      "crop": "Maize",
+      "actual_mt_ha": 1.546,
+      "predicted_mt_ha": 1.477,
+      "actual_hg_ha": 15464.0,
+      "predicted_hg_ha": 14767.1,
+      "residual_mt_ha": -0.069
+    },
+    {
+      "crop": "Maize",
+      "actual_mt_ha": 2.257,
+      "predicted_mt_ha": 2.367,
+      "actual_hg_ha": 22573.0,
+      "predicted_hg_ha": 23673.4,
+      "residual_mt_ha": 0.11
+    },
+    {
+      "crop": "Maize",
+      "actual_mt_ha": 2.89,
+      "predicted_mt_ha": 2.514,
+      "actual_hg_ha": 28900.0,
+      "predicted_hg_ha": 25135.7,
+      "residual_mt_ha": -0.376
+    },
+    {
+      "crop": "Maize",
+      "actual_mt_ha": 3.26,
+      "predicted_mt_ha": 2.844,
+      "actual_hg_ha": 32599.0,
+      "predicted_hg_ha": 28438.5,
+      "residual_mt_ha": -0.416
+    },
+    {
+      "crop": "Maize",
+      "actual_mt_ha": 3.367,
+      "predicted_mt_ha": 3.226,
+      "actual_hg_ha": 33671.0,
+      "predicted_hg_ha": 32260.3,
+      "residual_mt_ha": -0.141
+    },
+    {
+      "crop": "Maize",
+      "actual_mt_ha": 7.188,
+      "predicted_mt_ha": 7.217,
+      "actual_hg_ha": 71878.0,
+      "predicted_hg_ha": 72171.5,
+      "residual_mt_ha": 0.029
+    },
+    {
+      "crop": "Maize",
+      "actual_mt_ha": 3.99,
+      "predicted_mt_ha": 2.72,
+      "actual_hg_ha": 39897.0,
+      "predicted_hg_ha": 27202.7,
+      "residual_mt_ha": -1.27
+    },
+    {
+      "crop": "Maize",
+      "actual_mt_ha": 2.414,
+      "predicted_mt_ha": 2.029,
+      "actual_hg_ha": 24140.0,
+      "predicted_hg_ha": 20291.9,
+      "residual_mt_ha": -0.385
+    },
+    {
+      "crop": "Maize",
+      "actual_mt_ha": 4.578,
+      "predicted_mt_ha": 3.757,
+      "actual_hg_ha": 45777.0,
+      "predicted_hg_ha": 37565.6,
+      "residual_mt_ha": -0.821
+    },
+    {
+      "crop": "Maize",
+      "actual_mt_ha": 1.891,
+      "predicted_mt_ha": 1.555,
+      "actual_hg_ha": 18911.0,
+      "predicted_hg_ha": 15546.5,
+      "residual_mt_ha": -0.336
+    },
+    {
+      "crop": "Maize",
+      "actual_mt_ha": 8.531,
+      "predicted_mt_ha": 7.45,
+      "actual_hg_ha": 85308.0,
+      "predicted_hg_ha": 74495.7,
+      "residual_mt_ha": -1.081
+    },
+    {
+      "crop": "Plantains and others",
+      "actual_mt_ha": 6.645,
+      "predicted_mt_ha": 6.734,
+      "actual_hg_ha": 66453.0,
+      "predicted_hg_ha": 67344.8,
+      "residual_mt_ha": 0.089
+    },
+    {
+      "crop": "Plantains and others",
+      "actual_mt_ha": 2.91,
+      "predicted_mt_ha": 2.828,
+      "actual_hg_ha": 29096.0,
+      "predicted_hg_ha": 28280.2,
+      "residual_mt_ha": -0.082
+    },
+    {
+      "crop": "Plantains and others",
+      "actual_mt_ha": 6.625,
+      "predicted_mt_ha": 5.788,
+      "actual_hg_ha": 66250.0,
+      "predicted_hg_ha": 57879.1,
+      "residual_mt_ha": -0.837
+    },
+    {
+      "crop": "Plantains and others",
+      "actual_mt_ha": 8.156,
+      "predicted_mt_ha": 7.871,
+      "actual_hg_ha": 81560.0,
+      "predicted_hg_ha": 78709.9,
+      "residual_mt_ha": -0.285
+    },
+    {
+      "crop": "Plantains and others",
+      "actual_mt_ha": 3.306,
+      "predicted_mt_ha": 3.02,
+      "actual_hg_ha": 33056.0,
+      "predicted_hg_ha": 30197.7,
+      "residual_mt_ha": -0.286
+    },
+    {
+      "crop": "Plantains and others",
+      "actual_mt_ha": 3.8,
+      "predicted_mt_ha": 4.686,
+      "actual_hg_ha": 38004.0,
+      "predicted_hg_ha": 46861.8,
+      "residual_mt_ha": 0.886
+    },
+    {
+      "crop": "Plantains and others",
+      "actual_mt_ha": 11.836,
+      "predicted_mt_ha": 10.651,
+      "actual_hg_ha": 118358.0,
+      "predicted_hg_ha": 106513.5,
+      "residual_mt_ha": -1.185
+    },
+    {
+      "crop": "Plantains and others",
+      "actual_mt_ha": 8.077,
+      "predicted_mt_ha": 8.047,
+      "actual_hg_ha": 80771.0,
+      "predicted_hg_ha": 80465.6,
+      "residual_mt_ha": -0.03
+    },
+    {
+      "crop": "Plantains and others",
+      "actual_mt_ha": 7.024,
+      "predicted_mt_ha": 6.672,
+      "actual_hg_ha": 70238.0,
+      "predicted_hg_ha": 66718.2,
+      "residual_mt_ha": -0.352
+    },
+    {
+      "crop": "Plantains and others",
+      "actual_mt_ha": 8.375,
+      "predicted_mt_ha": 8.461,
+      "actual_hg_ha": 83753.0,
+      "predicted_hg_ha": 84606.1,
+      "residual_mt_ha": 0.086
+    },
+    {
+      "crop": "Plantains and others",
+      "actual_mt_ha": 22.734,
+      "predicted_mt_ha": 28.674,
+      "actual_hg_ha": 227338.0,
+      "predicted_hg_ha": 286743.4,
+      "residual_mt_ha": 5.94
+    },
+    {
+      "crop": "Plantains and others",
+      "actual_mt_ha": 2.892,
+      "predicted_mt_ha": 3.235,
+      "actual_hg_ha": 28917.0,
+      "predicted_hg_ha": 32349.1,
+      "residual_mt_ha": 0.343
+    },
+    {
+      "crop": "Plantains and others",
+      "actual_mt_ha": 20.685,
+      "predicted_mt_ha": 20.156,
+      "actual_hg_ha": 206853.0,
+      "predicted_hg_ha": 201559.6,
+      "residual_mt_ha": -0.529
+    },
+    {
+      "crop": "Plantains and others",
+      "actual_mt_ha": 21.738,
+      "predicted_mt_ha": 20.006,
+      "actual_hg_ha": 217379.0,
+      "predicted_hg_ha": 200059.3,
+      "residual_mt_ha": -1.732
+    },
+    {
+      "crop": "Plantains and others",
+      "actual_mt_ha": 38.115,
+      "predicted_mt_ha": 30.899,
+      "actual_hg_ha": 381146.0,
+      "predicted_hg_ha": 308986.7,
+      "residual_mt_ha": -7.216
+    },
+    {
+      "crop": "Plantains and others",
+      "actual_mt_ha": 11.289,
+      "predicted_mt_ha": 11.294,
+      "actual_hg_ha": 112892.0,
+      "predicted_hg_ha": 112943.4,
+      "residual_mt_ha": 0.005
+    },
+    {
+      "crop": "Plantains and others",
+      "actual_mt_ha": 7.097,
+      "predicted_mt_ha": 7.111,
+      "actual_hg_ha": 70972.0,
+      "predicted_hg_ha": 71114.7,
+      "residual_mt_ha": 0.014
+    },
+    {
+      "crop": "Plantains and others",
+      "actual_mt_ha": 6.887,
+      "predicted_mt_ha": 7.12,
+      "actual_hg_ha": 68873.0,
+      "predicted_hg_ha": 71197.2,
+      "residual_mt_ha": 0.233
+    },
+    {
+      "crop": "Plantains and others",
+      "actual_mt_ha": 17.928,
+      "predicted_mt_ha": 17.541,
+      "actual_hg_ha": 179276.0,
+      "predicted_hg_ha": 175405.3,
+      "residual_mt_ha": -0.387
+    },
+    {
+      "crop": "Plantains and others",
+      "actual_mt_ha": 17.343,
+      "predicted_mt_ha": 16.901,
+      "actual_hg_ha": 173430.0,
+      "predicted_hg_ha": 169005.9,
+      "residual_mt_ha": -0.442
+    },
+    {
+      "crop": "Plantains and others",
+      "actual_mt_ha": 2.932,
+      "predicted_mt_ha": 3.347,
+      "actual_hg_ha": 29317.0,
+      "predicted_hg_ha": 33468.9,
+      "residual_mt_ha": 0.415
+    },
+    {
+      "crop": "Plantains and others",
+      "actual_mt_ha": 31.22,
+      "predicted_mt_ha": 29.845,
+      "actual_hg_ha": 312202.0,
+      "predicted_hg_ha": 298452.4,
+      "residual_mt_ha": -1.375
+    },
+    {
+      "crop": "Potatoes",
+      "actual_mt_ha": 11.967,
+      "predicted_mt_ha": 12.336,
+      "actual_hg_ha": 119667.0,
+      "predicted_hg_ha": 123357.5,
+      "residual_mt_ha": 0.369
+    },
+    {
+      "crop": "Potatoes",
+      "actual_mt_ha": 34.983,
+      "predicted_mt_ha": 33.298,
+      "actual_hg_ha": 349826.0,
+      "predicted_hg_ha": 332982.7,
+      "residual_mt_ha": -1.685
+    },
+    {
+      "crop": "Potatoes",
+      "actual_mt_ha": 15.381,
+      "predicted_mt_ha": 16.329,
+      "actual_hg_ha": 153807.0,
+      "predicted_hg_ha": 163292.8,
+      "residual_mt_ha": 0.948
+    },
+    {
+      "crop": "Potatoes",
+      "actual_mt_ha": 20.813,
+      "predicted_mt_ha": 16.082,
+      "actual_hg_ha": 208131.0,
+      "predicted_hg_ha": 160821.1,
+      "residual_mt_ha": -4.731
+    },
+    {
+      "crop": "Potatoes",
+      "actual_mt_ha": 13.376,
+      "predicted_mt_ha": 15.896,
+      "actual_hg_ha": 133759.0,
+      "predicted_hg_ha": 158958.4,
+      "residual_mt_ha": 2.52
+    },
+    {
+      "crop": "Potatoes",
+      "actual_mt_ha": 23.503,
+      "predicted_mt_ha": 24.316,
+      "actual_hg_ha": 235025.0,
+      "predicted_hg_ha": 243159.5,
+      "residual_mt_ha": 0.813
+    },
+    {
+      "crop": "Potatoes",
+      "actual_mt_ha": 17.181,
+      "predicted_mt_ha": 17.42,
+      "actual_hg_ha": 171813.0,
+      "predicted_hg_ha": 174200.0,
+      "residual_mt_ha": 0.239
+    },
+    {
+      "crop": "Potatoes",
+      "actual_mt_ha": 14.426,
+      "predicted_mt_ha": 16.904,
+      "actual_hg_ha": 144262.0,
+      "predicted_hg_ha": 169042.5,
+      "residual_mt_ha": 2.478
+    },
+    {
+      "crop": "Potatoes",
+      "actual_mt_ha": 23.333,
+      "predicted_mt_ha": 21.819,
+      "actual_hg_ha": 233333.0,
+      "predicted_hg_ha": 218193.0,
+      "residual_mt_ha": -1.514
+    },
+    {
+      "crop": "Potatoes",
+      "actual_mt_ha": 3.452,
+      "predicted_mt_ha": 3.538,
+      "actual_hg_ha": 34521.0,
+      "predicted_hg_ha": 35375.4,
+      "residual_mt_ha": 0.086
+    },
+    {
+      "crop": "Potatoes",
+      "actual_mt_ha": 14.247,
+      "predicted_mt_ha": 14.392,
+      "actual_hg_ha": 142473.0,
+      "predicted_hg_ha": 143916.7,
+      "residual_mt_ha": 0.145
+    },
+    {
+      "crop": "Potatoes",
+      "actual_mt_ha": 22.212,
+      "predicted_mt_ha": 18.842,
+      "actual_hg_ha": 222125.0,
+      "predicted_hg_ha": 188419.8,
+      "residual_mt_ha": -3.37
+    },
+    {
+      "crop": "Potatoes",
+      "actual_mt_ha": 43.786,
+      "predicted_mt_ha": 42.314,
+      "actual_hg_ha": 437856.0,
+      "predicted_hg_ha": 423143.8,
+      "residual_mt_ha": -1.472
+    },
+    {
+      "crop": "Potatoes",
+      "actual_mt_ha": 16.933,
+      "predicted_mt_ha": 14.169,
+      "actual_hg_ha": 169329.0,
+      "predicted_hg_ha": 141686.7,
+      "residual_mt_ha": -2.764
+    },
+    {
+      "crop": "Potatoes",
+      "actual_mt_ha": 38.543,
+      "predicted_mt_ha": 37.963,
+      "actual_hg_ha": 385434.0,
+      "predicted_hg_ha": 379634.1,
+      "residual_mt_ha": -0.58
+    },
+    {
+      "crop": "Potatoes",
+      "actual_mt_ha": 19.417,
+      "predicted_mt_ha": 19.418,
+      "actual_hg_ha": 194173.0,
+      "predicted_hg_ha": 194177.8,
+      "residual_mt_ha": 0.001
+    },
+    {
+      "crop": "Potatoes",
+      "actual_mt_ha": 11.486,
+      "predicted_mt_ha": 13.258,
+      "actual_hg_ha": 114862.0,
+      "predicted_hg_ha": 132576.3,
+      "residual_mt_ha": 1.772
+    },
+    {
+      "crop": "Potatoes",
+      "actual_mt_ha": 32.33,
+      "predicted_mt_ha": 31.46,
+      "actual_hg_ha": 323303.0,
+      "predicted_hg_ha": 314603.8,
+      "residual_mt_ha": -0.87
+    },
+    {
+      "crop": "Potatoes",
+      "actual_mt_ha": 23.377,
+      "predicted_mt_ha": 18.015,
+      "actual_hg_ha": 233767.0,
+      "predicted_hg_ha": 180154.8,
+      "residual_mt_ha": -5.362
+    },
+    {
+      "crop": "Potatoes",
+      "actual_mt_ha": 15.381,
+      "predicted_mt_ha": 14.618,
+      "actual_hg_ha": 153812.0,
+      "predicted_hg_ha": 146176.2,
+      "residual_mt_ha": -0.763
+    },
+    {
+      "crop": "Potatoes",
+      "actual_mt_ha": 16.551,
+      "predicted_mt_ha": 15.351,
+      "actual_hg_ha": 165508.0,
+      "predicted_hg_ha": 153508.2,
+      "residual_mt_ha": -1.2
+    },
+    {
+      "crop": "Potatoes",
+      "actual_mt_ha": 12.473,
+      "predicted_mt_ha": 12.467,
+      "actual_hg_ha": 124735.0,
+      "predicted_hg_ha": 124665.2,
+      "residual_mt_ha": -0.006
+    },
+    {
+      "crop": "Rice, paddy",
+      "actual_mt_ha": 2.925,
+      "predicted_mt_ha": 3.459,
+      "actual_hg_ha": 29255.0,
+      "predicted_hg_ha": 34588.3,
+      "residual_mt_ha": 0.534
+    },
+    {
+      "crop": "Rice, paddy",
+      "actual_mt_ha": 3.854,
+      "predicted_mt_ha": 3.813,
+      "actual_hg_ha": 38541.0,
+      "predicted_hg_ha": 38127.1,
+      "residual_mt_ha": -0.041
+    },
+    {
+      "crop": "Rice, paddy",
+      "actual_mt_ha": 7.001,
+      "predicted_mt_ha": 5.928,
+      "actual_hg_ha": 70010.0,
+      "predicted_hg_ha": 59284.8,
+      "residual_mt_ha": -1.073
+    },
+    {
+      "crop": "Rice, paddy",
+      "actual_mt_ha": 3.607,
+      "predicted_mt_ha": 3.189,
+      "actual_hg_ha": 36070.0,
+      "predicted_hg_ha": 31888.4,
+      "residual_mt_ha": -0.418
+    },
+    {
+      "crop": "Rice, paddy",
+      "actual_mt_ha": 1.867,
+      "predicted_mt_ha": 1.719,
+      "actual_hg_ha": 18665.0,
+      "predicted_hg_ha": 17187.0,
+      "residual_mt_ha": -0.148
+    },
+    {
+      "crop": "Rice, paddy",
+      "actual_mt_ha": 3.875,
+      "predicted_mt_ha": 3.34,
+      "actual_hg_ha": 38746.0,
+      "predicted_hg_ha": 33401.7,
+      "residual_mt_ha": -0.535
+    },
+    {
+      "crop": "Rice, paddy",
+      "actual_mt_ha": 2.658,
+      "predicted_mt_ha": 2.725,
+      "actual_hg_ha": 26578.0,
+      "predicted_hg_ha": 27252.3,
+      "residual_mt_ha": 0.067
+    },
+    {
+      "crop": "Rice, paddy",
+      "actual_mt_ha": 3.691,
+      "predicted_mt_ha": 3.302,
+      "actual_hg_ha": 36909.0,
+      "predicted_hg_ha": 33015.7,
+      "residual_mt_ha": -0.389
+    },
+    {
+      "crop": "Rice, paddy",
+      "actual_mt_ha": 3.216,
+      "predicted_mt_ha": 3.395,
+      "actual_hg_ha": 32162.0,
+      "predicted_hg_ha": 33951.4,
+      "residual_mt_ha": 0.179
+    },
+    {
+      "crop": "Rice, paddy",
+      "actual_mt_ha": 4.776,
+      "predicted_mt_ha": 4.402,
+      "actual_hg_ha": 47762.0,
+      "predicted_hg_ha": 44021.3,
+      "residual_mt_ha": -0.374
+    },
+    {
+      "crop": "Rice, paddy",
+      "actual_mt_ha": 4.889,
+      "predicted_mt_ha": 4.191,
+      "actual_hg_ha": 48887.0,
+      "predicted_hg_ha": 41914.5,
+      "residual_mt_ha": -0.698
+    },
+    {
+      "crop": "Rice, paddy",
+      "actual_mt_ha": 4.417,
+      "predicted_mt_ha": 4.59,
+      "actual_hg_ha": 44168.0,
+      "predicted_hg_ha": 45897.9,
+      "residual_mt_ha": 0.173
+    },
+    {
+      "crop": "Rice, paddy",
+      "actual_mt_ha": 4.127,
+      "predicted_mt_ha": 4.526,
+      "actual_hg_ha": 41266.0,
+      "predicted_hg_ha": 45256.5,
+      "residual_mt_ha": 0.399
+    },
+    {
+      "crop": "Rice, paddy",
+      "actual_mt_ha": 1.114,
+      "predicted_mt_ha": 2.439,
+      "actual_hg_ha": 11137.0,
+      "predicted_hg_ha": 24386.6,
+      "residual_mt_ha": 1.325
+    },
+    {
+      "crop": "Rice, paddy",
+      "actual_mt_ha": 4.405,
+      "predicted_mt_ha": 4.306,
+      "actual_hg_ha": 44049.0,
+      "predicted_hg_ha": 43060.6,
+      "residual_mt_ha": -0.099
+    },
+    {
+      "crop": "Rice, paddy",
+      "actual_mt_ha": 4.375,
+      "predicted_mt_ha": 4.514,
+      "actual_hg_ha": 43750.0,
+      "predicted_hg_ha": 45142.5,
+      "residual_mt_ha": 0.139
+    },
+    {
+      "crop": "Rice, paddy",
+      "actual_mt_ha": 2.41,
+      "predicted_mt_ha": 2.251,
+      "actual_hg_ha": 24100.0,
+      "predicted_hg_ha": 22514.0,
+      "residual_mt_ha": -0.159
+    },
+    {
+      "crop": "Rice, paddy",
+      "actual_mt_ha": 6.704,
+      "predicted_mt_ha": 6.212,
+      "actual_hg_ha": 67037.0,
+      "predicted_hg_ha": 62116.9,
+      "residual_mt_ha": -0.492
+    },
+    {
+      "crop": "Rice, paddy",
+      "actual_mt_ha": 7.599,
+      "predicted_mt_ha": 8.659,
+      "actual_hg_ha": 75988.0,
+      "predicted_hg_ha": 86588.3,
+      "residual_mt_ha": 1.06
+    },
+    {
+      "crop": "Rice, paddy",
+      "actual_mt_ha": 4.462,
+      "predicted_mt_ha": 4.682,
+      "actual_hg_ha": 44619.0,
+      "predicted_hg_ha": 46820.2,
+      "residual_mt_ha": 0.22
+    },
+    {
+      "crop": "Rice, paddy",
+      "actual_mt_ha": 7.785,
+      "predicted_mt_ha": 6.91,
+      "actual_hg_ha": 77851.0,
+      "predicted_hg_ha": 69096.5,
+      "residual_mt_ha": -0.875
+    },
+    {
+      "crop": "Rice, paddy",
+      "actual_mt_ha": 3.59,
+      "predicted_mt_ha": 3.068,
+      "actual_hg_ha": 35903.0,
+      "predicted_hg_ha": 30679.3,
+      "residual_mt_ha": -0.522
+    },
+    {
+      "crop": "Sorghum",
+      "actual_mt_ha": 0.702,
+      "predicted_mt_ha": 0.588,
+      "actual_hg_ha": 7019.0,
+      "predicted_hg_ha": 5880.3,
+      "residual_mt_ha": -0.114
+    },
+    {
+      "crop": "Sorghum",
+      "actual_mt_ha": 2.654,
+      "predicted_mt_ha": 5.105,
+      "actual_hg_ha": 26544.0,
+      "predicted_hg_ha": 51049.3,
+      "residual_mt_ha": 2.451
+    },
+    {
+      "crop": "Sorghum",
+      "actual_mt_ha": 0.255,
+      "predicted_mt_ha": 0.45,
+      "actual_hg_ha": 2548.0,
+      "predicted_hg_ha": 4499.4,
+      "residual_mt_ha": 0.195
+    },
+    {
+      "crop": "Sorghum",
+      "actual_mt_ha": 3.436,
+      "predicted_mt_ha": 3.668,
+      "actual_hg_ha": 34355.0,
+      "predicted_hg_ha": 36676.2,
+      "residual_mt_ha": 0.232
+    },
+    {
+      "crop": "Sorghum",
+      "actual_mt_ha": 5.839,
+      "predicted_mt_ha": 5.927,
+      "actual_hg_ha": 58388.0,
+      "predicted_hg_ha": 59274.9,
+      "residual_mt_ha": 0.088
+    },
+    {
+      "crop": "Sorghum",
+      "actual_mt_ha": 0.829,
+      "predicted_mt_ha": 0.925,
+      "actual_hg_ha": 8288.0,
+      "predicted_hg_ha": 9253.4,
+      "residual_mt_ha": 0.096
+    },
+    {
+      "crop": "Sorghum",
+      "actual_mt_ha": 0.6,
+      "predicted_mt_ha": 0.611,
+      "actual_hg_ha": 5998.0,
+      "predicted_hg_ha": 6107.8,
+      "residual_mt_ha": 0.011
+    },
+    {
+      "crop": "Sorghum",
+      "actual_mt_ha": 0.357,
+      "predicted_mt_ha": 0.663,
+      "actual_hg_ha": 3572.0,
+      "predicted_hg_ha": 6633.0,
+      "residual_mt_ha": 0.306
+    },
+    {
+      "crop": "Sorghum",
+      "actual_mt_ha": 5.749,
+      "predicted_mt_ha": 5.874,
+      "actual_hg_ha": 57487.0,
+      "predicted_hg_ha": 58737.4,
+      "residual_mt_ha": 0.125
+    },
+    {
+      "crop": "Sorghum",
+      "actual_mt_ha": 1.507,
+      "predicted_mt_ha": 1.884,
+      "actual_hg_ha": 15068.0,
+      "predicted_hg_ha": 18842.7,
+      "residual_mt_ha": 0.377
+    },
+    {
+      "crop": "Sorghum",
+      "actual_mt_ha": 0.864,
+      "predicted_mt_ha": 0.898,
+      "actual_hg_ha": 8640.0,
+      "predicted_hg_ha": 8977.6,
+      "residual_mt_ha": 0.034
+    },
+    {
+      "crop": "Sorghum",
+      "actual_mt_ha": 1.571,
+      "predicted_mt_ha": 1.685,
+      "actual_hg_ha": 15711.0,
+      "predicted_hg_ha": 16851.1,
+      "residual_mt_ha": 0.114
+    },
+    {
+      "crop": "Sorghum",
+      "actual_mt_ha": 3.315,
+      "predicted_mt_ha": 3.106,
+      "actual_hg_ha": 33152.0,
+      "predicted_hg_ha": 31057.7,
+      "residual_mt_ha": -0.209
+    },
+    {
+      "crop": "Sorghum",
+      "actual_mt_ha": 1.666,
+      "predicted_mt_ha": 1.635,
+      "actual_hg_ha": 16657.0,
+      "predicted_hg_ha": 16347.6,
+      "residual_mt_ha": -0.031
+    },
+    {
+      "crop": "Sorghum",
+      "actual_mt_ha": 1.737,
+      "predicted_mt_ha": 2.226,
+      "actual_hg_ha": 17368.0,
+      "predicted_hg_ha": 22260.4,
+      "residual_mt_ha": 0.489
+    },
+    {
+      "crop": "Sorghum",
+      "actual_mt_ha": 0.595,
+      "predicted_mt_ha": 0.62,
+      "actual_hg_ha": 5952.0,
+      "predicted_hg_ha": 6200.5,
+      "residual_mt_ha": 0.025
+    },
+    {
+      "crop": "Sorghum",
+      "actual_mt_ha": 2.851,
+      "predicted_mt_ha": 3.503,
+      "actual_hg_ha": 28509.0,
+      "predicted_hg_ha": 35031.1,
+      "residual_mt_ha": 0.652
+    },
+    {
+      "crop": "Sorghum",
+      "actual_mt_ha": 1.798,
+      "predicted_mt_ha": 1.879,
+      "actual_hg_ha": 17981.0,
+      "predicted_hg_ha": 18785.9,
+      "residual_mt_ha": 0.081
+    },
+    {
+      "crop": "Sorghum",
+      "actual_mt_ha": 0.574,
+      "predicted_mt_ha": 0.612,
+      "actual_hg_ha": 5736.0,
+      "predicted_hg_ha": 6123.7,
+      "residual_mt_ha": 0.038
+    },
+    {
+      "crop": "Sorghum",
+      "actual_mt_ha": 0.745,
+      "predicted_mt_ha": 0.869,
+      "actual_hg_ha": 7447.0,
+      "predicted_hg_ha": 8693.3,
+      "residual_mt_ha": 0.124
+    },
+    {
+      "crop": "Sorghum",
+      "actual_mt_ha": 3.51,
+      "predicted_mt_ha": 3.228,
+      "actual_hg_ha": 35096.0,
+      "predicted_hg_ha": 32276.8,
+      "residual_mt_ha": -0.282
+    },
+    {
+      "crop": "Sorghum",
+      "actual_mt_ha": 2.543,
+      "predicted_mt_ha": 2.271,
+      "actual_hg_ha": 25429.0,
+      "predicted_hg_ha": 22705.6,
+      "residual_mt_ha": -0.272
+    },
+    {
+      "crop": "Soybeans",
+      "actual_mt_ha": 1.1,
+      "predicted_mt_ha": 1.075,
+      "actual_hg_ha": 11001.0,
+      "predicted_hg_ha": 10747.9,
+      "residual_mt_ha": -0.025
+    },
+    {
+      "crop": "Soybeans",
+      "actual_mt_ha": 2.6,
+      "predicted_mt_ha": 2.189,
+      "actual_hg_ha": 26000.0,
+      "predicted_hg_ha": 21894.4,
+      "residual_mt_ha": -0.411
+    },
+    {
+      "crop": "Soybeans",
+      "actual_mt_ha": 0.79,
+      "predicted_mt_ha": 0.928,
+      "actual_hg_ha": 7901.0,
+      "predicted_hg_ha": 9276.0,
+      "residual_mt_ha": 0.138
+    },
+    {
+      "crop": "Soybeans",
+      "actual_mt_ha": 1.52,
+      "predicted_mt_ha": 1.697,
+      "actual_hg_ha": 15198.0,
+      "predicted_hg_ha": 16971.3,
+      "residual_mt_ha": 0.177
+    },
+    {
+      "crop": "Soybeans",
+      "actual_mt_ha": 1.839,
+      "predicted_mt_ha": 1.636,
+      "actual_hg_ha": 18388.0,
+      "predicted_hg_ha": 16363.0,
+      "residual_mt_ha": -0.203
+    },
+    {
+      "crop": "Soybeans",
+      "actual_mt_ha": 1.552,
+      "predicted_mt_ha": 1.624,
+      "actual_hg_ha": 15520.0,
+      "predicted_hg_ha": 16239.5,
+      "residual_mt_ha": 0.072
+    },
+    {
+      "crop": "Soybeans",
+      "actual_mt_ha": 2.2,
+      "predicted_mt_ha": 2.188,
+      "actual_hg_ha": 21998.0,
+      "predicted_hg_ha": 21877.6,
+      "residual_mt_ha": -0.012
+    },
+    {
+      "crop": "Soybeans",
+      "actual_mt_ha": 2.816,
+      "predicted_mt_ha": 2.809,
+      "actual_hg_ha": 28162.0,
+      "predicted_hg_ha": 28090.4,
+      "residual_mt_ha": -0.007
+    },
+    {
+      "crop": "Soybeans",
+      "actual_mt_ha": 2.637,
+      "predicted_mt_ha": 2.668,
+      "actual_hg_ha": 26366.0,
+      "predicted_hg_ha": 26677.2,
+      "residual_mt_ha": 0.031
+    },
+    {
+      "crop": "Soybeans",
+      "actual_mt_ha": 2.105,
+      "predicted_mt_ha": 2.482,
+      "actual_hg_ha": 21053.0,
+      "predicted_hg_ha": 24817.8,
+      "residual_mt_ha": 0.377
+    },
+    {
+      "crop": "Soybeans",
+      "actual_mt_ha": 0.914,
+      "predicted_mt_ha": 0.907,
+      "actual_hg_ha": 9139.0,
+      "predicted_hg_ha": 9070.2,
+      "residual_mt_ha": -0.007
+    },
+    {
+      "crop": "Soybeans",
+      "actual_mt_ha": 2.059,
+      "predicted_mt_ha": 2.276,
+      "actual_hg_ha": 20587.0,
+      "predicted_hg_ha": 22761.8,
+      "residual_mt_ha": 0.217
+    },
+    {
+      "crop": "Soybeans",
+      "actual_mt_ha": 2.711,
+      "predicted_mt_ha": 2.557,
+      "actual_hg_ha": 27105.0,
+      "predicted_hg_ha": 25567.3,
+      "residual_mt_ha": -0.154
+    },
+    {
+      "crop": "Soybeans",
+      "actual_mt_ha": 2.208,
+      "predicted_mt_ha": 2.531,
+      "actual_hg_ha": 22075.0,
+      "predicted_hg_ha": 25307.0,
+      "residual_mt_ha": 0.323
+    },
+    {
+      "crop": "Soybeans",
+      "actual_mt_ha": 1.401,
+      "predicted_mt_ha": 1.754,
+      "actual_hg_ha": 14013.0,
+      "predicted_hg_ha": 17542.4,
+      "residual_mt_ha": 0.353
+    },
+    {
+      "crop": "Soybeans",
+      "actual_mt_ha": 2.285,
+      "predicted_mt_ha": 2.306,
+      "actual_hg_ha": 22852.0,
+      "predicted_hg_ha": 23062.2,
+      "residual_mt_ha": 0.021
+    },
+    {
+      "crop": "Soybeans",
+      "actual_mt_ha": 0.675,
+      "predicted_mt_ha": 1.358,
+      "actual_hg_ha": 6755.0,
+      "predicted_hg_ha": 13575.0,
+      "residual_mt_ha": 0.683
+    },
+    {
+      "crop": "Soybeans",
+      "actual_mt_ha": 2.222,
+      "predicted_mt_ha": 2.22,
+      "actual_hg_ha": 22222.0,
+      "predicted_hg_ha": 22196.2,
+      "residual_mt_ha": -0.002
+    },
+    {
+      "crop": "Soybeans",
+      "actual_mt_ha": 1.239,
+      "predicted_mt_ha": 1.64,
+      "actual_hg_ha": 12392.0,
+      "predicted_hg_ha": 16395.6,
+      "residual_mt_ha": 0.401
+    },
+    {
+      "crop": "Soybeans",
+      "actual_mt_ha": 0.621,
+      "predicted_mt_ha": 1.366,
+      "actual_hg_ha": 6214.0,
+      "predicted_hg_ha": 13657.9,
+      "residual_mt_ha": 0.745
+    },
+    {
+      "crop": "Soybeans",
+      "actual_mt_ha": 2.434,
+      "predicted_mt_ha": 2.68,
+      "actual_hg_ha": 24344.0,
+      "predicted_hg_ha": 26798.8,
+      "residual_mt_ha": 0.246
+    },
+    {
+      "crop": "Soybeans",
+      "actual_mt_ha": 1.974,
+      "predicted_mt_ha": 2.048,
+      "actual_hg_ha": 19741.0,
+      "predicted_hg_ha": 20478.3,
+      "residual_mt_ha": 0.074
+    },
+    {
+      "crop": "Sweet potatoes",
+      "actual_mt_ha": 8.642,
+      "predicted_mt_ha": 9.995,
+      "actual_hg_ha": 86415.0,
+      "predicted_hg_ha": 99946.4,
+      "residual_mt_ha": 1.353
+    },
+    {
+      "crop": "Sweet potatoes",
+      "actual_mt_ha": 4.832,
+      "predicted_mt_ha": 6.924,
+      "actual_hg_ha": 48316.0,
+      "predicted_hg_ha": 69236.4,
+      "residual_mt_ha": 2.092
+    },
+    {
+      "crop": "Sweet potatoes",
+      "actual_mt_ha": 10.792,
+      "predicted_mt_ha": 10.523,
+      "actual_hg_ha": 107920.0,
+      "predicted_hg_ha": 105232.8,
+      "residual_mt_ha": -0.269
+    },
+    {
+      "crop": "Sweet potatoes",
+      "actual_mt_ha": 23.503,
+      "predicted_mt_ha": 24.332,
+      "actual_hg_ha": 235027.0,
+      "predicted_hg_ha": 243322.6,
+      "residual_mt_ha": 0.829
+    },
+    {
+      "crop": "Sweet potatoes",
+      "actual_mt_ha": 8.482,
+      "predicted_mt_ha": 8.482,
+      "actual_hg_ha": 84823.0,
+      "predicted_hg_ha": 84818.5,
+      "residual_mt_ha": 0.0
+    },
+    {
+      "crop": "Sweet potatoes",
+      "actual_mt_ha": 13.288,
+      "predicted_mt_ha": 18.866,
+      "actual_hg_ha": 132882.0,
+      "predicted_hg_ha": 188663.1,
+      "residual_mt_ha": 5.578
+    },
+    {
+      "crop": "Sweet potatoes",
+      "actual_mt_ha": 0.999,
+      "predicted_mt_ha": 0.929,
+      "actual_hg_ha": 9988.0,
+      "predicted_hg_ha": 9291.6,
+      "residual_mt_ha": -0.07
+    },
+    {
+      "crop": "Sweet potatoes",
+      "actual_mt_ha": 9.717,
+      "predicted_mt_ha": 9.707,
+      "actual_hg_ha": 97174.0,
+      "predicted_hg_ha": 97074.1,
+      "residual_mt_ha": -0.01
+    },
+    {
+      "crop": "Sweet potatoes",
+      "actual_mt_ha": 18.139,
+      "predicted_mt_ha": 18.62,
+      "actual_hg_ha": 181389.0,
+      "predicted_hg_ha": 186198.9,
+      "residual_mt_ha": 0.481
+    },
+    {
+      "crop": "Sweet potatoes",
+      "actual_mt_ha": 2.143,
+      "predicted_mt_ha": 5.521,
+      "actual_hg_ha": 21429.0,
+      "predicted_hg_ha": 55211.7,
+      "residual_mt_ha": 3.378
+    },
+    {
+      "crop": "Sweet potatoes",
+      "actual_mt_ha": 8.574,
+      "predicted_mt_ha": 8.582,
+      "actual_hg_ha": 85744.0,
+      "predicted_hg_ha": 85816.3,
+      "residual_mt_ha": 0.008
+    },
+    {
+      "crop": "Sweet potatoes",
+      "actual_mt_ha": 8.698,
+      "predicted_mt_ha": 8.79,
+      "actual_hg_ha": 86976.0,
+      "predicted_hg_ha": 87903.0,
+      "residual_mt_ha": 0.092
+    },
+    {
+      "crop": "Sweet potatoes",
+      "actual_mt_ha": 3.53,
+      "predicted_mt_ha": 3.392,
+      "actual_hg_ha": 35304.0,
+      "predicted_hg_ha": 33924.1,
+      "residual_mt_ha": -0.138
+    },
+    {
+      "crop": "Sweet potatoes",
+      "actual_mt_ha": 34.439,
+      "predicted_mt_ha": 33.943,
+      "actual_hg_ha": 344391.0,
+      "predicted_hg_ha": 339429.1,
+      "residual_mt_ha": -0.496
+    },
+    {
+      "crop": "Sweet potatoes",
+      "actual_mt_ha": 7.292,
+      "predicted_mt_ha": 9.425,
+      "actual_hg_ha": 72917.0,
+      "predicted_hg_ha": 94247.1,
+      "residual_mt_ha": 2.133
+    },
+    {
+      "crop": "Sweet potatoes",
+      "actual_mt_ha": 16.754,
+      "predicted_mt_ha": 18.869,
+      "actual_hg_ha": 167541.0,
+      "predicted_hg_ha": 188691.2,
+      "residual_mt_ha": 2.115
+    },
+    {
+      "crop": "Sweet potatoes",
+      "actual_mt_ha": 9.717,
+      "predicted_mt_ha": 9.707,
+      "actual_hg_ha": 97174.0,
+      "predicted_hg_ha": 97074.1,
+      "residual_mt_ha": -0.01
+    },
+    {
+      "crop": "Sweet potatoes",
+      "actual_mt_ha": 17.517,
+      "predicted_mt_ha": 18.112,
+      "actual_hg_ha": 175168.0,
+      "predicted_hg_ha": 181117.0,
+      "residual_mt_ha": 0.595
+    },
+    {
+      "crop": "Sweet potatoes",
+      "actual_mt_ha": 25.333,
+      "predicted_mt_ha": 25.053,
+      "actual_hg_ha": 253333.0,
+      "predicted_hg_ha": 250530.5,
+      "residual_mt_ha": -0.28
+    },
+    {
+      "crop": "Sweet potatoes",
+      "actual_mt_ha": 9.796,
+      "predicted_mt_ha": 9.932,
+      "actual_hg_ha": 97962.0,
+      "predicted_hg_ha": 99316.4,
+      "residual_mt_ha": 0.136
+    },
+    {
+      "crop": "Sweet potatoes",
+      "actual_mt_ha": 8.859,
+      "predicted_mt_ha": 8.866,
+      "actual_hg_ha": 88588.0,
+      "predicted_hg_ha": 88659.8,
+      "residual_mt_ha": 0.007
+    },
+    {
+      "crop": "Sweet potatoes",
+      "actual_mt_ha": 10.774,
+      "predicted_mt_ha": 10.298,
+      "actual_hg_ha": 107743.0,
+      "predicted_hg_ha": 102980.9,
+      "residual_mt_ha": -0.476
+    },
+    {
+      "crop": "Wheat",
+      "actual_mt_ha": 2.55,
+      "predicted_mt_ha": 2.487,
+      "actual_hg_ha": 25497.0,
+      "predicted_hg_ha": 24873.9,
+      "residual_mt_ha": -0.063
+    },
+    {
+      "crop": "Wheat",
+      "actual_mt_ha": 1.915,
+      "predicted_mt_ha": 1.842,
+      "actual_hg_ha": 19153.0,
+      "predicted_hg_ha": 18415.2,
+      "residual_mt_ha": -0.073
+    },
+    {
+      "crop": "Wheat",
+      "actual_mt_ha": 3.81,
+      "predicted_mt_ha": 2.879,
+      "actual_hg_ha": 38100.0,
+      "predicted_hg_ha": 28793.6,
+      "residual_mt_ha": -0.931
+    },
+    {
+      "crop": "Wheat",
+      "actual_mt_ha": 2.03,
+      "predicted_mt_ha": 1.972,
+      "actual_hg_ha": 20301.0,
+      "predicted_hg_ha": 19723.5,
+      "residual_mt_ha": -0.058
+    },
+    {
+      "crop": "Wheat",
+      "actual_mt_ha": 5.657,
+      "predicted_mt_ha": 5.623,
+      "actual_hg_ha": 56568.0,
+      "predicted_hg_ha": 56227.0,
+      "residual_mt_ha": -0.034
+    },
+    {
+      "crop": "Wheat",
+      "actual_mt_ha": 1.931,
+      "predicted_mt_ha": 2.332,
+      "actual_hg_ha": 19315.0,
+      "predicted_hg_ha": 23322.4,
+      "residual_mt_ha": 0.401
+    },
+    {
+      "crop": "Wheat",
+      "actual_mt_ha": 9.465,
+      "predicted_mt_ha": 8.367,
+      "actual_hg_ha": 94652.0,
+      "predicted_hg_ha": 83673.1,
+      "residual_mt_ha": -1.098
+    },
+    {
+      "crop": "Wheat",
+      "actual_mt_ha": 6.582,
+      "predicted_mt_ha": 6.372,
+      "actual_hg_ha": 65823.0,
+      "predicted_hg_ha": 63718.6,
+      "residual_mt_ha": -0.21
+    },
+    {
+      "crop": "Wheat",
+      "actual_mt_ha": 1.135,
+      "predicted_mt_ha": 1.08,
+      "actual_hg_ha": 11348.0,
+      "predicted_hg_ha": 10802.1,
+      "residual_mt_ha": -0.055
+    },
+    {
+      "crop": "Wheat",
+      "actual_mt_ha": 2.121,
+      "predicted_mt_ha": 2.156,
+      "actual_hg_ha": 21211.0,
+      "predicted_hg_ha": 21563.5,
+      "residual_mt_ha": 0.035
+    },
+    {
+      "crop": "Wheat",
+      "actual_mt_ha": 2.998,
+      "predicted_mt_ha": 2.536,
+      "actual_hg_ha": 29976.0,
+      "predicted_hg_ha": 25358.2,
+      "residual_mt_ha": -0.462
+    },
+    {
+      "crop": "Wheat",
+      "actual_mt_ha": 0.895,
+      "predicted_mt_ha": 1.317,
+      "actual_hg_ha": 8948.0,
+      "predicted_hg_ha": 13173.9,
+      "residual_mt_ha": 0.422
+    },
+    {
+      "crop": "Wheat",
+      "actual_mt_ha": 0.298,
+      "predicted_mt_ha": 1.068,
+      "actual_hg_ha": 2980.0,
+      "predicted_hg_ha": 10678.6,
+      "residual_mt_ha": 0.77
+    },
+    {
+      "crop": "Wheat",
+      "actual_mt_ha": 4.129,
+      "predicted_mt_ha": 3.619,
+      "actual_hg_ha": 41292.0,
+      "predicted_hg_ha": 36193.2,
+      "residual_mt_ha": -0.51
+    },
+    {
+      "crop": "Wheat",
+      "actual_mt_ha": 3.065,
+      "predicted_mt_ha": 3.725,
+      "actual_hg_ha": 30649.0,
+      "predicted_hg_ha": 37249.5,
+      "residual_mt_ha": 0.66
+    },
+    {
+      "crop": "Wheat",
+      "actual_mt_ha": 2.7,
+      "predicted_mt_ha": 2.438,
+      "actual_hg_ha": 27004.0,
+      "predicted_hg_ha": 24383.2,
+      "residual_mt_ha": -0.262
+    },
+    {
+      "crop": "Wheat",
+      "actual_mt_ha": 6.888,
+      "predicted_mt_ha": 7.14,
+      "actual_hg_ha": 68882.0,
+      "predicted_hg_ha": 71399.8,
+      "residual_mt_ha": 0.252
+    },
+    {
+      "crop": "Wheat",
+      "actual_mt_ha": 2.61,
+      "predicted_mt_ha": 2.449,
+      "actual_hg_ha": 26096.0,
+      "predicted_hg_ha": 24491.2,
+      "residual_mt_ha": -0.161
+    },
+    {
+      "crop": "Wheat",
+      "actual_mt_ha": 2.329,
+      "predicted_mt_ha": 2.342,
+      "actual_hg_ha": 23291.0,
+      "predicted_hg_ha": 23422.3,
+      "residual_mt_ha": 0.013
+    },
+    {
+      "crop": "Wheat",
+      "actual_mt_ha": 3.263,
+      "predicted_mt_ha": 2.733,
+      "actual_hg_ha": 32628.0,
+      "predicted_hg_ha": 27325.6,
+      "residual_mt_ha": -0.53
+    },
+    {
+      "crop": "Wheat",
+      "actual_mt_ha": 5.418,
+      "predicted_mt_ha": 5.179,
+      "actual_hg_ha": 54185.0,
+      "predicted_hg_ha": 51791.8,
+      "residual_mt_ha": -0.239
+    },
+    {
+      "crop": "Wheat",
+      "actual_mt_ha": 2.9,
+      "predicted_mt_ha": 2.459,
+      "actual_hg_ha": 28998.0,
+      "predicted_hg_ha": 24587.6,
+      "residual_mt_ha": -0.441
+    },
+    {
+      "crop": "Yams",
+      "actual_mt_ha": 17.104,
+      "predicted_mt_ha": 16.15,
+      "actual_hg_ha": 171042.0,
+      "predicted_hg_ha": 161503.7,
+      "residual_mt_ha": -0.954
+    },
+    {
+      "crop": "Yams",
+      "actual_mt_ha": 9.152,
+      "predicted_mt_ha": 9.162,
+      "actual_hg_ha": 91522.0,
+      "predicted_hg_ha": 91622.8,
+      "residual_mt_ha": 0.01
+    },
+    {
+      "crop": "Yams",
+      "actual_mt_ha": 17.5,
+      "predicted_mt_ha": 17.465,
+      "actual_hg_ha": 175000.0,
+      "predicted_hg_ha": 174649.0,
+      "residual_mt_ha": -0.035
+    },
+    {
+      "crop": "Yams",
+      "actual_mt_ha": 5.89,
+      "predicted_mt_ha": 5.946,
+      "actual_hg_ha": 58904.0,
+      "predicted_hg_ha": 59458.6,
+      "residual_mt_ha": 0.056
+    },
+    {
+      "crop": "Yams",
+      "actual_mt_ha": 5.278,
+      "predicted_mt_ha": 5.548,
+      "actual_hg_ha": 52778.0,
+      "predicted_hg_ha": 55475.7,
+      "residual_mt_ha": 0.27
+    },
+    {
+      "crop": "Yams",
+      "actual_mt_ha": 16.571,
+      "predicted_mt_ha": 17.465,
+      "actual_hg_ha": 165714.0,
+      "predicted_hg_ha": 174648.1,
+      "residual_mt_ha": 0.894
+    },
+    {
+      "crop": "Yams",
+      "actual_mt_ha": 6.983,
+      "predicted_mt_ha": 5.802,
+      "actual_hg_ha": 69832.0,
+      "predicted_hg_ha": 58022.6,
+      "residual_mt_ha": -1.181
+    },
+    {
+      "crop": "Yams",
+      "actual_mt_ha": 10.0,
+      "predicted_mt_ha": 11.591,
+      "actual_hg_ha": 100000.0,
+      "predicted_hg_ha": 115913.2,
+      "residual_mt_ha": 1.591
+    },
+    {
+      "crop": "Yams",
+      "actual_mt_ha": 10.999,
+      "predicted_mt_ha": 10.989,
+      "actual_hg_ha": 109992.0,
+      "predicted_hg_ha": 109892.3,
+      "residual_mt_ha": -0.01
+    },
+    {
+      "crop": "Yams",
+      "actual_mt_ha": 4.21,
+      "predicted_mt_ha": 4.188,
+      "actual_hg_ha": 42104.0,
+      "predicted_hg_ha": 41881.1,
+      "residual_mt_ha": -0.022
+    },
+    {
+      "crop": "Yams",
+      "actual_mt_ha": 9.167,
+      "predicted_mt_ha": 9.166,
+      "actual_hg_ha": 91667.0,
+      "predicted_hg_ha": 91655.0,
+      "residual_mt_ha": -0.001
+    },
+    {
+      "crop": "Yams",
+      "actual_mt_ha": 20.079,
+      "predicted_mt_ha": 21.035,
+      "actual_hg_ha": 200786.0,
+      "predicted_hg_ha": 210352.4,
+      "residual_mt_ha": 0.956
+    },
+    {
+      "crop": "Yams",
+      "actual_mt_ha": 16.522,
+      "predicted_mt_ha": 11.83,
+      "actual_hg_ha": 165217.0,
+      "predicted_hg_ha": 118301.9,
+      "residual_mt_ha": -4.692
+    },
+    {
+      "crop": "Yams",
+      "actual_mt_ha": 13.279,
+      "predicted_mt_ha": 13.314,
+      "actual_hg_ha": 132794.0,
+      "predicted_hg_ha": 133144.4,
+      "residual_mt_ha": 0.035
+    },
+    {
+      "crop": "Yams",
+      "actual_mt_ha": 5.462,
+      "predicted_mt_ha": 6.179,
+      "actual_hg_ha": 54622.0,
+      "predicted_hg_ha": 61786.7,
+      "residual_mt_ha": 0.717
+    },
+    {
+      "crop": "Yams",
+      "actual_mt_ha": 9.2,
+      "predicted_mt_ha": 9.191,
+      "actual_hg_ha": 92000.0,
+      "predicted_hg_ha": 91906.1,
+      "residual_mt_ha": -0.009
+    },
+    {
+      "crop": "Yams",
+      "actual_mt_ha": 8.668,
+      "predicted_mt_ha": 6.995,
+      "actual_hg_ha": 86683.0,
+      "predicted_hg_ha": 69948.7,
+      "residual_mt_ha": -1.673
+    },
+    {
+      "crop": "Yams",
+      "actual_mt_ha": 8.377,
+      "predicted_mt_ha": 10.339,
+      "actual_hg_ha": 83772.0,
+      "predicted_hg_ha": 103385.1,
+      "residual_mt_ha": 1.962
+    },
+    {
+      "crop": "Yams",
+      "actual_mt_ha": 7.584,
+      "predicted_mt_ha": 7.513,
+      "actual_hg_ha": 75844.0,
+      "predicted_hg_ha": 75127.1,
+      "residual_mt_ha": -0.071
+    },
+    {
+      "crop": "Yams",
+      "actual_mt_ha": 20.079,
+      "predicted_mt_ha": 21.035,
+      "actual_hg_ha": 200786.0,
+      "predicted_hg_ha": 210352.4,
+      "residual_mt_ha": 0.956
+    },
+    {
+      "crop": "Yams",
+      "actual_mt_ha": 5.718,
+      "predicted_mt_ha": 6.741,
+      "actual_hg_ha": 57179.0,
+      "predicted_hg_ha": 67413.3,
+      "residual_mt_ha": 1.023
+    },
+    {
+      "crop": "Yams",
+      "actual_mt_ha": 6.667,
+      "predicted_mt_ha": 6.772,
+      "actual_hg_ha": 66667.0,
+      "predicted_hg_ha": 67720.7,
+      "residual_mt_ha": 0.105
     }
   ],
   "ph_benchmarks": {
@@ -169,49 +2018,94 @@
         "Storage & Transport": 10.0
       }
     },
-    "Rice": {
-      "filipino_name": "Palay (Palay / Bigas)",
-      "farmgate_price_per_kg": 22.0,
-      "cost_per_ha": 45000.0,
-      "typical_yield_mt_ha": 4.2,
+    "Sweet potatoes": {
+      "filipino_name": "Kamote (Sweet Potato)",
+      "farmgate_price_per_kg": 28.0,
+      "cost_per_ha": 28000.0,
+      "typical_yield_mt_ha": 8.0,
       "cavan_weight_kg": 50,
-      "growing_days": 115,
-      "recommended_season": "Wet & Dry Season",
+      "growing_days": 110,
+      "recommended_season": "All Seasons",
       "production_cost_breakdown": {
-        "Seeds": 12.0,
-        "Fertilizers & Agrochemicals": 32.0,
-        "Labor & Land Preparation": 38.0,
-        "Fuel, Irrigation & Threshing": 18.0
+        "Cuttings / Vines": 10.0,
+        "Fertilizer": 25.0,
+        "Labor": 45.0,
+        "Harvesting": 20.0
       }
     },
-    "Corn": {
-      "filipino_name": "Mais (Corn / Yellow & White)",
-      "farmgate_price_per_kg": 20.5,
-      "cost_per_ha": 38000.0,
-      "typical_yield_mt_ha": 4.5,
+    "Plantains and others": {
+      "filipino_name": "Saging (Banana / Saba / Plantains)",
+      "farmgate_price_per_kg": 25.0,
+      "cost_per_ha": 40000.0,
+      "typical_yield_mt_ha": 15.0,
       "cavan_weight_kg": 50,
-      "growing_days": 105,
-      "recommended_season": "Dry Season / Late Wet",
+      "growing_days": 365,
+      "recommended_season": "Year-round",
+      "production_cost_breakdown": {
+        "Suckers / Seedlings": 15.0,
+        "Fertilizer & Mulch": 30.0,
+        "Maintenance & De-suckering": 35.0,
+        "Harvesting": 20.0
+      }
+    },
+    "Soybeans": {
+      "filipino_name": "Utaw (Soybeans)",
+      "farmgate_price_per_kg": 35.0,
+      "cost_per_ha": 30000.0,
+      "typical_yield_mt_ha": 2.0,
+      "cavan_weight_kg": 50,
+      "growing_days": 100,
+      "recommended_season": "Dry Season",
       "production_cost_breakdown": {
         "Seeds": 15.0,
-        "Fertilizers & Agrochemicals": 35.0,
-        "Labor & Land Preparation": 35.0,
-        "Machinery & Fuel": 15.0
+        "Inoculants & Fertilizer": 25.0,
+        "Labor": 40.0,
+        "Post-harvest": 20.0
       }
     },
-    "Potato": {
-      "filipino_name": "Patatas (Irish Potato)",
-      "farmgate_price_per_kg": 45.0,
-      "cost_per_ha": 95000.0,
-      "typical_yield_mt_ha": 18.0,
+    "Sorghum": {
+      "filipino_name": "Batad (Sorghum)",
+      "farmgate_price_per_kg": 18.0,
+      "cost_per_ha": 25000.0,
+      "typical_yield_mt_ha": 3.0,
       "cavan_weight_kg": 50,
-      "growing_days": 90,
-      "recommended_season": "Cool Dry Season",
+      "growing_days": 100,
+      "recommended_season": "Dry / Drought-tolerant",
       "production_cost_breakdown": {
-        "Seed Tubers": 40.0,
-        "Fertilizers & Crop Care": 30.0,
-        "Labor": 20.0,
-        "Storage & Transport": 10.0
+        "Seeds": 12.0,
+        "Fertilizers": 28.0,
+        "Labor": 40.0,
+        "Threshing": 20.0
+      }
+    },
+    "Yams": {
+      "filipino_name": "Ube (Purple Yam)",
+      "farmgate_price_per_kg": 65.0,
+      "cost_per_ha": 55000.0,
+      "typical_yield_mt_ha": 9.0,
+      "cavan_weight_kg": 50,
+      "growing_days": 240,
+      "recommended_season": "Wet Season",
+      "production_cost_breakdown": {
+        "Setts / Seed Pieces": 30.0,
+        "Trellising & Poles": 20.0,
+        "Fertilizer": 20.0,
+        "Labor & Digging": 30.0
+      }
+    },
+    "Wheat": {
+      "filipino_name": "Trigo (Wheat)",
+      "farmgate_price_per_kg": 24.0,
+      "cost_per_ha": 35000.0,
+      "typical_yield_mt_ha": 3.2,
+      "cavan_weight_kg": 50,
+      "growing_days": 110,
+      "recommended_season": "Cool Season",
+      "production_cost_breakdown": {
+        "Seeds": 15.0,
+        "Fertilizers": 35.0,
+        "Labor": 30.0,
+        "Harvesting": 20.0
       }
     }
   }
