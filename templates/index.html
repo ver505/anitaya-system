@@ -11337,21 +11337,39 @@
             if (activeCrop && farmArea > 0) updateCalcLive(false);
         }
 
+        function syncSeasonUI(season) {
+            const normalized = String(season || '').toLowerCase().includes('dry') ? 'Dry' : 'Wet';
+            const isWet = (normalized === 'Wet');
+            activeSeason = normalized;
+            weatherSeason = normalized;
+
+            const cw = document.getElementById('chipWet');
+            const cd = document.getElementById('chipDry');
+            if (cw) cw.classList.toggle('active', isWet);
+            if (cd) cd.classList.toggle('active', !isWet);
+
+            const cww = document.getElementById('chipWeatherWet');
+            const cwd = document.getElementById('chipWeatherDry');
+            if (cww) cww.classList.toggle('active', isWet);
+            if (cwd) cwd.classList.toggle('active', !isWet);
+
+            if (typeof setRainEffect === 'function') {
+                setRainEffect(isWet, false, false);
+            }
+            return normalized;
+        }
+
         function selectSeason(season) {
             setSeason(season);
         }
 
         function setSeason(season) {
-            activeSeason = season;
-            const cw = document.getElementById('chipWet');
-            const cd = document.getElementById('chipDry');
-            if (cw) cw.classList.toggle('active', season === 'Wet');
-            if (cd) cd.classList.toggle('active', season === 'Dry');
+            syncSeasonUI(season);
 
-            const cww = document.getElementById('chipWeatherWet');
-            const cwd = document.getElementById('chipWeatherDry');
-            if (cww) cww.classList.toggle('active', season === 'Wet');
-            if (cwd) cwd.classList.toggle('active', season === 'Dry');
+            const weatherView = document.getElementById('view-weather');
+            if (weatherView && weatherView.classList.contains('active') && typeof renderWeatherRiskView === 'function') {
+                renderWeatherRiskView();
+            }
 
             // If already calculated, update calculation automatically
             if (currentCalculatedResult) {
@@ -11838,9 +11856,7 @@
 
         // ── Risk & Weather View Controller ──
         function setWeatherSeason(s) {
-            weatherSeason = s;
-            document.getElementById('chipWeatherWet').classList.toggle('active', s === 'Wet');
-            document.getElementById('chipWeatherDry').classList.toggle('active', s === 'Dry');
+            syncSeasonUI(s);
             renderWeatherRiskView();
         }
 
