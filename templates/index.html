@@ -2348,7 +2348,7 @@
         }
 
         /* Keep the reset control icon at its intended size on narrow screens. */
-        .btn-reset-action > svg {
+        .btn-reset-action>svg {
             width: 16px;
             height: 16px;
             flex: 0 0 16px;
@@ -7611,6 +7611,7 @@
         }
 
         @media print {
+
             :root,
             html,
             html[data-theme="dark"],
@@ -7641,7 +7642,7 @@
                 print-color-adjust: exact;
             }
 
-            body > *:not(#printableReportContainer) {
+            body>*:not(#printableReportContainer) {
                 display: none !important;
             }
 
@@ -8491,9 +8492,11 @@
                         <div class="calc-topbar-left">
                             <span class="calc-topbar-title" id="txtCalcWorkspaceTitle">CROP INCOME CALCULATOR</span>
                             <span class="taya-badge-live" id="txtCalcWorkspaceBadge">MULTI-CROP FARM PLANNER</span>
-                            <div class="season-live-badge" id="liveCalendarBadge" title="Real-Time Philippine Agricultural Calendar">
+                            <div class="season-live-badge" id="liveCalendarBadge"
+                                title="Real-Time Philippine Agricultural Calendar">
                                 <span class="live-dot-pulse"></span>
-                                <span id="txtLiveSeasonReadout">REALITY: <strong>NOVEMBER 2026</strong> &bull; LATE WET / TRANSITION</span>
+                                <span id="txtLiveSeasonReadout">REALITY: <strong>NOVEMBER 2026</strong> &bull; LATE WET
+                                    / TRANSITION</span>
                             </div>
                         </div>
                         <div style="display:flex; align-items:center; gap:8px;">
@@ -8512,12 +8515,14 @@
                                 <span id="lblLiveAdvisorMonth">NOV RECOM:</span>
                             </div>
                             <div class="seasonal-adv-text" id="seasonalAdvText">
-                                <strong>Best to plant: Palay &amp; Mais</strong> &bull; High-risk right now: Potato (blight in wet soil). Transitioning from Late Wet to Cool Dry season.
+                                <strong>Best to plant: Palay &amp; Mais</strong> &bull; High-risk right now: Potato
+                                (blight in wet soil). Transitioning from Late Wet to Cool Dry season.
                             </div>
                         </div>
                         <div class="seasonal-adv-right">
                             <label for="advisorMonthSelect" id="lblCheckMonth"
-                                style="font-size: 9px; font-weight: 800; color: var(--text-muted); letter-spacing: 0.08em;">CHECK MONTH:</label>
+                                style="font-size: 9px; font-weight: 800; color: var(--text-muted); letter-spacing: 0.08em;">CHECK
+                                MONTH:</label>
                             <select class="month-select-pill" id="advisorMonthSelect"
                                 onchange="onAdvisorMonthChange(this.value)"
                                 aria-label="Select month for crop recommendation">
@@ -8605,12 +8610,15 @@
                                 <!-- Soil & Agro-climatic Live Meta Line -->
                                 <div
                                     style="background:rgba(0,0,0,0.18); border-radius:6px; padding:8px 12px; font-size:10.5px; color:var(--text-muted); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
-                                    <div title="Informational provincial soil profile from DA-BSWM. Soil type is displayed for agronomic context only and is NOT an ML input feature.">
+                                    <div
+                                        title="Informational provincial soil profile from DA-BSWM. Soil type is displayed for agronomic context only and is NOT an ML input feature.">
                                         <strong style="color:var(--text-offwhite);" id="txtProvinceSoilName">Soil: San
                                             Manuel Silt Loam / Clay</strong>
-                                        <span style="font-size:9px; opacity:0.8; margin-left:4px;">(Info only &bull; Non-ML)</span>
+                                        <span style="font-size:9px; opacity:0.8; margin-left:4px;">(Info only &bull;
+                                            Non-ML)</span>
                                     </div>
-                                    <div id="txtProvinceClimateMeta" title="Official DOST-PAGASA CliMap v2.1 observed province climate normals (1991-2020)">
+                                    <div id="txtProvinceClimateMeta"
+                                        title="Official DOST-PAGASA CliMap v2.1 observed province climate normals (1991-2020)">
                                         Annual Rain: 2,400 mm &bull; Mean Temp: 28.2&deg;C
                                     </div>
                                 </div>
@@ -8671,7 +8679,8 @@
                                 <!-- Contextual Seasonal Crop Tip Box -->
                                 <div class="crop-seasonal-tip-box" id="cropSeasonalTipBox"
                                     style="display: none; margin-bottom: 10px; padding: 8px 11px; border-radius: 8px; border: 1px solid var(--border-hairline); background: var(--bg-ink); font-size: 10.5px; color: var(--text-muted); line-height: 1.4;">
-                                    <span id="txtCropSeasonalTip">Select a crop to see seasonal guidance for this month.</span>
+                                    <span id="txtCropSeasonalTip">Select a crop to see seasonal guidance for this
+                                        month.</span>
                                 </div>
 
                                 <!-- Dynamic List of Selected Crops -->
@@ -8736,7 +8745,7 @@
                                 <div class="stats-tri-row">
                                     <div class="stat-subcard">
                                         <div class="stat-subcard-val readable-num" id="resTotalProduction">0.0 MT</div>
-                                        <div class="stat-subcard-lbl">HARVEST VOLUME</div>
+                                        <div class="stat-subcard-lbl">ESTIMATED HARVEST</div>
                                     </div>
                                     <div class="stat-subcard">
                                         <div class="stat-subcard-val readable-num" id="resGrossIncome">&#8369;0</div>
@@ -8744,7 +8753,7 @@
                                     </div>
                                     <div class="stat-subcard">
                                         <div class="stat-subcard-val readable-num" id="resTotalCost">&#8369;0</div>
-                                        <div class="stat-subcard-lbl">TOTAL EXPENSES</div>
+                                        <div class="stat-subcard-lbl">PRODUCTION COSTS</div>
                                     </div>
                                 </div>
 
@@ -8767,7 +8776,10 @@
 
                                 <!-- Footnote -->
                                 <div class="results-guarantee-note" id="resGuaranteeNote">
-                                    PLANNING ESTIMATES ONLY (NOT GUARANTEED) &bull; {{ best_model.get('name', 'Random Forest Regressor') | upper }} (5-FOLD CV R&sup2; = {{ "%.4f"|format(best_model.get('cv_r2_mean', 0.9246)) }} &bull; TEST R&sup2; = {{ "%.4f"|format(best_model.get('test_r2', 0.7332)) }})
+                                    PLANNING ESTIMATES ONLY (NOT GUARANTEED) &bull; {{ best_model.get('name', 'Random
+                                    Forest Regressor') | upper }} (5-FOLD CV R&sup2; = {{
+                                    "%.4f"|format(best_model.get('cv_r2_mean', 0.9246)) }} &bull; TEST R&sup2; = {{
+                                    "%.4f"|format(best_model.get('test_r2', 0.7332)) }})
                                 </div>
                             </div>
 
@@ -8792,12 +8804,14 @@
                                 <div class="province-advisory-content">
                                     <div class="province-advisory-landscape-grid">
                                         <div class="prov-agro-specs-col">
-                                            <div class="prov-meta-pill" title="Dominant Soil Series (Informational agronomic reference only; not an ML model feature)">
+                                            <div class="prov-meta-pill"
+                                                title="Dominant Soil Series (Informational agronomic reference only; not an ML model feature)">
                                                 <svg viewBox="0 0 24 24" width="14" height="14" fill="none"
                                                     stroke="currentColor" stroke-width="2">
                                                     <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
                                                 </svg>
-                                                <span id="provAdvisorySoil">Soil: Clay &amp; Silt Loam (Info only)</span>
+                                                <span id="provAdvisorySoil">Soil: Clay &amp; Silt Loam (Info
+                                                    only)</span>
                                             </div>
                                             <div class="prov-meta-pill" title="PAGASA Climate Type">
                                                 <svg viewBox="0 0 24 24" width="14" height="14" fill="none"
@@ -9113,11 +9127,16 @@
                         <!-- Heading -->
                         <div class="ml-lab-header">
                             <div class="ml-lab-title-group">
-                                <h2>CSST 102 &bull; PHILIPPINE MACHINE LEARNING MODEL LABORATORY (5-ALGORITHM BENCHMARK)</h2>
-                                <p id="txtMlLabSubtitle">5-MODEL EVALUATION WITH 5-FOLD CV &amp; CHRONOLOGICAL HOLDOUT TEST ON {{ dataset_info.get('total_records', 32618) }} PHILIPPINE OBSERVATIONS (2010&ndash;2025 PANEL &bull; PSA + PAGASA + NASA POWER)</p>
+                                <h2>CSST 102 &bull; PHILIPPINE MACHINE LEARNING MODEL LABORATORY (5-ALGORITHM BENCHMARK)
+                                </h2>
+                                <p id="txtMlLabSubtitle">5-MODEL EVALUATION WITH 5-FOLD CV &amp; CHRONOLOGICAL HOLDOUT
+                                    TEST ON {{ dataset_info.get('total_records', 32618) }} PHILIPPINE OBSERVATIONS
+                                    (2010&ndash;2025 PANEL &bull; PSA + PAGASA + NASA POWER)</p>
                             </div>
                             <div class="ml-winner-badge-pill" id="mlWinnerBadgePill">
-                                PRIMARY SELECTED MODEL: {{ best_model.get('name', 'Random Forest Regressor') }} (5-FOLD CV R&sup2; = {{ "%.4f"|format(best_model.get('cv_r2_mean', 0.9246)) }} &bull; HOLDOUT TEST R&sup2; = {{ "%.4f"|format(best_model.get('test_r2', 0.7332)) }})
+                                PRIMARY SELECTED MODEL: {{ best_model.get('name', 'Random Forest Regressor') }} (5-FOLD
+                                CV R&sup2; = {{ "%.4f"|format(best_model.get('cv_r2_mean', 0.9246)) }} &bull; HOLDOUT
+                                TEST R&sup2; = {{ "%.4f"|format(best_model.get('test_r2', 0.7332)) }})
                             </div>
                         </div>
 
@@ -9138,24 +9157,29 @@
                                 </thead>
                                 <tbody id="mlBenchmarkTableBody">
                                     {% if model_comparison %}
-                                        {% for m_name, m_data in model_comparison.items() %}
-                                        <tr class="{{ 'winner-row' if m_name == best_model.get('name') or m_data.get('Is_Winner') else '' }}">
-                                            <td>{{ m_name }}</td>
-                                            <td>{{ m_data.get('Role', 'Comparative Candidate') }}</td>
-                                            <td class="readable-num" {% if m_name == best_model.get('name') or m_data.get('Is_Winner') %}style="color:var(--accent-olive);font-weight:900;"{% endif %}>{{ "%.4f"|format(m_data.get('R2', 0)) }}</td>
-                                            <td class="readable-num">{{ "%.4f"|format(m_data.get('CV_R2_Mean', 0)) }} (&plusmn;{{ "%.4f"|format(m_data.get('CV_R2_Std', 0)) }})</td>
-                                            <td class="readable-num">{{ "%.2f"|format(m_data.get('MAE', 0)) }}</td>
-                                            <td class="readable-num">{{ "%.2f"|format(m_data.get('RMSE', 0)) }}</td>
-                                            <td class="readable-num">{{ "%.2f"|format(m_data.get('Training_Time_Sec', 0)) }}s</td>
-                                            <td>
-                                                {% if m_name == best_model.get('name') or m_data.get('Is_Winner') %}
-                                                <span class="status-pill-winner">SELECTED WINNER</span>
-                                                {% else %}
-                                                <span class="status-pill-eval">EVALUATED</span>
-                                                {% endif %}
-                                            </td>
-                                        </tr>
-                                        {% endfor %}
+                                    {% for m_name, m_data in model_comparison.items() %}
+                                    <tr
+                                        class="{{ 'winner-row' if m_name == best_model.get('name') or m_data.get('Is_Winner') else '' }}">
+                                        <td>{{ m_name }}</td>
+                                        <td>{{ m_data.get('Role', 'Comparative Candidate') }}</td>
+                                        <td class="readable-num" {% if m_name==best_model.get('name') or
+                                            m_data.get('Is_Winner') %}style="color:var(--accent-olive);font-weight:900;"
+                                            {% endif %}>{{ "%.4f"|format(m_data.get('R2', 0)) }}</td>
+                                        <td class="readable-num">{{ "%.4f"|format(m_data.get('CV_R2_Mean', 0)) }}
+                                            (&plusmn;{{ "%.4f"|format(m_data.get('CV_R2_Std', 0)) }})</td>
+                                        <td class="readable-num">{{ "%.2f"|format(m_data.get('MAE', 0)) }}</td>
+                                        <td class="readable-num">{{ "%.2f"|format(m_data.get('RMSE', 0)) }}</td>
+                                        <td class="readable-num">{{ "%.2f"|format(m_data.get('Training_Time_Sec', 0))
+                                            }}s</td>
+                                        <td>
+                                            {% if m_name == best_model.get('name') or m_data.get('Is_Winner') %}
+                                            <span class="status-pill-winner">SELECTED WINNER</span>
+                                            {% else %}
+                                            <span class="status-pill-eval">EVALUATED</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
                                     {% endif %}
                                 </tbody>
                             </table>
@@ -9164,15 +9188,28 @@
                         <!-- Selected Model Explanation & Pipeline Data Leakage Audit -->
                         <div class="ml-explanation-grid" id="mlSelectedModelBox">
                             <div class="responsible-ai-box">
-                                <div class="responsible-ai-title" id="titleSelectedModelExplanation">AUTOMATICALLY SELECTED MODEL EXPLANATION ({{ best_model.get('name', 'Random Forest Regressor') | upper }})</div>
+                                <div class="responsible-ai-title" id="titleSelectedModelExplanation">AUTOMATICALLY
+                                    SELECTED MODEL EXPLANATION ({{ best_model.get('name', 'Random Forest Regressor') |
+                                    upper }})</div>
                                 <p class="responsible-ai-text" id="txtSelectedModelExplanation">
-                                    {{ best_model.get('explanation', 'The primary production model was automatically selected based on achieving the highest 5-Fold Cross-Validation R² inside the 2010–2021 training set across all 5 evaluated algorithms.') }}
+                                    {{ best_model.get('explanation', 'The primary production model was automatically
+                                    selected based on achieving the highest 5-Fold Cross-Validation R² inside the
+                                    2010–2021 training set across all 5 evaluated algorithms.') }}
                                 </p>
                             </div>
                             <div class="responsible-ai-box">
-                                <div class="responsible-ai-title">PIPELINE PREPROCESSING &amp; DATA LEAKAGE VERIFICATION</div>
+                                <div class="responsible-ai-title">PIPELINE PREPROCESSING &amp; DATA LEAKAGE VERIFICATION
+                                </div>
                                 <p class="responsible-ai-text" id="txtPipelineLeakageAudit">
-                                    <strong>Status: PASSED (Zero Data Leakage).</strong> Verified Philippine PSA + PAGASA + NASA POWER dataset ({{ dataset_info.get('archive_total_records', 36088) }} archive rows; {{ dataset_info.get('total_records', 32618) }} uniform 2010&ndash;2025 ML rows) is deduplicated prior to chronological out-of-time splitting (Train 2010&ndash;2021 vs Test 2022&ndash;2025). Each of the 5 algorithms runs inside an isolated Scikit-Learn <code>Pipeline</code> with its own fresh <code>ColumnTransformer</code> (<code>StandardScaler</code> for rainfall/temperature and <code>OneHotEncoder</code> for crop/province) fitted strictly on training folds. Yield (MT/ha) is strictly separated from Peso (&#8369;) financial math.
+                                    <strong>Status: PASSED (Zero Data Leakage).</strong> Verified Philippine PSA +
+                                    PAGASA + NASA POWER dataset ({{ dataset_info.get('archive_total_records', 36088) }}
+                                    archive rows; {{ dataset_info.get('total_records', 32618) }} uniform 2010&ndash;2025
+                                    ML rows) is deduplicated prior to chronological out-of-time splitting (Train
+                                    2010&ndash;2021 vs Test 2022&ndash;2025). Each of the 5 algorithms runs inside an
+                                    isolated Scikit-Learn <code>Pipeline</code> with its own fresh
+                                    <code>ColumnTransformer</code> (<code>StandardScaler</code> for rainfall/temperature
+                                    and <code>OneHotEncoder</code> for crop/province) fitted strictly on training folds.
+                                    Yield (MT/ha) is strictly separated from Peso (&#8369;) financial math.
                                 </p>
                             </div>
                         </div>
@@ -9181,7 +9218,8 @@
                         <div class="ml-charts-grid">
                             <!-- Chart 1: 5-Model Performance Comparison -->
                             <div class="ml-chart-card">
-                                <div class="ml-chart-title">5-MODEL PERFORMANCE (TEST R&sup2;, 5-FOLD CV &amp; MAE)</div>
+                                <div class="ml-chart-title">5-MODEL PERFORMANCE (TEST R&sup2;, 5-FOLD CV &amp; MAE)
+                                </div>
                                 <div class="svg-chart-container" id="chartModelAccuracy">
                                     <!-- Populated dynamically by drawAccuracyChart() -->
                                 </div>
@@ -9206,11 +9244,29 @@
 
                         <!-- Section 4 Statement + Dataset Transparency & Routing Card -->
                         <div class="responsible-ai-box" id="mlDatasetTransparencyBox" style="margin-bottom: 14px;">
-                            <div class="responsible-ai-title">PHILIPPINE DATASET TRANSPARENCY &amp; CROP PREDICTION ROUTING</div>
+                            <div class="responsible-ai-title">PHILIPPINE DATASET TRANSPARENCY &amp; CROP PREDICTION
+                                ROUTING</div>
                             <div class="responsible-ai-text" id="txtDatasetTransparencySummary">
-                                <strong>Sources:</strong> Philippine Statistics Authority (PSA OpenSTAT <code>DB/2E/CS</code> production &amp; harvested area; <code>DB/2M/NFG</code> farmgate prices; Table 5.5 Palay costs), DOST-PAGASA CliMap v2.1 observed normals (1991&ndash;2020), &amp; NASA POWER MERRA-2 historical climate (1987&ndash;2025).
-                                <br><strong>Coverage &amp; Features:</strong> {{ dataset_info.get('archive_total_records', 36088) }} verified observations across {{ dataset_info.get('provinces_count', 82) }} provinces and {{ dataset_info.get('crops_count', 35) }} crops. ML uses 4 verified inputs only: <code>Crop Type</code>, <code>Philippine Province</code>, <code>Annual Rainfall</code>, and <code>Average Temperature</code>. Hardcoded <code>pesticides_tonnes</code> and Indonesia proxies were permanently removed. <em>Soil Type is informational/advisory only.</em>
-                                <br><strong>Prediction Routing &amp; R&sup2; Clarification:</strong> {{ dataset_info.get('ml_supported_crops_count', 28) }} well-sampled crops use the ML model (<code>philippine_ml</code>), while {{ dataset_info.get('statistical_fallback_crops_count', 7) }} sparse or newly disaggregated crops use verified PSA provincial historical medians (<code>psa_statistical_historical</code>). Note that <strong>R&sup2; (Coefficient of Determination)</strong> measures variance explained across crops &amp; provinces &mdash; NOT literal accuracy percentage.
+                                <strong>Sources:</strong> Philippine Statistics Authority (PSA OpenSTAT
+                                <code>DB/2E/CS</code> production &amp; harvested area; <code>DB/2M/NFG</code> farmgate
+                                prices; Table 5.5 Palay costs), DOST-PAGASA CliMap v2.1 observed normals
+                                (1991&ndash;2020), &amp; NASA POWER MERRA-2 historical climate (1987&ndash;2025).
+                                <br><strong>Coverage &amp; Features:</strong> {{
+                                dataset_info.get('archive_total_records', 36088) }} verified observations across {{
+                                dataset_info.get('provinces_count', 82) }} provinces and {{
+                                dataset_info.get('crops_count', 35) }} crops. ML uses 4 verified inputs only:
+                                <code>Crop Type</code>, <code>Philippine Province</code>, <code>Annual Rainfall</code>,
+                                and <code>Average Temperature</code>. Hardcoded <code>pesticides_tonnes</code> and
+                                Indonesia proxies were permanently removed. <em>Soil Type is informational/advisory
+                                    only.</em>
+                                <br><strong>Prediction Routing &amp; R&sup2; Clarification:</strong> {{
+                                dataset_info.get('ml_supported_crops_count', 28) }} well-sampled crops use the ML model
+                                (<code>philippine_ml</code>), while {{
+                                dataset_info.get('statistical_fallback_crops_count', 7) }} sparse or newly disaggregated
+                                crops use verified PSA provincial historical medians
+                                (<code>psa_statistical_historical</code>). Note that <strong>R&sup2; (Coefficient of
+                                    Determination)</strong> measures variance explained across crops &amp; provinces
+                                &mdash; NOT literal accuracy percentage.
                             </div>
                         </div>
 
@@ -9573,7 +9629,12 @@
                                     </svg>
                                     PHILIPPINE ML FORECASTING &amp; PSA DATA
                                 </span>
-                                <span class="guide-point-text" id="txtImpPoint2">Powered by {{ best_model.get('name', 'Random Forest Regressor') }} trained strictly on {{ dataset_info.get('archive_total_records', 36088) }} PSA &amp; climate observations across 82 Philippine provinces (5-Fold CV R&sup2; = {{ "%.4f"|format(best_model.get('cv_r2_mean', 0.9246)) }}, Holdout Test R&sup2; = {{ "%.4f"|format(best_model.get('test_r2', 0.7332)) }} variance explained).</span>
+                                <span class="guide-point-text" id="txtImpPoint2">Powered by {{ best_model.get('name',
+                                    'Random Forest Regressor') }} trained strictly on {{
+                                    dataset_info.get('archive_total_records', 36088) }} PSA &amp; climate observations
+                                    across 82 Philippine provinces (5-Fold CV R&sup2; = {{
+                                    "%.4f"|format(best_model.get('cv_r2_mean', 0.9246)) }}, Holdout Test R&sup2; = {{
+                                    "%.4f"|format(best_model.get('test_r2', 0.7332)) }} variance explained).</span>
                             </div>
                             <div class="guide-point-pill">
                                 <span class="guide-point-title">
@@ -9887,13 +9948,13 @@
                 wet: 'WET',
                 dry: 'DRY',
                 calcBtn: 'CALCULATE HARVEST & INCOME →',
-                estNetProfit: 'EST. NET PROFIT',
-                sacks: 'SACKS',
-                days: 'DAYS',
-                accuracy: 'ACCURACY',
-                bad: 'BAD',
-                normal: 'NORMAL',
-                good: 'GOOD',
+                estNetProfit: 'TOTAL ESTIMATED NET PROFIT',
+                sacks: 'ESTIMATED HARVEST',
+                days: 'GROSS REVENUE',
+                accuracy: 'PRODUCTION COSTS',
+                bad: 'ADVERSE (-20%)',
+                normal: 'BASELINE (NORMAL)',
+                good: 'FAVORABLE (+15%)',
                 guarantee: 'ESTIMATE ONLY. NOT A GUARANTEE.',
                 breakEven: 'BREAK-EVEN',
                 recalcToast: 'Harvest & net income recalculated.',
@@ -9956,12 +10017,12 @@
                 dry: 'TAG-ARAW',
                 calcBtn: 'KWENTAHIN ANG ANI AT KITA →',
                 estNetProfit: 'TINATAYANG NETONG TUBO',
-                sacks: 'KABAN',
-                days: 'ARAW',
-                accuracy: 'KATUMPAKAN',
-                bad: 'MAHINA',
-                normal: 'KATAMTAMAN',
-                good: 'MASAGANA',
+                sacks: 'TINATAYANG ANI',
+                days: 'KABUUANG BENTA',
+                accuracy: 'GASTOS SA PRODUKSYON',
+                bad: 'MASAMANG PANAHON (-20%)',
+                normal: 'KARANIWAN (NORMAL)',
+                good: 'MASAGANA (+15%)',
                 guarantee: 'TANTYA LAMANG. HINDI GARANTIYA.',
                 breakEven: 'PATAS (BREAK-EVEN)',
                 recalcToast: 'Kinalkula ang ani at netong kita.',
