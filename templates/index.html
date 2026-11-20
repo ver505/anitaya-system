@@ -13869,18 +13869,6 @@
             return 25.0;
         }
 
-        function getDefaultCropCost(cropName) {
-            if (!cropName) return 45000.0;
-            const key = String(cropName).trim().toLowerCase();
-            if (typeof PH_CROP_CATALOG !== "undefined" && Array.isArray(PH_CROP_CATALOG)) {
-                const match = PH_CROP_CATALOG.find(item => (item.Crop_Name || "").toLowerCase() === key);
-                if (match && match.Default_Cost_PHP_ha && !isNaN(parseFloat(match.Default_Cost_PHP_ha))) {
-                    return parseFloat(match.Default_Cost_PHP_ha);
-                }
-            }
-            return key === "rice, paddy" ? 59695.0 : 45000.0;
-        }
-
         function stepCropArea(idx, delta) {
             if (idx >= 0 && idx < selectedCrops.length) {
                 const current = parseFloat(selectedCrops[idx].land_area_ha) || 1.0;
@@ -13951,10 +13939,6 @@
                 const priceVal = (c.farmgate_price !== null && c.farmgate_price !== undefined && !isNaN(parseFloat(c.farmgate_price)))
                     ? parseFloat(c.farmgate_price)
                     : defaultPrice;
-                const defaultCost = getDefaultCropCost(c.crop_name);
-                const costVal = (c.cost_per_ha !== null && c.cost_per_ha !== undefined && !isNaN(parseFloat(c.cost_per_ha)))
-                    ? parseFloat(c.cost_per_ha)
-                    : defaultCost;
                 const predTierBadge = catalogInfo.ML_Supported
                     ? '<span title="Yield predicted by Philippine climate-trained Random Forest ML model" style="color:var(--accent-olive);font-weight:800;">ML Yield</span>'
                     : '<span title="Yield based on official PSA provincial historical statistics" style="opacity:0.85;font-weight:700;">PSA Stats</span>';
@@ -13989,20 +13973,6 @@
                                            aria-label="Selling price in PHP per kg for ${c.crop_name}">
                                     <span class="crop-ha-unit-large">&#8369;/KG</span>
                                     <button type="button" class="stepper-step-btn" onclick="stepCropPrice(${idx}, 1)" title="Increase ₱1/kg">+</button>
-                                </div>
-                            </div>
-
-                            <!-- Customizable Production Cost (PHP/ha) Stepper -->
-                            <div class="crop-area-control-box">
-                                <span class="crop-area-label">COST EST. / HA</span>
-                                <div class="crop-area-stepper-large">
-                                    <button type="button" class="stepper-step-btn" onclick="stepCropCost(${idx}, -2000)" title="Decrease ₱2,000/ha">−</button>
-                                    <input type="number" class="crop-ha-input-large crop-cost-input-large" style="width:68px;" min="1000" max="1000000" step="1000" value="${Math.round(costVal)}"
-                                           onchange="updateCropCost(${idx}, this.value)"
-                                           onblur="updateCropCost(${idx}, this.value)"
-                                           aria-label="Production cost in PHP per hectare for ${c.crop_name}">
-                                    <span class="crop-ha-unit-large">&#8369;/HA</span>
-                                    <button type="button" class="stepper-step-btn" onclick="stepCropCost(${idx}, 2000)" title="Increase ₱2,000/ha">+</button>
                                 </div>
                             </div>
 
@@ -14066,12 +14036,11 @@
                 showToast(`Increased ${cropName} land area by ${defaultHa} ha.`);
             } else {
                 const defaultPrice = getDefaultCropPrice(cropName);
-                const defaultCost = getDefaultCropCost(cropName);
                 selectedCrops.push({
                     crop_name: cropName,
                     land_area_ha: defaultHa,
                     farmgate_price: defaultPrice,
-                    cost_per_ha: defaultCost
+                    cost_per_ha: null
                 });
                 addedNew = true;
                 showToast(`Added ${cropName} (${defaultHa} ha @ ₱${defaultPrice.toFixed(2)}/kg) to farm plan.`);
@@ -14106,35 +14075,6 @@
                 }
             } else {
                 showToast("Please enter a valid land area between 0.1 and 500 hectares.");
-            }
-            renderSelectedCropsUI();
-        }
-
-        function stepCropCost(idx, delta) {
-            if (idx >= 0 && idx < selectedCrops.length) {
-                const defaultCost = getDefaultCropCost(selectedCrops[idx].crop_name);
-                const current = (selectedCrops[idx].cost_per_ha !== null && selectedCrops[idx].cost_per_ha !== undefined && !isNaN(parseFloat(selectedCrops[idx].cost_per_ha)))
-                    ? parseFloat(selectedCrops[idx].cost_per_ha)
-                    : defaultCost;
-                const next = Math.max(1000, Math.min(1000000, Math.round(current + delta)));
-                selectedCrops[idx].cost_per_ha = next;
-                renderSelectedCropsUI();
-                if (currentCalculatedResult) {
-                    runCountUpCalc();
-                }
-            }
-        }
-
-        function updateCropCost(idx, val) {
-            if (idx < 0 || idx >= selectedCrops.length) return;
-            const num = parseFloat(val);
-            if (!isNaN(num) && num >= 1000 && num <= 1000000) {
-                selectedCrops[idx].cost_per_ha = Math.round(num * 100) / 100;
-                if (currentCalculatedResult) {
-                    runCountUpCalc();
-                }
-            } else {
-                showToast("Please enter a valid cost estimate between ₱1,000 and ₱1,000,000 per hectare.");
             }
             renderSelectedCropsUI();
         }
