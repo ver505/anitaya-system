@@ -263,7 +263,7 @@ def get_stats_route():
     ds_info = metrics_data.get("dataset_info", {})
     stats["total_crops"] = len(crop_engine.crop_catalog)
     stats["total_provinces"] = len(provinces_data)
-    stats["model_name"] = best_info.get("name", "Extra Trees Regressor")
+    stats["model_name"] = best_info.get("name", "Random Forest Regressor")
     stats["model_r2"] = best_info.get("test_r2")
     stats["cv_r2_mean"] = best_info.get("cv_r2_mean")
     stats["model_mae_hg_ha"] = best_info.get("test_mae")
@@ -450,7 +450,7 @@ def predict():
             "scenarios": scenarios,
             "insights": insights,
             "model_metadata": {
-                "model_name": best_meta.get("name", "Extra Trees Regressor"),
+                "model_name": best_meta.get("name", "Random Forest Regressor"),
                 "model_r2": best_meta.get("test_r2"),
                 "cv_r2_mean": best_meta.get("cv_r2_mean"),
                 "model_mae": best_meta.get("test_mae"),

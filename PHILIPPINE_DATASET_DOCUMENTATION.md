@@ -102,22 +102,19 @@ During automated HTTP probing, two external government web portals timed out (`>
 
 ## 4. Model Comparison Results (`models/model_metrics.json`)
 
-All 8 regression algorithms were evaluated on the exact `2010–2021` train / `2022–2025` holdout protocol (`ExtraTrees` selected by Validation CV $R^2$, then refitted on the complete `2010–2025` panel into `43.33 MB` `models/anitaya_best_pipeline.joblib` using `compress=3`):
+Following the CSST 102 guideline priority (*explainable ML workflow over unnecessary model complexity*), 5 core regression algorithms were evaluated cleanly on the `2010–2021` train / `2022–2025` holdout protocol (`Random Forest Regressor` selected by Validation CV $R^2$, then refitted on the complete `2010–2025` panel into `36.86 MB` `models/anitaya_best_pipeline.joblib` using `compress=3`):
 
 | Rank (by CV $R^2$) | Algorithm | 5-Fold CV $R^2$ | Holdout Test $R^2$ (`2022–2025`) | Seen-Crops Test $R^2$ | Test MAE (hg/ha) | Test RMSE (hg/ha) | Province GroupKFold $R^2$ | Fit Time | Status |
 | :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **1** | **Extra Trees Regressor** | **0.9388 ± 0.0069** | **0.7487** | **0.7525** | **19,792.19** (`1.98 MT/ha`) | **48,551.13** | 0.2468 | 106.02s | **SELECTED WINNER** |
-| 2 | Random Forest Regressor | 0.9246 ± 0.0075 | 0.7332 | 0.7369 | 20,447.81 | 50,030.50 | 0.2855 | 15.74s | Evaluated |
-| 3 | Support Vector Regression (SVR) | 0.9163 ± 0.0072 | 0.7488 | 0.7517 | 22,003.74 | 48,544.74 | 0.4027 | 30.39s | Evaluated |
-| 4 | K-Nearest Neighbors (KNN) | 0.9017 ± 0.0092 | 0.7587 | 0.7626 | 20,369.51 | 47,576.29 | 0.3207 | 0.03s | Evaluated |
-| 5 | Gradient Boosting Regressor | 0.8202 ± 0.0064 | 0.6577 | 0.6610 | 30,083.31 | 56,662.94 | 0.4299 | 53.13s | Evaluated |
-| 6 | Decision Tree Regressor | 0.8083 ± 0.0302 | 0.6228 | 0.6256 | 29,671.75 | 59,485.86 | 0.3086 | 0.40s | Evaluated |
-| 7 | Ridge Regression | 0.5093 ± 0.0125 | 0.3961 | 0.3974 | 41,611.77 | 75,263.34 | 0.4398 | 0.06s | Evaluated |
-| 8 | Linear Regression (Baseline) | 0.5093 ± 0.0126 | 0.3958 | 0.3971 | 41,669.83 | 75,282.38 | 0.4375 | 0.28s | Baseline |
+| **1** | **Random Forest Regressor** | **0.9246 ± 0.0075** | **0.7332** | **0.7369** | **20,447.81** (`2.04 MT/ha`) | **50,030.50** | 0.2855 | 36.42s | **SELECTED WINNER** |
+| 2 | Gradient Boosting Regressor | 0.8202 ± 0.0064 | 0.6577 | 0.6610 | 30,083.31 | 56,662.94 | 0.4299 | 48.28s | Evaluated |
+| 3 | Decision Tree Regressor | 0.8083 ± 0.0302 | 0.6228 | 0.6256 | 29,671.75 | 59,485.86 | 0.3086 | 0.87s | Evaluated |
+| 4 | Ridge Regression | 0.5093 ± 0.0125 | 0.3961 | 0.3974 | 41,611.77 | 75,263.34 | 0.4398 | 0.10s | Evaluated |
+| 5 | Linear Regression (Baseline) | 0.5093 ± 0.0126 | 0.3958 | 0.3971 | 41,669.83 | 75,282.38 | 0.4375 | 0.37s | Baseline |
 
-* **Feature Importance (Impurity):** `Crop Type (item)` **50.55%**, `Philippine Province (area)` **45.97%**, `Average Temperature (avg_temp)` **2.92%**, `Annual Rainfall (average_rain_fall_mm_per_year)` **0.57%**.
-* **Permutation Importance (Out-of-Time Test $R^2$ Drop):** `Crop Type (item)` **64.88%**, `Philippine Province (area)` **32.74%**, `Average Temperature` **2.38%**, `Annual Rainfall` **0.00%**.
-* *Interpretation Note:* Overall Test $R^2$ (`0.7487`) is the Coefficient of Determination measuring variance explained across diverse crops and provinces—**not** a literal percentage accuracy claim. Notice also why `GroupKFold_Province_R2` (`0.2468` for ExtraTrees vs `0.4398` Ridge) drops compared to temporal test: when a whole province's baseline historical productivity is completely withheld during spatial cross-validation, annual climate + crop identity alone cannot infer unobserved local irrigation infrastructure, soil fertility, or farm scale.
+* **Feature Importance (Impurity):** `Crop Type (item)` **49.46%**, `Philippine Province (area)` **40.76%**, `Average Temperature (avg_temp)` **7.94%**, `Annual Rainfall (average_rain_fall_mm_per_year)` **1.84%**.
+* **Permutation Importance (Out-of-Time Test $R^2$ Drop):** `Crop Type (item)` **65.56%**, `Philippine Province (area)` **28.68%**, `Average Temperature` **5.76%**, `Annual Rainfall` **0.00%**.
+* *Interpretation Note:* Overall Test $R^2$ (`0.7332`) is the Coefficient of Determination measuring variance explained across diverse crops and provinces—**not** a literal percentage accuracy claim. Notice also why `GroupKFold_Province_R2` (`0.2855` for Random Forest vs `0.4398` Ridge) drops compared to temporal test: when a whole province's baseline historical productivity is completely withheld during spatial cross-validation, annual climate + crop identity alone cannot infer unobserved local irrigation infrastructure, soil fertility, or farm scale.
 
 ---
 
@@ -126,9 +123,9 @@ All 8 regression algorithms were evaluated on the exact `2010–2021` train / `2
 Instead of forcing low-predictability or newly disaggregated crops through cross-crop ML extrapolation, `crop_engine.py` classifies all 35 crops automatically from `models/model_metrics.json["per_crop_metrics"]`:
 
 * **Tier 1 (`philippine_ml` — 28 crops):** Used when `train_rows >= 250`, `provinces >= 15`, and unseen `2022–2025` Holdout `test_r2 >= 0.10`. Key holdout results:
-  * `Plantains and others` ($R^2 = 0.8656$), `Rice, paddy` ($R^2 = 0.8593$, $\text{MAE} = 0.241\text{ MT/ha}$), `Maize` ($R^2 = 0.8176$, $\text{MAE} = 0.458\text{ MT/ha}$), `Pineapple` ($R^2 = 0.8027$), `Coconut` ($R^2 = 0.7796$), `Rubber` ($R^2 = 0.7725$), `Mango` ($R^2 = 0.7097$), `Banana Cavendish` ($R^2 = 0.7082$), `Tomato` ($R^2 = 0.6927$), `Calamansi` ($R^2 = 0.6627$), `Abaca` ($R^2 = 0.6551$), `Papaya` ($R^2 = 0.6193$), `Cassava` ($R^2 = 0.6147$), `Squash` ($R^2 = 0.5549$), `Sugarcane` ($R^2 = 0.5418$), `Sweet potatoes` ($R^2 = 0.5119$), `Yams` ($R^2 = 0.4891$), `String Beans` ($R^2 = 0.4890$), `Eggplant` ($R^2 = 0.4723$), `Taro` ($R^2 = 0.4684$), `Tobacco` ($R^2 = 0.4527$), `Cabbage` ($R^2 = 0.4437$), `Watermelon` ($R^2 = 0.4362$), `Coffee` ($R^2 = 0.4235$), `Mungbean` ($R^2 = 0.2951$), `Pechay` ($R^2 = 0.2237$), `Bitter Gourd` ($R^2 = 0.2073$), `Cacao` ($R^2 = 0.1621$).
+  * `Plantains and others` ($R^2 = 0.8304$), `Rice, paddy` ($R^2 = 0.8236$, $\text{MAE} = 0.272\text{ MT/ha}$), `Rubber` ($R^2 = 0.7758$), `Coconut` ($R^2 = 0.7649$), `Pineapple` ($R^2 = 0.7306$), `Mango` ($R^2 = 0.7286$), `Maize` ($R^2 = 0.7109$, $\text{MAE} = 0.543\text{ MT/ha}$), `Calamansi` ($R^2 = 0.6687$), `Tomato` ($R^2 = 0.6479$), `Abaca` ($R^2 = 0.6337$), `Papaya` ($R^2 = 0.6270$), `Banana Cavendish` ($R^2 = 0.5995$), `Cassava` ($R^2 = 0.5869$), `Squash` ($R^2 = 0.5618$), `Sugarcane` ($R^2 = 0.5461$), `Cabbage` ($R^2 = 0.5430$), `Sweet potatoes` ($R^2 = 0.5100$), `Yams` ($R^2 = 0.4806$), `Taro` ($R^2 = 0.4775$), `String Beans` ($R^2 = 0.4770$), `Watermelon` ($R^2 = 0.4761$), `Eggplant` ($R^2 = 0.4537$), `Tobacco` ($R^2 = 0.4521$), `Coffee` ($R^2 = 0.4414$), `Mungbean` ($R^2 = 0.2505$), `Pechay` ($R^2 = 0.2405$), `Bitter Gourd` ($R^2 = 0.2205$), `Cacao` ($R^2 = 0.1678$).
 * **Tier 2 (`psa_statistical_historical` — 7 crops):**
-  * `Potatoes` (140 train rows, concentrated highlands), `Garlic` (206 train rows), `Sorghum` (107 train rows), `Soybeans` (188 train rows, Test $R^2 = -0.0531$), `Peanut` (low out-of-time predictability, Test $R^2 = 0.0395$), `Red Onion` (0 pre-2022 disaggregated PSA rows; starts 2022), `Yellow Onion` (0 pre-2022 disaggregated PSA rows; starts 2022).
+  * `Potatoes` (140 train rows, concentrated highlands), `Garlic` (206 train rows), `Sorghum` (107 train rows), `Soybeans` (188 train rows, Test $R^2 = 0.0567$), `Peanut` (low out-of-time predictability, Test $R^2 = 0.0533$), `Red Onion` (0 pre-2022 disaggregated PSA rows; starts 2022), `Yellow Onion` (0 pre-2022 disaggregated PSA rows; starts 2022).
   * For these 7 crops, AniTaya returns the verified recent **PSA provincial historical median yield** (or national producing-province median clearly labeled as national fallback if that province has no PSA commercial record for that crop).
 * **Tier 3 (`fallback_reference`):** Triggered only if an unrecognized/custom crop lacks both ML weights and PSA history, labeled explicitly as a reference baseline estimate.
 

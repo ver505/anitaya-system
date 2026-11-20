@@ -14,7 +14,7 @@ with open(METRICS_PATH, "r", encoding="utf-8") as f:
 plt.style.use("seaborn-v0_8-whitegrid" if "seaborn-v0_8-whitegrid" in plt.style.available else "default")
 plt.rcParams.update({"font.sans-serif": "Arial", "font.family": "sans-serif"})
 
-# 1. 8-Model Comparison Chart (Validation CV R2 & Holdout Test MAE)
+# 1. 5-Model Comparison Chart (Validation CV R2 & Holdout Test MAE)
 comp = metrics["model_comparison"]
 models_sorted = sorted(comp.keys(), key=lambda m: comp[m].get("Rank", 99), reverse=True)
 short_names = [
@@ -25,7 +25,7 @@ cv_r2_scores = [comp[m]["CV_R2_Mean"] for m in models_sorted]
 test_r2_scores = [comp[m]["R2"] for m in models_sorted]
 mae_mt_scores = [comp[m]["MAE"] / 10000.0 for m in models_sorted]
 
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6.2), dpi=300)
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5.5), dpi=300)
 
 bar_colors = ["#059669" if comp[m].get("Is_Winner") else "#64748b" for m in models_sorted]
 y_pos = list(range(len(models_sorted)))
@@ -36,7 +36,7 @@ ax1.set_yticks(y_pos)
 ax1.set_yticklabels(short_names, fontsize=9.5, fontweight="bold")
 ax1.set_xlim(0, 1.12)
 ax1.set_xlabel("Coefficient of Determination ($R^2$)", fontsize=10.5, fontweight="bold")
-ax1.set_title("AniTaya PH Dataset: 8-Model Validation vs. Out-of-Time $R^2$", fontsize=12, fontweight="bold", pad=12)
+ax1.set_title("AniTaya PH Dataset: 5-Model Validation vs. Out-of-Time $R^2$", fontsize=12, fontweight="bold", pad=12)
 ax1.legend(loc="lower right", fontsize=8.5, frameon=True)
 for bar in bars_cv:
     w = bar.get_width()
@@ -107,4 +107,4 @@ avp_img = os.path.join(STATIC_DIR, "actual_vs_predicted.png")
 plt.savefig(avp_img)
 plt.close()
 print(f"Saved: {avp_img}")
-print("All 8-model Philippine evaluation charts generated cleanly!")
+print("All 5-model Philippine evaluation charts generated cleanly!")

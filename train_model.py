@@ -22,16 +22,14 @@ import warnings
 import joblib
 import numpy as np
 import pandas as pd
-from sklearn.compose import ColumnTransformer, TransformedTargetRegressor
-from sklearn.ensemble import ExtraTreesRegressor, GradientBoostingRegressor, RandomForestRegressor
+from sklearn.compose import ColumnTransformer
+from sklearn.ensemble import GradientBoostingRegressor, RandomForestRegressor
 from sklearn.inspection import permutation_importance
 from sklearn.linear_model import LinearRegression, Ridge
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score, root_mean_squared_error
 from sklearn.model_selection import GroupKFold, KFold, cross_validate
-from sklearn.neighbors import KNeighborsRegressor
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
-from sklearn.svm import SVR
 from sklearn.tree import DecisionTreeRegressor
 
 warnings.filterwarnings("ignore", category=UserWarning)
@@ -74,17 +72,6 @@ def get_candidate_models():
             "role": "L2 Regularized Linear",
             "estimator": lambda: Ridge(alpha=1.0),
         },
-        "Support Vector Regression (SVR)": {
-            "role": "Kernel Margin Regressor",
-            "estimator": lambda: TransformedTargetRegressor(
-                regressor=SVR(kernel="rbf", C=10.0, epsilon=0.1, cache_size=1500, tol=1e-2),
-                transformer=StandardScaler(),
-            ),
-        },
-        "K-Nearest Neighbors (KNN)": {
-            "role": "Instance-Based Regressor",
-            "estimator": lambda: KNeighborsRegressor(n_neighbors=7, weights="distance", n_jobs=2),
-        },
         "Decision Tree Regressor": {
             "role": "Single Tree Regressor",
             "estimator": lambda: DecisionTreeRegressor(max_depth=24, min_samples_leaf=5, random_state=42),
@@ -92,12 +79,6 @@ def get_candidate_models():
         "Random Forest Regressor": {
             "role": "Bagging Tree Ensemble",
             "estimator": lambda: RandomForestRegressor(
-                n_estimators=100, max_depth=None, min_samples_leaf=2, random_state=42, n_jobs=2
-            ),
-        },
-        "Extra Trees Regressor": {
-            "role": "Randomized Tree Ensemble",
-            "estimator": lambda: ExtraTreesRegressor(
                 n_estimators=100, max_depth=None, min_samples_leaf=2, random_state=42, n_jobs=2
             ),
         },
@@ -236,7 +217,7 @@ def build_ph_benchmarks(df_archive):
 
 def train_and_evaluate():
     print("=" * 80)
-    print("AniTaya Philippine Crop Yield ML Pipeline - Leak-Free 8-Model Evaluation")
+    print("AniTaya Philippine Crop Yield ML Pipeline - Leak-Free 5-Model Evaluation")
     print("=" * 80)
 
     df_raw = pd.read_csv(DATA_PATH)

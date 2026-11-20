@@ -28,10 +28,10 @@ def test_philippine_upgrade():
     features = crop_engine.ml_metrics["dataset_info"]["features"]
     assert features == ["item", "average_rain_fall_mm_per_year", "avg_temp", "area"], f"Unexpected features: {features}"
     assert "pesticides_tonnes" not in features
-    assert len(crop_engine.ml_metrics["model_comparison"]) == 8
+    assert len(crop_engine.ml_metrics["model_comparison"]) == 5
     best = crop_engine.ml_metrics["best_model"]
     assert best["cv_r2_mean"] > 0.90 and best["test_r2"] > 0.70
-    print(f"[PASS] 2. 8-model benchmark verified. Winner: {best['name']} (CV R2={best['cv_r2_mean']}, Test R2={best['test_r2']}).")
+    print(f"[PASS] 2. 5-model benchmark verified. Winner: {best['name']} (CV R2={best['cv_r2_mean']}, Test R2={best['test_r2']}).")
 
     client = anitaya_app_module.app.test_client()
 

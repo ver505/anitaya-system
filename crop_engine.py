@@ -505,7 +505,7 @@ def predict_crop_yield_rate(norm_crop, rainfall, avg_temp, season, prov_name, cr
       (yield_rate_mt_ha, yield_source, prediction_method, method_label, is_ml_predicted)
     """
     best_info = ml_metrics.get("best_model", {}) if isinstance(ml_metrics, dict) else {}
-    best_name = best_info.get("name", "Extra Trees Regressor")
+    best_name = best_info.get("name", "Random Forest Regressor")
     crop_eval = per_crop_metrics_map.get(norm_crop, {})
 
     target_prov = (prov_name or "").strip() or "Laguna"
@@ -813,7 +813,7 @@ def process_multi_crop_calculation(payload, provinces_by_name):
             "climate_data_source": matched_province.get("climate_data_source", "DOST-PAGASA CliMap v2.1 Normals (1991-2020)") if matched_province else "Philippine Reference Average",
         },
         "model_summary": {
-            "model_name": best_info.get("name", "Extra Trees Regressor"),
+            "model_name": best_info.get("name", "Random Forest Regressor"),
             "cv_r2_mean": best_info.get("cv_r2_mean"),
             "test_r2": best_info.get("test_r2"),
             "test_mae_mt_ha": round(best_info.get("test_mae", 0) / 10000.0, 2) if best_info.get("test_mae") else None,

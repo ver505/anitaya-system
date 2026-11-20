@@ -20,13 +20,13 @@
 
 ---
 
-## 2. Machine Learning Architecture & 8-Model Evaluation (`train_model.py`)
+## 2. Machine Learning Architecture & 5-Model Evaluation (`train_model.py`)
 
 * **ML Panel:** Uniform **2010–2025 multi-crop panel (`32,618` rows)** split chronologically into **Train/Validation (`2010–2021`, 24,369 rows)** vs. **Unseen Out-of-Time Holdout Test (`2022–2025`, 8,249 rows)** with zero key leakage.
 * **Verified Inference Features (4 Only):** `item` (Crop Type), `area` (Philippine Province), `average_rain_fall_mm_per_year`, `avg_temp`.
-* **Automatic Model Selection:** Strictly selected via **5-Fold Cross-Validation $R^2$ inside `2010–2021`** (no test-set peeking):
-  * **Winner:** **Extra Trees Regressor** — 5-Fold CV $R^2 = \mathbf{0.9388}$ ($\pm 0.0069$), Out-of-Time Test $R^2 = \mathbf{0.7487}$ (Seen Crops $R^2 = 0.7525$), Test MAE $= 19{,}792.19\text{ hg/ha}$ ($\approx 1.98\text{ MT/ha}$).
-  * *Transparent Per-Crop Routing:* **28 well-sampled crops** (`Rice, paddy` $R^2=0.859$, `Maize` $R^2=0.818$, `Cassava`, `Tomato`, `Sugarcane`, `Banana Cavendish`, etc.) run on **`philippine_ml`**, while **7 sparse/low-predictability or newly disaggregated crops** (`Potatoes`, `Red Onion`, `Yellow Onion`, `Garlic`, `Peanut`, `Sorghum`, `Soybeans`) use verified **`psa_statistical_historical`** yields cleanly.
+* **Automatic Model Selection (5 Core CSST 102 Algorithms):** Strictly selected via **5-Fold Cross-Validation $R^2$ inside `2010–2021`** (`Linear Regression`, `Ridge Regression`, `Decision Tree Regressor`, `Random Forest Regressor`, and `Gradient Boosting Regressor`):
+  * **Winner:** **Random Forest Regressor** — 5-Fold CV $R^2 = \mathbf{0.9246}$ ($\pm 0.0075$), Out-of-Time Test $R^2 = \mathbf{0.7332}$ (Seen Crops $R^2 = 0.7369$), Test MAE $= 20{,}447.81\text{ hg/ha}$ ($\approx 2.04\text{ MT/ha}$).
+  * *Transparent Per-Crop Routing:* **28 well-sampled crops** (`Rice, paddy` $R^2=0.824$, `Maize` $R^2=0.711$, `Cassava`, `Tomato`, `Sugarcane`, `Banana Cavendish`, etc.) run on **`philippine_ml`**, while **7 sparse/low-predictability or newly disaggregated crops** (`Potatoes`, `Red Onion`, `Yellow Onion`, `Garlic`, `Peanut`, `Sorghum`, `Soybeans`) use verified **`psa_statistical_historical`** yields cleanly.
 
 *(Note: $R^2$ is the Coefficient of Determination measuring variance explained across crops & provinces, not literal accuracy percentage.)*
 

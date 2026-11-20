@@ -8767,7 +8767,7 @@
 
                                 <!-- Footnote -->
                                 <div class="results-guarantee-note" id="resGuaranteeNote">
-                                    PLANNING ESTIMATES ONLY (NOT GUARANTEED) &bull; {{ best_model.get('name', 'Extra Trees Regressor') | upper }} (5-FOLD CV R&sup2; = {{ "%.4f"|format(best_model.get('cv_r2_mean', 0.9388)) }} &bull; TEST R&sup2; = {{ "%.4f"|format(best_model.get('test_r2', 0.7487)) }})
+                                    PLANNING ESTIMATES ONLY (NOT GUARANTEED) &bull; {{ best_model.get('name', 'Random Forest Regressor') | upper }} (5-FOLD CV R&sup2; = {{ "%.4f"|format(best_model.get('cv_r2_mean', 0.9246)) }} &bull; TEST R&sup2; = {{ "%.4f"|format(best_model.get('test_r2', 0.7332)) }})
                                 </div>
                             </div>
 
@@ -9113,15 +9113,15 @@
                         <!-- Heading -->
                         <div class="ml-lab-header">
                             <div class="ml-lab-title-group">
-                                <h2>CSST 102 &bull; PHILIPPINE MACHINE LEARNING MODEL LABORATORY (8-ALGORITHM BENCHMARK)</h2>
-                                <p id="txtMlLabSubtitle">8-MODEL EVALUATION WITH 5-FOLD CV &amp; CHRONOLOGICAL HOLDOUT TEST ON {{ dataset_info.get('total_records', 32618) }} PHILIPPINE OBSERVATIONS (2010&ndash;2025 PANEL &bull; PSA + PAGASA + NASA POWER)</p>
+                                <h2>CSST 102 &bull; PHILIPPINE MACHINE LEARNING MODEL LABORATORY (5-ALGORITHM BENCHMARK)</h2>
+                                <p id="txtMlLabSubtitle">5-MODEL EVALUATION WITH 5-FOLD CV &amp; CHRONOLOGICAL HOLDOUT TEST ON {{ dataset_info.get('total_records', 32618) }} PHILIPPINE OBSERVATIONS (2010&ndash;2025 PANEL &bull; PSA + PAGASA + NASA POWER)</p>
                             </div>
                             <div class="ml-winner-badge-pill" id="mlWinnerBadgePill">
-                                PRIMARY SELECTED MODEL: {{ best_model.get('name', 'Extra Trees Regressor') }} (5-FOLD CV R&sup2; = {{ "%.4f"|format(best_model.get('cv_r2_mean', 0.9388)) }} &bull; HOLDOUT TEST R&sup2; = {{ "%.4f"|format(best_model.get('test_r2', 0.7487)) }})
+                                PRIMARY SELECTED MODEL: {{ best_model.get('name', 'Random Forest Regressor') }} (5-FOLD CV R&sup2; = {{ "%.4f"|format(best_model.get('cv_r2_mean', 0.9246)) }} &bull; HOLDOUT TEST R&sup2; = {{ "%.4f"|format(best_model.get('test_r2', 0.7332)) }})
                             </div>
                         </div>
 
-                        <!-- 8-Model Benchmark Comparison Table -->
+                        <!-- 5-Model Benchmark Comparison Table -->
                         <div class="ml-table-wrapper">
                             <table class="ml-benchmark-table" id="mlBenchmarkTable">
                                 <thead>
@@ -9166,22 +9166,22 @@
                             <div class="responsible-ai-box">
                                 <div class="responsible-ai-title" id="titleSelectedModelExplanation">AUTOMATICALLY SELECTED MODEL EXPLANATION ({{ best_model.get('name', 'Random Forest Regressor') | upper }})</div>
                                 <p class="responsible-ai-text" id="txtSelectedModelExplanation">
-                                    {{ best_model.get('explanation', 'The primary production model was automatically selected based on achieving the highest Test R² and 5-Fold Cross-Validation R² with the lowest MAE and RMSE across all 8 evaluated algorithms.') }}
+                                    {{ best_model.get('explanation', 'The primary production model was automatically selected based on achieving the highest 5-Fold Cross-Validation R² inside the 2010–2021 training set across all 5 evaluated algorithms.') }}
                                 </p>
                             </div>
                             <div class="responsible-ai-box">
                                 <div class="responsible-ai-title">PIPELINE PREPROCESSING &amp; DATA LEAKAGE VERIFICATION</div>
                                 <p class="responsible-ai-text" id="txtPipelineLeakageAudit">
-                                    <strong>Status: PASSED (Zero Data Leakage).</strong> Verified Philippine PSA + PAGASA + NASA POWER dataset ({{ dataset_info.get('archive_total_records', 36088) }} archive rows; {{ dataset_info.get('total_records', 32618) }} uniform 2010&ndash;2025 ML rows) is deduplicated prior to chronological out-of-time splitting (Train 2010&ndash;2021 vs Test 2022&ndash;2025). Each of the 8 algorithms runs inside an isolated Scikit-Learn <code>Pipeline</code> with its own fresh <code>ColumnTransformer</code> (<code>StandardScaler</code> for rainfall/temperature and <code>OneHotEncoder</code> for crop/province) fitted strictly on training folds. Yield (MT/ha) is strictly separated from Peso (&#8369;) financial math.
+                                    <strong>Status: PASSED (Zero Data Leakage).</strong> Verified Philippine PSA + PAGASA + NASA POWER dataset ({{ dataset_info.get('archive_total_records', 36088) }} archive rows; {{ dataset_info.get('total_records', 32618) }} uniform 2010&ndash;2025 ML rows) is deduplicated prior to chronological out-of-time splitting (Train 2010&ndash;2021 vs Test 2022&ndash;2025). Each of the 5 algorithms runs inside an isolated Scikit-Learn <code>Pipeline</code> with its own fresh <code>ColumnTransformer</code> (<code>StandardScaler</code> for rainfall/temperature and <code>OneHotEncoder</code> for crop/province) fitted strictly on training folds. Yield (MT/ha) is strictly separated from Peso (&#8369;) financial math.
                                 </p>
                             </div>
                         </div>
 
                         <!-- 3 Charts Generated as Inline SVG -->
                         <div class="ml-charts-grid">
-                            <!-- Chart 1: 8-Model Performance Comparison -->
+                            <!-- Chart 1: 5-Model Performance Comparison -->
                             <div class="ml-chart-card">
-                                <div class="ml-chart-title">8-MODEL PERFORMANCE (TEST R&sup2;, 5-FOLD CV &amp; MAE)</div>
+                                <div class="ml-chart-title">5-MODEL PERFORMANCE (TEST R&sup2;, 5-FOLD CV &amp; MAE)</div>
                                 <div class="svg-chart-container" id="chartModelAccuracy">
                                     <!-- Populated dynamically by drawAccuracyChart() -->
                                 </div>
@@ -9573,7 +9573,7 @@
                                     </svg>
                                     PHILIPPINE ML FORECASTING &amp; PSA DATA
                                 </span>
-                                <span class="guide-point-text" id="txtImpPoint2">Powered by {{ best_model.get('name', 'Extra Trees Regressor') }} trained strictly on {{ dataset_info.get('archive_total_records', 36088) }} PSA &amp; climate observations across 82 Philippine provinces (5-Fold CV R&sup2; = {{ "%.4f"|format(best_model.get('cv_r2_mean', 0.9388)) }}, Holdout Test R&sup2; = {{ "%.4f"|format(best_model.get('test_r2', 0.7487)) }} variance explained).</span>
+                                <span class="guide-point-text" id="txtImpPoint2">Powered by {{ best_model.get('name', 'Random Forest Regressor') }} trained strictly on {{ dataset_info.get('archive_total_records', 36088) }} PSA &amp; climate observations across 82 Philippine provinces (5-Fold CV R&sup2; = {{ "%.4f"|format(best_model.get('cv_r2_mean', 0.9246)) }}, Holdout Test R&sup2; = {{ "%.4f"|format(best_model.get('test_r2', 0.7332)) }} variance explained).</span>
                             </div>
                             <div class="guide-point-pill">
                                 <span class="guide-point-title">
@@ -12740,7 +12740,7 @@
             const comp = (ML_METRICS_DATA && ML_METRICS_DATA.model_comparison) ? ML_METRICS_DATA.model_comparison : null;
             const bestName = (ML_METRICS_DATA && ML_METRICS_DATA.best_model && ML_METRICS_DATA.best_model.name)
                 ? ML_METRICS_DATA.best_model.name
-                : 'Extra Trees Regressor';
+                : 'Random Forest Regressor';
 
             let models = [];
             if (comp && Object.keys(comp).length > 0) {
@@ -12756,10 +12756,7 @@
                 })).sort((a, b) => a.rank - b.rank || b.cvR2 - a.cvR2);
             } else {
                 models = [
-                    { name: 'EXTRA TREES', r2: 0.7487, cvR2: 0.9388, maeK: 19.8, isWin: true },
-                    { name: 'RANDOM FOREST', r2: 0.7332, cvR2: 0.9246, maeK: 20.4 },
-                    { name: 'SVR (RBF)', r2: 0.7488, cvR2: 0.9163, maeK: 22.0 },
-                    { name: 'KNN REGRESSOR', r2: 0.7587, cvR2: 0.9017, maeK: 20.4 },
+                    { name: 'RANDOM FOREST', r2: 0.7332, cvR2: 0.9246, maeK: 20.4, isWin: true },
                     { name: 'GRADIENT BOOST', r2: 0.6577, cvR2: 0.8202, maeK: 30.1 },
                     { name: 'DECISION TREE', r2: 0.6228, cvR2: 0.8083, maeK: 29.7 },
                     { name: 'RIDGE REG.', r2: 0.3961, cvR2: 0.5093, maeK: 41.6 },
@@ -12768,9 +12765,10 @@
             }
 
             const maxMaeK = Math.max(35.0, ...models.map(m => m.maeK));
+            const stepY = models.length <= 5 ? 36 : 24;
             let rowsSvg = '';
             models.forEach((m, idx) => {
-                const y = 18 + idx * 24;
+                const y = 20 + idx * stepY;
                 const r2Width = Math.max(6, Math.round(Math.max(0, m.r2) * 86));
                 const cvWidth = Math.max(6, Math.round(Math.max(0, m.cvR2) * 86));
                 const maeWidth = Math.max(4, Math.round((m.maeK / maxMaeK) * 48));
@@ -12789,7 +12787,7 @@
             });
 
             container.innerHTML = `
-                <svg viewBox="0 0 340 215" style="width:100%; height:100%; display:block;" aria-label="8-Model Accuracy and Error Comparison Chart">
+                <svg viewBox="0 0 340 215" style="width:100%; height:100%; display:block;" aria-label="${models.length}-Model Accuracy and Error Comparison Chart">
                     <text x="86" y="10" fill="#738064" font-size="6.5" font-weight="800">TEST R&sup2; &amp; 5-FOLD CV R&sup2; (HIGHER IS BETTER)</text>
                     <text x="252" y="10" fill="#738064" font-size="6.5" font-weight="800">MAE (HG/HA)</text>
                     ${rowsSvg}
@@ -12851,7 +12849,7 @@
             const realPoints = (ML_METRICS_DATA && Array.isArray(ML_METRICS_DATA.actual_vs_predicted) && ML_METRICS_DATA.actual_vs_predicted.length > 0)
                 ? ML_METRICS_DATA.actual_vs_predicted
                 : [];
-            const best = (ML_METRICS_DATA && ML_METRICS_DATA.best_model) ? ML_METRICS_DATA.best_model : { name: 'Extra Trees Regressor', test_r2: 0.7487, test_rmse: 48551.13 };
+            const best = (ML_METRICS_DATA && ML_METRICS_DATA.best_model) ? ML_METRICS_DATA.best_model : { name: 'Random Forest Regressor', test_r2: 0.7332, test_rmse: 50030.50 };
 
             let dotsSvg = '';
             if (realPoints.length > 0) {
@@ -12867,7 +12865,7 @@
 
             container.innerHTML = `
                 <svg viewBox="0 0 320 215" style="width:100%; height:100%; display:block;" aria-label="Actual versus Predicted Scatter Plot">
-                    <text x="160" y="11" fill="#738064" font-size="6.8" font-weight="800" text-anchor="middle">UNSEEN 2022–2025 TEST SAMPLES (${realPoints.length} PTS &bull; R&sup2; = ${Number(best.test_r2 || 0.7487).toFixed(4)})</text>
+                    <text x="160" y="11" fill="#738064" font-size="6.8" font-weight="800" text-anchor="middle">UNSEEN 2022–2025 TEST SAMPLES (${realPoints.length} PTS &bull; R&sup2; = ${Number(best.test_r2 || 0.7332).toFixed(4)})</text>
                     <!-- Axes & Grid -->
                     <line x1="38" y1="25" x2="38" y2="175" stroke="rgba(22,32,15,0.22)" stroke-width="1"/>
                     <line x1="38" y1="175" x2="282" y2="175" stroke="rgba(22,32,15,0.22)" stroke-width="1"/>
@@ -13958,7 +13956,7 @@
                     ? parseFloat(c.cost_per_ha)
                     : defaultCost;
                 const predTierBadge = catalogInfo.ML_Supported
-                    ? '<span title="Yield predicted by Philippine climate-trained Extra Trees ML model" style="color:var(--accent-olive);font-weight:800;">ML Yield</span>'
+                    ? '<span title="Yield predicted by Philippine climate-trained Random Forest ML model" style="color:var(--accent-olive);font-weight:800;">ML Yield</span>'
                     : '<span title="Yield based on official PSA provincial historical statistics" style="opacity:0.85;font-weight:700;">PSA Stats</span>';
 
                 // Unified suitability check synced with BEST CROPS TO PLANT IN THIS PROVINCE
@@ -14375,7 +14373,7 @@
             const noteEl = document.getElementById("resGuaranteeNote");
             if (noteEl && data.model_summary) {
                 const ms = data.model_summary;
-                noteEl.innerHTML = `PLANNING ESTIMATES ONLY (NOT GUARANTEED) &bull; ${String(ms.model_name || 'Extra Trees Regressor').toUpperCase()} (5-FOLD CV R&sup2; = ${Number(ms.cv_r2_mean || 0).toFixed(4)} &bull; HOLDOUT TEST R&sup2; = ${Number(ms.test_r2 || 0).toFixed(4)})`;
+                noteEl.innerHTML = `PLANNING ESTIMATES ONLY (NOT GUARANTEED) &bull; ${String(ms.model_name || 'Random Forest Regressor').toUpperCase()} (5-FOLD CV R&sup2; = ${Number(ms.cv_r2_mean || 0).toFixed(4)} &bull; HOLDOUT TEST R&sup2; = ${Number(ms.test_r2 || 0).toFixed(4)})`;
             }
 
             // Render Per-Crop Breakdown Cards Grid
